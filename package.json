@@ -1,5 +1,5 @@
 {
-  "name": "mynt-admin-panel",
+  "name": "hedera-nft-minter",
   "version": "1.0.0",
   "description": "## Installing and running",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:ArianeLabs/mynt/mynt-marketplace-admin-panel.git"
+    "url": "git@gitlab.com:ArianeLabs/hedera/nft-marketplace/minter-poc.git"
   },
   "author": "",
   "license": "ISC",

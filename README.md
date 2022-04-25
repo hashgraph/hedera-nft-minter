@@ -1,4 +1,4 @@
-# Mynt-admin-panel
+# Hedera NFT minter tool
 
 ## Installing and running
 
