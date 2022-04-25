@@ -1,0 +1,20 @@
+{
+  "presets": [
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ],
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["> 1%", "Explorer 11"]
+        }
+      }
+    ],
+    "@babel/preset-typescript"
+  ],
+  "plugins": [["@babel/plugin-transform-runtime", { "regenerator": true }]]
+}

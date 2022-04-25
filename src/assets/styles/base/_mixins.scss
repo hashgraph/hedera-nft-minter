@@ -1,0 +1,108 @@
+@mixin box-sizing($val) {
+  -webkit-box-sizing: $val;
+  -moz-box-sizing: $val;
+  box-sizing: $val;
+}
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin bg($color) {
+  background: $color;
+  background-color: $color;
+}
+
+@mixin box-shadow($val) {
+  box-shadow: $val;
+  -webkit-box-shadow: $val;
+  -moz-box-shadow: $val;
+}
+
+@mixin grayscale($val) {
+  -webkit-filter: grayscale($val);
+  filter: grayscale($val);
+}
+
+@mixin gradient($c1, $c2) {
+  background: $c1;
+  background: -moz-linear-gradient(top, $c1 0%, $c2 100%);
+  background: -webkit-linear-gradient(top, $c1 0%, $c2 100%);
+  background: linear-gradient(to bottom, $c1 0%, $c2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$c1', endColorstr='$c2', GradientType=0);
+}
+
+@mixin opacity($opacity) {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' $opacity * 100
+    ')';
+  filter: alpha(opacity=$opacity * 100);
+  -moz-opacity: $opacity;
+  -khtml-opacity: $opacity;
+  opacity: $opacity;
+}
+
+@mixin transition($time) {
+  -webkit-transition: all $time ease-in-out;
+  -moz-transition: all $time ease-in-out;
+  -o-transition: all $time ease-in-out;
+  transition: all $time ease-in-out;
+}
+@mixin transform($val) {
+  -webkit-transform: $val;
+  -moz-transform: $val;
+  -ms-transform: $val;
+  -o-transform: $val;
+  transform: $val;
+}
+
+@mixin blur($blur) {
+  -webkit-filter: blur($blur);
+  -moz-filter: blur($blur);
+  -ms-filter: blur($blur);
+  -o-filter: blur($blur);
+  filter: blur($blur);
+}
+
+@mixin respond-to($media) {
+  @media #{$media} {
+    @content;
+  }
+}
+
+@mixin animation($val) {
+  -webkit-animation: $val;
+  -moz-animation: $val;
+  -o-animation: $val;
+  animation: $val;
+}
+@mixin animation-delay($time) {
+  -webkit-animation-delay: $time;
+  -moz-animation-delay: $time;
+  -o-animation-delay: $time;
+  animation-delay: $time;
+}
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-o-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin user-select($type) {
+  -webkit-user-select: $type;
+  -khtml-user-select: $type;
+  -moz-user-select: $type;
+  -ms-user-select: $type;
+  -o-user-select: $type;
+  user-select: $type;
+}
