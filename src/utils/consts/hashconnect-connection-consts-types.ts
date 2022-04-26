@@ -1,19 +1,19 @@
-import {HashConnectTypes} from 'hashconnect'
+import {HashConnectTypes,HashConnect} from 'hashconnect'
 
 
-type appConfigType = HashConnectTypes.WalletMetadata
-type initialSaveDataType = {
+export type AppConfigType = HashConnectTypes.WalletMetadata
+export type InitialSaveDataType = {
   topic?: string;
   pairingString?: string;
   privateKey?: string;
   pairedWalletData?: HashConnectTypes.WalletMetadata | null;
   pairedAccounts?: string[];
 }
-type debugType = boolean;
-type networkType = string;
-type metadataType = HashConnectTypes.WalletMetadata
+export type DebugType = boolean;
+export type NetworkType = string;
+export type MetadataType = HashConnectTypes.WalletMetadata
 
-type saveDataType = {
+export type SaveDataType = {
   topic?: string;
   pairingString?: string;
   privateKey?: string;
@@ -24,11 +24,12 @@ type saveDataType = {
   network?: string;
 }
 
-export type {
-  appConfigType,
-  initialSaveDataType,
-  debugType,
-  networkType,
-  metadataType,
-  saveDataType
-}
+export type HashConnectContextType = {
+  hashConnect: HashConnect | null;
+  saveData: SaveDataType;
+  installedExtensions: HashConnectTypes.AppMetadata[];
+  netWork: NetworkType;
+  connect: () => undefined | void;
+  clearPairings: () => void | undefined;
+  initializeHashConnect: () => Promise<void> | undefined;
+};

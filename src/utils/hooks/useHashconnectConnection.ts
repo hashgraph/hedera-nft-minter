@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useCallback } from 'react';
 import { HashConnectClientContext } from '../context/HashConnectClientContext'
 import { APP_CONFIG, INITIAL_SAVE_DATA, DEBUG, NETWORK, METADATA } from '../consts/hashconnect-connection-consts'
-import { saveDataType} from '../consts/hashconnect-connection-consts-types'
+import { SaveDataType} from '../consts/hashconnect-connection-consts-types'
 import {HashConnectTypes} from 'hashconnect'
 
 const loadLocalData = () => {
@@ -15,7 +15,7 @@ const loadLocalData = () => {
 const useHashConnectConnection = () => {
   const hashConnect = useContext(HashConnectClientContext)
 
-  const [saveData, setSaveData] = useState<saveDataType>(INITIAL_SAVE_DATA);
+  const [saveData, setSaveData] = useState<SaveDataType>(INITIAL_SAVE_DATA);
   const [installedExtensions, setInstalledExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
 
@@ -60,7 +60,7 @@ const useHashConnectConnection = () => {
     }
   },[setSaveData, hashConnect]);
 
-  const connect = () => {
+  const connect = useCallback(() => {
     if (installedExtensions) {
       if(typeof saveData?.pairingString !== 'undefined'){
         hashConnect.connectToLocalWallet(saveData?.pairingString);
@@ -72,12 +72,12 @@ const useHashConnectConnection = () => {
     } else {
       throw new Error('Hashpack wallet is not installed!');
     }
-  };
+  },[installedExtensions, saveData, hashConnect]);
 
-  const clearPairings = () => {
+  const clearPairings = useCallback(() => {
     setSaveData({})
     localStorage.removeItem('minerPocHashconnectData');
-  }
+  },[setSaveData])
 
   const saveDataInLocalStorage = useCallback((data) => {
     const { metadata, ...restData } = data;
@@ -120,7 +120,15 @@ const useHashConnectConnection = () => {
     return unMount
   },[mount,unMount])
 
-  return { hashConnect, saveData, installedExtensions, netWork: NETWORK, connect, clearPairings, initializeHashConnect }
+  return {
+    hashConnect,
+    saveData,
+    installedExtensions,
+    netWork: NETWORK,
+    connect,
+    clearPairings,
+    initializeHashConnect
+   }
 
 }
 

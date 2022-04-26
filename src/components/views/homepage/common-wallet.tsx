@@ -1,30 +1,20 @@
-import { saveDataType } from '@/utils/consts/hashconnect-connection-consts-types';
-import { HashConnectTypes } from 'hashconnect';
-import React from 'react';
+import React, { useContext } from 'react';
+import { HashConnectContext } from '@utils/context/HashConnectContext';
 
-type Props = {
-  functions: {
-    walletData: saveDataType;
-    installedExtensions: HashConnectTypes.AppMetadata[];
-    initializeHashConnect: () => void;
-    connect: () => void;
-    clearPairings: () => void;
-  };
-};
-
-const CommonWallet = ({ functions }: Props) => {
+const CommonWallet = () => {
   const {
-    walletData,
+    saveData,
     installedExtensions,
-    initializeHashConnect,
     connect,
     clearPairings,
-  } = functions;
+    initializeHashConnect,
+  } = useContext(HashConnectContext);
+
   return (
     <>
       {installedExtensions && installedExtensions?.length > 0 && (
         <div>
-          <p>Topic: {walletData?.topic}</p>
+          <p>Topic: {saveData?.topic}</p>
           <p>PairingKey:</p>
           <div
             style={{
@@ -34,15 +24,15 @@ const CommonWallet = ({ functions }: Props) => {
               overflow: 'hidden',
             }}
           >
-            <code>{walletData?.pairingString}</code>
+            <code>{saveData?.pairingString}</code>
           </div>
           <p>
-            {walletData?.accountIds && walletData?.accountIds?.length > 0
+            {saveData?.accountIds && saveData?.accountIds?.length > 0
               ? 'Paired hedera accounts'
               : 'Connect to wallet first'}
           </p>
           <ul>
-            {walletData?.accountIds?.map((e: string) => (
+            {saveData?.accountIds?.map((e: string) => (
               <li key={`wallet-accid-id-${ e }`}>{e}</li>
             ))}
           </ul>
@@ -64,28 +54,28 @@ const CommonWallet = ({ functions }: Props) => {
       <button
         onClick={() => {
           // eslint-disable-next-line no-console
-          console.log({ walletData, installedExtensions });
+          console.log({ saveData, installedExtensions });
         }}
       >
-        Show WalletData
+        Show saveData
       </button>
       <button
-        disabled={typeof walletData?.topic !== 'undefined'}
-        onClick={async () => await initializeHashConnect()}
+        disabled={typeof saveData?.topic !== 'undefined'}
+        onClick={initializeHashConnect}
       >
         InitializeHashConnect
       </button>
       <button
-        disabled={typeof walletData?.topic === 'undefined'}
-        onClick={() => connect()}
+        disabled={typeof saveData?.topic === 'undefined'}
+        onClick={connect}
       >
         Connect to wallet
       </button>
       <button
-        disabled={walletData?.accountIds && walletData?.accountIds?.length < 0}
-        onClick={() => clearPairings()}
+        disabled={saveData?.accountIds && saveData?.accountIds?.length < 0}
+        onClick={clearPairings}
       >
-        Clear pairings {walletData?.accountIds?.length ?? 'NIE MA'}
+        Clear pairings {saveData?.accountIds?.length ?? 'NIE MA'}
       </button>
     </>
   );
