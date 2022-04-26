@@ -1,15 +1,33 @@
-import React, { useCallback, useState } from 'react';
-import HashConnect from '@/services/HashConnect';
+import React, { useCallback } from 'react';
+import useHashConnectConnection from '@hooks/useHashconnectConnection';
+import { HashConnect, HashConnectTypes } from 'hashconnect';
+import {
+  networkType,
+  saveDataType,
+} from '../consts/hashconnect-connection-consts-types';
+import {
+  INITIAL_SAVE_DATA,
+  NETWORK,
+} from '../consts/hashconnect-connection-consts';
 
-interface HashConnectContextType {
-  connected: boolean;
-  initHashconnect: () => Promise<void>
-}
+export type HashConnectContextType = {
+  hashConnect: HashConnect | null;
+  saveData: saveDataType;
+  installedExtensions: HashConnectTypes.AppMetadata[];
+  netWork: networkType;
+  connectToHashpack: () => undefined | void;
+  clearHashpackPairings: () => void | undefined;
+  initializeHashConnect: () => Promise<void> | undefined;
+};
 
 export const HashConnectContext = React.createContext<HashConnectContextType>({
-  connected: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  initHashconnect: async () => {},
+  hashConnect: null,
+  saveData: INITIAL_SAVE_DATA,
+  installedExtensions: [],
+  netWork: NETWORK,
+  connectToHashpack: () => undefined,
+  clearHashpackPairings: () => undefined,
+  initializeHashConnect: () => undefined,
 });
 
 export default function HashConnectProvider({
@@ -17,24 +35,49 @@ export default function HashConnectProvider({
 }: {
   children: React.ReactElement;
 }) {
-  const [connected, setConnected] = useState(false);
+  const {
+    hashConnect,
+    saveData,
+    installedExtensions,
+    netWork,
+    connect,
+    clearPairings,
+    initializeHashConnect,
+  } = useHashConnectConnection();
 
-  const initHashconnect = useCallback(async () => {
+  const connectToHashpack = useCallback(() => {
     try {
-      const connection = new HashConnect();
-      await connection.init();
-      setConnected(true);
+      connect();
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log({ e });
+      if (typeof e === 'string') {
+        throw new Error(e);
+      } else if (e instanceof Error) {
+        throw new Error(e.message);
+      }
     }
-  }, []);
+  }, [connect]);
+  const clearHashpackPairings = useCallback(() => {
+    try {
+      clearPairings();
+    } catch (e) {
+      if (typeof e === 'string') {
+        throw new Error(e);
+      } else if (e instanceof Error) {
+        throw new Error(e.message);
+      }
+    }
+  }, [clearPairings]);
 
   return (
     <HashConnectContext.Provider
       value={{
-        connected,
-        initHashconnect,
+        hashConnect,
+        saveData,
+        installedExtensions,
+        netWork,
+        connectToHashpack,
+        clearHashpackPairings,
+        initializeHashConnect,
       }}
     >
       {children}
