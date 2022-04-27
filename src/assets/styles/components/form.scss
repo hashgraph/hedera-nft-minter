@@ -1,4 +1,24 @@
 .form {
   position: relative;
 
+  &__group {
+    display: flex;
+    padding: 0.5rem 0;
+  }
+
+  input {
+    display: block;
+    border: 1px solid #aeaeae;
+  }
+
+  button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    border-radius: 0;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid;
+  }
+
 }
