@@ -1,49 +1,83 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { HashConnectContext } from '@utils/context/HashConnectContext';
+import useHashConnect from '@utils/hooks/useHashConnect';
+import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts';
 
 const CommonWallet = () => {
-  const context = useContext(HashConnectContext);
-  const { hashConnect } = context;
-  const { saveData } = hashConnect;
-
-  useEffect(() => {
-    hashConnect?.mount();
-    return () => hashConnect?.unMount();
-  }, [hashConnect]);
+  const {
+    saveData,
+    installedExtensions,
+    connect,
+    clearPairings,
+    initializeHashConnect,
+  } = useHashConnect(HashConnectContext);
   return (
     <>
-      <button onClick={() => hashConnect?.init()}>Init</button>
-      <button onClick={() => hashConnect?.connect()}>Connect</button>
+      {installedExtensions && installedExtensions?.length > 0 && (
+        <div>
+          <p>Topic: {saveData?.topic}</p>
+          <p>PairingKey:</p>
+          <div
+            style={{
+              marginTop: -16,
+              maxWidth: '400px',
+              width: '100%',
+              overflow: 'hidden',
+            }}
+          >
+            <code>{saveData?.pairingString}</code>
+          </div>
+          <p>
+            {saveData?.accountIds && saveData?.accountIds?.length > 0
+              ? 'Paired hedera accounts'
+              : 'Connect to wallet first'}
+          </p>
+          <ul>
+            {saveData?.accountIds?.map((e: string) => (
+              <li key={`wallet-accid-id-${ e }`}>{e}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <h4 style={{ margin: 0 }}>Common</h4>
       <button
-        onClick={() => {
+        onClick={() =>
           // eslint-disable-next-line no-console
-          console.log(context);
-        }}
+          console.log({
+            localstorage: JSON.parse(
+              localStorage.getItem(LOCALSTORAGE_VARIABLE_NAME) as string
+            ),
+          })
+        }
       >
-        Context
+        Show localstorage data
       </button>
       <button
         onClick={() => {
           // eslint-disable-next-line no-console
-          console.log(saveData);
+          console.log({ saveData, installedExtensions });
         }}
       >
-        destructured saveData
+        Show saveData
       </button>
-
       <button
-        onClick={() => {
-          // eslint-disable-next-line no-console
-          console.log(context?.hashConnect?.saveData);
-        }}
+        disabled={typeof saveData?.topic !== 'undefined'}
+        onClick={initializeHashConnect}
       >
-        context.hashConnect.saveData
+        InitializeHashConnect
       </button>
-      <p>
-        Topic:
-        {context?.hashConnect?.saveData?.topic ||
-          'Nie znaleziono topica w saveData'}
-      </p>
+      <button
+        disabled={typeof saveData?.topic === 'undefined'}
+        onClick={connect}
+      >
+        Connect to wallet
+      </button>
+      <button
+        disabled={saveData?.accountIds && saveData?.accountIds?.length < 0}
+        onClick={clearPairings}
+      >
+        Clear pairings {saveData?.accountIds?.length ?? 'NIE MA'}
+      </button>
     </>
   );
 };

@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import Routes from '@routes/index';
 import AuthProvider from '@utils/context/AuthContext';
-import HashConnectProvider from './utils/context/HashConnectContext';
+import HashConnectProvider from '@utils/context/HashConnectContext';
 
 function App() {
   return (
