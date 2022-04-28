@@ -74,24 +74,14 @@ export default function HashConnectProvider({
           ...prevData,
           ...localData,
         }));
-        toast(
-          localData.accountIds
-            ? `↩️ Welcome back ${ JSON.stringify(localData.accountIds) }`
-            : '✨ Please connect to wallet first.'
-        );
       } else {
         setSaveData(newSaveData);
-        toast('✨ Please connect to wallet first.');
       }
     }
   }, [setSaveData]);
 
   useEffect(() => {
-    toast.promise(initializeHashConnect, {
-      pending: 'Initializating...',
-      success: '👌 Initialized.',
-      error: '🤯 Something went wrong with initialization!',
-    });
+    initializeHashConnect();
   }, [initializeHashConnect]);
   /* ---- END OF INITIALIZATION ---- */
 
@@ -113,8 +103,7 @@ export default function HashConnectProvider({
 
   const foundExtensionEventHandler = useCallback(
     (data) => {
-      setInstalledExtensions((prevSaveData) => [{ ...data }, ...prevSaveData]),
-        toast('➕ New extension founded!');
+      setInstalledExtensions((prevSaveData) => [{ ...data }, ...prevSaveData]);
     },
     [setInstalledExtensions]
   );
