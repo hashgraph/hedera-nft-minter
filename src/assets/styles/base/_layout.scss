@@ -1,0 +1,25 @@
+header {
+  max-width: $container;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hero {
+  padding: 2rem 0;
+  background: $blue;
+
+  > div {
+    max-width: $container;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+}
+
+.container {
+  max-width: $container;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+

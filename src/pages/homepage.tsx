@@ -61,13 +61,24 @@ export default function Homepage() {
     }
   }, []);
   return (
-    <div>
+    <div className='homepage'>
+
+      <div className='hero'>
+        <div>
+          <p>Mint your own NFT at speed of light!</p>
+        </div>
+      </div>
+
       <CommonWallet />
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleFormSubmit}
-        component={NFTForm}
-      />
+
+
+      <div className='container'>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleFormSubmit}
+          component={NFTForm}
+        />
+      </div>
     </div>
   );
 }
