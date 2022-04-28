@@ -7,8 +7,8 @@ export type InitialSaveDataType = {
   topic?: string;
   pairingString?: string;
   privateKey?: string;
+  accountIds?: string[];
   pairedWalletData?: HashConnectTypes.WalletMetadata | HashConnectTypes.AppMetadata | null;
-  pairedAccounts?: string[];
 }
 export type DebugType = boolean;
 export type NetworkType = string;
@@ -19,7 +19,6 @@ export type SaveDataType = {
   pairingString?: string;
   privateKey?: string;
   pairedWalletData?: HashConnectTypes.WalletMetadata | HashConnectTypes.AppMetadata | null;
-  pairedAccounts?: string[];
   accountIds?: string[];
   id?: string;
   network?: string;

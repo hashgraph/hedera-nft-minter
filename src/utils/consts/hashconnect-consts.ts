@@ -18,7 +18,7 @@ export const INITIAL_SAVE_DATA : InitialSaveDataType = {
   topic: '',
   pairingString: '',
   privateKey: '',
-  pairedAccounts: [],
+  accountIds: [],
   pairedWalletData: null,
 };
 
