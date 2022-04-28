@@ -1,16 +1,16 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { toast } from 'react-toastify';
 import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts'
 import { HashConnectContextType } from '@utils/consts/hashconnect-consts-types'
 import { HashConnectContext } from '@utils/context/HashConnectContext';
 
-const useHashConnect = (context : React.Context<HashConnectContextType> = HashConnectContext) => {
+const useHashConnect = () => {
   const {
     installedExtensions,
     hashConnect,
     saveData,
     setSaveData
-  } = useContext<HashConnectContextType>(context);
+  } = useContext<HashConnectContextType>(HashConnectContext);
 
   const connect = useCallback(() => {
     if(typeof saveData?.pairingString === 'undefined'){
