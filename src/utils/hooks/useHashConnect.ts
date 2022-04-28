@@ -1,15 +1,14 @@
 import { useCallback, useContext } from 'react'
 import { toast } from 'react-toastify';
-import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts'
-import { HashConnectContextType } from '@utils/consts/hashconnect-consts-types'
-import { HashConnectContext } from '@utils/context/HashConnectContext';
+import { HashConnectContextType } from '@utils/types/hashconnect.types'
+import { HashConnectContext, LOCALSTORAGE_VARIABLE_NAME } from '@utils/context/HashConnectContext';
 
 const useHashConnect = () => {
   const {
     installedExtensions,
     hashConnect,
     saveData,
-    setSaveData
+    clearPairedAccountsAndWalletData
   } = useContext<HashConnectContextType>(HashConnectContext);
 
   const connect = useCallback(() => {
@@ -25,15 +24,10 @@ const useHashConnect = () => {
   },[installedExtensions, saveData, hashConnect]);
 
   const clearPairings = useCallback(() => {
-    setSaveData((prev)=>{
-      prev.accountIds = [];
-      prev.pairedWalletData = undefined;
-      return {...prev}
-    })
-
+    clearPairedAccountsAndWalletData()
     localStorage.removeItem(LOCALSTORAGE_VARIABLE_NAME);
     toast('❌ Removed pairings.')
-  },[setSaveData])
+  },[clearPairedAccountsAndWalletData])
 
   return{
     hashConnect,
