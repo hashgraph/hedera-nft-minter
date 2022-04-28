@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
+import CommonWallet from '@components/views/homepage/common-wallet';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
 import { toast } from 'react-toastify';
 
 type FormValues = NFTMetadata & { symbol?: string };
 
-export default function Homepage () {
+export default function Homepage() {
   const initialValues: FormValues = {
     name: '',
     symbol: '',
@@ -17,20 +18,23 @@ export default function Homepage () {
     type: '',
     image: null,
     files: [],
-    properties: [{name: '', value: ''}],
+    properties: [{ name: '', value: '' }],
   };
 
   const handleFormSubmit = useCallback(async (values) => {
-    const filteredValues = Object.keys(values).reduce<Record<string, any>>((params, paramName) => {
-      if (
-        (!Array.isArray(values[paramName]) && values[paramName])
-        || (Array.isArray(values[paramName]) && values[paramName].length > 0)
-      ) {
-        params[paramName] = values[paramName];
-      }
+    const filteredValues = Object.keys(values).reduce<Record<string, any>>(
+      (params, paramName) => {
+        if (
+          (!Array.isArray(values[paramName]) && values[paramName]) ||
+          (Array.isArray(values[paramName]) && values[paramName].length > 0)
+        ) {
+          params[paramName] = values[paramName];
+        }
 
-      return params;
-    }, {}) as FormValues;
+        return params;
+      },
+      {}
+    ) as FormValues;
 
     try {
       if (!values.image) {
@@ -56,15 +60,14 @@ export default function Homepage () {
       toast.error(e.message);
     }
   }, []);
-
   return (
     <div>
-
+      <CommonWallet />
       <Formik
         initialValues={initialValues}
         onSubmit={handleFormSubmit}
         component={NFTForm}
       />
     </div>
-  )
+  );
 }
