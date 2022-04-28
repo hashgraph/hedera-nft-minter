@@ -1,6 +1,6 @@
 import React from 'react';
 import useHashConnect from '@utils/hooks/useHashConnect';
-import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts';
+import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/context/HashConnectContext';
 
 const CommonWallet = () => {
   const { saveData, installedExtensions, connect, clearPairings } =

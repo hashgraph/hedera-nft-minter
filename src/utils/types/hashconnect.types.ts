@@ -1,6 +1,4 @@
 import { HashConnectTypes, HashConnect } from 'hashconnect'
-import { Dispatch, SetStateAction } from 'react';
-
 
 export type AppConfigType = HashConnectTypes.WalletMetadata
 export type InitialSaveDataType = {
@@ -28,5 +26,5 @@ export type HashConnectContextType = {
   hashConnect: HashConnect | null;
   installedExtensions: HashConnectTypes.AppMetadata[];
   saveData: SaveDataType;
-  setSaveData: Dispatch<SetStateAction<SaveDataType>>;
+  clearPairedAccountsAndWalletData: ()=>void;
 };
