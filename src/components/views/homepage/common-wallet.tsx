@@ -4,13 +4,8 @@ import useHashConnect from '@utils/hooks/useHashConnect';
 import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts';
 
 const CommonWallet = () => {
-  const {
-    saveData,
-    installedExtensions,
-    connect,
-    clearPairings,
-    initializeHashConnect,
-  } = useHashConnect(HashConnectContext);
+  const { saveData, installedExtensions, connect, clearPairings } =
+    useHashConnect(HashConnectContext);
   return (
     <>
       {installedExtensions && installedExtensions?.length > 0 && (
@@ -59,12 +54,6 @@ const CommonWallet = () => {
         }}
       >
         Show saveData
-      </button>
-      <button
-        disabled={typeof saveData?.topic !== 'undefined'}
-        onClick={initializeHashConnect}
-      >
-        InitializeHashConnect
       </button>
       <button
         disabled={typeof saveData?.topic === 'undefined'}

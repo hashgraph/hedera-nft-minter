@@ -8,7 +8,6 @@ const useHashConnect = (context : React.Context<HashConnectContextType>) => {
   const {
     installedExtensions,
     hashConnect,
-    initializeHashConnect,
     saveData,
     setSaveData
   } = ctx
@@ -38,7 +37,6 @@ const useHashConnect = (context : React.Context<HashConnectContextType>) => {
     saveData,
     installedExtensions,
 
-    initializeHashConnect,
     connect,
     clearPairings,
   }

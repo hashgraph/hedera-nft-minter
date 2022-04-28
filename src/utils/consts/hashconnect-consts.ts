@@ -30,6 +30,5 @@ export const INITIAL_HASHCONNECT_CONTEXT : HashConnectContextType  =  {
   hashConnect: null,
   saveData: INITIAL_SAVE_DATA,
   installedExtensions: [],
-  initializeHashConnect: undefined,
   setSaveData: () => undefined
 }

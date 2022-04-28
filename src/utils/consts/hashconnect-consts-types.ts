@@ -29,5 +29,4 @@ export type HashConnectContextType = {
   installedExtensions: HashConnectTypes.AppMetadata[];
   saveData: SaveDataType;
   setSaveData: Dispatch<SetStateAction<SaveDataType>>;
-  initializeHashConnect?: () => Promise<void> ;
 };

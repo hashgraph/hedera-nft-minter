@@ -143,7 +143,6 @@ export default function HashConnectProvider({
         installedExtensions,
         saveData,
         setSaveData,
-        initializeHashConnect,
       }}
     >
       {children}
