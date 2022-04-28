@@ -4,11 +4,15 @@ import NFTForm from '@components/views/homepage/nft-form';
 import CommonWallet from '@components/views/homepage/common-wallet';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
+import HTS from '@/services/HTS';
+import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
+import useHashConnect from '@hooks/useHashConnect';
 
 type FormValues = NFTMetadata & { symbol?: string };
 
 export default function Homepage() {
+  const { hashConnect, saveData } = useHashConnect();
   const initialValues: FormValues = {
     name: '',
     symbol: '',
@@ -48,18 +52,38 @@ export default function Homepage() {
       delete filteredValues.symbol;
       // upload metadata
       const { data } = await IPFS.createMetadataFile(filteredValues);
-      // const metaCID = data.value.cid;
+      const metaCID = data.value.cid;
+      // eslint-disable-next-line no-console
+      console.log({ metaCID });
       // create token
-      // mint token
+      const token = HTS.createToken('test', 'test-PM');
+      const accountId = saveData && saveData.accountIds ? saveData.accountIds[0] : '';
+      const topic = saveData && saveData.topic ? saveData.topic : '';
+      const transactionBytes = await SigningService.makeBytes(token, accountId);
 
       // eslint-disable-next-line no-console
-      console.log({ data });
+      console.log({ transactionBytes });
+
+
+      const res = await hashConnect?.sendTransaction(topic, {
+        topic: topic,
+        byteArray: transactionBytes,
+        metadata: {
+          accountToSign: accountId,
+          returnTransaction: true
+        }
+      });
+
+      // eslint-disable-next-line no-console
+      console.log({ res });
+
+      // mint token
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log({ e });
       toast.error(e.message);
     }
-  }, []);
+  }, [hashConnect, saveData]);
   return (
     <div className='homepage'>
 
