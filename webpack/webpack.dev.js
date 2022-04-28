@@ -16,7 +16,6 @@ module.exports = {
   devServer: {
     hot: true,
     https: true,
-    publicPath: '/',
     historyApiFallback: true,
     open: true,
     host: 'localhost',
@@ -29,7 +28,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
+        test: /\.m?(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -76,9 +75,8 @@ module.exports = {
     }),
     new ReactRefreshWebpackPlugin(),
     new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify(process.env.BASE_URL),
-      AUTH_BASIC: JSON.stringify(process.env.AUTH_BASIC),
-      S3_URL: JSON.stringify(process.env.S3_URL),
+      IPFS_KEY: JSON.stringify(process.env.IPFS_KEY),
+      IPFS_URL: JSON.stringify(process.env.IPFS_URL),
     })
   ],
 };
