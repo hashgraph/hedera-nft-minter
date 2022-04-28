@@ -1,24 +1,26 @@
 import React, { useCallback, useContext } from 'react'
+import { toast } from 'react-toastify';
 import { LOCALSTORAGE_VARIABLE_NAME } from '@utils/consts/hashconnect-consts'
 import { HashConnectContextType } from '@utils/consts/hashconnect-consts-types'
-import { toast } from 'react-toastify';
+import { HashConnectContext } from '@utils/context/HashConnectContext';
 
-const useHashConnect = (context : React.Context<HashConnectContextType>) => {
-  const ctx = useContext<HashConnectContextType>(context);
+const useHashConnect = (context : React.Context<HashConnectContextType> = HashConnectContext) => {
   const {
     installedExtensions,
     hashConnect,
     saveData,
     setSaveData
-  } = ctx
-
-  if(!ctx && typeof hashConnect === 'undefined') throw new Error('You don\'t provided context with HashConnect provider!');
+  } = useContext<HashConnectContextType>(context);
 
   const connect = useCallback(() => {
-    if(typeof saveData?.pairingString === 'undefined')
+    if(typeof saveData?.pairingString === 'undefined'){
       throw new Error('No pairing key generated! Initialize HashConnect first!')
-    if (!installedExtensions || !hashConnect)
+    }
+
+    if (!installedExtensions || !hashConnect){
       throw new Error('Hashpack wallet is not installed!');
+    }
+
     hashConnect.connectToLocalWallet(saveData?.pairingString);
   },[installedExtensions, saveData, hashConnect]);
 
@@ -28,6 +30,7 @@ const useHashConnect = (context : React.Context<HashConnectContextType>) => {
       prev.pairedWalletData = undefined;
       return {...prev}
     })
+
     localStorage.removeItem(LOCALSTORAGE_VARIABLE_NAME);
     toast('❌ Removed pairings.')
   },[setSaveData])
@@ -36,12 +39,9 @@ const useHashConnect = (context : React.Context<HashConnectContextType>) => {
     hashConnect,
     saveData,
     installedExtensions,
-
     connect,
     clearPairings,
   }
-
-
 }
 
 export default useHashConnect
