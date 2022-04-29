@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { Formik } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
-import CommonWallet from '@components/views/homepage/common-wallet';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
@@ -97,8 +96,6 @@ export default function Homepage() {
           <p>Mint your own NFT at speed of light!</p>
         </div>
       </div>
-
-      <CommonWallet />
 
       <div className='container'>
         <Formik
