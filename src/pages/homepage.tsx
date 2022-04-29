@@ -7,6 +7,7 @@ import HTS from '@/services/HTS';
 import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
 import useHashConnect from '@hooks/useHashConnect';
+import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
 type FormValues = NFTMetadata & { symbol?: string };
 
@@ -89,6 +90,7 @@ export default function Homepage() {
     },
     [hashConnect, saveData]
   );
+
   return (
     <div className='homepage'>
       <div className='hero'>
@@ -102,6 +104,7 @@ export default function Homepage() {
           initialValues={initialValues}
           onSubmit={handleFormSubmit}
           component={NFTForm}
+          validationSchema={ValidationSchema}
         />
       </div>
     </div>

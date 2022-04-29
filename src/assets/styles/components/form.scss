@@ -21,6 +21,17 @@
     padding-top: 1rem;
   }
 
+  &__error{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    color: $red;
+    padding-left: 2px;
+    font-size: 0.7rem;
+    &.image_error{
+      padding-right: 50px;
+    }
+  }
 
   label {
     display: block;
@@ -77,4 +88,25 @@
     }
   }
 
+  .fade-enter  {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .fade-enter-active  {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  .fade-exit {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .fade-enter-active ,
+  .fade-exit-active {
+    transition: opacity 500ms, transform 500ms;
+  }
 }
+

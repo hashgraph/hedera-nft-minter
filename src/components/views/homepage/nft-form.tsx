@@ -3,12 +3,16 @@ import { FastField, FieldArray, Form, Field } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
-export default function NFTForm({ values }) {
+export default function NFTForm({ values, errors, touched, handleReset }) {
   return (
     <Form className='form'>
       <div>
         <div className='form__row'>File:</div>
         <DragAndDropFileInput name='image' />
+        {touched?.image && (
+          <div className='form__error image_error'>{errors?.image}</div>
+        )}
+
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
@@ -20,15 +24,22 @@ export default function NFTForm({ values }) {
                     key={`properties_${ index }`}
                     className='form__group'
                   >
-                    <div>
+                    <div className='form__properties__inputs_row'>
                       <label htmlFor={`properties.${ index }.name`}>Name:</label>
                       <Field
                         id={`properties.${ index }.name`}
                         name={`properties.${ index }.name`}
                         type='text'
                       />
+                      {errors?.properties?.length > 0 &&
+                        touched.properties?.length > 0 &&
+                        touched?.properties[index]?.name && (
+                          <div className='form__error'>
+                            {errors?.properties[index]?.name}
+                          </div>
+                        )}
                     </div>
-                    <div>
+                    <div className='form__properties__inputs_row'>
                       <label htmlFor={`properties.${ index }.value`}>
                         Value:
                       </label>
@@ -37,6 +48,13 @@ export default function NFTForm({ values }) {
                         name={`properties.${ index }.value`}
                         type='text'
                       />
+                      {errors?.properties?.length > 0 &&
+                        touched.properties?.length > 0 &&
+                        touched?.properties[index]?.value && (
+                          <div className='form__error'>
+                            {errors?.properties[index]?.value}
+                          </div>
+                        )}
                     </div>
 
                     <div>
@@ -68,35 +86,55 @@ export default function NFTForm({ values }) {
           <label htmlFor='name'>Token name:</label>
           <FastField name='name' type='input' />
         </div>
+        {touched?.name && <div className='form__error'>{errors?.name}</div>}
 
         <div className='form__row'>
           <label htmlFor='symbol'>Token symbol</label>
           <FastField name='symbol' type='input' />
         </div>
+        {touched?.symbol && <div className='form__error'>{errors?.symbol}</div>}
 
         <div className='form__row'>
           <label htmlFor='creator'>Creator:</label>
           <FastField name='creator' type='input' />
         </div>
+        {touched?.creator && (
+          <div className='form__error'>{errors?.creator}</div>
+        )}
 
         <div className='form__row'>
           <label htmlFor='creatorDID'>Creator DID:</label>
           <FastField name='creatorDID' type='input' />
         </div>
+        {touched?.creatorDID && (
+          <div className='form__error'>{errors?.creatorDID}</div>
+        )}
 
         <div className='form__row'>
           <label htmlFor='description'>Description:</label>
           <FastField name='description' type='textarea' />
         </div>
+        {touched?.description && (
+          <div className='form__error'>{errors?.description}</div>
+        )}
 
         <div className='form__row'>
           <label htmlFor='qty'>Quantity:</label>
           <FastField id='qty' name='qty' type='number' />
         </div>
+        {touched?.qty && <div className='form__error'>{errors?.qty}</div>}
 
         <div className='form__btns'>
-          <button className='btn--md'>Submit</button>
-          <button className='btn--grey btn--md'>Clear form</button>
+          <button type='submit' className='btn--md'>
+            Submit
+          </button>
+          <button
+            type='button'
+            onClick={handleReset}
+            className='btn--grey btn--md'
+          >
+            Clear form
+          </button>
         </div>
       </div>
 
