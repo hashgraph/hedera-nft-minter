@@ -25,6 +25,7 @@ export const BaseLayout: FC = ({ children }) => {
     }
     connect();
   }, [connected, connect, prepareAndShowModal]);
+
   return (
     <>
       <header>
