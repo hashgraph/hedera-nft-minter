@@ -14,7 +14,11 @@ export const ModalContext = React.createContext<{
   setModalContent: () => undefined,
 });
 
-export default function ModalProvider({ children }: { children: React.FC }) {
+export default function ModalProvider({
+  children,
+}: {
+  children: React.ReactElement;
+}) {
   const [isModalShowed, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState(<p>Modal is empty!</p>);
 
