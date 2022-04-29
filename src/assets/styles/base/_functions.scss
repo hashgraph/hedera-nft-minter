@@ -1,0 +1,7 @@
+@function generateTransitions($attributesList, $transitionTime){
+  $t: "";
+  @each $tran in $attributesList{
+    $t: #{$t}, #{$tran} #{$transitionTime} ease-in-out;
+  }
+  @return $t;
+}

@@ -1,22 +1,18 @@
-import React from 'react'
+import React from 'react';
 import { FastField, FieldArray, Form, Field } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
+import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
-export default function NFTForm ({
-  values,
-}) {
+export default function NFTForm({ values }) {
   return (
     <Form className='form'>
       <div>
-        <div className='form__row'>
-          File:
-          <FastField name='image' type='file' />
-        </div>
-
+        <div className='form__row'>File:</div>
+        <DragAndDropFileInput name='image' />
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
-            {({remove, push}) => (
+            {({ remove, push }) => (
               <div>
                 {values.properties?.map((property: string, index: number) => (
                   <div
@@ -26,11 +22,21 @@ export default function NFTForm ({
                   >
                     <div>
                       <label htmlFor={`properties.${ index }.name`}>Name:</label>
-                      <Field id={`properties.${ index }.name`} name={ `properties.${ index }.name` } type='text' />
+                      <Field
+                        id={`properties.${ index }.name`}
+                        name={`properties.${ index }.name`}
+                        type='text'
+                      />
                     </div>
                     <div>
-                      <label htmlFor={`properties.${ index }.value`}>Value:</label>
-                      <Field id={ `properties.${ index }.value` } name={ `properties.${ index }.value` } type='text' />
+                      <label htmlFor={`properties.${ index }.value`}>
+                        Value:
+                      </label>
+                      <Field
+                        id={`properties.${ index }.value`}
+                        name={`properties.${ index }.value`}
+                        type='text'
+                      />
                     </div>
 
                     <div>
@@ -47,7 +53,7 @@ export default function NFTForm ({
 
                 <button
                   type='button'
-                  onClick={() => push({ value: '', name: ''})}
+                  onClick={() => push({ value: '', name: '' })}
                 >
                   Add +
                 </button>
@@ -88,13 +94,11 @@ export default function NFTForm ({
           <FastField id='qty' name='qty' type='number' />
         </div>
 
-
         <div className='form__btns'>
           <button className='btn--md'>Submit</button>
           <button className='btn--grey btn--md'>Clear form</button>
         </div>
       </div>
-
 
       <pre>{JSON.stringify(values)}</pre>
     </Form>
