@@ -6,9 +6,11 @@ type Props = {
 };
 
 const Error = ({ name }: Props) => {
+  let className = 'form__error';
+  if (name === 'image') className += ' image_error';
   return (
     <ErrorMessage name={name}>
-      {(msg) => <div className='form__error'>{msg}</div>}
+      {(msg) => <div className={className}>{msg}</div>}
     </ErrorMessage>
   );
 };
