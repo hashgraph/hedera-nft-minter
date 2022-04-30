@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import useHashConnect from '@hooks/useHashConnect';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
-type FormValues = NFTMetadata & { symbol?: string };
+type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
 export default function Homepage() {
   const { hashConnect, saveData } = useHashConnect();
@@ -23,6 +23,7 @@ export default function Homepage() {
     image: null,
     files: [],
     properties: [{ name: '', value: '' }],
+    qty: 0,
   };
 
   const handleFormSubmit = useCallback(

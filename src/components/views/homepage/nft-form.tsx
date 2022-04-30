@@ -2,17 +2,15 @@ import React from 'react';
 import { FastField, FieldArray, Form, Field } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
+import Error from '@/components/shared/form/Error';
 
-export default function NFTForm({ values, errors, touched, handleReset }) {
+export default function NFTForm({ values, handleReset }) {
   return (
     <Form className='form'>
       <div>
         <div className='form__row'>File:</div>
         <DragAndDropFileInput name='image' />
-        {touched?.image && (
-          <div className='form__error image_error'>{errors?.image}</div>
-        )}
-
+        <Error name='image' />
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
@@ -31,13 +29,7 @@ export default function NFTForm({ values, errors, touched, handleReset }) {
                         name={`properties.${ index }.name`}
                         type='text'
                       />
-                      {errors?.properties?.length > 0 &&
-                        touched.properties?.length > 0 &&
-                        touched?.properties[index]?.name && (
-                          <div className='form__error'>
-                            {errors?.properties[index]?.name}
-                          </div>
-                        )}
+                      <Error name={`properties.${ index }.name`} />
                     </div>
                     <div className='form__properties__inputs_row'>
                       <label htmlFor={`properties.${ index }.value`}>
@@ -48,13 +40,7 @@ export default function NFTForm({ values, errors, touched, handleReset }) {
                         name={`properties.${ index }.value`}
                         type='text'
                       />
-                      {errors?.properties?.length > 0 &&
-                        touched.properties?.length > 0 &&
-                        touched?.properties[index]?.value && (
-                          <div className='form__error'>
-                            {errors?.properties[index]?.value}
-                          </div>
-                        )}
+                      <Error name={`properties.${ index }.value`} />
                     </div>
 
                     <div>
@@ -86,43 +72,37 @@ export default function NFTForm({ values, errors, touched, handleReset }) {
           <label htmlFor='name'>Token name:</label>
           <FastField name='name' type='input' />
         </div>
-        {touched?.name && <div className='form__error'>{errors?.name}</div>}
+        <Error name={'name'} />
 
         <div className='form__row'>
           <label htmlFor='symbol'>Token symbol</label>
           <FastField name='symbol' type='input' />
         </div>
-        {touched?.symbol && <div className='form__error'>{errors?.symbol}</div>}
+        <Error name={'symbol'} />
 
         <div className='form__row'>
           <label htmlFor='creator'>Creator:</label>
           <FastField name='creator' type='input' />
         </div>
-        {touched?.creator && (
-          <div className='form__error'>{errors?.creator}</div>
-        )}
+        <Error name={'creator'} />
 
         <div className='form__row'>
           <label htmlFor='creatorDID'>Creator DID:</label>
           <FastField name='creatorDID' type='input' />
         </div>
-        {touched?.creatorDID && (
-          <div className='form__error'>{errors?.creatorDID}</div>
-        )}
+        <Error name={'creatorDID'} />
 
         <div className='form__row'>
           <label htmlFor='description'>Description:</label>
           <FastField name='description' type='textarea' />
         </div>
-        {touched?.description && (
-          <div className='form__error'>{errors?.description}</div>
-        )}
+        <Error name={'description'} />
 
         <div className='form__row'>
           <label htmlFor='qty'>Quantity:</label>
           <FastField id='qty' name='qty' type='number' />
         </div>
-        {touched?.qty && <div className='form__error'>{errors?.qty}</div>}
+        <Error name={'qty'} />
 
         <div className='form__btns'>
           <button type='submit' className='btn--md'>
@@ -137,7 +117,6 @@ export default function NFTForm({ values, errors, touched, handleReset }) {
           </button>
         </div>
       </div>
-
       <pre>{JSON.stringify(values)}</pre>
     </Form>
   );
