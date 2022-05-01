@@ -1,9 +1,9 @@
 import React from 'react';
-import { FastField, FieldArray, Form, Field } from 'formik';
+import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
-export default function NFTForm({ values }) {
+export default function NFTForm({ values, isSubmitting }: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
@@ -89,18 +89,18 @@ export default function NFTForm({ values }) {
           <FastField name='description' type='textarea' />
         </div>
 
-        <div className='form__row'>
-          <label htmlFor='qty'>Quantity:</label>
-          <FastField id='qty' name='qty' type='number' />
-        </div>
+        {/*<div className='form__row'>*/}
+        {/*  <label htmlFor='qty'>Quantity:</label>*/}
+        {/*  <FastField id='qty' name='qty' type='number' />*/}
+        {/*</div>*/}
 
         <div className='form__btns'>
-          <button className='btn--md'>Submit</button>
-          <button className='btn--grey btn--md'>Clear form</button>
+          <button disabled={isSubmitting} className='btn--md'>
+            {isSubmitting ? 'Creating token...' : 'Submit'}
+          </button>
+          <button disabled={isSubmitting} className='btn--grey btn--md'>Clear form</button>
         </div>
       </div>
-
-      <pre>{JSON.stringify(values)}</pre>
     </Form>
   );
 }
