@@ -7,11 +7,26 @@ import {
   AccountId, TokenId, TokenType, TokenSupplyType, PublicKey
 } from '@hashgraph/sdk';
 
+type AccountInfo = Response & {
+  result?: string;
+  key?: {
+    key: number;
+  }
+}
+
 export default class HTS {
   static async createToken(tokenName: string, tokenSymbol: string, accountId: string): Promise<TokenCreateTransaction> {
 
-    let accountInfo:any = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
-    accountInfo = await accountInfo.json();
+    let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
+
+    accountInfo  = await accountInfo.json();
+
+    if(accountInfo.result !== 'SUCCESS' ){
+      throw new Error('Error when fetching user data from hedera mirrornode API(testnet)!');
+    }
+    if(!accountInfo.key){
+      throw new Error('Error when loading user key from hedera mirrornode API(testnet)!');
+    }
 
     const key = PublicKey.fromString(accountInfo.key.key)
 
@@ -43,6 +58,8 @@ export default class HTS {
       .setTokenId(tokenId)
       .setAmount(amount)
       .setNodeAccountIds([new AccountId(3)])
+      // TODO fix no-undef
+      // eslint-disable-next-line no-undef
       .setMetadata([Buffer.from(`ipfs://${ meta }`)])
       .freeze();
 

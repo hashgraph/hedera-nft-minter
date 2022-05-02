@@ -80,6 +80,10 @@ module.exports = {
       logo: path.join(__dirname, '../src/assets/images/logo.svg'),
       inject: true,
     }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+      Buffer: ['buffer', 'Buffer'],
+    }),
   ],
   optimization: {
     runtimeChunk: true,

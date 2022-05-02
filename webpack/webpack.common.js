@@ -24,6 +24,9 @@ module.exports = {
       '@layout': `${SRC_PATH}/components/shared/layout`,
     },
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      "buffer": require.resolve('buffer'),
+    }
   },
   context: path.join(__dirname, '../'),
   entry: ['babel-polyfill', './src/index.tsx'],
