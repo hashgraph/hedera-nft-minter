@@ -1,24 +1,24 @@
-import React, { useCallback, useState } from 'react';
-import { Formik } from 'formik';
-import NFTForm from '@components/views/homepage/nft-form';
-import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import IPFS from '@/services/IPFS';
-import HTS from '@/services/HTS';
-import { SigningService } from '@/services/SigningService';
-import { toast } from 'react-toastify';
-import useHashConnect from '@hooks/useHashConnect';
-import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
+import React, { useCallback, useState } from "react";
+import { Formik } from "formik";
+import NFTForm from "@components/views/homepage/nft-form";
+import { NFTMetadata } from "@utils/entity/NFT-Metadata";
+import IPFS from "@/services/IPFS";
+import HTS from "@/services/HTS";
+import { SigningService } from "@/services/SigningService";
+import { toast } from "react-toastify";
+import useHashConnect from "@hooks/useHashConnect";
+import { TransactionReceipt, TokenId } from "@hashgraph/sdk";
 
 type FormValues = NFTMetadata & { symbol?: string };
 
-interface UploadedNFTFFile {
+interface NFTFFile {
   ok: boolean;
   value: {
     cid: string;
     created: string;
     deals?: [];
     files?: File[];
-    name: 'string';
+    name: "string";
     pin?: {
       cid: string;
       created: string;
@@ -43,17 +43,17 @@ type Parameters = {
 export default function Homepage() {
   const { hashConnect, saveData } = useHashConnect();
   const [tokenCreated, setTokenCreated] = useState(false);
-  const [tokenId, setTokenId] = useState('');
+  const [tokenId, setTokenId] = useState("");
   const initialValues: FormValues = {
-    name: '',
-    symbol: '',
-    creator: '',
-    creatorDID: '',
-    description: '',
-    type: '',
+    name: "",
+    symbol: "",
+    creator: "",
+    creatorDID: "",
+    description: "",
+    type: "",
     image: null,
     files: [],
-    properties: [{ name: '', value: '' }],
+    properties: [{ name: "", value: "" }],
   };
 
   const filterParams = useCallback(
@@ -74,18 +74,15 @@ export default function Homepage() {
     []
   );
 
-  const uploadNFTFile = useCallback(async (file): Promise<UploadedNFTFFile> => {
+  const uploadNFTFile = useCallback(async (file): Promise<NFTFFile> => {
     const { data } = await IPFS.uploadFile(file);
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(
-    async (metadata): Promise<UploadedNFTFFile> => {
-      const { data } = await IPFS.createMetadataFile(metadata);
-      return data;
-    },
-    []
-  );
+  const uploadMetadata = useCallback(async (metadata): Promise<NFTFFile> => {
+    const { data } = await IPFS.createMetadataFile(metadata);
+    return data;
+  }, []);
 
   const createToken = useCallback(
     async (
@@ -94,7 +91,7 @@ export default function Homepage() {
       accountId: string
     ): Promise<TokenId | null> => {
       if (!saveData.topic) {
-        throw new Error('Loading topic Error.');
+        throw new Error("Loading topic Error.");
       }
 
       const token = await HTS.createToken(tokenName, tokenSymbol, accountId);
@@ -110,7 +107,7 @@ export default function Homepage() {
       });
 
       if (!res) {
-        throw new Error('Create Token Error.');
+        throw new Error("Create Token Error.");
       }
 
       const receipt = TransactionReceipt.fromBytes(
@@ -118,7 +115,7 @@ export default function Homepage() {
       ) as TransactionReceipt;
 
       if (!receipt) {
-        throw new Error('Get Transaction Receipt error');
+        throw new Error("Get Transaction Receipt error");
       }
 
       return receipt.tokenId;
@@ -129,13 +126,13 @@ export default function Homepage() {
   const mint = useCallback(
     async (tokenId: string, meta: string) => {
       if (!saveData) {
-        throw new Error('Error with loading saved app data!');
+        throw new Error("Error with loading saved app data!");
       }
       if (!saveData.accountIds) {
-        throw new Error('Error with loading logged accounts data!');
+        throw new Error("Error with loading logged accounts data!");
       }
-      const acc1 = saveData?.accountIds[0] || '0.0.0';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
+      const acc1 = saveData?.accountIds[0] || "0.0.0";
+      const topic = saveData && saveData.topic ? saveData.topic : "";
 
       const txMint = HTS.mintToken(tokenId, acc1, meta, 0);
 
@@ -149,7 +146,7 @@ export default function Homepage() {
       });
 
       if (!mintResult) {
-        throw new Error('Token mint failed.');
+        throw new Error("Token mint failed.");
       }
 
       return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
@@ -161,25 +158,25 @@ export default function Homepage() {
     async (values) => {
       const filteredValues = filterParams(values);
       const accountId =
-        saveData && saveData.accountIds ? saveData.accountIds[0] : '';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
+        saveData && saveData.accountIds ? saveData.accountIds[0] : "";
+      const topic = saveData && saveData.topic ? saveData.topic : "";
 
       try {
         if (!values.image) {
-          throw new Error('You need to select a file to upload');
+          throw new Error("You need to select a file to upload");
         }
 
         if (!accountId || !topic) {
-          toast.error('First connect your wallet!');
-          throw new Error('First connect your wallet');
+          toast.error("First connect your wallet!");
+          throw new Error("First connect your wallet");
         }
 
         // upload image
         const imageData = await uploadNFTFile(values.image);
         // replace image with IMAGE_CID
         if (!imageData.ok) {
-          toast.error('Error when uploading NFT File!');
-          throw new Error('Error when uploading NFT File!');
+          toast.error("Error when uploading NFT File!");
+          throw new Error("Error when uploading NFT File!");
         }
         filteredValues.image = imageData.value.cid;
         // upload metadata
@@ -191,8 +188,8 @@ export default function Homepage() {
           accountId
         );
         if (!tokenId) {
-          toast.error('Error when creating new token!');
-          throw new Error('Error! Problem with creating token!');
+          toast.error("Error when creating new token!");
+          throw new Error("Error! Problem with creating token!");
         }
 
         //check if is string
@@ -210,7 +207,7 @@ export default function Homepage() {
 
         // mint token
       } catch (e) {
-        if (typeof e === 'string') {
+        if (typeof e === "string") {
           toast.error(e);
           throw new Error(e);
         } else if (e instanceof Error) {
@@ -223,14 +220,14 @@ export default function Homepage() {
   );
 
   return (
-    <div className='homepage'>
-      <div className='hero'>
+    <div className="homepage">
+      <div className="hero">
         <div>
           <p>Mint your own NFT at speed of light!</p>
         </div>
       </div>
 
-      <div className='container'>
+      <div className="container">
         {tokenCreated ? (
           <div>
             <h2>Token Created successfully</h2>
