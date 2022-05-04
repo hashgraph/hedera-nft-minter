@@ -6,6 +6,7 @@ import {
   TransferTransaction,
   AccountId, TokenId, TokenType, TokenSupplyType, PublicKey
 } from '@hashgraph/sdk';
+import {Buffer} from 'buffer'
 
 type AccountInfo = Response & {
   result?: string;
@@ -20,8 +21,6 @@ export default class HTS {
     let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
 
     accountInfo  = await accountInfo.json();
-
-    console.log({accountInfo})
 
     if(!accountInfo.key){
       throw new Error('Error when loading user key from hedera mirrornode API(testnet)!');
@@ -57,8 +56,6 @@ export default class HTS {
       .setTokenId(tokenId)
       .setAmount(amount)
       .setNodeAccountIds([new AccountId(3)])
-      // TODO fix no-undef
-      // eslint-disable-next-line no-undef
       .setMetadata([Buffer.from(`ipfs://${ meta }`)])
       .freeze();
 

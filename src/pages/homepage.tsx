@@ -58,7 +58,7 @@ export default function Homepage() {
 
   const filterParams = useCallback(
     (values) =>
-      Object.keys(values).reduce<Record<string, Parameters>>(
+      Object.keys(values).reduce<Record<string, Parameters | string>>(
         (params, paramName) => {
           if (
             (!Array.isArray(values[paramName]) && values[paramName]) ||
@@ -178,7 +178,9 @@ export default function Homepage() {
           toast.error("Error when uploading NFT File!");
           throw new Error("Error when uploading NFT File!");
         }
+
         filteredValues.image = imageData.value.cid;
+
         // upload metadata
         const metadata = await uploadMetadata(filteredValues);
         // create token
