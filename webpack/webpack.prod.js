@@ -58,9 +58,8 @@ module.exports = {
       chunkFilename: 'css/[name].[hash].css',
     }),
     new webpack.DefinePlugin({
-      BASE_URL: JSON.stringify(process.env.BASE_URL),
-      AUTH_BASIC: JSON.stringify(process.env.AUTH_BASIC),
-      S3_URL: JSON.stringify(process.env.S3_URL),
+      IPFS_KEY: JSON.stringify(process.env.IPFS_KEY),
+      IPFS_URL: JSON.stringify(process.env.IPFS_URL),
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
