@@ -18,7 +18,7 @@ interface NFTFFile {
     created: string;
     deals?: [];
     files?: File[];
-    name: 'string';
+    name: string;
     pin?: {
       cid: string;
       created: string;
