@@ -1,13 +1,16 @@
 import React from 'react';
 import { ErrorMessage } from 'formik';
+import classNames from 'classnames';
 
 type Props = {
   name: string;
 };
 
 const Error = ({ name }: Props) => {
-  let className = 'form__error';
-  if (name === 'image') className += ' image_error';
+  const className = classNames('form__error', {
+    image_error: name === 'image',
+  });
+
   return (
     <ErrorMessage name={name}>
       {(msg) => <div className={className}>{msg}</div>}
