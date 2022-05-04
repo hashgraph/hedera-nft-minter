@@ -11,7 +11,7 @@ import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
 
 type FormValues = NFTMetadata & { symbol?: string };
 
-interface NFTFFile {
+interface NFTFile {
   ok: boolean;
   value: {
     cid: string;
@@ -74,12 +74,12 @@ export default function Homepage() {
     []
   );
 
-  const uploadNFTFile = useCallback(async (file): Promise<NFTFFile> => {
+  const uploadNFTFile = useCallback(async (file): Promise<NFTFile> => {
     const { data } = await IPFS.uploadFile(file);
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(async (metadata): Promise<NFTFFile> => {
+  const uploadMetadata = useCallback(async (metadata): Promise<NFTFile> => {
     const { data } = await IPFS.createMetadataFile(metadata);
     return data;
   }, []);
