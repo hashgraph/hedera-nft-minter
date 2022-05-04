@@ -39,8 +39,8 @@ export const BaseLayout: FC = ({ children }) => {
       </header>
 
       <main className=''>
-        <Modal />
         {children}
+        <Modal />
       </main>
     </>
   );
