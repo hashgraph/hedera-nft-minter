@@ -25,6 +25,7 @@ module.exports = {
     aggregateTimeout: 300,
     poll: 1000,
   },
+
   module: {
     rules: [
       {
@@ -64,6 +65,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /pl/),
     new FaviconsWebpackPlugin({
       logo: path.join(__dirname, '../src/assets/images/logo.svg'),
@@ -77,6 +81,7 @@ module.exports = {
     new webpack.DefinePlugin({
       IPFS_KEY: JSON.stringify(process.env.IPFS_KEY),
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
-    })
+    }),
+
   ],
 };

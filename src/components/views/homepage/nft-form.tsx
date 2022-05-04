@@ -1,10 +1,10 @@
 import React from 'react';
-import { FastField, FieldArray, Form, Field } from 'formik';
+import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 import Error from '@/components/shared/form/Error';
 
-export default function NFTForm({ values, handleReset }) {
+export default function NFTForm({ values, handleReset, isSubmitting }: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
@@ -105,13 +105,18 @@ export default function NFTForm({ values, handleReset }) {
         <Error name={'qty'} />
 
         <div className='form__btns'>
-          <button type='submit' className='btn--md'>
+          <button
+            type='submit'
+            className='btn--md'
+            disabled={isSubmitting}
+          >
             Submit
           </button>
           <button
             type='button'
             onClick={handleReset}
             className='btn--grey btn--md'
+            disabled={isSubmitting}
           >
             Clear form
           </button>
