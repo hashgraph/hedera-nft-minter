@@ -2,13 +2,15 @@ import React from 'react';
 import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
+import Error from '@/components/shared/form/Error';
 
-export default function NFTForm({ values, isSubmitting }: FormikProps<FormikValues>) {
+export default function NFTForm({ values, handleReset, isSubmitting }: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
         <div className='form__row'>File:</div>
         <DragAndDropFileInput name='image' />
+        <Error name='image' />
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
@@ -20,15 +22,16 @@ export default function NFTForm({ values, isSubmitting }: FormikProps<FormikValu
                     key={`properties_${ index }`}
                     className='form__group'
                   >
-                    <div>
+                    <div className='form__properties__inputs_row'>
                       <label htmlFor={`properties.${ index }.name`}>Name:</label>
                       <Field
                         id={`properties.${ index }.name`}
                         name={`properties.${ index }.name`}
                         type='text'
                       />
+                      <Error name={`properties.${ index }.name`} />
                     </div>
-                    <div>
+                    <div className='form__properties__inputs_row'>
                       <label htmlFor={`properties.${ index }.value`}>
                         Value:
                       </label>
@@ -37,6 +40,7 @@ export default function NFTForm({ values, isSubmitting }: FormikProps<FormikValu
                         name={`properties.${ index }.value`}
                         type='text'
                       />
+                      <Error name={`properties.${ index }.value`} />
                     </div>
 
                     <div>
@@ -68,39 +72,57 @@ export default function NFTForm({ values, isSubmitting }: FormikProps<FormikValu
           <label htmlFor='name'>Token name:</label>
           <FastField name='name' type='input' />
         </div>
+        <Error name={'name'} />
 
         <div className='form__row'>
           <label htmlFor='symbol'>Token symbol</label>
           <FastField name='symbol' type='input' />
         </div>
+        <Error name={'symbol'} />
 
         <div className='form__row'>
           <label htmlFor='creator'>Creator:</label>
           <FastField name='creator' type='input' />
         </div>
+        <Error name={'creator'} />
 
         <div className='form__row'>
           <label htmlFor='creatorDID'>Creator DID:</label>
           <FastField name='creatorDID' type='input' />
         </div>
+        <Error name={'creatorDID'} />
 
         <div className='form__row'>
           <label htmlFor='description'>Description:</label>
           <FastField name='description' type='textarea' />
         </div>
+        <Error name={'description'} />
 
-        {/*<div className='form__row'>*/}
-        {/*  <label htmlFor='qty'>Quantity:</label>*/}
-        {/*  <FastField id='qty' name='qty' type='number' />*/}
-        {/*</div>*/}
+        <div className='form__row'>
+          <label htmlFor='qty'>Quantity:</label>
+          <FastField id='qty' name='qty' type='number' />
+        </div>
+        <Error name={'qty'} />
 
         <div className='form__btns'>
-          <button disabled={isSubmitting} className='btn--md'>
-            {isSubmitting ? 'Creating token...' : 'Submit'}
+          <button
+            type='submit'
+            className='btn--md'
+            disabled={isSubmitting}
+          >
+            Submit
           </button>
-          <button disabled={isSubmitting} className='btn--grey btn--md'>Clear form</button>
+          <button
+            type='button'
+            onClick={handleReset}
+            className='btn--grey btn--md'
+            disabled={isSubmitting}
+          >
+            Clear form
+          </button>
         </div>
       </div>
+      <pre>{JSON.stringify(values)}</pre>
     </Form>
   );
 }

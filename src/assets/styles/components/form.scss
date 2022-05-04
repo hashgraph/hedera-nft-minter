@@ -21,6 +21,17 @@
     padding-top: 1rem;
   }
 
+  &__error{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    color: $red;
+    padding-left: 2px;
+    font-size: 0.7rem;
+    &.image_error{
+      padding-right: 50px;
+    }
+  }
 
   label {
     display: block;
@@ -52,7 +63,6 @@
     $transitionTime: 0.4s;
     $transitionAttributes: (border-color, box-shadow);
 
-
     border-radius: 20px;
     width: calc(100% - 50px);
     border: 1px solid rgba($blue, .5);
@@ -78,3 +88,4 @@
   }
 
 }
+

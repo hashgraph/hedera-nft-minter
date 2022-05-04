@@ -8,8 +8,9 @@ import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
 import useHashConnect from '@hooks/useHashConnect';
 import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
+import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
-type FormValues = NFTMetadata & { symbol?: string };
+type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
 interface NFTFile {
   ok: boolean;
@@ -54,6 +55,7 @@ export default function Homepage() {
     image: null,
     files: [],
     properties: [{ name: '', value: '' }],
+    qty: 0,
   };
 
   const filterParams = useCallback(
@@ -240,6 +242,7 @@ export default function Homepage() {
             initialValues={initialValues}
             onSubmit={handleFormSubmit}
             component={NFTForm}
+            validationSchema={ValidationSchema}
           />
         )}
       </div>
