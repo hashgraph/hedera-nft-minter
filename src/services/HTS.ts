@@ -10,7 +10,7 @@ import {
 type AccountInfo = Response & {
   result?: string;
   key?: {
-    key: number;
+    key: string;
   }
 }
 
@@ -21,9 +21,8 @@ export default class HTS {
 
     accountInfo  = await accountInfo.json();
 
-    if(accountInfo.result !== 'SUCCESS' ){
-      throw new Error('Error when fetching user data from hedera mirrornode API(testnet)!');
-    }
+    console.log({accountInfo})
+
     if(!accountInfo.key){
       throw new Error('Error when loading user key from hedera mirrornode API(testnet)!');
     }
