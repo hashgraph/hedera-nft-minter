@@ -6,12 +6,25 @@ import {
   TransferTransaction,
   AccountId, TokenId, TokenType, TokenSupplyType, PublicKey
 } from '@hashgraph/sdk';
+import {Buffer} from 'buffer'
+
+type AccountInfo = Response & {
+  result?: string;
+  key?: {
+    key: string;
+  }
+}
 
 export default class HTS {
   static async createToken(tokenName: string, tokenSymbol: string, accountId: string): Promise<TokenCreateTransaction> {
 
-    let accountInfo:any = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
-    accountInfo = await accountInfo.json();
+    let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
+
+    accountInfo  = await accountInfo.json();
+
+    if(!accountInfo.key){
+      throw new Error('Error when loading user key from hedera mirrornode API(testnet)!');
+    }
 
     const key = PublicKey.fromString(accountInfo.key.key)
 
