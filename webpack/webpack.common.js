@@ -32,7 +32,7 @@ module.exports = {
   entry: ['babel-polyfill', './src/index.tsx'],
   output: {
     path: path.join(__dirname, '../build'),
-    filename: './js/index.js',
+    filename: './js/[name].js',
     publicPath: '/',
   },
 };
