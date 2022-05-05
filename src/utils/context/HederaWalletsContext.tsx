@@ -157,7 +157,7 @@ export default function HederaWalletsProvider({
   };
 
   const connectBladeWallet = useCallback(async () => {
-    let loggedId: string | AccountId = '';
+    let loggedId: undefined | AccountId;
 
     try {
       await bladeSigner.createSession();
