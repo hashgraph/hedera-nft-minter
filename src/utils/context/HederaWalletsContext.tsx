@@ -175,7 +175,9 @@ export default function HederaWalletsProvider({
       if (!loggedId) {
         toast.error('Cannot find connected account id in Blade Wallet!');
       } else {
-        toast('Blade Wallet has been connected!');
+        if (!loadLocalBladeData()) {
+          toast('Blade Wallet has been connected!');
+        }
         setSaveData((prev) => ({ ...prev, bladeAccountId: loggedId }));
         localStorage.setItem(
           BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME,
