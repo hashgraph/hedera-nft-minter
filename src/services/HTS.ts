@@ -16,7 +16,7 @@ type AccountInfo = Response & {
 }
 
 export default class HTS {
-  static async createToken(tokenName: string, tokenSymbol: string, accountId: string): Promise<TokenCreateTransaction> {
+  static async createToken(tokenName: string, tokenSymbol: string, accountId: string, amount: number): Promise<TokenCreateTransaction> {
 
     let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
 
@@ -34,7 +34,7 @@ export default class HTS {
       tokenSymbol,
     })
       .setInitialSupply(0)
-      .setMaxSupply(100)
+      .setMaxSupply(amount)
       .setTokenType(TokenType.NonFungibleUnique)
       .setDecimals(0)
       .setSupplyKey(key)
@@ -49,14 +49,15 @@ export default class HTS {
     return token;
   }
 
-  static mintToken(tokenId: string | TokenId, acc1: string, meta: string, amount = 0) {
+  static mintToken(tokenId: string | TokenId, acc1: string, cids: string[]) {
     const txID = TransactionId.generate(acc1);
+    const meta = cids.map(cid => Buffer.from(`ipfs://${ cid }`));
+
     const mintTx = new TokenMintTransaction()
       .setTransactionId(txID)
       .setTokenId(tokenId)
-      .setAmount(amount)
       .setNodeAccountIds([new AccountId(3)])
-      .setMetadata([Buffer.from(`ipfs://${ meta }`)])
+      .setMetadata(meta)
       .freeze();
 
     return mintTx;

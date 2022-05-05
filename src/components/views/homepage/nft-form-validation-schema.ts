@@ -20,14 +20,16 @@ export const ValidationSchema = yup.object().shape({
   creatorDID: yup
     .string()
     .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+    .max(50, 'Too Long!'),
   description: yup
     .string()
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  qty: yup.number().min(1, 'Min 1!').required('Required'),
+  qty: yup.number()
+    .min(1, 'Min 1!')
+    .max(10, 'Max 10!')
+    .required('Required'),
   properties: yup.array().of(
     yup.object().shape({
       name: yup
