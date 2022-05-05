@@ -6,7 +6,7 @@ import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
 import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
-import useHashConnect from '@hooks/useHashConnect';
+import useHederaWallets from '@hooks/useHederaWallets';
 import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
@@ -42,7 +42,7 @@ type Parameters = {
 };
 
 export default function Homepage() {
-  const { hashConnect, saveData } = useHashConnect();
+  const { hashConnect, saveData } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {

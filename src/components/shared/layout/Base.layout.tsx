@@ -1,9 +1,28 @@
-import React, { FC } from 'react';
-import useHashConnect from '@hooks/useHashConnect';
+import React, { FC, useCallback } from 'react';
 import Modal from '@components/shared/modal';
+import useHederaWallets from '@/utils/hooks/useHederaWallets';
 
 export const BaseLayout: FC = ({ children }) => {
-  const { connected, saveData: { accountIds }, connect } = useHashConnect();
+  const {
+    isHashPackConnected,
+    isBladeWalletConnected,
+    saveData: { hashConnectAccountIds, bladeAccountId },
+    connectToHashPack,
+    connectBladeWallet,
+    clearHashPackPairings,
+    clearBladeWalletPairing,
+  } = useHederaWallets();
+
+  const handleBladeWalletAccount = useCallback(
+    () =>
+      isBladeWalletConnected ? clearBladeWalletPairing() : connectBladeWallet(),
+    [isBladeWalletConnected, connectBladeWallet, clearBladeWalletPairing]
+  );
+
+  const handleHashPackAccount = useCallback(
+    () => (isHashPackConnected ? clearHashPackPairings() : connectToHashPack()),
+    [isHashPackConnected, clearHashPackPairings, connectToHashPack]
+  );
 
   return (
     <>
@@ -11,8 +30,16 @@ export const BaseLayout: FC = ({ children }) => {
         <h1>NFT Minter</h1>
 
         <div className='header__buttons-wrapper'>
-          <button onClick={connect}>
-            {connected ? accountIds[0] : 'Connect wallet'}
+          <button onClick={handleBladeWalletAccount}>
+            {isBladeWalletConnected
+              ? `BladeWallet: ${ bladeAccountId }`
+              : 'Connect BladeWallet'}
+          </button>
+
+          <button onClick={handleHashPackAccount}>
+            {isHashPackConnected
+              ? `HashPack: ${ hashConnectAccountIds[0] }`
+              : 'Connect HashPack'}
           </button>
         </div>
       </header>

@@ -1,4 +1,5 @@
 import { HashConnectTypes, HashConnect } from 'hashconnect'
+import { AccountId } from '@hashgraph/sdk';
 
 export type AppConfigType = HashConnectTypes.WalletMetadata
 export type InitialSaveDataType = {
@@ -17,9 +18,12 @@ export type SaveDataType = {
   pairingString?: string;
   privateKey?: string;
   pairedWalletData?: HashConnectTypes.WalletMetadata | HashConnectTypes.AppMetadata | null;
-  accountIds?: string[];
+  hashConnectAccountIds?: string[];
   id?: string;
   network?: string;
+  bladeAccountId?: AccountId | string;
+
+
 }
 
 export type HashConnectContextType = {
