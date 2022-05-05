@@ -2,7 +2,7 @@
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 1rem;
+  grid-column-gap: 2rem;
   padding: 2rem;
   border: 1px solid $blue;
   border-radius: 2rem;
@@ -10,7 +10,7 @@
 
   &__group {
     display: grid;
-    grid-template-columns: 1fr 1fr 80px;
+    grid-template-columns: 1fr 1fr 40px;
     grid-column-gap: 1rem;
     padding: 0.5rem 0;
     justify-content: stretch;
@@ -64,14 +64,14 @@
     $transitionAttributes: (border-color, box-shadow);
 
     border-radius: 20px;
-    width: calc(100% - 50px);
     border: 1px solid rgba($blue, .5);
     color: $lightGrey;
     display: grid;
     place-items: center;
     padding: 20px 50px;
     transition: generateTransitions($transitionAttributes, $transitionTime);
-    box-shadow: 0px 2px 56px -22px rgba(66, 68, 90, 0);
+    box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
+
     &.is-focused{
       border-color: black;
       box-shadow: $boxShadow;

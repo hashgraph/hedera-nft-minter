@@ -12,26 +12,6 @@ import { ValidationSchema } from '@components/views/homepage/nft-form-validation
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
-interface NFTFile {
-  ok: boolean;
-  value: {
-    cid: string;
-    created: string;
-    deals?: [];
-    files?: File[];
-    name: string;
-    pin?: {
-      cid: string;
-      created: string;
-      size: number;
-      status: string;
-    };
-    scope: string;
-    size: number;
-    type: string;
-  };
-}
-
 type Property = {
   name: string;
   value: string;
@@ -54,8 +34,8 @@ export default function Homepage() {
     type: '',
     image: null,
     files: [],
-    properties: [{ name: '', value: '' }],
-    qty: 0,
+    properties: [],
+    qty: 1,
   };
 
   const filterParams = useCallback(
@@ -76,13 +56,23 @@ export default function Homepage() {
     []
   );
 
-  const uploadNFTFile = useCallback(async (file): Promise<NFTFile> => {
+  const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(async (metadata): Promise<NFTFile> => {
-    const { data } = await IPFS.createMetadataFile(metadata);
+  const uploadMetadata = useCallback(async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
+
+    if (hip === 'hip-214') {
+      metadata = {
+        name: metadata.name,
+        description: metadata.description,
+        image: metadata.image,
+        properties: metadata.properties,
+      }
+    }
+
+    const { data } = await IPFS.createMetadataFile(metadata, serial);
     return data;
   }, []);
 
@@ -90,13 +80,14 @@ export default function Homepage() {
     async (
       tokenName: string,
       tokenSymbol: string,
-      accountId: string
-    ): Promise<TokenId | null> => {
+      accountId: string,
+      amount: number,
+    ): Promise<TokenId> => {
       if (!saveData.topic) {
         throw new Error('Loading topic Error.');
       }
 
-      const token = await HTS.createToken(tokenName, tokenSymbol, accountId);
+      const token = await HTS.createToken(tokenName, tokenSymbol, accountId, amount);
       const transactionBytes = await SigningService.makeBytes(token, accountId);
 
       const res = await hashConnect?.sendTransaction(saveData.topic, {
@@ -120,13 +111,17 @@ export default function Homepage() {
         throw new Error('Get Transaction Receipt error');
       }
 
+      if (!receipt.tokenId) {
+        throw new Error('Get Token ID error');
+      }
+
       return receipt.tokenId;
     },
     [hashConnect, saveData.topic]
   );
 
   const mint = useCallback(
-    async (tokenId: string, meta: string) => {
+    async (tokenId: string, cids: string[]) => {
       if (!saveData) {
         throw new Error('Error with loading saved app data!');
       }
@@ -136,7 +131,7 @@ export default function Homepage() {
       const acc1 = saveData?.accountIds[0] || '0.0.0';
       const topic = saveData && saveData.topic ? saveData.topic : '';
 
-      const txMint = HTS.mintToken(tokenId, acc1, meta, 0);
+      const txMint = HTS.mintToken(tokenId, acc1, cids);
 
       const mintResult = await hashConnect?.sendTransaction(topic, {
         topic,
@@ -158,6 +153,9 @@ export default function Homepage() {
 
   const handleFormSubmit = useCallback(
     async (values) => {
+      const hip = values.hip;
+      delete values.hip;
+
       const filteredValues = filterParams(values);
       const accountId =
         saveData && saveData.accountIds ? saveData.accountIds[0] : '';
@@ -169,7 +167,6 @@ export default function Homepage() {
         }
 
         if (!accountId || !topic) {
-          toast.error('First connect your wallet!');
           throw new Error('First connect your wallet');
         }
 
@@ -177,32 +174,32 @@ export default function Homepage() {
         const imageData = await uploadNFTFile(values.image);
         // replace image with IMAGE_CID
         if (!imageData.ok) {
-          toast.error('Error when uploading NFT File!');
           throw new Error('Error when uploading NFT File!');
         }
 
         filteredValues.image = imageData.value.cid;
 
         // upload metadata
-        const metadata = await uploadMetadata(filteredValues);
+        const metaCIDs = await Promise.all(
+          Array.from(new Array(values.qty)).map((_, i) => (
+            uploadMetadata(filteredValues, i, hip)
+          ))
+        );
+
         // create token
         const tokenId = await createToken(
           values.name,
           values.symbol,
-          accountId
+          accountId,
+          values.qty
         );
-        if (!tokenId) {
-          toast.error('Error when creating new token!');
-          throw new Error('Error! Problem with creating token!');
-        }
 
         //check if is string
-        const tokenIdToMint =
-          tokenId instanceof TokenId ? tokenId.toString() : tokenId;
+        const tokenIdToMint = tokenId.toString();
         setTokenId(tokenIdToMint);
 
         // mint
-        const mintRes = await mint(tokenIdToMint, metadata.value.cid);
+        const mintRes = await mint(tokenIdToMint, metaCIDs.map(({ value }) => value.cid));
 
         // eslint-disable-next-line no-console
         console.log({ mintRes });
@@ -213,10 +210,8 @@ export default function Homepage() {
       } catch (e) {
         if (typeof e === 'string') {
           toast.error(e);
-          throw new Error(e);
         } else if (e instanceof Error) {
           toast.error(e.message);
-          throw new Error(e.message);
         }
       }
     },

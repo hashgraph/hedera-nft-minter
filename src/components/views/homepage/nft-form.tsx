@@ -1,15 +1,29 @@
 import React from 'react';
 import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
-import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
+
 import Error from '@/components/shared/form/Error';
+import Switch from '@components/shared/form/switch/Switch';
+import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
 export default function NFTForm({ values, handleReset, isSubmitting }: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
-        <div className='form__row'>File:</div>
-        <DragAndDropFileInput name='image' />
+        <div className='form__row'>
+          <label htmlFor='hip'>NFT Type:</label>
+          <Switch
+            name='hip'
+            options={[
+              { name: 'HIP-10', value: 'hip-10' },
+              { name: 'HIP-412', value: 'hip-412' }
+            ]}
+          />
+        </div>
+        <div className='form__row'>
+          <label htmlFor='image'>File:</label>
+          <DragAndDropFileInput name='image' />
+        </div>
         <Error name='image' />
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
@@ -100,7 +114,7 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
 
         <div className='form__row'>
           <label htmlFor='qty'>Quantity:</label>
-          <FastField id='qty' name='qty' type='number' />
+          <FastField id='qty' name='qty' type='number' max={10} />
         </div>
         <Error name={'qty'} />
 
@@ -122,7 +136,6 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
           </button>
         </div>
       </div>
-      <pre>{JSON.stringify(values)}</pre>
     </Form>
   );
 }
