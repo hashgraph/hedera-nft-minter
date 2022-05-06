@@ -14,6 +14,7 @@ const useHederaWallets = () => {
     clearPairedAccountsAndHashPackWalletData,
     clearConnectedBladeWalletData,
     installedHashPackExtensions,
+    connectedWalletType
   } = useContext(HederaWalletsContext);
 
   const isHashPackConnected = useMemo(() => !!saveData.hashConnectAccountIds?.length, [saveData]);
@@ -51,18 +52,19 @@ const useHederaWallets = () => {
 
 
   return {
+    connectedWalletType,
     isHashPackConnected,
+    isBladeWalletConnected,
     hashConnect,
+    bladeSigner,
     saveData,
     installedHashPackExtensions,
     connectToHashPack,
     clearHashPackPairings,
+    sign,
     clearBladeWalletPairing,
-    isBladeWalletConnected,
     initializeBladeWallet,
     connectBladeWallet,
-    bladeSigner,
-    sign,
   }
 }
 

@@ -56,6 +56,7 @@ type HederaWalletsContextType = {
   connectBladeWallet: () => void;
   clearConnectedBladeWalletData: () => void;
   clearPairedAccountsAndHashPackWalletData: () => void;
+  connectedWalletType?: 'bladewallet' | 'hashpack' | 'noconnection';
 };
 
 const INITIAL_CONTEXT: HederaWalletsContextType = {
@@ -69,6 +70,7 @@ const INITIAL_CONTEXT: HederaWalletsContextType = {
   initializeHashConnect: () => undefined,
   connectBladeWallet: () => undefined,
   clearConnectedBladeWalletData: () => undefined,
+  connectedWalletType: undefined,
 };
 
 export const HederaWalletsContext = React.createContext(INITIAL_CONTEXT);
@@ -83,22 +85,44 @@ export default function HederaWalletsProvider({
 }: {
   children: React.ReactElement;
 }) {
+  const [connectedWalletType, setConnectedWalletType] = useState<
+    'bladewallet' | 'hashpack' | 'noconnection'
+  >('noconnection');
   const [saveData, setSaveData] = useState(INITIAL_SAVE_DATA);
   const [isBladeWalletConnected, setIsBladeWalletConnected] = useState(false);
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
 
+  /** ---- CLEANERS ---- */
+  const clearPairedAccountsAndHashPackWalletData = useCallback(() => {
+    setSaveData((prev) => {
+      prev.hashConnectAccountIds = [];
+      prev.pairedWalletData = undefined;
+      return { ...prev };
+    });
+    localStorage.removeItem(HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME);
+  }, [setSaveData]);
+
+  const clearConnectedBladeWalletData = useCallback(() => {
+    setIsBladeWalletConnected(false);
+    localStorage.removeItem(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME);
+
+    setSaveData((prev) => ({
+      ...prev,
+      bladeAccountId: undefined,
+    }));
+  }, [setSaveData]);
+
+  /** ---- END OF CLEANERS ---- */
   /* ---- INITIALIZATION ---- */
+  const loadLocalData = (variable: string) => {
+    const foundData = localStorage.getItem(variable);
+    if (foundData) return JSON.parse(foundData);
+    return null;
+  };
   //HASHCONNECT
   const initializeHashConnect = useCallback(async () => {
-    const loadLocalData = () => {
-      const foundData = localStorage.getItem(
-        HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME
-      );
-      if (foundData) return JSON.parse(foundData);
-      return null;
-    };
-    const localData = loadLocalData();
+    const localData = loadLocalData(HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME);
     const newSaveData = INITIAL_SAVE_DATA;
     try {
       if (!localData) {
@@ -123,6 +147,7 @@ export default function HederaWalletsProvider({
           localData.privateKey
         );
         await hashConnect.connect(localData.topic, localData.pairedWalletData);
+        setConnectedWalletType('hashpack');
       }
       //find any supported local wallets
       hashConnect.findLocalWallets();
@@ -145,17 +170,6 @@ export default function HederaWalletsProvider({
   }, [setSaveData]);
 
   //BLADE
-
-  const loadLocalBladeData = () => {
-    const foundData = localStorage.getItem(
-      BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME
-    );
-    if (foundData) {
-      return foundData;
-    }
-    return null;
-  };
-
   const connectBladeWallet = useCallback(async () => {
     let loggedId: undefined | AccountId;
 
@@ -175,7 +189,7 @@ export default function HederaWalletsProvider({
       if (!loggedId) {
         toast.error('Cannot find connected account id in Blade Wallet!');
       } else {
-        if (!loadLocalBladeData()) {
+        if (!loadLocalData(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME)) {
           toast('Blade Wallet has been connected!');
         }
         setSaveData((prev) => ({ ...prev, bladeAccountId: loggedId }));
@@ -185,11 +199,15 @@ export default function HederaWalletsProvider({
         );
         setIsBladeWalletConnected(true);
       }
+      setConnectedWalletType('bladewallet');
+      clearPairedAccountsAndHashPackWalletData();
     }
-  }, [setSaveData]);
+  }, [setSaveData, clearPairedAccountsAndHashPackWalletData]);
 
   const initializeBladeWallet = useCallback(async () => {
-    const wasConnected = !!loadLocalBladeData();
+    const wasConnected = !!loadLocalData(
+      BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME
+    );
     if (wasConnected) {
       await connectBladeWallet();
     }
@@ -231,8 +249,10 @@ export default function HederaWalletsProvider({
     (data) => {
       setSaveDataAndInLocalStorage(data);
       toast('➕ New account(s) paired!');
+      setConnectedWalletType('hashpack');
+      clearConnectedBladeWalletData();
     },
-    [setSaveDataAndInLocalStorage]
+    [setSaveDataAndInLocalStorage, clearConnectedBladeWalletData]
   );
 
   const mount = useCallback(() => {
@@ -253,23 +273,15 @@ export default function HederaWalletsProvider({
     mount();
     return unMount;
   }, [mount, unMount]);
+
+  useEffect(() => {
+    if (
+      saveData.bladeAccountId === undefined &&
+      saveData.hashConnectAccountIds?.length === 0
+    )
+      setConnectedWalletType('noconnection');
+  }, [saveData]);
   /** END EVENT LISTENING */
-
-  const clearPairedAccountsAndHashPackWalletData = useCallback(() => {
-    setSaveData((prev) => {
-      prev.hashConnectAccountIds = [];
-      prev.pairedWalletData = undefined;
-      return { ...prev };
-    });
-    localStorage.removeItem(HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME);
-  }, [setSaveData]);
-
-  const clearConnectedBladeWalletData = useCallback(() => {
-    setIsBladeWalletConnected(false);
-    localStorage.removeItem(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME);
-
-    setSaveData((prev) => ({ ...prev, bladeAccountId: undefined }));
-  }, [setSaveData]);
 
   return (
     <HederaWalletsContext.Provider
@@ -284,6 +296,7 @@ export default function HederaWalletsProvider({
         clearPairedAccountsAndHashPackWalletData,
         installedHashPackExtensions,
         initializeHashConnect,
+        connectedWalletType,
       }}
     >
       {children}

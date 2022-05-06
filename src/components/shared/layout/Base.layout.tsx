@@ -1,8 +1,9 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useContext, useEffect } from 'react';
 import Modal from '@components/shared/modal';
 import useHederaWallets from '@/utils/hooks/useHederaWallets';
+import { ModalContext } from '@utils/context/ModalContext';
 
-export const BaseLayout: FC = ({ children }) => {
+const ConnectionModal = () => {
   const {
     isHashPackConnected,
     isBladeWalletConnected,
@@ -12,7 +13,6 @@ export const BaseLayout: FC = ({ children }) => {
     clearHashPackPairings,
     clearBladeWalletPairing,
   } = useHederaWallets();
-
   const handleBladeWalletAccount = useCallback(
     () =>
       isBladeWalletConnected ? clearBladeWalletPairing() : connectBladeWallet(),
@@ -23,25 +23,36 @@ export const BaseLayout: FC = ({ children }) => {
     () => (isHashPackConnected ? clearHashPackPairings() : connectToHashPack()),
     [isHashPackConnected, clearHashPackPairings, connectToHashPack]
   );
+  return (
+    <div className='header__buttons-wrapper'>
+      <button onClick={handleBladeWalletAccount}>
+        {isBladeWalletConnected
+          ? `BladeWallet: ${ bladeAccountId }`
+          : 'Connect BladeWallet'}
+      </button>
+
+      <button onClick={handleHashPackAccount}>
+        {isHashPackConnected
+          ? `HashPack: ${ hashConnectAccountIds[0] }`
+          : 'Connect HashPack'}
+      </button>
+    </div>
+  );
+};
+
+export const BaseLayout: FC = ({ children }) => {
+  const { showModal, setModalContent } = useContext(ModalContext);
+  const { connectedWalletType } = useHederaWallets();
+
+  useEffect(() => {
+    setModalContent(<ConnectionModal />);
+  }, [setModalContent]);
 
   return (
     <>
       <header>
         <h1>NFT Minter</h1>
-
-        <div className='header__buttons-wrapper'>
-          <button onClick={handleBladeWalletAccount}>
-            {isBladeWalletConnected
-              ? `BladeWallet: ${ bladeAccountId }`
-              : 'Connect BladeWallet'}
-          </button>
-
-          <button onClick={handleHashPackAccount}>
-            {isHashPackConnected
-              ? `HashPack: ${ hashConnectAccountIds[0] }`
-              : 'Connect HashPack'}
-          </button>
-        </div>
+        <button onClick={showModal}>{connectedWalletType}</button>
       </header>
 
       <main className=''>
