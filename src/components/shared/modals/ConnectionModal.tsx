@@ -6,23 +6,32 @@ const ConnectionModal = () => {
     useHederaWallets();
 
   const connectToHashpack = useCallback(() => connect('hashpack'), [connect]);
-  const connectToBladewallet = useCallback(() => connect('bladewallet'),[connect]);
+  const connectToBladewallet = useCallback(
+    () => connect('bladewallet'),
+    [connect]
+  );
 
   return (
     <>
       <p>
         {connectedWalletType !== 'noconnection' &&
-          `Connected to ${ connectedWalletType }.`}
+          `Connected to ${connectedWalletType}.`}
       </p>
       <h4>
-        {connectedWalletType !== 'noconnection' && `Hedera ID: ${ userWalletId }`}
+        {connectedWalletType !== 'noconnection' && `Hedera ID: ${userWalletId}`}
       </h4>
       <div className='modal__connection-buttons-wrapper'>
         {connectedWalletType !== 'bladewallet' && (
-          <button onClick={connectToBladewallet}>Connect to BladeWallet</button>
+          <button onClick={connectToBladewallet}>
+            {connectedWalletType === 'hashpack' ? 'Switch' : 'Connect'} to
+            BladeWallet
+          </button>
         )}
         {connectedWalletType !== 'hashpack' && (
-          <button onClick={connectToHashpack}>Connect to HashPack</button>
+          <button onClick={connectToHashpack}>
+            {connectedWalletType === 'bladewallet' ? 'Switch' : 'Connect'} to
+            HashPack
+          </button>
         )}
       </div>
       <div className='modal__disconnection-buttons-wrapper'>
