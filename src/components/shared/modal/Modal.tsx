@@ -1,9 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ModalContext } from '@/utils/context/ModalContext';
+import { useOnClickAway } from 'use-on-click-away';
 
 const Modal = () => {
   const { closeModal, isModalShowed, modalContent } = useContext(ModalContext);
+  const ref = useRef(null);
 
   useEffect(() => {
     const handleExit = (e: KeyboardEvent) => {
@@ -15,6 +17,10 @@ const Modal = () => {
     return () => document.removeEventListener('keydown', handleExit);
   }, [closeModal]);
 
+  useOnClickAway(ref, () => {
+    closeModal();
+  });
+
   return (
     <CSSTransition
       in={isModalShowed}
@@ -22,7 +28,7 @@ const Modal = () => {
       classNames='modal'
       unmountOnExit
     >
-      <div>
+      <div ref={ref}>
         {modalContent}
         <div className='modal__button-wrapper'>
           <button onClick={closeModal}>Close modal</button>
