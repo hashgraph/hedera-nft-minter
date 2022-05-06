@@ -4,7 +4,7 @@ export const ModalContext = React.createContext<{
   closeModal: () => void;
   showModal: () => void;
   isModalShowed: boolean;
-  modalContent: HTMLElement | string;
+  modalContent: HTMLElement | string | JSX.Element;
   setModalContent: () => void;
 }>({
   closeModal: () => undefined,
