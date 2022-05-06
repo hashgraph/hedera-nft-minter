@@ -69,3 +69,21 @@ $transition: opacity 200ms, transform 700ms;
   justify-content: space-between;
   column-gap: 20px;
 }
+
+
+.modal-background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.1);
+  opacity: 0;
+  transition: 0.35s transform ease-in-out, 0.5s opacity ease-in-out;
+  transform: translateY(-100%);
+  backdrop-filter: blur(5px);
+}
+.is-modal-background-showed{
+  transform: translateY(0);
+  opacity: 1;
+}
