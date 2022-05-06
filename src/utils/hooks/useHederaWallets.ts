@@ -2,35 +2,20 @@ import { useCallback, useContext, useMemo } from 'react'
 import { toast } from 'react-toastify';
 import { HederaWalletsContext} from '@utils/context/HederaWalletsContext';
 import { MessageTypes } from 'hashconnect';
+import { SigningService } from '@/services/SigningService';
+
 
 const useHederaWallets = () => {
   const {
-    bladeSigner,
+    // bladeSigner,
     hashConnect,
+    connectedWalletType,
     saveData,
-    isBladeWalletConnected,
-    initializeBladeWallet,
     connectBladeWallet,
+    connectToHashPack,
     clearPairedAccountsAndHashPackWalletData,
     clearConnectedBladeWalletData,
-    installedHashPackExtensions,
-    connectedWalletType
   } = useContext(HederaWalletsContext);
-
-  const isHashPackConnected = useMemo(() => !!saveData.hashConnectAccountIds?.length, [saveData]);
-
-  const connectToHashPack = useCallback(() => {
-    if(typeof saveData?.pairingString === 'undefined'){
-      throw new Error('No pairing key generated! Initialize HashConnect first!')
-    }
-
-    if (!installedHashPackExtensions || !hashConnect){
-      throw new Error('Hashpack wallet is not installed!');
-    }
-
-    hashConnect.connectToLocalWallet(saveData?.pairingString);
-  },[installedHashPackExtensions, saveData, hashConnect]);
-
 
   const sign = useCallback((tx: MessageTypes.Transaction) => {
     if (!saveData.topic) {
@@ -40,31 +25,91 @@ const useHederaWallets = () => {
     return hashConnect?.sendTransaction(saveData.topic, tx);
   }, [hashConnect, saveData]);
 
-  const clearHashPackPairings = useCallback(() => {
-    clearPairedAccountsAndHashPackWalletData()
-    toast('❌ Removed HashPack pairings.')
-  },[clearPairedAccountsAndHashPackWalletData])
+  const connect = useCallback((walletType) => {
+    switch (walletType) {
+      case 'bladewallet':
+        connectBladeWallet();
+        break;
+      case 'hashpack':
+        connectToHashPack()
+        break;
+    }
+  }, [
+    connectBladeWallet,
+    connectToHashPack,
+  ]);
 
-  const clearBladeWalletPairing = useCallback(()=>{
-    clearConnectedBladeWalletData()
-    toast('❌ Removed Blade Wallet pairing.')
-  },[clearConnectedBladeWalletData])
+  const disconnect = useCallback(() => {
+    switch (connectedWalletType) {
+      case 'bladewallet':
+        clearConnectedBladeWalletData();
+        toast('❌ Removed Blade Wallet pairing.')
+        break;
+      case 'hashpack':
+        clearPairedAccountsAndHashPackWalletData();
+        toast('❌ Removed HashPack pairings.')
+        break;
+      default:
+        clearConnectedBladeWalletData();
+        clearPairedAccountsAndHashPackWalletData();
+        toast('❌ Removed pairings.')
+      break;
+    }
+  }, [
+    connectedWalletType,
+    clearConnectedBladeWalletData,
+    clearPairedAccountsAndHashPackWalletData,
+  ]);
+
+
+  const userWalletId = useMemo(()=>{
+    switch(connectedWalletType){
+      case 'bladewallet':
+        return saveData.bladeAccountId
+        case 'hashpack':
+          return saveData?.hashConnectAccountIds[0]
+        case 'noconnection':
+          return undefined
+      }
+  },[connectedWalletType,saveData.bladeAccountId, saveData.hashConnectAccountIds])
+
+
+  const sendTransaction = useCallback(async(tx, txBytes = undefined)=>{
+    if (!userWalletId) {
+      throw new Error('Loading logged Hedera account id Error.');
+    }
+    switch(connectedWalletType){
+      case 'bladewallet':
+        throw new Error('NOT IMPLEMENTED YET')
+      case 'hashpack':
+        if (!saveData.topic) {
+          throw new Error('Loading topic Error.');
+        }
+        if(!txBytes){
+          txBytes = await SigningService.makeBytes(tx, userWalletId);
+        }
+
+        return await hashConnect?.sendTransaction(saveData.topic, {
+          topic: saveData.topic,
+          byteArray: txBytes,
+          metadata: {
+            accountToSign: userWalletId,
+            returnTransaction: false,
+          },
+        });
+      case 'noconnection':
+        throw new Error('No wallet connected!')
+    }
+  },[hashConnect, connectedWalletType, userWalletId, saveData.topic])
 
 
   return {
+    userWalletId,
     connectedWalletType,
-    isHashPackConnected,
-    isBladeWalletConnected,
-    hashConnect,
-    bladeSigner,
-    saveData,
-    installedHashPackExtensions,
-    connectToHashPack,
-    clearHashPackPairings,
+    connect,
+    disconnect,
     sign,
-    clearBladeWalletPairing,
-    initializeBladeWallet,
-    connectBladeWallet,
+    sendTransaction,
   }
 }
 

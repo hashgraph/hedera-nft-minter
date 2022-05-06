@@ -45,32 +45,27 @@ export const BLADEWALLET_INITIAL_SAVEDATA: BladeWalletSaveDataType = {};
 /** END OF CONSTS */
 
 //CONTEXT
+
 type HederaWalletsContextType = {
   bladeSigner?: BladeSigner;
   hashConnect?: HashConnect;
   saveData: SaveDataType;
-  isBladeWalletConnected: boolean;
-  installedHashPackExtensions: HashConnectTypes.AppMetadata[];
-  initializeBladeWallet: () => void;
-  initializeHashConnect: () => void;
   connectBladeWallet: () => void;
+  connectToHashPack: () => void;
   clearConnectedBladeWalletData: () => void;
   clearPairedAccountsAndHashPackWalletData: () => void;
-  connectedWalletType?: 'bladewallet' | 'hashpack' | 'noconnection';
+  connectedWalletType: 'bladewallet' | 'hashpack' | 'noconnection';
 };
 
 const INITIAL_CONTEXT: HederaWalletsContextType = {
   hashConnect: undefined,
   bladeSigner: undefined,
   saveData: INITIAL_SAVE_DATA,
-  isBladeWalletConnected: false,
-  installedHashPackExtensions: [],
   clearPairedAccountsAndHashPackWalletData: () => undefined,
-  initializeBladeWallet: () => undefined,
-  initializeHashConnect: () => undefined,
   connectBladeWallet: () => undefined,
+  connectToHashPack: () => undefined,
   clearConnectedBladeWalletData: () => undefined,
-  connectedWalletType: undefined,
+  connectedWalletType: 'noconnection',
 };
 
 export const HederaWalletsContext = React.createContext(INITIAL_CONTEXT);
@@ -89,7 +84,6 @@ export default function HederaWalletsProvider({
     'bladewallet' | 'hashpack' | 'noconnection'
   >('noconnection');
   const [saveData, setSaveData] = useState(INITIAL_SAVE_DATA);
-  const [isBladeWalletConnected, setIsBladeWalletConnected] = useState(false);
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
 
@@ -104,7 +98,6 @@ export default function HederaWalletsProvider({
   }, [setSaveData]);
 
   const clearConnectedBladeWalletData = useCallback(() => {
-    setIsBladeWalletConnected(false);
     localStorage.removeItem(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME);
 
     setSaveData((prev) => ({
@@ -169,9 +162,23 @@ export default function HederaWalletsProvider({
     }
   }, [setSaveData]);
 
+  const connectToHashPack = useCallback(() => {
+    if (typeof saveData?.pairingString === 'undefined') {
+      throw new Error(
+        'No pairing key generated! Initialize HashConnect first!'
+      );
+    }
+
+    if (!installedHashPackExtensions || !hashConnect) {
+      throw new Error('Hashpack wallet is not installed!');
+    }
+
+    hashConnect.connectToLocalWallet(saveData?.pairingString);
+  }, [installedHashPackExtensions, saveData]);
+
   //BLADE
   const connectBladeWallet = useCallback(async () => {
-    let loggedId: undefined | AccountId;
+    let loggedId: AccountId | string = '';
 
     try {
       await bladeSigner.createSession();
@@ -192,12 +199,14 @@ export default function HederaWalletsProvider({
         if (!loadLocalData(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME)) {
           toast('Blade Wallet has been connected!');
         }
-        setSaveData((prev) => ({ ...prev, bladeAccountId: loggedId }));
+        setSaveData((prev) => ({
+          ...prev,
+          bladeAccountId: loggedId && loggedId.toString(),
+        }));
         localStorage.setItem(
           BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME,
           loggedId.toString()
         );
-        setIsBladeWalletConnected(true);
       }
       setConnectedWalletType('bladewallet');
       clearPairedAccountsAndHashPackWalletData();
@@ -289,14 +298,11 @@ export default function HederaWalletsProvider({
         bladeSigner,
         hashConnect,
         saveData,
-        isBladeWalletConnected,
-        initializeBladeWallet,
         connectBladeWallet,
-        clearConnectedBladeWalletData,
         clearPairedAccountsAndHashPackWalletData,
-        installedHashPackExtensions,
-        initializeHashConnect,
+        clearConnectedBladeWalletData,
         connectedWalletType,
+        connectToHashPack,
       }}
     >
       {children}

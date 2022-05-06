@@ -4,7 +4,6 @@ import NFTForm from '@components/views/homepage/nft-form';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
-import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
 import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
@@ -42,7 +41,7 @@ type Parameters = {
 };
 
 export default function Homepage() {
-  const { hashConnect, saveData } = useHederaWallets();
+  const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {
@@ -92,21 +91,8 @@ export default function Homepage() {
       tokenSymbol: string,
       accountId: string
     ): Promise<TokenId | null> => {
-      if (!saveData.topic) {
-        throw new Error('Loading topic Error.');
-      }
-
       const token = await HTS.createToken(tokenName, tokenSymbol, accountId);
-      const transactionBytes = await SigningService.makeBytes(token, accountId);
-
-      const res = await hashConnect?.sendTransaction(saveData.topic, {
-        topic: saveData.topic,
-        byteArray: transactionBytes,
-        metadata: {
-          accountToSign: accountId,
-          returnTransaction: false,
-        },
-      });
+      const res = await sendTransaction(token);
 
       if (!res) {
         throw new Error('Create Token Error.');
@@ -122,30 +108,17 @@ export default function Homepage() {
 
       return receipt.tokenId;
     },
-    [hashConnect, saveData.topic]
+    [sendTransaction]
   );
 
   const mint = useCallback(
     async (tokenId: string, meta: string) => {
-      if (!saveData) {
-        throw new Error('Error with loading saved app data!');
+      if (!userWalletId) {
+        throw new Error('Error with loading logged account data!');
       }
-      if (!saveData.accountIds) {
-        throw new Error('Error with loading logged accounts data!');
-      }
-      const acc1 = saveData?.accountIds[0] || '0.0.0';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
+      const txMint = HTS.mintToken(tokenId, userWalletId, meta, 0);
 
-      const txMint = HTS.mintToken(tokenId, acc1, meta, 0);
-
-      const mintResult = await hashConnect?.sendTransaction(topic, {
-        topic,
-        byteArray: txMint.toBytes(),
-        metadata: {
-          accountToSign: acc1,
-          returnTransaction: false,
-        },
-      });
+      const mintResult = await sendTransaction(txMint, txMint.toBytes());
 
       if (!mintResult) {
         throw new Error('Token mint failed.');
@@ -153,22 +126,18 @@ export default function Homepage() {
 
       return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
     },
-    [hashConnect, saveData]
+    [userWalletId, sendTransaction]
   );
 
   const handleFormSubmit = useCallback(
     async (values) => {
       const filteredValues = filterParams(values);
-      const accountId =
-        saveData && saveData.accountIds ? saveData.accountIds[0] : '';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
 
       try {
         if (!values.image) {
           throw new Error('You need to select a file to upload');
         }
-
-        if (!accountId || !topic) {
+        if (!userWalletId) {
           toast.error('First connect your wallet!');
           throw new Error('First connect your wallet');
         }
@@ -185,11 +154,12 @@ export default function Homepage() {
 
         // upload metadata
         const metadata = await uploadMetadata(filteredValues);
+
         // create token
         const tokenId = await createToken(
           values.name,
           values.symbol,
-          accountId
+          userWalletId
         );
         if (!tokenId) {
           toast.error('Error when creating new token!');
@@ -220,7 +190,14 @@ export default function Homepage() {
         }
       }
     },
-    [createToken, filterParams, mint, saveData, uploadMetadata, uploadNFTFile]
+    [
+      createToken,
+      filterParams,
+      mint,
+      uploadMetadata,
+      uploadNFTFile,
+      userWalletId,
+    ]
   );
 
   return (
@@ -230,7 +207,6 @@ export default function Homepage() {
           <p>Mint your own NFT at speed of light!</p>
         </div>
       </div>
-
       <div className='container'>
         {tokenCreated ? (
           <div>
