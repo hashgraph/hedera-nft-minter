@@ -1,19 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import useHashConnect from '@hooks/useHashConnect';
+import useHederaWallets from '@hooks/useHederaWallets';
 import MirrorNode from '@/services/MirrorNode';
 import NFT from '@components/views/my-wallet/NFT';
 import Loader from '@components/shared/loader/Loader';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import { toast } from 'react-toastify';
 
 export default function MyWallet() {
-  const { connected, saveData } = useHashConnect();
+  const { userWalletId } = useHederaWallets();
   const [nfts, setNFTs] = useState<({nfts: NFTInfo[]} | null)[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     try {
-      const accountId = Array.isArray(saveData?.accountIds) ? saveData?.accountIds[0] : null;
+      const accountId = userWalletId ?? null;
       if (!accountId) {
         throw new Error('No account ID');
       }
@@ -26,7 +25,7 @@ export default function MyWallet() {
     } finally {
       setLoading(false);
     }
-  }, [saveData]);
+  }, [userWalletId]);
 
   useEffect(() => {
       load();
@@ -41,7 +40,7 @@ export default function MyWallet() {
       </div>
       <div className='container'>
 
-        {!connected ? (
+        {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
         ) : (
           loading ? (

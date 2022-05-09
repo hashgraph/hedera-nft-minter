@@ -1,4 +1,5 @@
 import { useContext, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { ProfileTwoTone } from '@ant-design/icons';
 import { ModalContext } from '@utils/context/ModalContext';
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
@@ -13,10 +14,16 @@ const Navbar = () => {
 
   return (
     <header>
-      <h1>NFT Minter</h1>
-      <button onClick={handleShowModal}>
-        <ProfileTwoTone />
-      </button>
+      <Link className='logo_link' to='/'>
+        <h1>NFT Minter</h1>
+      </Link>
+
+      <div className='header__buttons-wrapper'>
+        <Link to='/my-wallet'>My Wallet</Link>
+        <button onClick={handleShowModal}>
+          <ProfileTwoTone />
+        </button>
+      </div>
     </header>
   );
 };

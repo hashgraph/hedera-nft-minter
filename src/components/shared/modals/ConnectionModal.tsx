@@ -13,10 +13,6 @@ const ConnectionModal = () => {
 
   return (
     <>
-      <p>
-        {connectedWalletType !== 'noconnection' &&
-          `Connected to ${ connectedWalletType }.`}
-      </p>
       <h4>
         {connectedWalletType !== 'noconnection' && `Hedera ID: ${ userWalletId }`}
       </h4>
@@ -34,9 +30,11 @@ const ConnectionModal = () => {
           </button>
         )}
       </div>
-      <div className='modal__disconnection-buttons-wrapper'>
-        <button onClick={disconnect}>Disconnect</button>
-      </div>
+      {userWalletId && (
+        <div className='modal__disconnection-buttons-wrapper'>
+          <button onClick={disconnect}>Disconnect</button>
+        </div>
+      )}
     </>
   );
 };
