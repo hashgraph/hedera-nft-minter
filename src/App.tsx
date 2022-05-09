@@ -5,21 +5,21 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import Routes from '@routes/index';
 import AuthProvider from '@utils/context/AuthContext';
-import HashConnectProvider from '@utils/context/HashConnectContext';
+import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 import ModalProvider from '@utils/context/ModalContext';
 
 function App() {
   return (
     <ModalProvider>
       <AuthProvider>
-        <HashConnectProvider>
+        <HederaWalletsProvider>
           <>
             <Router>
               <Routes />
             </Router>
             <ToastContainer />
           </>
-        </HashConnectProvider>
+        </HederaWalletsProvider>
       </AuthProvider>
     </ModalProvider>
   );

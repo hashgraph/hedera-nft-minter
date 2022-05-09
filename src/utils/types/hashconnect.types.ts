@@ -17,7 +17,7 @@ export type SaveDataType = {
   pairingString?: string;
   privateKey?: string;
   pairedWalletData?: HashConnectTypes.WalletMetadata | HashConnectTypes.AppMetadata | null;
-  accountIds?: string[];
+  accountsIds: string[];
   id?: string;
   network?: string;
 }

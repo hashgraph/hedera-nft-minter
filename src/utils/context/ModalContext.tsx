@@ -1,11 +1,10 @@
 import React, { useState, useCallback } from 'react';
-
 export const ModalContext = React.createContext<{
   closeModal: () => void;
   showModal: () => void;
   isModalShowed: boolean;
-  modalContent: HTMLElement | string;
-  setModalContent: () => void;
+  modalContent: HTMLElement | string | React.ReactNode;
+  setModalContent: (el: HTMLElement | string | React.ReactNode) => void;
 }>({
   closeModal: () => undefined,
   showModal: () => undefined,
@@ -20,7 +19,9 @@ export default function ModalProvider({
   children: React.ReactElement;
 }) {
   const [isModalShowed, setShowModal] = useState(false);
-  const [modalContent, setModalContent] = useState(<p>Modal is empty!</p>);
+  const [modalContent, setModalContent] = useState<
+    HTMLElement | string | React.ReactNode
+  >(<p>Modal is empty!</p>);
 
   const showModal = useCallback(() => {
     setShowModal(true);

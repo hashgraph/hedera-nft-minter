@@ -4,9 +4,8 @@ import NFTForm from '@components/views/homepage/nft-form';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
-import { SigningService } from '@/services/SigningService';
 import { toast } from 'react-toastify';
-import useHashConnect from '@hooks/useHashConnect';
+import useHederaWallets from '@hooks/useHederaWallets';
 import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
@@ -22,7 +21,7 @@ type Parameters = {
 };
 
 export default function Homepage() {
-  const { hashConnect, saveData } = useHashConnect();
+  const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {
@@ -80,24 +79,10 @@ export default function Homepage() {
     async (
       tokenName: string,
       tokenSymbol: string,
-      accountId: string,
-      amount: number,
-    ): Promise<TokenId> => {
-      if (!saveData.topic) {
-        throw new Error('Loading topic Error.');
-      }
-
-      const token = await HTS.createToken(tokenName, tokenSymbol, accountId, amount);
-      const transactionBytes = await SigningService.makeBytes(token, accountId);
-
-      const res = await hashConnect?.sendTransaction(saveData.topic, {
-        topic: saveData.topic,
-        byteArray: transactionBytes,
-        metadata: {
-          accountToSign: accountId,
-          returnTransaction: false,
-        },
-      });
+      accountId: string
+    ): Promise<TokenId | null> => {
+      const token = await HTS.createToken(tokenName, tokenSymbol, accountId);
+      const res = await sendTransaction(token);
 
       if (!res) {
         throw new Error('Create Token Error.');
@@ -117,30 +102,17 @@ export default function Homepage() {
 
       return receipt.tokenId;
     },
-    [hashConnect, saveData.topic]
+    [sendTransaction]
   );
 
   const mint = useCallback(
-    async (tokenId: string, cids: string[]) => {
-      if (!saveData) {
-        throw new Error('Error with loading saved app data!');
+    async (tokenId: string, meta: string) => {
+      if (!userWalletId) {
+        throw new Error('Error with loading logged account data!');
       }
-      if (!saveData.accountIds) {
-        throw new Error('Error with loading logged accounts data!');
-      }
-      const acc1 = saveData?.accountIds[0] || '0.0.0';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
+      const txMint = HTS.mintToken(tokenId, userWalletId, meta, 0);
 
-      const txMint = HTS.mintToken(tokenId, acc1, cids);
-
-      const mintResult = await hashConnect?.sendTransaction(topic, {
-        topic,
-        byteArray: txMint.toBytes(),
-        metadata: {
-          accountToSign: acc1,
-          returnTransaction: false,
-        },
-      });
+      const mintResult = await sendTransaction(txMint, txMint.toBytes());
 
       if (!mintResult) {
         throw new Error('Token mint failed.');
@@ -148,7 +120,7 @@ export default function Homepage() {
 
       return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
     },
-    [hashConnect, saveData]
+    [userWalletId, sendTransaction]
   );
 
   const handleFormSubmit = useCallback(
@@ -157,16 +129,12 @@ export default function Homepage() {
       delete values.hip;
 
       const filteredValues = filterParams(values);
-      const accountId =
-        saveData && saveData.accountIds ? saveData.accountIds[0] : '';
-      const topic = saveData && saveData.topic ? saveData.topic : '';
 
       try {
         if (!values.image) {
           throw new Error('You need to select a file to upload');
         }
-
-        if (!accountId || !topic) {
+        if (!userWalletId) {
           throw new Error('First connect your wallet');
         }
 
@@ -180,19 +148,17 @@ export default function Homepage() {
         filteredValues.image = imageData.value.cid;
 
         // upload metadata
-        const metaCIDs = await Promise.all(
-          Array.from(new Array(values.qty)).map((_, i) => (
-            uploadMetadata(filteredValues, i, hip)
-          ))
-        );
+        const metadata = await uploadMetadata(filteredValues);
 
         // create token
         const tokenId = await createToken(
           values.name,
           values.symbol,
-          accountId,
-          values.qty
+          userWalletId
         );
+        if (!tokenId) {
+          throw new Error('Error! Problem with creating token!');
+        }
 
         //check if is string
         const tokenIdToMint = tokenId.toString();
@@ -215,7 +181,14 @@ export default function Homepage() {
         }
       }
     },
-    [createToken, filterParams, mint, saveData, uploadMetadata, uploadNFTFile]
+    [
+      createToken,
+      filterParams,
+      mint,
+      uploadMetadata,
+      uploadNFTFile,
+      userWalletId,
+    ]
   );
 
   return (
@@ -225,7 +198,6 @@ export default function Homepage() {
           <p>Mint your own NFT at speed of light!</p>
         </div>
       </div>
-
       <div className='container'>
         {tokenCreated ? (
           <div>
