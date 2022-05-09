@@ -15,10 +15,10 @@ const ConnectionModal = () => {
     <>
       <p>
         {connectedWalletType !== 'noconnection' &&
-          `Connected to ${connectedWalletType}.`}
+          `Connected to ${ connectedWalletType }.`}
       </p>
       <h4>
-        {connectedWalletType !== 'noconnection' && `Hedera ID: ${userWalletId}`}
+        {connectedWalletType !== 'noconnection' && `Hedera ID: ${ userWalletId }`}
       </h4>
       <div className='modal__connection-buttons-wrapper'>
         {connectedWalletType !== 'bladewallet' && (
