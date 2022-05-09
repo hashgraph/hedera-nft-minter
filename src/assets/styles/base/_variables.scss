@@ -6,3 +6,11 @@ $lightGrey: #909090;
 $red: #ff4a4a;
 $white: #fff;
 $black: #000;
+
+// breakpoints
+$breakpoints: (
+  'mobile': 600px,
+  'tablet': 768px,
+  'laptop': 992px,
+  'desktop': 1200px,
+);

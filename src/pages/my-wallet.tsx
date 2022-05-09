@@ -22,7 +22,7 @@ export default function MyWallet() {
 
       setNFTs(nfts);
     } catch (e) {
-      toast.error(e.message)
+      // toast.error(e.message)
     } finally {
       setLoading(false);
     }
@@ -33,25 +33,33 @@ export default function MyWallet() {
   }, [load])
 
   return (
-    <div className='container'>
-      {!connected ? (
-        <div>Firstly, you need connect your wallet!</div>
-      ) : (
-        loading ? (
-          <Loader />
+    <>
+      <div className='hero'>
+        <div>
+          <h2>My Wallet</h2>
+        </div>
+      </div>
+      <div className='container'>
+
+        {!connected ? (
+          <div>Firstly, you need connect your wallet!</div>
         ) : (
-          <div>
-            <h2>Your NFT's</h2>
+          loading ? (
+            <Loader />
+          ) : (
+            <div>
+              <h2>Your NFT's</h2>
 
-            <div className='nft-grid'>
-              {nfts.map(nft => (
-                <NFT key={nft?.nfts[0].token_id} {...nft} />
-              ))}
+              <div className='nft-grid'>
+                {nfts.map(nft => (
+                  <NFT key={nft?.nfts[0].token_id} {...nft} />
+                ))}
+              </div>
             </div>
-          </div>
-        )
-      )}
+          )
+        )}
 
-    </div>
+      </div>
+    </>
   )
 }

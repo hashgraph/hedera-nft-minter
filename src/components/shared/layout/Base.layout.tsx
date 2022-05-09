@@ -9,7 +9,7 @@ export const BaseLayout: FC = ({ children }) => {
   return (
     <>
       <header>
-        <Link to='/'>
+        <Link className='logo_link' to='/'>
           <h1>NFT Minter</h1>
         </Link>
 
