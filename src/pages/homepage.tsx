@@ -138,7 +138,6 @@ export default function Homepage() {
           throw new Error('You need to select a file to upload');
         }
         if (!userWalletId) {
-          toast.error('First connect your wallet!');
           throw new Error('First connect your wallet');
         }
 
@@ -146,7 +145,6 @@ export default function Homepage() {
         const imageData = await uploadNFTFile(values.image);
         // replace image with IMAGE_CID
         if (!imageData.ok) {
-          toast.error('Error when uploading NFT File!');
           throw new Error('Error when uploading NFT File!');
         }
 
@@ -162,7 +160,6 @@ export default function Homepage() {
           userWalletId
         );
         if (!tokenId) {
-          toast.error('Error when creating new token!');
           throw new Error('Error! Problem with creating token!');
         }
 
