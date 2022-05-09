@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from 'react'
+import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
 import { loadLocalData } from '@/utils/helpers/local_data';
@@ -28,13 +28,13 @@ export const INITIAL_SAVE_DATA: SaveDataType = {
 
 export const HASHCONNECT_INITIAL_NETWORK: HashConnectNetworkType = 'testnet';
 
-
 const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
 
 const useHashPack = () => {
-  const [hashConnectSaveData, setHashConnectSaveData] = useState(INITIAL_SAVE_DATA);
+  const [hashConnectSaveData, setHashConnectSaveData] =
+    useState(INITIAL_SAVE_DATA);
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
-  useState<HashConnectTypes.AppMetadata[]>([]);
+    useState<HashConnectTypes.AppMetadata[]>([]);
 
   // CLEANER
   const clearPairedAccountsAndHashPackWalletData = useCallback(() => {
@@ -48,17 +48,25 @@ const useHashPack = () => {
 
   //CONNECTION
   const connectToHashPack = useCallback(() => {
-    if (typeof hashConnectSaveData?.pairingString === 'undefined') {
-      throw new Error(
-        'No pairing key generated! Initialize HashConnect first!'
-      );
-    }
+    try {
+      if (typeof hashConnectSaveData?.pairingString === 'undefined') {
+        throw new Error(
+          'No pairing key generated! Initialize HashConnect first!'
+        );
+      }
 
-    if (!installedHashPackExtensions || !hashConnect) {
-      throw new Error('Hashpack wallet is not installed!');
-    }
+      if (installedHashPackExtensions.length === 0 || !hashConnect) {
+        throw new Error('Hashpack wallet is not installed!');
+      }
 
-    hashConnect.connectToLocalWallet(hashConnectSaveData?.pairingString);
+      hashConnect.connectToLocalWallet(hashConnectSaveData?.pairingString);
+    } catch (e) {
+      if (typeof e === 'string') {
+        toast.error(e);
+      } else if (e instanceof Error) {
+        toast.error(e.message);
+      }
+    }
   }, [installedHashPackExtensions, hashConnectSaveData]);
 
   //INITIALIZATION
@@ -109,9 +117,9 @@ const useHashPack = () => {
     }
   }, [setHashConnectSaveData]);
 
-  useEffect(()=>{
-    initializeHashConnect()
-  },[initializeHashConnect])
+  useEffect(() => {
+    initializeHashConnect();
+  }, [initializeHashConnect]);
 
   /* ---- EVENTS LISTENING ---- */
   const setSaveDataAndInLocalStorage = useCallback(
@@ -167,13 +175,12 @@ const useHashPack = () => {
   }, [mount, unMount]);
   /** END EVENT LISTENING */
 
-
   return {
     hashConnect,
     hashConnectSaveData,
     connectToHashPack,
-    clearPairedAccountsAndHashPackWalletData
-  }
-}
+    clearPairedAccountsAndHashPackWalletData,
+  };
+};
 
-export default useHashPack
+export default useHashPack;
