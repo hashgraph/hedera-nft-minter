@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { JSX } from '@babel/types';
 
 import {
-  Homepage
+  Homepage,
+  MyWallet,
 } from '@/pages';
 
 export type Route = {
@@ -18,6 +19,10 @@ const routes: Route[] = [
     path: '/',
     component: Homepage,
   },
+  {
+    path: '/my-wallet',
+    component: MyWallet,
+  }
 ];
 
 export default routes;
