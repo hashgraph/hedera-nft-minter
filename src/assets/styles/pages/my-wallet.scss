@@ -1,0 +1,13 @@
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+
+  @include respond-to('tablet') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to('laptop') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

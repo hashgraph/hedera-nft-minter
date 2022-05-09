@@ -1,10 +1,34 @@
+html, body {
+  min-width: 320px;
+}
+
 header {
   max-width: $container;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem;
 
+  @include respond-to('desktop') {
+    padding: 0;
+  }
+
+  .logo_link {
+    color: $grey;
+    text-decoration: none;
+
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  .header__buttons-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+  }
 }
 
 .hero {

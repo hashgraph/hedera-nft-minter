@@ -1,0 +1,18 @@
+.homepage {
+  padding-bottom: 2rem;
+
+  .form {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column-gap: 2rem;
+    padding: 2rem;
+    border: 1px solid $blue;
+    border-radius: 2rem;
+    margin: 2rem 0;
+
+    @include respond-to('tablet') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

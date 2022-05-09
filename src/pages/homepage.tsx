@@ -11,26 +11,6 @@ import { ValidationSchema } from '@components/views/homepage/nft-form-validation
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
-interface NFTFile {
-  ok: boolean;
-  value: {
-    cid: string;
-    created: string;
-    deals?: [];
-    files?: File[];
-    name: string;
-    pin?: {
-      cid: string;
-      created: string;
-      size: number;
-      status: string;
-    };
-    scope: string;
-    size: number;
-    type: string;
-  };
-}
-
 type Property = {
   name: string;
   value: string;
@@ -53,8 +33,8 @@ export default function Homepage() {
     type: '',
     image: null,
     files: [],
-    properties: [{ name: '', value: '' }],
-    qty: 0,
+    properties: [],
+    qty: 1,
   };
 
   const filterParams = useCallback(
@@ -75,13 +55,23 @@ export default function Homepage() {
     []
   );
 
-  const uploadNFTFile = useCallback(async (file): Promise<NFTFile> => {
+  const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(async (metadata): Promise<NFTFile> => {
-    const { data } = await IPFS.createMetadataFile(metadata);
+  const uploadMetadata = useCallback(async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
+
+    if (hip === 'hip-214') {
+      metadata = {
+        name: metadata.name,
+        description: metadata.description,
+        image: metadata.image,
+        properties: metadata.properties,
+      }
+    }
+
+    const { data } = await IPFS.createMetadataFile(metadata, serial);
     return data;
   }, []);
 
@@ -104,6 +94,10 @@ export default function Homepage() {
 
       if (!receipt) {
         throw new Error('Get Transaction Receipt error');
+      }
+
+      if (!receipt.tokenId) {
+        throw new Error('Get Token ID error');
       }
 
       return receipt.tokenId;
@@ -131,6 +125,9 @@ export default function Homepage() {
 
   const handleFormSubmit = useCallback(
     async (values) => {
+      const hip = values.hip;
+      delete values.hip;
+
       const filteredValues = filterParams(values);
 
       try {
@@ -164,12 +161,11 @@ export default function Homepage() {
         }
 
         //check if is string
-        const tokenIdToMint =
-          tokenId instanceof TokenId ? tokenId.toString() : tokenId;
+        const tokenIdToMint = tokenId.toString();
         setTokenId(tokenIdToMint);
 
         // mint
-        const mintRes = await mint(tokenIdToMint, metadata.value.cid);
+        const mintRes = await mint(tokenIdToMint, metaCIDs.map(({ value }) => value.cid));
 
         // eslint-disable-next-line no-console
         console.log({ mintRes });
@@ -180,10 +176,8 @@ export default function Homepage() {
       } catch (e) {
         if (typeof e === 'string') {
           toast.error(e);
-          throw new Error(e);
         } else if (e instanceof Error) {
           toast.error(e.message);
-          throw new Error(e.message);
         }
       }
     },

@@ -3,12 +3,10 @@ button,
   border-radius: 15px;
   padding: 0.35rem .75rem;
   background: var(--color, #{$blue});
-  border: 1px solid var(--color, #{$blue});
+  border: 1px solid var(--border-color, #{$blue});
   color: var(--font-color, #{$grey});
 
-  &:hover,
-  &:focus,
-  &:active {
+  &:hover {
     background: white;
     color: var(--color, #{$grey});
   }

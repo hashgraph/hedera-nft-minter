@@ -1,0 +1,25 @@
+@import "src/assets/styles/base/variables";
+
+.switch {
+  display: flex;
+  align-items: center;
+  grid-gap: .5rem;
+  border: 1px solid rgba($blue, .5);
+  padding: 0 .5rem;
+  height: 41px;
+  border-radius: 25px;
+  width: 100%;
+
+  button {
+    --color: white;
+
+    &:hover {
+      --color: #{ $blue };
+    }
+
+    &.active {
+      --color: #{$blue} !important;
+      pointer-events: none;
+    }
+  }
+}

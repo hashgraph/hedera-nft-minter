@@ -1,0 +1,47 @@
+default:
+  image: node:16.14.2-alpine3.15
+  #cache:
+  #  key: ${CI_COMMIT_REF_SLUG}
+  #  paths:
+  #    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  tags:
+    - docker
+  script:
+    - cp "$DOT_ENV_LOCAL_FILE" ./.env
+    - npm install
+    - npm run build
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    url: https://${FRONT_DOMAIN_NAME}
+  only:
+    - main
+    - prod
+  artifacts:
+    paths:
+    - build
+    expire_in: 1 hour
+
+deploy:
+  image:
+    name: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+    # domyslnie entrypoint w tym imagu wskazuje na /bin/aws
+    # chcemy zadzialac troche bardziej w tym dockerze wiec to usuwamy
+    entrypoint: [""]
+  only:
+    - main
+    - prod
+  stage: deploy
+  tags:
+    - docker
+  environment:
+    name: ${CI_COMMIT_REF_NAME}
+    url: https://${FRONT_DOMAIN_NAME}
+  script:
+    - aws s3 sync --delete ./build/ s3://${FRONT_DOMAIN_NAME}/
