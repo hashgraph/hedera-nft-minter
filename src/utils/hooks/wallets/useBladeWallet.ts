@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { loadLocalData } from '@/utils/helpers/local_data';
+import { loadLocalData } from '@/utils/helpers/loadLocalData';
 import { toast } from 'react-toastify';
 import { BladeSigner } from '@bladelabs/blade-web3.js';
 

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
-import { loadLocalData } from '@/utils/helpers/local_data';
+import { loadLocalData } from '@/utils/helpers/loadLocalData';
 import {
   SaveDataType,
   AppConfigType as HashConnectAppConfigType,
