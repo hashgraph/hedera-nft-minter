@@ -1,0 +1,71 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+
+.nft {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+
+  &__loading {
+    pointer-events: none;
+  }
+
+  img, figcaption {
+    @include transition(300ms);
+  }
+
+  figcaption {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($black, 0.75);
+    padding: 1rem;
+    color: $white;
+  }
+
+  &:hover {
+    img {
+      transform: scale(1.2);
+    }
+
+    figcaption {
+      top: 0;
+    }
+  }
+
+  &__image {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    &::before {
+      content: '';
+      height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 100%;
+    }
+
+    img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      object-fit: cover;
+    }
+  }
+}
