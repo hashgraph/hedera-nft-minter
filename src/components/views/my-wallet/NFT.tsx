@@ -26,7 +26,7 @@ export default function NFT(props: NFTProps) {
         setMeta(json);
       }
     } catch (e) {
-      toast.error(e.message)
+      // toast.error(e.message)
     } finally {
       setLoading(false);
     }
@@ -57,11 +57,11 @@ export default function NFT(props: NFTProps) {
         <p>{meta?.name}</p>
         <p>{meta?.description}</p>
 
-        <div className='nft__buttons'>
-          <button type='button'>
-            Send
-          </button>
-        </div>
+        {/*<div className='nft__buttons'>*/}
+        {/*  <button type='button'>*/}
+        {/*    Send*/}
+        {/*  </button>*/}
+        {/*</div>*/}
       </figcaption>
     </figure>
   )
