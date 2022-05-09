@@ -79,9 +79,10 @@ export default function Homepage() {
     async (
       tokenName: string,
       tokenSymbol: string,
-      accountId: string
+      accountId: string,
+      amount: number,
     ): Promise<TokenId | null> => {
-      const token = await HTS.createToken(tokenName, tokenSymbol, accountId);
+      const token = await HTS.createToken(tokenName, tokenSymbol, accountId, amount);
       const res = await sendTransaction(token);
 
       if (!res) {
@@ -106,11 +107,11 @@ export default function Homepage() {
   );
 
   const mint = useCallback(
-    async (tokenId: string, meta: string) => {
+    async (tokenId: string, cids: string[]) => {
       if (!userWalletId) {
         throw new Error('Error with loading logged account data!');
       }
-      const txMint = HTS.mintToken(tokenId, userWalletId, meta, 0);
+      const txMint = HTS.mintToken(tokenId, userWalletId, cids);
 
       const mintResult = await sendTransaction(txMint, txMint.toBytes());
 
@@ -148,14 +149,20 @@ export default function Homepage() {
         filteredValues.image = imageData.value.cid;
 
         // upload metadata
-        const metadata = await uploadMetadata(filteredValues);
+        const metaCIDs = await Promise.all(
+          Array.from(new Array(values.qty)).map((_, i) => (
+            uploadMetadata(filteredValues, i, hip)
+          ))
+        );
 
         // create token
         const tokenId = await createToken(
           values.name,
           values.symbol,
-          userWalletId
+          userWalletId,
+          values.qty
         );
+
         if (!tokenId) {
           throw new Error('Error! Problem with creating token!');
         }
