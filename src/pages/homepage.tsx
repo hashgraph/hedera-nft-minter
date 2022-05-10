@@ -9,7 +9,24 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
-type FormValues = NFTMetadata & { symbol?: string; qty: number };
+type OptionalKey = 'no' | 'account' | 'custom';
+
+type FormValues = NFTMetadata & {
+  symbol?: string,
+  qty: number,
+  treasury: OptionalKey,
+  treasury_key?: string,
+  kyc: OptionalKey,
+  kyc_key?: string,
+  admin: OptionalKey,
+  admin_key?: string,
+  freeze: OptionalKey,
+  freeze_key?: string,
+  wipe: OptionalKey,
+  wipe_key?: string,
+  supply: OptionalKey,
+  supply_key?: string,
+};
 
 type Property = {
   name: string;
@@ -35,6 +52,18 @@ export default function Homepage() {
     files: [],
     properties: [],
     qty: 1,
+    treasury: 'no',
+    kyc: 'no',
+    admin: 'no',
+    freeze: 'no',
+    wipe: 'no',
+    supply: 'no',
+    treasury_key: '',
+    kyc_key: '',
+    admin_key: '',
+    freeze_key: '',
+    wipe_key: '',
+    supply_key: '',
   };
 
   const filterParams = useCallback(

@@ -2,7 +2,6 @@ import './nft.scss';
 
 import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { toast } from 'react-toastify';
 import MirrorNode from '@/services/MirrorNode';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';

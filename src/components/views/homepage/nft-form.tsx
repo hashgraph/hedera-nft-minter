@@ -23,8 +23,147 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
         <div className='form__row'>
           <label htmlFor='image'>File:</label>
           <DragAndDropFileInput name='image' />
+          <Error name='image' />
         </div>
-        <Error name='image' />
+
+        <div className='form__row'>
+          <label htmlFor='treasury'>
+            Treasury key:
+            <span>
+              <label htmlFor='treasury_no'>
+                <Field name='treasury' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='treasury_account'>
+                <Field name='treasury' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='treasury_custom'>
+                <Field name='treasury' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.treasury === 'custom' && (
+            <Field name='treasury_key' type='input' />
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='kyc'>
+            KYC key:
+            <span>
+              <label htmlFor='kyc_no'>
+                <Field name='kyc' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='kyc_account'>
+                <Field name='kyc' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='kyc_custom'>
+                <Field name='kyc' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.kyc === 'custom' && (
+            <Field name='kyc_key' type='input' />
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='admin'>
+            Admin key:
+            <span>
+              <label htmlFor='admin_no'>
+                <Field name='admin' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='admin_account'>
+                <Field name='admin' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='admin_custom'>
+                <Field name='admin' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.admin === 'custom' && (
+            <Field name='admin_key' type='input' />
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='freeze'>
+            Freeze key:
+            <span>
+              <label htmlFor='freeze_no'>
+                <Field name='freeze' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='freeze_account'>
+                <Field name='freeze' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='freeze_custom'>
+                <Field name='freeze' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.freeze === 'custom' && (
+            <Field name='freeze_key' type='input' />
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='wipe'>
+            Wipe key:
+            <span>
+              <label htmlFor='wipe_no'>
+                <Field name='wipe' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='wipe_account'>
+                <Field name='wipe' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='wipe_custom'>
+                <Field name='wipe' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.wipe === 'custom' && (
+            <Field name='wipe_key' type='input' />
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='supply'>
+            Supply key:
+            <span>
+              <label htmlFor='supply_no'>
+                <Field name='supply' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='supply_account'>
+                <Field name='supply' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='supply_custom'>
+                <Field name='supply' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.supply === 'custom' && (
+            <Field name='supply_key' type='input' />
+          )}
+        </div>
+
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
