@@ -1,12 +1,23 @@
 import React from 'react';
-import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
+import {
+  FastField,
+  FieldArray,
+  Form,
+  Field,
+  FormikProps,
+  FormikValues,
+} from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import Error from '@/components/shared/form/Error';
 import Switch from '@components/shared/form/switch/Switch';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
-export default function NFTForm({ values, handleReset, isSubmitting }: FormikProps<FormikValues>) {
+export default function NFTForm({
+  values,
+  handleReset,
+  isSubmitting,
+}: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
@@ -16,7 +27,7 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             name='hip'
             options={[
               { name: 'HIP-10', value: 'hip-10' },
-              { name: 'HIP-412', value: 'hip-412' }
+              { name: 'HIP-412', value: 'hip-412' },
             ]}
           />
         </div>
@@ -68,7 +79,10 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             </span>
           </label>
           {values.kyc === 'custom' && (
-            <Field name='kyc_key' type='input' />
+            <>
+              <Field name='kyc_key' type='input' />
+              <Error name='kyc_key' />
+            </>
           )}
         </div>
 
@@ -91,7 +105,10 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             </span>
           </label>
           {values.admin === 'custom' && (
-            <Field name='admin_key' type='input' />
+            <>
+              <Field name='admin_key' type='input' />
+              <Error name='admin_key' />
+            </>
           )}
         </div>
 
@@ -114,7 +131,10 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             </span>
           </label>
           {values.freeze === 'custom' && (
-            <Field name='freeze_key' type='input' />
+            <>
+              <Field name='freeze_key' type='input' />
+              <Error name='freeze_key' />
+            </>
           )}
         </div>
 
@@ -137,7 +157,10 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             </span>
           </label>
           {values.wipe === 'custom' && (
-            <Field name='wipe_key' type='input' />
+            <>
+              <Field name='wipe_key' type='input' />
+              <Error name='wipe_key' />
+            </>
           )}
         </div>
 
@@ -160,7 +183,10 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             </span>
           </label>
           {values.supply === 'custom' && (
-            <Field name='supply_key' type='input' />
+            <>
+              <Field name='supply_key' type='input' />
+              <Error name='supply_key' />
+            </>
           )}
         </div>
 
@@ -258,11 +284,7 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
         <Error name={'qty'} />
 
         <div className='form__btns'>
-          <button
-            type='submit'
-            className='btn--md'
-            disabled={isSubmitting}
-          >
+          <button type='submit' className='btn--md' disabled={isSubmitting}>
             Submit
           </button>
           <button
