@@ -81,7 +81,7 @@ export const ValidationSchema = yup.object().shape({
     .required('Required')
   ,
 
-  treasury_key: yup.string()
+  treasury_account_id: yup.string()
     .when('treasury', {
       is: 'custom',
       then: (schema) => schema.required('Required')
@@ -103,6 +103,11 @@ export const ValidationSchema = yup.object().shape({
     }),
   wipe_key: yup.string()
     .when('wipe', {
+      is: 'custom',
+      then: (schema) => schema.required('Required')
+    }),
+  pause_key: yup.string()
+    .when('pause', {
       is: 'custom',
       then: (schema) => schema.required('Required')
     }),

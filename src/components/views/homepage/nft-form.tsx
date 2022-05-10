@@ -39,24 +39,23 @@ export default function NFTForm({
 
         <div className='form__row'>
           <label htmlFor='treasury'>
-            Treasury key:
+            Treasury account:
             <span>
-              <label htmlFor='treasury_no'>
-                <Field name='treasury' type='radio' value='no' />
-                No key
-              </label>
               <label htmlFor='treasury_account'>
                 <Field name='treasury' type='radio' value='account' />
-                My account key
+                My account id
               </label>
               <label htmlFor='treasury_custom'>
                 <Field name='treasury' type='radio' value='custom' />
-                Custom key
+                Custom account id
               </label>
             </span>
           </label>
           {values.treasury === 'custom' && (
-            <Field name='treasury_key' type='input' />
+            <>
+              <Field name='treasury_account_id' type='input' />
+              <Error name='treasury_account_id' />
+            </>
           )}
         </div>
 
@@ -160,6 +159,32 @@ export default function NFTForm({
             <>
               <Field name='wipe_key' type='input' />
               <Error name='wipe_key' />
+            </>
+          )}
+        </div>
+
+        <div className='form__row'>
+          <label htmlFor='pause'>
+            Pause key:
+            <span>
+              <label htmlFor='pause_no'>
+                <Field name='pause' type='radio' value='no' />
+                No key
+              </label>
+              <label htmlFor='pause_account'>
+                <Field name='pause' type='radio' value='account' />
+                My account key
+              </label>
+              <label htmlFor='pause_custom'>
+                <Field name='pause' type='radio' value='custom' />
+                Custom key
+              </label>
+            </span>
+          </label>
+          {values.pause === 'custom' && (
+            <>
+              <Field name='pause_key' type='input' />
+              <Error name='pause_key' />
             </>
           )}
         </div>

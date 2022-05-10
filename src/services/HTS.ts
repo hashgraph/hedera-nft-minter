@@ -15,8 +15,34 @@ type AccountInfo = Response & {
   }
 }
 
+export type NewTokenType = {
+  accountId: string,
+  tokenName: string,
+  tokenSymbol: string,
+  amount: number,
+  admin_key?: string,
+  freeze_key?: string,
+  kyc_key?: string,
+  supply_key?: string,
+  wipe_key?: string
+  treasury_account_id: string,
+  pause_key?: string,
+}
+
 export default class HTS {
-  static async createToken(tokenName: string, tokenSymbol: string, accountId: string, amount: number): Promise<TokenCreateTransaction> {
+  static async createToken({
+    accountId,
+    tokenName,
+    tokenSymbol,
+    amount,
+    admin_key,
+    freeze_key,
+    pause_key,
+    kyc_key,
+    supply_key,
+    treasury_account_id,
+    wipe_key
+  } : NewTokenType): Promise<TokenCreateTransaction> {
 
     let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
 
@@ -26,22 +52,35 @@ export default class HTS {
       throw new Error('Error when loading user key from hedera mirrornode API(testnet)!');
     }
 
-    const key = PublicKey.fromString(accountInfo.key.key)
+    const generateKey = (key:string) => PublicKey.fromString(key)
+    const generatedKeyFromAccount = PublicKey.fromString(accountInfo.key.key)
 
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
+
+    const keyChecker = (key : string | undefined) => {
+      if(!key){
+        return undefined
+      }
+      return key === 'account_key' ? generatedKeyFromAccount : generateKey(key)
+
+    }
     const token = new TokenCreateTransaction({
       tokenName,
       tokenSymbol,
-    })
-      .setInitialSupply(0)
-      .setMaxSupply(amount)
-      .setTokenType(TokenType.NonFungibleUnique)
-      .setDecimals(0)
-      .setSupplyKey(key)
-      .setAdminKey(key)
-      .setSupplyType(TokenSupplyType.Finite)
-      .setTreasuryAccountId(AccountId.fromString(accountId))
-      .setExpirationTime(expirationTime)
+      decimals: 0,
+      initialSupply: 0,
+      treasuryAccountId: treasury_account_id,
+      adminKey: keyChecker(admin_key),
+      kycKey: keyChecker(kyc_key),
+      freezeKey: keyChecker(freeze_key),
+      wipeKey: keyChecker(wipe_key),
+      pauseKey: keyChecker(pause_key),
+      supplyKey: keyChecker(supply_key),
+      expirationTime: expirationTime,
+      tokenType: TokenType.NonFungibleUnique,
+      supplyType: TokenSupplyType.Finite,
+      maxSupply: amount,
+  })
 
     // eslint-disable-next-line no-console
     console.log({ token });
