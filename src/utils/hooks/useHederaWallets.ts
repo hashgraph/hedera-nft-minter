@@ -7,7 +7,7 @@ import { SigningService } from '@/services/SigningService';
 
 const useHederaWallets = () => {
   const {
-    // bladeSigner,
+    bladeSigner,
     bladeAccountId,
     hashConnect,
     connectBladeWallet,
@@ -102,7 +102,7 @@ const useHederaWallets = () => {
     }
     switch(connectedWalletType){
       case 'bladewallet':
-        throw new Error('NOT IMPLEMENTED YET')
+        return await bladeSigner?.sendRequest(tx)
       case 'hashpack':
         if (!hashConnectSaveData.topic) {
           throw new Error('Loading topic Error.');
@@ -122,10 +122,11 @@ const useHederaWallets = () => {
       case 'noconnection':
         throw new Error('No wallet connected!')
     }
-  },[hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic])
+  },[hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic, bladeSigner])
 
 
   return {
+    bladeSigner,
     userWalletId,
     connectedWalletType,
     connect,
