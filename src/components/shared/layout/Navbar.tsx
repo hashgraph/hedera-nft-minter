@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { ProfileTwoTone } from '@ant-design/icons';
 import { ModalContext } from '@utils/context/ModalContext';
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
+import useHederaWallets from '@hooks/useHederaWallets';
 
 const Navbar = () => {
+  const { connectedWalletType, userWalletId } = useHederaWallets()
   const { showModal, setModalContent } = useContext(ModalContext);
 
   const handleShowModal = useCallback(() => {
@@ -19,9 +21,9 @@ const Navbar = () => {
       </Link>
 
       <div className='header__buttons-wrapper'>
-        <Link to='/my-wallet'>My Wallet</Link>
+        <Link to='/my-wallet'>My NFT Collection</Link>
         <button onClick={handleShowModal}>
-          <ProfileTwoTone />
+          {connectedWalletType === 'noconnection' ? 'Connect' : userWalletId} <ProfileTwoTone />
         </button>
       </div>
     </header>

@@ -17,7 +17,7 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@bladelabs/blade-web3.js": "^0.9.7",
-    "@hashgraph/sdk": "^2.13.1",
+    "@hashgraph/sdk": "2.11.3",
     "axios": "^0.21.4",
     "classnames": "^2.3.1",
     "date-fns": "^2.27.0",

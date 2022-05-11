@@ -6,7 +6,7 @@ import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
-import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
+import { TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
@@ -60,48 +60,43 @@ export default function Homepage() {
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
-
-    if (hip === 'hip-214') {
-      metadata = {
-        name: metadata.name,
-        description: metadata.description,
-        image: metadata.image,
-        properties: metadata.properties,
+  const uploadMetadata = useCallback(
+    async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
+      if (hip === 'hip-214') {
+        metadata = {
+          name: metadata.name,
+          description: metadata.description,
+          image: metadata.image,
+          properties: metadata.properties,
+        };
       }
-    }
 
-    const { data } = await IPFS.createMetadataFile(metadata, serial);
-    return data;
-  }, []);
+      const { data } = await IPFS.createMetadataFile(metadata, serial);
+      return data;
+    },
+    []
+  );
 
   const createToken = useCallback(
     async (
       tokenName: string,
       tokenSymbol: string,
       accountId: string,
-      amount: number,
+      amount: number
     ): Promise<TokenId | null> => {
-      const token = await HTS.createToken(tokenName, tokenSymbol, accountId, amount);
-      const res = await sendTransaction(token);
+      const createTokenTx = await HTS.createToken(
+        tokenName,
+        tokenSymbol,
+        accountId,
+        amount
+      );
+      const createTokenResponse = await sendTransaction(createTokenTx);
 
-      if (!res) {
+      if (!createTokenResponse) {
         throw new Error('Create Token Error.');
       }
 
-      const receipt = TransactionReceipt.fromBytes(
-        res.receipt as Uint8Array
-      ) as TransactionReceipt;
-
-      if (!receipt) {
-        throw new Error('Get Transaction Receipt error');
-      }
-
-      if (!receipt.tokenId) {
-        throw new Error('Get Token ID error');
-      }
-
-      return receipt.tokenId;
+      return createTokenResponse.tokenId;
     },
     [sendTransaction]
   );
@@ -111,15 +106,15 @@ export default function Homepage() {
       if (!userWalletId) {
         throw new Error('Error with loading logged account data!');
       }
-      const txMint = HTS.mintToken(tokenId, userWalletId, cids);
+      const tokenMintTx = HTS.mintToken(tokenId, userWalletId, cids);
 
-      const mintResult = await sendTransaction(txMint, txMint.toBytes());
+      const tokenMintResponse = await sendTransaction(tokenMintTx);
 
-      if (!mintResult) {
+      if (!tokenMintResponse) {
         throw new Error('Token mint failed.');
       }
 
-      return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
+      return tokenMintResponse;
     },
     [userWalletId, sendTransaction]
   );
@@ -150,9 +145,9 @@ export default function Homepage() {
 
         // upload metadata
         const metaCIDs = await Promise.all(
-          Array.from(new Array(values.qty)).map((_, i) => (
+          Array.from(new Array(values.qty)).map((_, i) =>
             uploadMetadata(filteredValues, i, hip)
-          ))
+          )
         );
 
         // create token
@@ -172,7 +167,10 @@ export default function Homepage() {
         setTokenId(tokenIdToMint);
 
         // mint
-        const mintRes = await mint(tokenIdToMint, metaCIDs.map(({ value }) => value.cid));
+        const mintRes = await mint(
+          tokenIdToMint,
+          metaCIDs.map(({ value }) => value.cid)
+        );
 
         // eslint-disable-next-line no-console
         console.log({ mintRes });

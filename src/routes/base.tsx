@@ -22,7 +22,7 @@ const routes: Route[] = [
   {
     path: '/my-wallet',
     component: MyWallet,
-  }
+  },
 ];
 
 export default routes;
