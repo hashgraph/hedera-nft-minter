@@ -10,7 +10,6 @@ import {
 import { DeleteOutlined } from '@ant-design/icons';
 
 import Error from '@/components/shared/form/Error';
-import Switch from '@components/shared/form/switch/Switch';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
 export default function NFTForm({
@@ -21,16 +20,6 @@ export default function NFTForm({
   return (
     <Form className='form'>
       <div>
-        <div className='form__row'>
-          <label htmlFor='hip'>NFT Type:</label>
-          <Switch
-            name='hip'
-            options={[
-              { name: 'HIP-10', value: 'hip-10' },
-              { name: 'HIP-412', value: 'hip-412' },
-            ]}
-          />
-        </div>
         <div className='form__row'>
           <label htmlFor='image'>File:</label>
           <DragAndDropFileInput name='image' />

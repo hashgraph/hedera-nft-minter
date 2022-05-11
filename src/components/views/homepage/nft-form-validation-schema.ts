@@ -1,7 +1,9 @@
 import * as yup from 'yup';
 
 export const ValidationSchema = yup.object().shape({
-  image: yup.mixed().required('Image is required'),
+  image: yup.mixed().test('type', 'Only image files are accepted!', (value) => {
+    return value ? (value.type.includes('image/')) : true
+}),
   name: yup
     .string()
     .min(3, 'Too Short!')
@@ -15,8 +17,7 @@ export const ValidationSchema = yup.object().shape({
   creator: yup
     .string()
     .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+    .max(50, 'Too Long!'),
   creatorDID: yup
     .string()
     .min(3, 'Too Short!')
@@ -24,8 +25,7 @@ export const ValidationSchema = yup.object().shape({
   description: yup
     .string()
     .min(3, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
+    .max(50, 'Too Long!'),
   qty: yup.number()
     .min(1, 'Min 1!')
     .max(10, 'Max 10!')

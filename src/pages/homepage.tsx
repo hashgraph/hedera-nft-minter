@@ -110,8 +110,9 @@ export default function Homepage() {
 
     filtred.format = 'opensea';
 
-    filtred.properties = filtred.properties.reduce(
-      (a: Property, b: Property, step: number) => {
+    filtred.properties =
+      filtred.properties.length > 0 &&
+      filtred.properties.reduce((a: Property, b: Property, step: number) => {
         if (step === 1) {
           return {
             [a.name]: a.value,
@@ -122,8 +123,7 @@ export default function Homepage() {
           ...a,
           [b.name]: b.value,
         };
-      }
-    );
+      });
 
     filtred = Object.keys(filtred).reduce<
       Record<string, Parameters[] | string>
@@ -217,23 +217,22 @@ export default function Homepage() {
       const filteredValues = filterParams(values);
 
       try {
-        if (!values.image) {
-          throw new Error('You need to select a file to upload');
-        }
         if (!userWalletId) {
           throw new Error('First connect your wallet');
         }
-
         //upload image
-        const imageData = await uploadNFTFile(values.image);
-        //replace image with IMAGE_CID
-        if (!imageData.ok) {
-          throw new Error('Error when uploading NFT File!');
+        if (values.image) {
+          const imageData = await uploadNFTFile(values.image);
+          if (!imageData.ok) {
+            throw new Error('Error when uploading NFT File!');
+          }
+          //add required image type metadata field
+          filteredValues.type = values.image.type;
+          //replace image with IMAGE_CID
+          filteredValues.image = imageData.value.cid;
         }
-
-        filteredValues.image = imageData.value.cid;
-        filteredValues.type = values.image.type;
-
+        // eslint-disable-next-line no-console
+        console.log({ filteredValues });
         // upload metadata
         const metaCIDs = await Promise.all(
           Array.from(new Array(values.qty)).map(() =>
