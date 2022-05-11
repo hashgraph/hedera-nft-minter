@@ -6,14 +6,7 @@ import IPFS from '@/services/IPFS';
 import HTS from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
-import {
-  TransactionReceipt,
-  TokenId,
-  TransferTransaction,
-  Hbar,
-  AccountId,
-  TransactionId,
-} from '@hashgraph/sdk';
+import { TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
@@ -28,7 +21,7 @@ type Parameters = {
 };
 
 export default function Homepage() {
-  const { userWalletId, sendTransaction, bladeSigner } = useHederaWallets();
+  const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {
@@ -91,31 +84,19 @@ export default function Homepage() {
       accountId: string,
       amount: number
     ): Promise<TokenId | null> => {
-      const token = await HTS.createToken(
+      const createTokenTx = await HTS.createToken(
         tokenName,
         tokenSymbol,
         accountId,
         amount
       );
-      const res = await sendTransaction(token);
+      const createTokenResponse = await sendTransaction(createTokenTx);
 
-      if (!res) {
+      if (!createTokenResponse) {
         throw new Error('Create Token Error.');
       }
 
-      const receipt = TransactionReceipt.fromBytes(
-        res.receipt as Uint8Array
-      ) as TransactionReceipt;
-
-      if (!receipt) {
-        throw new Error('Get Transaction Receipt error');
-      }
-
-      if (!receipt.tokenId) {
-        throw new Error('Get Token ID error');
-      }
-
-      return receipt.tokenId;
+      return createTokenResponse.tokenId;
     },
     [sendTransaction]
   );
@@ -125,15 +106,15 @@ export default function Homepage() {
       if (!userWalletId) {
         throw new Error('Error with loading logged account data!');
       }
-      const txMint = HTS.mintToken(tokenId, userWalletId, cids);
+      const tokenMintTx = HTS.mintToken(tokenId, userWalletId, cids);
 
-      const mintResult = await sendTransaction(txMint, txMint.toBytes());
+      const tokenMintResponse = await sendTransaction(tokenMintTx);
 
-      if (!mintResult) {
+      if (!tokenMintResponse) {
         throw new Error('Token mint failed.');
       }
 
-      return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
+      return tokenMintResponse;
     },
     [userWalletId, sendTransaction]
   );
@@ -215,149 +196,9 @@ export default function Homepage() {
     ]
   );
 
-  const accInfo = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const info = await bladeSigner.getAccountInfo();
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const accId = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const info = await bladeSigner.getAccountId();
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const signTrans = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const tx = new TransferTransaction()
-      .addHbarTransfer(userWalletId, new Hbar(-100))
-      .addHbarTransfer('0.0.34115113', new Hbar(100));
-    const transId = TransactionId.generate(userWalletId);
-    tx.setTransactionId(transId);
-    await tx.setNodeAccountIds([new AccountId(3)]);
-    await tx.freeze();
-    const info = await bladeSigner.signTransaction(tx);
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const checkTransaction = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const tx = new TransferTransaction()
-      .addHbarTransfer(userWalletId, new Hbar(-100))
-      .addHbarTransfer('0.0.34115113', new Hbar(100));
-
-    const transId = TransactionId.generate(userWalletId);
-    tx.setTransactionId(transId);
-    await tx.setNodeAccountIds([new AccountId(3)]);
-    await tx.freeze();
-
-    const info = await bladeSigner.checkTransaction(tx);
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const balance = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-
-    const info = await bladeSigner.getAccountBalance();
-
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const getNetwork = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-
-    const info = await bladeSigner.getNetwork();
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
-  const populateTransaction = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const tx = new TransferTransaction()
-      .addHbarTransfer(userWalletId, new Hbar(-100))
-      .addHbarTransfer('0.0.34115113', new Hbar(100));
-    // const transId = TransactionId.generate(userWalletId);
-    // tx.setTransactionId(transId);
-    // await tx.setNodeAccountIds([new AccountId(3)]);
-    // await tx.freeze();
-    const req = await bladeSigner.populateTransaction(tx);
-
-    // eslint-disable-next-line no-console
-    console.log({ req });
-  }, [userWalletId, bladeSigner]);
-
-  const handleBladeTransaction = useCallback(async () => {
-    if (!userWalletId) {
-      throw new Error('No wallet id');
-    }
-    if (!bladeSigner) {
-      throw new Error('No bladeSigner');
-    }
-    const tx = new TransferTransaction()
-      .addHbarTransfer(userWalletId, new Hbar(-100))
-      .addHbarTransfer('0.0.34115113', new Hbar(100));
-    // const transId = TransactionId.generate(userWalletId);
-    // tx.setTransactionId(transId);
-    // await tx.setNodeAccountIds([new AccountId(3)]);
-    // await tx.freeze();
-    // const req = await bladeSigner.populateTransaction(tx);
-    const info = await bladeSigner.sendRequest(tx);
-
-    // eslint-disable-next-line no-console
-    console.log({ info });
-  }, [userWalletId, bladeSigner]);
-
   return (
     <div className='homepage'>
       <div className='hero'>
-        <button onClick={accId}>Blade acc id</button>
-        <button onClick={accInfo}>Blade acc info</button>
-        <button onClick={getNetwork}>getNetwork</button>
-        <button onClick={balance}>balance</button>
-        <button onClick={checkTransaction}>checkTransaction</button>
-        <button onClick={signTrans}>Sign trans</button>
-        <button onClick={populateTransaction}>Populate trans</button>
-        <button onClick={handleBladeTransaction}>Blade trans</button>
         <div>
           <p>Mint your own NFT at speed of light!</p>
         </div>

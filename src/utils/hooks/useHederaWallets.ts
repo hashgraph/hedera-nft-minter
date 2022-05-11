@@ -1,9 +1,11 @@
 import { useCallback, useContext, useMemo, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { HederaWalletsContext} from '@utils/context/HederaWalletsContext';
-import { MessageTypes } from 'hashconnect';
 import { SigningService } from '@/services/SigningService';
+import { TransactionReceipt, TransactionReceiptQuery, TransactionResponse } from '@hashgraph/sdk';
+import { MessageTypes } from 'hashconnect';
 
+type ConnectionStateType = 'bladewallet' | 'hashpack' | 'noconnection';
 
 const useHederaWallets = () => {
   const {
@@ -19,9 +21,8 @@ const useHederaWallets = () => {
 
   const {accountsIds} = hashConnectSaveData
 
-  const [connectedWalletType, setConnectedWalletType] = useState<
-    'bladewallet' | 'hashpack' | 'noconnection'
-  >('noconnection');
+  const [connectedWalletType, setConnectedWalletType] = useState<ConnectionStateType>('noconnection');
+
   useEffect(() => {
     if (!bladeAccountId && accountsIds?.length === 0) {
       setConnectedWalletType('noconnection');
@@ -33,15 +34,6 @@ const useHederaWallets = () => {
       setConnectedWalletType('hashpack');
     }
   }, [bladeAccountId, accountsIds, setConnectedWalletType]);
-
-
-  const sign = useCallback((tx: MessageTypes.Transaction) => {
-    if (!hashConnectSaveData.topic) {
-      throw new Error('Connect wallet first.');
-    }
-
-    return hashConnect?.sendTransaction(hashConnectSaveData.topic, tx);
-  }, [hashConnect, hashConnectSaveData]);
 
   const connect = useCallback((walletType) => {
     switch (walletType) {
@@ -83,9 +75,8 @@ const useHederaWallets = () => {
     clearPairedAccountsAndHashPackWalletData,
   ]);
 
-
-  const userWalletId = useMemo(()=>{
-    switch(connectedWalletType){
+  const userWalletId = useMemo(() => {
+    switch (connectedWalletType) {
       case 'bladewallet':
         return bladeAccountId
       case 'hashpack':
@@ -96,34 +87,50 @@ const useHederaWallets = () => {
   },[connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds])
 
 
-  const sendTransaction = useCallback(async(tx, txBytes = undefined)=>{
+  const sendTransaction = useCallback(async(tx) => {
     if (!userWalletId) {
       throw new Error('Loading logged Hedera account id Error.');
     }
+
+    let response: MessageTypes.TransactionResponse | TransactionResponse | undefined;
     switch(connectedWalletType){
       case 'bladewallet':
-        return await bladeSigner?.sendRequest(tx)
+        // eslint-disable-next-line no-case-declarations
+        response = await bladeSigner?.sendRequest(tx) as TransactionResponse;
+
+        if (!response) {
+          throw new Error('Get transaction response error');
+        }
+
+        return bladeSigner?.sendRequest(
+          new TransactionReceiptQuery({ transactionId: response.transactionId })
+        );
       case 'hashpack':
         if (!hashConnectSaveData.topic) {
           throw new Error('Loading topic Error.');
         }
-        if(!txBytes){
-          txBytes = await SigningService.makeBytes(tx, userWalletId);
-        }
 
-        return await hashConnect?.sendTransaction(hashConnectSaveData.topic, {
+        // eslint-disable-next-line no-case-declarations
+        const txBytes = await SigningService.makeBytes(tx, userWalletId);
+
+        // eslint-disable-next-line no-case-declarations
+        response = await hashConnect?.sendTransaction(hashConnectSaveData.topic, {
           topic: hashConnectSaveData.topic,
           byteArray: txBytes,
           metadata: {
             accountToSign: userWalletId,
             returnTransaction: false,
           },
-        });
+        }) as MessageTypes.TransactionResponse;
+
+        return TransactionReceipt.fromBytes(
+          response.receipt as Uint8Array
+        ) as TransactionReceipt;
+
       case 'noconnection':
         throw new Error('No wallet connected!')
     }
-  },[hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic, bladeSigner])
-
+  },[hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic, bladeSigner]);
 
   return {
     bladeSigner,
@@ -131,7 +138,7 @@ const useHederaWallets = () => {
     connectedWalletType,
     connect,
     disconnect,
-    sign,
+    // sign,
     sendTransaction,
   }
 }
