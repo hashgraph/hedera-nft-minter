@@ -53,7 +53,26 @@ export default function Homepage() {
     type: '',
     image: null,
     files: [],
-    properties: [],
+    properties: [
+      {
+        name: 'website',
+        value: 'www.mywebsite.com',
+      },
+      {
+        name: 'license',
+        value: 'Creative Common',
+      },
+    ],
+    attributes: [
+      {
+        trait_type: 'hair',
+        value: 'blue',
+      },
+      {
+        trait_type: 'size',
+        value: 'large',
+      },
+    ],
     qty: 1,
     treasury: 'account',
     kyc: 'no',
@@ -71,23 +90,56 @@ export default function Homepage() {
     pause_key: '',
   };
 
-  const filterParams = useCallback(
-    (values) =>
-      Object.keys(values).reduce<Record<string, Parameters | string>>(
-        (params, paramName) => {
-          if (
-            (!Array.isArray(values[paramName]) && values[paramName]) ||
-            (Array.isArray(values[paramName]) && values[paramName].length > 0)
-          ) {
-            params[paramName] = values[paramName];
-          }
+  const filterParams = useCallback((values) => {
+    let filtred = { ...values };
+    delete filtred.qty;
+    delete filtred.kyc;
+    delete filtred.pause;
+    delete filtred.freeze;
+    delete filtred.admin;
+    delete filtred.wipe;
+    delete filtred.supply;
+    delete filtred.treasury;
+    delete filtred.kyc_key;
+    delete filtred.pause_key;
+    delete filtred.freeze_key;
+    delete filtred.admin_key;
+    delete filtred.wipe_key;
+    delete filtred.supply_key;
+    delete filtred.treasury_account_id;
 
-          return params;
-        },
-        {}
-      ),
-    []
-  );
+    filtred.format = 'opensea';
+
+    filtred.properties = filtred.properties.reduce(
+      (a: Property, b: Property, step: number) => {
+        if (step === 1) {
+          return {
+            [a.name]: a.value,
+            [b.name]: b.value,
+          };
+        }
+        return {
+          ...a,
+          [b.name]: b.value,
+        };
+      }
+    );
+
+    filtred = Object.keys(filtred).reduce<
+      Record<string, Parameters[] | string>
+    >((params, paramName) => {
+      if (
+        (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
+        (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
+      ) {
+        params[paramName] = filtred[paramName];
+      }
+
+      return params;
+    }, {});
+
+    return filtred;
+  }, []);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
@@ -95,7 +147,7 @@ export default function Homepage() {
   }, []);
 
   const uploadMetadata = useCallback(
-    async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
+    async (metadata, hip: 'hip-10' | 'hip-214') => {
       if (hip === 'hip-214') {
         metadata = {
           name: metadata.name,
@@ -105,7 +157,7 @@ export default function Homepage() {
         };
       }
 
-      const { data } = await IPFS.createMetadataFile(metadata, serial);
+      const { data } = await IPFS.createMetadataFile(metadata);
       return data;
     },
     []
@@ -158,7 +210,9 @@ export default function Homepage() {
   const handleFormSubmit = useCallback(
     async (values) => {
       const hip = values.hip;
+      const tokenSymbol = values.symbol;
       delete values.hip;
+      delete values.symbol;
 
       const filteredValues = filterParams(values);
 
@@ -178,11 +232,12 @@ export default function Homepage() {
         }
 
         filteredValues.image = imageData.value.cid;
+        filteredValues.type = values.image.type;
 
         // upload metadata
         const metaCIDs = await Promise.all(
-          Array.from(new Array(values.qty)).map((_, i) =>
-            uploadMetadata(filteredValues, i, hip)
+          Array.from(new Array(values.qty)).map(() =>
+            uploadMetadata(filteredValues, hip)
           )
         );
 
@@ -201,7 +256,7 @@ export default function Homepage() {
         const tokenId = await createToken({
           accountId: userWalletId,
           tokenName: values.name,
-          tokenSymbol: values.symbol,
+          tokenSymbol,
           amount: values.qty,
           admin_key: keyChecker('admin'),
           freeze_key: keyChecker('freeze'),

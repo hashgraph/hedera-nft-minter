@@ -227,7 +227,9 @@ export default function NFTForm({
                     className='form__group'
                   >
                     <div className='form__properties__inputs_row'>
-                      <label htmlFor={`properties.${ index }.name`}>Name:</label>
+                      <label htmlFor={`properties.${ index }.name`}>
+                        Trait type:
+                      </label>
                       <Field
                         id={`properties.${ index }.name`}
                         name={`properties.${ index }.name`}
@@ -245,6 +247,62 @@ export default function NFTForm({
                         type='text'
                       />
                       <Error name={`properties.${ index }.value`} />
+                    </div>
+
+                    <div>
+                      <button
+                        type='button'
+                        className='btn--icon'
+                        onClick={() => remove(index)}
+                      >
+                        <DeleteOutlined />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  type='button'
+                  onClick={() => push({ value: '', name: '' })}
+                >
+                  Add +
+                </button>
+              </div>
+            )}
+          </FieldArray>
+        </div>
+        <div className='form__row'>
+          <label htmlFor='null'>Attributes:</label>
+          <FieldArray name='attributes'>
+            {({ remove, push }) => (
+              <div>
+                {values.attributes?.map((attribute: string, index: number) => (
+                  <div
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`attributes_${ index }`}
+                    className='form__group'
+                  >
+                    <div className='form__attributes__inputs_row'>
+                      <label htmlFor={`attributes.${ index }.trait_type`}>
+                        Trait type:
+                      </label>
+                      <Field
+                        id={`attributes.${ index }.trait_type`}
+                        name={`attributes.${ index }.trait_type`}
+                        type='text'
+                      />
+                      <Error name={`attributes.${ index }.trait_type`} />
+                    </div>
+                    <div className='form__attributes__inputs_row'>
+                      <label htmlFor={`attributes.${ index }.value`}>
+                        Value:
+                      </label>
+                      <Field
+                        id={`attributes.${ index }.value`}
+                        name={`attributes.${ index }.value`}
+                        type='text'
+                      />
+                      <Error name={`attributes.${ index }.value`} />
                     </div>
 
                     <div>

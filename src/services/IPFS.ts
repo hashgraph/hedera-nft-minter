@@ -41,8 +41,7 @@ export default class IPFS {
     });
   }
 
-  static async createMetadataFile(meta: NFTMetadata, serial: number) {
-    meta.serial = serial;
+  static async createMetadataFile(meta: NFTMetadata) {
     const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
 
     return this.instance.post<UploadRespone>(this.UPLOAD_URL, file);

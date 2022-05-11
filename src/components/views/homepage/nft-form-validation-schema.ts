@@ -44,6 +44,20 @@ export const ValidationSchema = yup.object().shape({
         .required('Required'),
     })
   ),
+  attributes: yup.array().of(
+    yup.object().shape({
+      trait_type: yup
+        .string()
+        .min(3, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+      value: yup
+        .string()
+        .min(3, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Required'),
+    })
+  ),
 
   treasury: yup
     .mixed()
