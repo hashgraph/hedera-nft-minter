@@ -9,9 +9,15 @@
     justify-content: stretch;
     align-items: flex-end;
   }
-
   &__row {
     padding-top: 1rem;
+    &__fees{
+      border:1px solid rgba(66, 68, 90, 0.2);
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 1rem;
+    }
+    
   }
 
   &__error{

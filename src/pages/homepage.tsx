@@ -3,14 +3,24 @@ import { Formik } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
-import HTS, { NewTokenType } from '@/services/HTS';
+import HTS, { Fee, NewTokenType } from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
-import { TransactionReceipt, TokenId } from '@hashgraph/sdk';
+import {
+  TransactionReceipt,
+  TokenId,
+  CustomFee,
+  CustomFixedFee,
+  Hbar,
+  CustomRoyaltyFee,
+  CustomFractionalFee,
+  HbarUnit,
+} from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 
 type RequiredKey = 'account' | 'custom';
 type OptionalKey = 'no' | RequiredKey;
+type FeeKey = 'royaltyFee' | 'fractionalFee' | 'fixedFee';
 
 type FormValues = NFTMetadata & {
   symbol?: string;
@@ -29,6 +39,12 @@ type FormValues = NFTMetadata & {
   supply_key?: string | 'account_key';
   pause: OptionalKey;
   pause_key?: string | 'account_key';
+  fees: FeeKey[];
+  activeFees: {
+    royaltyFee?: Fee;
+    fractionalFee?: Fee;
+    fixedFee?: Fee;
+  };
 };
 
 type Property = {
@@ -88,7 +104,94 @@ export default function Homepage() {
     wipe_key: '',
     supply_key: '',
     pause_key: '',
+    fees: [],
+    activeFees: {
+      fractionalFee: {
+        feeCollectorAccountId: '',
+        numerator: 0,
+        denominator: 0,
+        min: 0,
+        max: 0,
+        assessmentMethod: false,
+      },
+      royaltyFee: {
+        feeCollectorAccountId: '',
+        fallbackFee: 0,
+        numerator: 0,
+        denominator: 0,
+      },
+      fixedFee: {
+        feeCollectorAccountId: '',
+        denominatingTokenId: '',
+        amount: 0,
+        hbarAmount: 0,
+      },
+    },
   };
+
+  const createFees = useCallback(async (activeFees, data) => {
+    const createFee = async (feeName: string | number, value: Fee) => {
+      let fee;
+      let fallback;
+      switch (feeName) {
+        case 'fixedFee':
+          fee = await new CustomFixedFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+          });
+          if (!!value.denominatingTokenId && !!value.amount) {
+            fee
+              .setAmount(value.amount)
+              .setDenominatingTokenId(value.denominatingTokenId);
+          } else {
+            fee.setHbarAmount(
+              Hbar.from(value.hbarAmount as number, HbarUnit.Hbar)
+            );
+          }
+          return fee;
+
+        case 'fractionalFee':
+          fee = await new CustomFractionalFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+            numerator: value.numerator,
+            denominator: value.denominator,
+            min: value.min,
+            max: value.max,
+            assessmentMethod: value.assessmentMethod,
+          });
+          return fee;
+
+        case 'royaltyFee':
+          fallback = await new CustomFixedFee()
+            .setFeeCollectorAccountId(value.feeCollectorAccountId)
+            .setHbarAmount(Hbar.from(value.fallbackFee ?? 0, HbarUnit.Hbar));
+
+          fee = await new CustomRoyaltyFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+            numerator: value.numerator,
+            denominator: value.denominator,
+            fallbackFee: fallback,
+          });
+          return fee;
+
+        default:
+          return;
+      }
+    };
+
+    activeFees = [[...activeFees], data].reduce((activeFees) => {
+      let ac: any = {};
+      for (let i = 0; i < activeFees.length; i++) {
+        ac = { ...ac, [activeFees[i]]: data[activeFees[i]] };
+      }
+      return ac;
+    });
+    const filtredValues: CustomFee[] = [];
+    for (const key in activeFees) {
+      const newFee = await createFee(key, activeFees[key]);
+      filtredValues.push(newFee as CustomFee);
+    }
+    return filtredValues;
+  }, []);
 
   const filterParams = useCallback((values) => {
     let filtred = { ...values };
@@ -215,7 +318,7 @@ export default function Homepage() {
       delete values.symbol;
 
       const filteredValues = filterParams(values);
-
+      const customFees = await createFees(values.fees, values.activeFees);
       try {
         if (!userWalletId) {
           throw new Error('First connect your wallet');
@@ -232,7 +335,9 @@ export default function Homepage() {
           filteredValues.image = imageData.value.cid;
         }
         // eslint-disable-next-line no-console
-        console.log({ filteredValues });
+        console.log({ metadataForUpload: filteredValues });
+        // eslint-disable-next-line no-console
+        console.log({ customTokenFees: customFees });
         // upload metadata
         const metaCIDs = await Promise.all(
           Array.from(new Array(values.qty)).map(() =>
@@ -267,6 +372,7 @@ export default function Homepage() {
             values.treasury === 'custom'
               ? values.treasury_account_id
               : userWalletId,
+          customFees,
         });
 
         if (!tokenId) {
@@ -280,7 +386,6 @@ export default function Homepage() {
         // mint
         const mintRes = await mint(
           tokenIdToMint,
-
           metaCIDs.map(({ value }) => value.cid)
         );
 
@@ -301,6 +406,7 @@ export default function Homepage() {
     [
       createToken,
       filterParams,
+      createFees,
       mint,
       uploadMetadata,
       uploadNFTFile,
