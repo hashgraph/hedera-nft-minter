@@ -19,7 +19,7 @@
 
     &.active {
       --color: #{$blue} !important;
-      // pointer-events: none;
+      pointer-events: none;
     }
   }
 }
