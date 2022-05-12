@@ -9,7 +9,7 @@ import Loader from '@components/shared/loader/Loader';
 import placeholder from '@assets/images/placeholder.png';
 
 interface NFTProps {
-  nfts?: NFTInfo[] | undefined,
+  nfts?: NFTInfo[] | undefined;
 }
 
 export default function NFT(props: NFTProps) {
@@ -29,7 +29,7 @@ export default function NFT(props: NFTProps) {
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (nfts && Array.isArray(nfts) && nfts[0]?.metadata) {
@@ -40,16 +40,14 @@ export default function NFT(props: NFTProps) {
   }, [loadMetadata, nfts]);
 
   return (
-    <figure  className={classNames('nft', { 'nft__loading': loading })}>
+    <figure className={classNames('nft', { nft__loading: loading })}>
       <div className='nft__image'>
         {loading ? (
           <Loader />
+        ) : meta?.image ? (
+          <img src={`https://ipfs.io/ipfs/${ meta.image }`} alt='' />
         ) : (
-          meta?.image ? (
-            <img src={`https://ipfs.io/ipfs/${ meta.image }`} alt='' />
-          ) : (
-            <img src={placeholder} alt='' />
-          )
+          <img src={placeholder} alt='' />
         )}
       </div>
       <figcaption>
@@ -63,5 +61,5 @@ export default function NFT(props: NFTProps) {
         {/*</div>*/}
       </figcaption>
     </figure>
-  )
+  );
 }

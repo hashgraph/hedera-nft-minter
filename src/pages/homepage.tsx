@@ -297,15 +297,15 @@ export default function Homepage() {
       if (!userWalletId) {
         throw new Error('Error with loading logged account data!');
       }
-      const txMint = HTS.mintToken(tokenId, userWalletId, cids);
+      const tokenMintTx = HTS.mintToken(tokenId, userWalletId, cids);
 
-      const mintResult = await sendTransaction(txMint, txMint.toBytes());
+      const tokenMintResponse = await sendTransaction(tokenMintTx);
 
-      if (!mintResult) {
+      if (!tokenMintResponse) {
         throw new Error('Token mint failed.');
       }
 
-      return TransactionReceipt.fromBytes(mintResult.receipt as Uint8Array);
+      return tokenMintResponse;
     },
     [userWalletId, sendTransaction]
   );

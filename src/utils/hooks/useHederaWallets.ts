@@ -1,13 +1,14 @@
-import { useCallback, useContext, useMemo, useEffect, useState } from 'react';
+import { useCallback, useContext, useMemo, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
-import { MessageTypes } from 'hashconnect';
 import { SigningService } from '@/services/SigningService';
-import { Transaction } from '@hashgraph/sdk';
+import { TransactionReceipt, TransactionReceiptQuery, TransactionResponse } from '@hashgraph/sdk';
+import { MessageTypes } from 'hashconnect';
+type ConnectionStateType = 'bladewallet' | 'hashpack' | 'noconnection';
 
 const useHederaWallets = () => {
   const {
-    // bladeSigner,
+    bladeSigner,
     bladeAccountId,
     hashConnect,
     connectBladeWallet,
@@ -19,9 +20,8 @@ const useHederaWallets = () => {
 
   const { accountsIds } = hashConnectSaveData;
 
-  const [connectedWalletType, setConnectedWalletType] = useState<
-    'bladewallet' | 'hashpack' | 'noconnection'
-  >('noconnection');
+  const [connectedWalletType, setConnectedWalletType] = useState<ConnectionStateType>('noconnection');
+
   useEffect(() => {
     if (!bladeAccountId && accountsIds?.length === 0) {
       setConnectedWalletType('noconnection');
@@ -34,37 +34,23 @@ const useHederaWallets = () => {
     }
   }, [bladeAccountId, accountsIds, setConnectedWalletType]);
 
-  const sign = useCallback(
-    (tx: MessageTypes.Transaction) => {
-      if (!hashConnectSaveData.topic) {
-        throw new Error('Connect wallet first.');
-      }
-
-      return hashConnect?.sendTransaction(hashConnectSaveData.topic, tx);
-    },
-    [hashConnect, hashConnectSaveData]
-  );
-
-  const connect = useCallback(
-    (walletType) => {
-      switch (walletType) {
-        case 'bladewallet':
-          clearPairedAccountsAndHashPackWalletData();
-          connectBladeWallet();
-          break;
-        case 'hashpack':
-          clearConnectedBladeWalletData();
-          connectToHashPack();
-          break;
-      }
-    },
-    [
-      connectBladeWallet,
-      connectToHashPack,
-      clearPairedAccountsAndHashPackWalletData,
-      clearConnectedBladeWalletData,
-    ]
-  );
+  const connect = useCallback((walletType) => {
+    switch (walletType) {
+      case 'bladewallet':
+        clearPairedAccountsAndHashPackWalletData()
+        connectBladeWallet();
+        break;
+      case 'hashpack':
+        clearConnectedBladeWalletData()
+        connectToHashPack()
+        break;
+    }
+  }, [
+    connectBladeWallet,
+    connectToHashPack,
+    clearPairedAccountsAndHashPackWalletData,
+    clearConnectedBladeWalletData
+  ]);
 
   const disconnect = useCallback(() => {
     switch (connectedWalletType) {
@@ -95,49 +81,65 @@ const useHederaWallets = () => {
       case 'hashpack':
         return hashConnectSaveData?.accountsIds[0];
       case 'noconnection':
-        return undefined;
+        return undefined
+      }
+  },[connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds])
+
+
+  const sendTransaction = useCallback(async(tx) => {
+    if (!userWalletId) {
+      throw new Error('Loading logged Hedera account id Error.');
     }
-  }, [connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds]);
 
-  const sendTransaction = useCallback(
-    async (tx, txBytes = undefined) => {
-      if (!userWalletId) {
-        throw new Error('Loading logged Hedera account id Error.');
-      }
-      switch (connectedWalletType) {
-        case 'bladewallet':
-          throw new Error('NOT IMPLEMENTED YET');
-        case 'hashpack':
-          if (!hashConnectSaveData.topic) {
-            throw new Error('Loading topic Error.');
-          }
-          if (!txBytes && tx instanceof Transaction) {
-            txBytes = await SigningService.makeBytes(tx, userWalletId);
-          }
+    let response: MessageTypes.TransactionResponse | TransactionResponse | undefined;
+    switch(connectedWalletType){
+      case 'bladewallet':
+        // eslint-disable-next-line no-case-declarations
+        response = await bladeSigner?.sendRequest(tx) as TransactionResponse;
 
-          return await hashConnect?.sendTransaction(hashConnectSaveData.topic, {
-            topic: hashConnectSaveData.topic,
-            byteArray: txBytes,
-            metadata: {
-              accountToSign: userWalletId,
-              returnTransaction: false,
-            },
-          });
-        case 'noconnection':
-          throw new Error('No wallet connected!');
-      }
-    },
-    [hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic]
-  );
+        if (!response) {
+          throw new Error('Get transaction response error');
+        }
+
+        return bladeSigner?.sendRequest(
+          new TransactionReceiptQuery({ transactionId: response.transactionId })
+        );
+      case 'hashpack':
+        if (!hashConnectSaveData.topic) {
+          throw new Error('Loading topic Error.');
+        }
+
+        // eslint-disable-next-line no-case-declarations
+        const txBytes = await SigningService.makeBytes(tx, userWalletId);
+
+        // eslint-disable-next-line no-case-declarations
+        response = await hashConnect?.sendTransaction(hashConnectSaveData.topic, {
+          topic: hashConnectSaveData.topic,
+          byteArray: txBytes,
+          metadata: {
+            accountToSign: userWalletId,
+            returnTransaction: false,
+          },
+        }) as MessageTypes.TransactionResponse;
+
+        return TransactionReceipt.fromBytes(
+          response.receipt as Uint8Array
+        ) as TransactionReceipt;
+
+      case 'noconnection':
+        throw new Error('No wallet connected!')
+    }
+  },[hashConnect, connectedWalletType, userWalletId, hashConnectSaveData.topic, bladeSigner]);
 
   return {
+    bladeSigner,
     userWalletId,
     connectedWalletType,
     connect,
     disconnect,
-    sign,
+    // sign,
     sendTransaction,
-  };
-};
+  }
+}
 
 export default useHederaWallets;
