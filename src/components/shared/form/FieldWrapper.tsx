@@ -2,7 +2,7 @@ import React from 'react';
 import { FastField, Field } from 'formik';
 import Error from '@/components/shared/form/Error';
 
-type LabelErrorFieldProps = React.HTMLAttributes<HTMLInputElement> & {
+type FieldWrapperProps = React.HTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   type: string;
@@ -10,8 +10,8 @@ type LabelErrorFieldProps = React.HTMLAttributes<HTMLInputElement> & {
   max?: string | number;
 };
 
-const LabelErrorField = (
-  { name, label, fast_field = false }: LabelErrorFieldProps,
+const FieldWrapper = (
+  { name, label, fast_field = false }: FieldWrapperProps,
   props: React.HTMLAttributes<HTMLInputElement>
 ) => {
   return (
@@ -27,4 +27,4 @@ const LabelErrorField = (
   );
 };
 
-export default LabelErrorField;
+export default FieldWrapper;

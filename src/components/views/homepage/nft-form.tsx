@@ -5,7 +5,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import Error from '@/components/shared/form/Error';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 import Switch from './../../shared/form/switch/Switch';
-import LabelErrorField from '@/components/shared/form/LabelErrorField';
+import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import NftFormKeyField from '@/components/shared/form/NftFormKeyField';
 
 export default function NFTForm({
@@ -34,14 +34,14 @@ export default function NFTForm({
                     className='form__group'
                   >
                     <div className='form__properties__inputs_row'>
-                      <LabelErrorField
+                      <FieldWrapper
                         label='Name'
                         name={`properties.${ index }.name`}
                         type='text'
                       />
                     </div>
                     <div className='form__properties__inputs_row'>
-                      <LabelErrorField
+                      <FieldWrapper
                         label='Value'
                         name={`properties.${ index }.value`}
                         type='text'
@@ -82,14 +82,14 @@ export default function NFTForm({
                     className='form__group'
                   >
                     <div className='form__attributes__inputs_row'>
-                      <LabelErrorField
+                      <FieldWrapper
                         label='Trait type'
                         name={`attributes.${ index }.trait_type`}
                         type='text'
                       />
                     </div>
                     <div className='form__attributes__inputs_row'>
-                      <LabelErrorField
+                      <FieldWrapper
                         label='Value'
                         name={`attributes.${ index }.value`}
                         type='text'
@@ -122,7 +122,7 @@ export default function NFTForm({
 
       <div>
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='name'
             type='text'
@@ -131,7 +131,7 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='symbol'
             type='text'
@@ -140,7 +140,7 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='creator'
             type='text'
@@ -149,7 +149,7 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='creatorDID'
             type='text'
@@ -158,7 +158,7 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='description'
             type='test'
@@ -167,7 +167,7 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <LabelErrorField
+          <FieldWrapper
             fast_field={true}
             name='qty'
             type='number'
@@ -206,25 +206,25 @@ export default function NFTForm({
                   <div className='form__row__fees'>
                     <label htmlFor='null'>Royalty Fee:</label>
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.feeCollectorAccountId`}
                       type='text'
                       label='Fee collector account ID'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.fallbackFee`}
                       type='number'
                       label='Fallback fee'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.numerator`}
                       type='number'
                       label='Numerator'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.denominator`}
                       type='number'
                       label='Denominator'
@@ -236,30 +236,30 @@ export default function NFTForm({
                   <div className='form__row__fees'>
                     <label htmlFor='null'>Fractional Fee:</label>
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.feeCollectorAccountId`}
                       type='text'
                       label='Fee collector account ID'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.numerator`}
                       type='number'
                       label='Numerator'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.denominator`}
                       type='number'
                       label='Denominator'
                     />
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.min`}
                       type='number'
                       label='Min'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.max`}
                       type='number'
                       label='Max'
@@ -279,25 +279,25 @@ export default function NFTForm({
                   <div className='form__row__fees'>
                     <label htmlFor='null'>Fixed Fee:</label>
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.feeCollectorAccountId`}
                       type='text'
                       label='Fee collector account ID'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.denominatingTokenId`}
                       type='text'
                       label='Denominating token ID'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.amount`}
                       type='number'
                       label='Amount'
                     />
 
-                    <LabelErrorField
+                    <FieldWrapper
                       name={`activeFees.${ fee }.hbarAmount`}
                       type='number'
                       label='HBar amount'
