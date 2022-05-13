@@ -59,8 +59,8 @@ export default function Homepage() {
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {
-    name: 'asd',
-    symbol: 'asd',
+    name: '',
+    symbol: '',
     creator: '',
     creatorDID: '',
     description: '',
