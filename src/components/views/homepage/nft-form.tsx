@@ -122,17 +122,12 @@ export default function NFTForm({
 
       <div>
         <div className='form__row'>
-          <FieldWrapper
-            fast_field={true}
-            name='name'
-            type='text'
-            label='Token name'
-          />
+          <FieldWrapper fastField name='name' type='text' label='Token name' />
         </div>
 
         <div className='form__row'>
           <FieldWrapper
-            fast_field={true}
+            fastField
             name='symbol'
             type='text'
             label='Token symbol'
@@ -140,17 +135,12 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <FieldWrapper
-            fast_field={true}
-            name='creator'
-            type='text'
-            label='Creator'
-          />
+          <FieldWrapper fastField name='creator' type='text' label='Creator' />
         </div>
 
         <div className='form__row'>
           <FieldWrapper
-            fast_field={true}
+            fastField
             name='creatorDID'
             type='text'
             label='Creator DID'
@@ -159,7 +149,7 @@ export default function NFTForm({
 
         <div className='form__row'>
           <FieldWrapper
-            fast_field={true}
+            fastField
             name='description'
             type='test'
             label='Description'
@@ -168,7 +158,7 @@ export default function NFTForm({
 
         <div className='form__row'>
           <FieldWrapper
-            fast_field={true}
+            fastField
             name='qty'
             type='number'
             label='Quantity'

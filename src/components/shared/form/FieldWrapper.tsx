@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FastField, Field } from 'formik';
 import Error from '@/components/shared/form/Error';
 
@@ -6,22 +6,20 @@ type FieldWrapperProps = React.HTMLAttributes<HTMLInputElement> & {
   name: string;
   label: string;
   type: string;
-  fast_field?: boolean;
+  fastField?: boolean;
   max?: string | number;
 };
 
 const FieldWrapper = (
-  { name, label, fast_field = false }: FieldWrapperProps,
+  { name, label, fastField = false }: FieldWrapperProps,
   props: React.HTMLAttributes<HTMLInputElement>
 ) => {
+  const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
+
   return (
     <>
       <label htmlFor={name}>{label}:</label>
-      {fast_field ? (
-        <FastField id={name} name={name} {...props} />
-      ) : (
-        <Field id={name} name={name} {...props} />
-      )}
+      <Component id={name} name={name} {...props} />
       <Error name={name} />
     </>
   );
