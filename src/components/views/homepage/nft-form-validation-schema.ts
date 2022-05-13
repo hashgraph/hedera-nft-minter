@@ -82,5 +82,5 @@ export const ValidationSchema = yup.object().shape({
     then: (schema) => schema.required('Required'),
   }),
 
-  fees: yup.mixed().oneOf(['royaltyFee', 'fractionalFee', 'fixedFee']),
+  // fees: yup.mixed().oneOf(['royaltyFee', 'fractionalFee', 'fixedFee']),
 });

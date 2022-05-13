@@ -112,7 +112,7 @@ export default function Homepage() {
         denominator: 0,
         min: 0,
         max: 0,
-        assessmentMethod: 'inclusive',
+        assessmentMethod: false,
       },
       royaltyFee: {
         feeCollectorAccountId: '',
@@ -156,7 +156,7 @@ export default function Homepage() {
             denominator: value.denominator,
             min: value.min,
             max: value.max,
-            assessmentMethod: value.assessmentMethod === 'exclusive',
+            assessmentMethod: value.assessmentMethod,
           });
           return fee;
 

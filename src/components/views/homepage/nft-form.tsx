@@ -268,8 +268,8 @@ export default function NFTForm({
                     <Switch
                       name={`activeFees.${ fee }.assessmentMethod`}
                       options={[
-                        { name: 'Inclusive', value: false },
-                        { name: 'Exclusive', value: true },
+                        { name: 'Inclusive', value: 'inclusive' },
+                        { name: 'Exclusive', value: 'exclusive' },
                       ]}
                     />
                   </div>

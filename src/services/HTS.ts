@@ -45,7 +45,7 @@ export type Fee = {
   fallbackFee?: number;
   min?: number;
   max?: number;
-  assessmentMethod?: boolean;
+  assessmentMethod?: 'inclusive' | 'exclusive';
 };
 
 export default class HTS {
