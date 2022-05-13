@@ -314,10 +314,7 @@ export default function Homepage() {
           //replace image with IMAGE_CID
           filteredValues.image = imageData.value.cid;
         }
-        // eslint-disable-next-line no-console
-        console.log({ metadataForUpload: filteredValues });
-        // eslint-disable-next-line no-console
-        console.log({ customTokenFees: customFees });
+
         // upload metadata
         const metaCIDs = await Promise.all(
           Array.from(new Array(values.qty)).map(() =>
