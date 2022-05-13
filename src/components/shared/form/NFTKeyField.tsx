@@ -10,7 +10,7 @@ type FormikContextType = {
   values: string;
 };
 
-const NftFormKeyField = ({ name }: Props) => {
+const NFTKeyField = ({ name }: Props) => {
   const { values } = useFormikContext<FormikContextType>();
 
   const value = useMemo(
@@ -47,4 +47,4 @@ const NftFormKeyField = ({ name }: Props) => {
   );
 };
 
-export default NftFormKeyField;
+export default NFTKeyField;

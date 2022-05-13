@@ -6,7 +6,7 @@ import Error from '@/components/shared/form/Error';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 import Switch from './../../shared/form/switch/Switch';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import NftFormKeyField from '@/components/shared/form/NftFormKeyField';
+import NFTKeyField from '@/components/shared/form/NFTKeyField';
 
 export default function NFTForm({
   values,
@@ -322,27 +322,27 @@ export default function NFTForm({
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='kyc' />
+          <NFTKeyField name='kyc' />
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='admin' />
+          <NFTKeyField name='admin' />
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='freeze' />
+          <NFTKeyField name='freeze' />
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='wipe' />
+          <NFTKeyField name='wipe' />
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='pause' />
+          <NFTKeyField name='pause' />
         </div>
 
         <div className='form__row'>
-          <NftFormKeyField name='supply' />
+          <NFTKeyField name='supply' />
         </div>
 
         <div className='form__btns'>
