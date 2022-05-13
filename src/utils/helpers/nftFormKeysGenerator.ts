@@ -1,3 +1,4 @@
+import { OptionalKey } from '@/pages/homepage';
 import { PublicKey } from '@hashgraph/sdk';
 import { FormikValues } from 'formik';
 import _ from 'lodash';
@@ -28,8 +29,8 @@ class TokenKeys {
     this.keysTypes = _.pickBy(this.keys, (_, key) => !key.includes('_key'));
   }
 
-  generateKey(key: string, value: string) {
-    switch (value) {
+  generateKey(key: string, keyType: OptionalKey) {
+    switch (keyType) {
       case 'custom':
         return PublicKey.fromString(this.keys[`${ key }_key`]);
       case 'account':
@@ -44,8 +45,8 @@ export const nftFormKeysGenerator = (values: FormikValues, userKey: string) => {
   const tokenKeys = new TokenKeys(values, userKey);
 
   const newKeys = {} as TokenKeysType;
-  for (const [key, value] of Object.entries(tokenKeys.keysTypes)) {
-    const generatedKey = tokenKeys.generateKey(key, value);
+  for (const [key, keyType] of Object.entries(tokenKeys.keysTypes)) {
+    const generatedKey = tokenKeys.generateKey(key, keyType);
     if (generatedKey) {
       newKeys[`${ key }Key`] = generatedKey;
     }
