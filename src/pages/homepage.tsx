@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, FormikValues } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
@@ -17,6 +17,7 @@ import {
   HbarUnit,
 } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
+import _ from 'lodash';
 
 type RequiredKey = 'account' | 'custom';
 export type OptionalKey = 'no' | RequiredKey;
@@ -50,10 +51,6 @@ export type FormValues = NFTMetadata & {
 type Property = {
   name: string;
   value: string;
-};
-
-type Parameters = {
-  properties: Property[];
 };
 
 export default function Homepage() {
@@ -194,22 +191,18 @@ export default function Homepage() {
   }, []);
 
   const filterParams = useCallback((values) => {
-    let filtred = { ...values };
-    delete filtred.qty;
-    delete filtred.kyc;
-    delete filtred.pause;
-    delete filtred.freeze;
-    delete filtred.admin;
-    delete filtred.wipe;
-    delete filtred.supply;
-    delete filtred.treasury;
-    delete filtred.kyc_key;
-    delete filtred.pause_key;
-    delete filtred.freeze_key;
-    delete filtred.admin_key;
-    delete filtred.wipe_key;
-    delete filtred.supply_key;
-    delete filtred.treasury_account_id;
+    let filtred = _.pick(values, [
+      'name',
+      'type',
+      'creator',
+      'creatorDID',
+      'description',
+      'image',
+      'files',
+      'format',
+      'properties',
+      'attributes',
+    ]) as FormikValues;
 
     filtred.format = 'opensea';
 
@@ -228,18 +221,19 @@ export default function Homepage() {
         };
       });
 
-    filtred = Object.keys(filtred).reduce<
-      Record<string, Parameters[] | string>
-    >((params, paramName) => {
-      if (
-        (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
-        (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
-      ) {
-        params[paramName] = filtred[paramName];
-      }
+    filtred = Object.keys(filtred).reduce(
+      (params: FormikValues, paramName: string) => {
+        if (
+          (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
+          (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
+        ) {
+          params[paramName] = filtred[paramName];
+        }
 
-      return params;
-    }, {});
+        return params;
+      },
+      {}
+    );
 
     return filtred;
   }, []);
@@ -269,15 +263,15 @@ export default function Homepage() {
   const createToken = useCallback(
     async (values: NewTokenType): Promise<TokenId | null> => {
       const token = await HTS.createToken(values);
-      const res = await sendTransaction(token);
+      const res = (await sendTransaction(token)) as TransactionReceipt & {
+        receipt: Uint8Array;
+      };
 
       if (!res) {
         throw new Error('Create Token Error.');
       }
 
-      const receipt = TransactionReceipt.fromBytes(
-        res.receipt as Uint8Array
-      ) as TransactionReceipt;
+      const receipt = TransactionReceipt.fromBytes(res.receipt);
 
       if (!receipt) {
         throw new Error('Get Transaction Receipt error');
