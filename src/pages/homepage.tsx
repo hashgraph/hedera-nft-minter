@@ -243,22 +243,10 @@ export default function Homepage() {
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(
-    async (metadata, hip: 'hip-10' | 'hip-214') => {
-      if (hip === 'hip-214') {
-        metadata = {
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image,
-          properties: metadata.properties,
-        };
-      }
-
-      const { data } = await IPFS.createMetadataFile(metadata);
-      return data;
-    },
-    []
-  );
+  const uploadMetadata = useCallback(async (metadata) => {
+    const { data } = await IPFS.createMetadataFile(metadata);
+    return data;
+  }, []);
 
   const createToken = useCallback(
     async (values: NewTokenType): Promise<TokenId | null> => {
@@ -306,9 +294,7 @@ export default function Homepage() {
 
   const handleFormSubmit = useCallback(
     async (values) => {
-      const hip = values.hip;
       const tokenSymbol = values.symbol;
-      delete values.hip;
       delete values.symbol;
 
       const filteredValues = filterParams(values);
@@ -335,7 +321,7 @@ export default function Homepage() {
         // upload metadata
         const metaCIDs = await Promise.all(
           Array.from(new Array(values.qty)).map(() =>
-            uploadMetadata(filteredValues, hip)
+            uploadMetadata(filteredValues)
           )
         );
 
