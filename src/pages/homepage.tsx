@@ -20,7 +20,7 @@ import { ValidationSchema } from '@components/views/homepage/nft-form-validation
 
 type RequiredKey = 'account' | 'custom';
 export type OptionalKey = 'no' | RequiredKey;
-type FeeKey = 'royaltyFee' | 'fractionalFee' | 'fixedFee';
+export type FeeKey = 'royaltyFee' | 'fractionalFee' | 'fixedFee';
 
 export type FormValues = NFTMetadata & {
   symbol?: string;
