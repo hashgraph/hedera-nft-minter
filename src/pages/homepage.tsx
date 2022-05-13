@@ -18,6 +18,7 @@ import {
 } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 import _ from 'lodash';
+import { keyChecker } from '@/utils/helpers/nftFormKeyChecker';
 
 type RequiredKey = 'account' | 'custom';
 export type OptionalKey = 'no' | RequiredKey;
@@ -323,28 +324,17 @@ export default function Homepage() {
         );
 
         // create token
-        const keyChecker = (key: string) => {
-          switch (values[key]) {
-            case 'custom':
-              return values[`${ key }_key`];
-            case 'account':
-              return 'account_key';
-            default:
-              break;
-          }
-        };
-
         const tokenId = await createToken({
           accountId: userWalletId,
           tokenName: values.name,
           tokenSymbol,
           amount: values.qty,
-          admin_key: keyChecker('admin'),
-          freeze_key: keyChecker('freeze'),
-          kyc_key: keyChecker('kyc'),
-          supply_key: keyChecker('supply'),
-          wipe_key: keyChecker('wipe'),
-          pause_key: keyChecker('pause'),
+          admin_key: keyChecker(values, 'admin'),
+          freeze_key: keyChecker(values, 'freeze'),
+          kyc_key: keyChecker(values, 'kyc'),
+          supply_key: keyChecker(values, 'supply'),
+          wipe_key: keyChecker(values, 'wipe'),
+          pause_key: keyChecker(values, 'pause'),
           treasury_account_id:
             values.treasury === 'custom'
               ? values.treasury_account_id
