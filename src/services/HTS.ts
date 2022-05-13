@@ -8,12 +8,11 @@ import {
   TokenId,
   TokenType,
   TokenSupplyType,
-  PublicKey,
   CustomFee,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 
-type AccountInfo = Response & {
+export type AccountInfo = Response & {
   result?: string;
   key?: {
     key: string;
@@ -30,7 +29,7 @@ export type NewTokenType = {
   kyc_key?: string;
   supply_key?: string;
   wipe_key?: string;
-  treasury_account_id: string;
+  treasuryAccountId: string;
   pause_key?: string;
   customFees?: CustomFee[];
 };
@@ -51,17 +50,8 @@ export type Fee = {
 export default class HTS {
   static async createToken({
     accountId,
-    tokenName,
-    tokenSymbol,
     amount,
-    admin_key,
-    freeze_key,
-    pause_key,
-    kyc_key,
-    supply_key,
-    treasury_account_id,
-    wipe_key,
-    customFees,
+    ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
     let accountInfo: AccountInfo = await window.fetch(
       'https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId,
@@ -76,38 +66,16 @@ export default class HTS {
       );
     }
 
-    const generateKey = (key: string) => PublicKey.fromString(key);
-    const generatedKeyFromAccount = PublicKey.fromString(accountInfo.key.key);
-
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
 
-    const keyGenerator = (key: string | undefined) => {
-      if (!key) {
-        return undefined;
-      }
-      return key === 'account_key' ? generatedKeyFromAccount : generateKey(key);
-    };
-
     const token = new TokenCreateTransaction({
-      tokenName,
-      tokenSymbol,
-      decimals: 0,
-      treasuryAccountId: treasury_account_id,
-      adminKey: keyGenerator(admin_key),
-      kycKey: keyGenerator(kyc_key),
-      freezeKey: keyGenerator(freeze_key),
-      wipeKey: keyGenerator(wipe_key),
-      pauseKey: keyGenerator(pause_key),
-      supplyKey: keyGenerator(supply_key),
-      expirationTime: expirationTime,
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
+      decimals: 0,
       maxSupply: amount,
-      customFees,
+      expirationTime,
+      ...tokenProps,
     });
-
-    // eslint-disable-next-line no-console
-    console.log({ token });
 
     return token;
   }

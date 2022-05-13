@@ -3,7 +3,7 @@ import { Formik, FormikValues } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
-import HTS, { Fee, NewTokenType } from '@/services/HTS';
+import HTS, { AccountInfo, Fee, NewTokenType } from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
 import {
@@ -18,7 +18,7 @@ import {
 } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 import _ from 'lodash';
-import { keyChecker } from '@/utils/helpers/nftFormKeyChecker';
+import { nftFormKeysGenerator } from '@/utils/helpers/nftFormKeysGenerator';
 
 type RequiredKey = 'account' | 'custom';
 export type OptionalKey = 'no' | RequiredKey;
@@ -59,8 +59,8 @@ export default function Homepage() {
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
   const initialValues: FormValues = {
-    name: '',
-    symbol: '',
+    name: 'asd',
+    symbol: 'asd',
     creator: '',
     creatorDID: '',
     description: '',
@@ -323,22 +323,37 @@ export default function Homepage() {
           )
         );
 
+        //Fetch account data
+        let accountInfo: AccountInfo = await window.fetch(
+          'https://testnet.mirrornode.hedera.com/api/v1/accounts/' +
+            userWalletId,
+          { method: 'GET' }
+        );
+
+        accountInfo = await accountInfo.json();
+
+        if (!accountInfo.key) {
+          throw new Error(
+            'Error when loading user key from hedera mirrornode API(testnet)!'
+          );
+        }
+
+        //Filter form keys
+        const filteredKeys = nftFormKeysGenerator(values, accountInfo.key.key);
+
+        const treasuryAccountId =
+          values.treasury === 'custom'
+            ? values.treasury_account_id
+            : userWalletId;
+
         // create token
         const tokenId = await createToken({
           accountId: userWalletId,
           tokenName: values.name,
           tokenSymbol,
           amount: values.qty,
-          admin_key: keyChecker(values, 'admin'),
-          freeze_key: keyChecker(values, 'freeze'),
-          kyc_key: keyChecker(values, 'kyc'),
-          supply_key: keyChecker(values, 'supply'),
-          wipe_key: keyChecker(values, 'wipe'),
-          pause_key: keyChecker(values, 'pause'),
-          treasury_account_id:
-            values.treasury === 'custom'
-              ? values.treasury_account_id
-              : userWalletId,
+          ...filteredKeys,
+          treasuryAccountId,
           customFees,
         });
 
