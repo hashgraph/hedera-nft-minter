@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { FieldArray, Field } from 'formik';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from './../../shared/form/switch/Switch';
-import { FeeKey } from '@/pages/homepage';
+import { FeeKey } from '@utils/const/nft-form';
 
 type Props = {
   fees: FeeKey[];
