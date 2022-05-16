@@ -122,7 +122,7 @@ const NftFormFees = ({ fees }: Props) => {
   );
 
   const renderCheckedFeesFormFields = useCallback(() => {
-    fees?.map((fee: string) => {
+    return fees?.map((fee: string) => {
       switch (fee) {
         case 'royaltyFee':
           return renderRoyaltyFeeFormFields();

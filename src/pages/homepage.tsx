@@ -20,23 +20,18 @@ import _ from 'lodash';
 import { nftFormKeysGenerator } from '@/utils/helpers/nftFormKeysGenerator';
 import { initialValues } from '@utils/const/nft-form';
 
-type Property = {
-  name: string;
-  value: string;
-};
-
 export default function Homepage() {
   const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
 
-  const createFees = useCallback(async (activeFees, data) => {
-    const createFee = async (feeName: string | number, value: Fee) => {
+  const createFees = useCallback((activeFees, data) => {
+    const createFee = (feeName: string | number, value: Fee) => {
       let fee;
       let fallback;
       switch (feeName) {
         case 'fixedFee':
-          fee = await new CustomFixedFee({
+          fee = new CustomFixedFee({
             feeCollectorAccountId: value.feeCollectorAccountId,
           });
           if (!!value.denominatingTokenId && !!value.amount) {
@@ -51,7 +46,7 @@ export default function Homepage() {
           return fee;
 
         case 'fractionalFee':
-          fee = await new CustomFractionalFee({
+          fee = new CustomFractionalFee({
             feeCollectorAccountId: value.feeCollectorAccountId,
             numerator: value.numerator,
             denominator: value.denominator,
@@ -62,11 +57,11 @@ export default function Homepage() {
           return fee;
 
         case 'royaltyFee':
-          fallback = await new CustomFixedFee()
+          fallback = new CustomFixedFee()
             .setFeeCollectorAccountId(value.feeCollectorAccountId)
             .setHbarAmount(Hbar.from(value.fallbackFee ?? 0, HbarUnit.Hbar));
 
-          fee = await new CustomRoyaltyFee({
+          fee = new CustomRoyaltyFee({
             feeCollectorAccountId: value.feeCollectorAccountId,
             numerator: value.numerator,
             denominator: value.denominator,
@@ -80,16 +75,19 @@ export default function Homepage() {
     };
 
     activeFees = [[...activeFees], data].reduce((activeFees) => {
-      let ac: any = {};
+      let activeFee = {} as Fee;
       for (let i = 0; i < activeFees.length; i++) {
-        ac = { ...ac, [activeFees[i]]: data[activeFees[i]] };
+        activeFee = { ...activeFee, [activeFees[i]]: data[activeFees[i]] };
       }
-      return ac;
+      return activeFee;
     });
+
     const filtredValues: CustomFee[] = [];
     for (const key in activeFees) {
-      const newFee = await createFee(key, activeFees[key]);
-      filtredValues.push(newFee as CustomFee);
+      const newFee = createFee(key, activeFees[key]);
+      if (newFee) {
+        filtredValues.push(newFee);
+      }
     }
     return filtredValues;
   }, []);
@@ -110,20 +108,11 @@ export default function Homepage() {
 
     filtred.format = 'opensea';
 
-    filtred.properties =
-      filtred.properties.length > 0 &&
-      filtred.properties.reduce((a: Property, b: Property, step: number) => {
-        if (step === 1) {
-          return {
-            [a.name]: a.value,
-            [b.name]: b.value,
-          };
-        }
-        return {
-          ...a,
-          [b.name]: b.value,
-        };
-      });
+    const filtredProperties = {} as { [key: string]: string };
+    for (const [, value] of filtred.properties.entries()) {
+      filtredProperties[`${ value.name }`] = value.value;
+    }
+    filtred.properties = filtredProperties;
 
     filtred = Object.keys(filtred).reduce(
       (params: FormikValues, paramName: string) => {
@@ -202,7 +191,7 @@ export default function Homepage() {
       delete values.symbol;
 
       const filteredValues = filterParams(values);
-      const customFees = await createFees(values.fees, values.activeFees);
+      const customFees = createFees(values.fees, values.activeFees);
       try {
         if (!userWalletId) {
           throw new Error('First connect your wallet');

@@ -49,23 +49,9 @@ export type Fee = {
 
 export default class HTS {
   static async createToken({
-    accountId,
     amount,
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
-    let accountInfo: AccountInfo = await window.fetch(
-      'https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId,
-      { method: 'GET' }
-    );
-
-    accountInfo = await accountInfo.json();
-
-    if (!accountInfo.key) {
-      throw new Error(
-        'Error when loading user key from hedera mirrornode API(testnet)!'
-      );
-    }
-
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
 
     const token = new TokenCreateTransaction({
