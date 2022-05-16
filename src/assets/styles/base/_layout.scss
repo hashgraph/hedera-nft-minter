@@ -59,7 +59,7 @@ header {
   background-color: transparent;
   width: 100%;
   height: 80px;
-  transition: generateTransitions((transform, background-color), 400ms);
+  transition: generateTransitions((transform, background-color), 200ms);
 
   .container {
     padding: 1rem;
@@ -202,7 +202,7 @@ header {
   justify-content: center;
   align-items: center;
   padding: 23px 0px;
-  transition: transform 400ms linear;;
+  transition: transform 200ms ease-in-out;
   a {
     font-weight: 400;
     font-size: 14px;
@@ -250,7 +250,7 @@ header {
 .page-menu-divider {
   background: $gradient;
   position: absolute;
-  height: 47px;
+  height: 62px;
   top: 0;
   width: 100%;
   z-index: -1;
