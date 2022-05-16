@@ -1,10 +1,9 @@
 import { useCallback, useContext, useMemo, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
-import { HederaWalletsContext} from '@utils/context/HederaWalletsContext';
+import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
 import { SigningService } from '@/services/SigningService';
 import { TransactionReceipt, TransactionReceiptQuery, TransactionResponse } from '@hashgraph/sdk';
 import { MessageTypes } from 'hashconnect';
-
 type ConnectionStateType = 'bladewallet' | 'hashpack' | 'noconnection';
 
 const useHederaWallets = () => {
@@ -16,10 +15,10 @@ const useHederaWallets = () => {
     clearPairedAccountsAndHashPackWalletData,
     clearConnectedBladeWalletData,
     connectToHashPack,
-    hashConnectSaveData
+    hashConnectSaveData,
   } = useContext(HederaWalletsContext);
 
-  const {accountsIds} = hashConnectSaveData
+  const { accountsIds } = hashConnectSaveData;
 
   const [connectedWalletType, setConnectedWalletType] = useState<ConnectionStateType>('noconnection');
 
@@ -57,17 +56,17 @@ const useHederaWallets = () => {
     switch (connectedWalletType) {
       case 'bladewallet':
         clearConnectedBladeWalletData();
-        toast('❌ Removed Blade Wallet pairing.')
+        toast('❌ Removed Blade Wallet pairing.');
         break;
       case 'hashpack':
         clearPairedAccountsAndHashPackWalletData();
-        toast('❌ Removed HashPack pairings.')
+        toast('❌ Removed HashPack pairings.');
         break;
       default:
         clearConnectedBladeWalletData();
         clearPairedAccountsAndHashPackWalletData();
-        toast('❌ Removed pairings.')
-      break;
+        toast('❌ Removed pairings.');
+        break;
     }
   }, [
     connectedWalletType,
@@ -78,9 +77,9 @@ const useHederaWallets = () => {
   const userWalletId = useMemo(() => {
     switch (connectedWalletType) {
       case 'bladewallet':
-        return bladeAccountId
+        return bladeAccountId;
       case 'hashpack':
-        return hashConnectSaveData?.accountsIds[0]
+        return hashConnectSaveData?.accountsIds[0];
       case 'noconnection':
         return undefined
       }
@@ -143,4 +142,4 @@ const useHederaWallets = () => {
   }
 }
 
-export default useHederaWallets
+export default useHederaWallets;

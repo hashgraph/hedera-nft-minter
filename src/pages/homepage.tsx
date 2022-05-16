@@ -1,102 +1,168 @@
 import React, { useCallback, useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, FormikValues } from 'formik';
 import NFTForm from '@components/views/homepage/nft-form';
-import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import IPFS from '@/services/IPFS';
-import HTS from '@/services/HTS';
+import HTS, { AccountInfo, Fee, NewTokenType } from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
-import { TokenId } from '@hashgraph/sdk';
+import {
+  TransactionReceipt,
+  TokenId,
+  CustomFee,
+  CustomFixedFee,
+  Hbar,
+  CustomRoyaltyFee,
+  CustomFractionalFee,
+  HbarUnit,
+} from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
-
-type FormValues = NFTMetadata & { symbol?: string; qty: number };
-
-type Property = {
-  name: string;
-  value: string;
-};
-
-type Parameters = {
-  properties: Property[];
-};
+import _ from 'lodash';
+import { nftFormKeysGenerator } from '@/utils/helpers/nftFormKeysGenerator';
+import { initialValues } from '@utils/const/nft-form';
 
 export default function Homepage() {
   const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
-  const initialValues: FormValues = {
-    name: '',
-    symbol: '',
-    creator: '',
-    creatorDID: '',
-    description: '',
-    type: '',
-    image: null,
-    files: [],
-    properties: [],
-    qty: 1,
-  };
 
-  const filterParams = useCallback(
-    (values) =>
-      Object.keys(values).reduce<Record<string, Parameters | string>>(
-        (params, paramName) => {
-          if (
-            (!Array.isArray(values[paramName]) && values[paramName]) ||
-            (Array.isArray(values[paramName]) && values[paramName].length > 0)
-          ) {
-            params[paramName] = values[paramName];
+  const createFees = useCallback((activeFees, data) => {
+    const createFee = (feeName: string | number, value: Fee) => {
+      let fee;
+      let fallback;
+      switch (feeName) {
+        case 'fixedFee':
+          fee = new CustomFixedFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+          });
+          if (!!value.denominatingTokenId && !!value.amount) {
+            fee
+              .setAmount(value.amount)
+              .setDenominatingTokenId(value.denominatingTokenId);
+          } else {
+            fee.setHbarAmount(
+              Hbar.from(value.hbarAmount as number, HbarUnit.Hbar)
+            );
           }
+          return fee;
 
-          return params;
-        },
-        {}
-      ),
-    []
-  );
+        case 'fractionalFee':
+          fee = new CustomFractionalFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+            numerator: value.numerator,
+            denominator: value.denominator,
+            min: value.min,
+            max: value.max,
+            assessmentMethod: value.assessmentMethod === 'exclusive',
+          });
+          return fee;
+
+        case 'royaltyFee':
+          fallback = new CustomFixedFee()
+            .setFeeCollectorAccountId(value.feeCollectorAccountId)
+            .setHbarAmount(Hbar.from(value.fallbackFee ?? 0, HbarUnit.Hbar));
+
+          fee = new CustomRoyaltyFee({
+            feeCollectorAccountId: value.feeCollectorAccountId,
+            numerator: value.numerator,
+            denominator: value.denominator,
+            fallbackFee: fallback,
+          });
+          return fee;
+
+        default:
+          return;
+      }
+    };
+
+    activeFees = [[...activeFees], data].reduce((activeFees) => {
+      let activeFee = {} as Fee;
+      for (let i = 0; i < activeFees.length; i++) {
+        activeFee = { ...activeFee, [activeFees[i]]: data[activeFees[i]] };
+      }
+      return activeFee;
+    });
+
+    const filtredValues: CustomFee[] = [];
+    for (const key in activeFees) {
+      const newFee = createFee(key, activeFees[key]);
+      if (newFee) {
+        filtredValues.push(newFee);
+      }
+    }
+    return filtredValues;
+  }, []);
+
+  const filterParams = useCallback((values) => {
+    let filtred = _.pick(values, [
+      'name',
+      'type',
+      'creator',
+      'creatorDID',
+      'description',
+      'image',
+      'files',
+      'format',
+      'properties',
+      'attributes',
+    ]) as FormikValues;
+
+    filtred.format = 'opensea';
+
+    const filtredProperties = {} as { [key: string]: string };
+    for (const [, value] of filtred.properties.entries()) {
+      filtredProperties[`${ value.name }`] = value.value;
+    }
+    filtred.properties = filtredProperties;
+
+    filtred = Object.keys(filtred).reduce(
+      (params: FormikValues, paramName: string) => {
+        if (
+          (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
+          (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
+        ) {
+          params[paramName] = filtred[paramName];
+        }
+
+        return params;
+      },
+      {}
+    );
+
+    return filtred;
+  }, []);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
     return data;
   }, []);
 
-  const uploadMetadata = useCallback(
-    async (metadata, serial: number, hip: 'hip-10' | 'hip-214') => {
-      if (hip === 'hip-214') {
-        metadata = {
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image,
-          properties: metadata.properties,
-        };
-      }
-
-      const { data } = await IPFS.createMetadataFile(metadata, serial);
-      return data;
-    },
-    []
-  );
+  const uploadMetadata = useCallback(async (metadata) => {
+    const { data } = await IPFS.createMetadataFile(metadata);
+    return data;
+  }, []);
 
   const createToken = useCallback(
-    async (
-      tokenName: string,
-      tokenSymbol: string,
-      accountId: string,
-      amount: number
-    ): Promise<TokenId | null> => {
-      const createTokenTx = await HTS.createToken(
-        tokenName,
-        tokenSymbol,
-        accountId,
-        amount
-      );
-      const createTokenResponse = await sendTransaction(createTokenTx);
+    async (values: NewTokenType): Promise<TokenId | null> => {
+      const token = await HTS.createToken(values);
+      const res = (await sendTransaction(token)) as TransactionReceipt & {
+        receipt: Uint8Array;
+      };
 
-      if (!createTokenResponse) {
+      if (!res) {
         throw new Error('Create Token Error.');
       }
 
-      return createTokenResponse.tokenId;
+      const receipt = TransactionReceipt.fromBytes(res.receipt);
+
+      if (!receipt) {
+        throw new Error('Get Transaction Receipt error');
+      }
+
+      if (!receipt.tokenId) {
+        throw new Error('Get Token ID error');
+      }
+
+      return receipt.tokenId;
     },
     [sendTransaction]
   );
@@ -121,42 +187,67 @@ export default function Homepage() {
 
   const handleFormSubmit = useCallback(
     async (values) => {
-      const hip = values.hip;
-      delete values.hip;
+      const tokenSymbol = values.symbol;
+      delete values.symbol;
 
       const filteredValues = filterParams(values);
-
+      const customFees = createFees(values.fees, values.activeFees);
       try {
-        if (!values.image) {
-          throw new Error('You need to select a file to upload');
-        }
         if (!userWalletId) {
           throw new Error('First connect your wallet');
         }
-
-        // upload image
-        const imageData = await uploadNFTFile(values.image);
-        // replace image with IMAGE_CID
-        if (!imageData.ok) {
-          throw new Error('Error when uploading NFT File!');
+        //upload image
+        if (values.image) {
+          const imageData = await uploadNFTFile(values.image);
+          if (!imageData.ok) {
+            throw new Error('Error when uploading NFT File!');
+          }
+          //add required image type metadata field
+          filteredValues.type = values.image.type;
+          //replace image with IMAGE_CID
+          filteredValues.image = imageData.value.cid;
         }
-
-        filteredValues.image = imageData.value.cid;
 
         // upload metadata
         const metaCIDs = await Promise.all(
-          Array.from(new Array(values.qty)).map((_, i) =>
-            uploadMetadata(filteredValues, i, hip)
+          Array.from(new Array(values.qty)).map(() =>
+            uploadMetadata(filteredValues)
           )
         );
 
-        // create token
-        const tokenId = await createToken(
-          values.name,
-          values.symbol,
-          userWalletId,
-          values.qty
+        //Fetch account data
+        let accountInfo: AccountInfo = await window.fetch(
+          'https://testnet.mirrornode.hedera.com/api/v1/accounts/' +
+            userWalletId,
+          { method: 'GET' }
         );
+
+        accountInfo = await accountInfo.json();
+
+        if (!accountInfo.key) {
+          throw new Error(
+            'Error when loading user key from hedera mirrornode API(testnet)!'
+          );
+        }
+
+        //Filter form keys
+        const filteredKeys = nftFormKeysGenerator(values, accountInfo.key.key);
+
+        const treasuryAccountId =
+          values.treasury === 'custom'
+            ? values.treasury_account_id
+            : userWalletId;
+
+        // create token
+        const tokenId = await createToken({
+          accountId: userWalletId,
+          tokenName: values.name,
+          tokenSymbol,
+          amount: values.qty,
+          ...filteredKeys,
+          treasuryAccountId,
+          customFees,
+        });
 
         if (!tokenId) {
           throw new Error('Error! Problem with creating token!');
@@ -189,6 +280,7 @@ export default function Homepage() {
     [
       createToken,
       filterParams,
+      createFees,
       mint,
       uploadMetadata,
       uploadNFTFile,
