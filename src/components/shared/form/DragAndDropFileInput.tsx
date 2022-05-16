@@ -23,7 +23,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
 
     const doesIncludeFileType = files[0].file.type.includes('image/');
     if (!doesIncludeFileType) {
-      return toast('❌ You can only upload only .png or .jpg!');
+      return toast('❌ You can only upload only image files!');
     }
 
     return toast('❌ Upload file again!');
@@ -45,7 +45,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   });
 
   const dragAndDropClassNames = classNames({
-    form__fileDrop__container: true,
+    'form__fileDrop__container': true,
     'is-focused': isFocused,
     'is-drag-accepted': isDragAccept,
     'is-drag-rejected': isDragReject,

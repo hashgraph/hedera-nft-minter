@@ -5,24 +5,25 @@ import { useField } from 'formik';
 import classNames from 'classnames';
 
 interface Option {
-  name: string,
-  value: string | number
+  name: string;
+  value: string | number;
 }
 
 interface SwitchProps {
-  options: Option[],
-  name: string,
-  label?: string,
+  options: Option[];
+  name: string;
+  label?: string;
 }
 
-export default function Switch({
-  options,
-  name,
-}: SwitchProps) {
-  const [field,, helpers] = useField(name);
-  const classess = useCallback((val) => classNames({
-    active: val === field.value,
-  }), [ field.value ]);
+export default function Switch({ options, name }: SwitchProps) {
+  const [field, , helpers] = useField(name);
+  const classess = useCallback(
+    (val) =>
+      classNames({
+        active: val === field.value,
+      }),
+    [field.value]
+  );
 
   return (
     <div className='switch'>
@@ -37,5 +38,5 @@ export default function Switch({
         </button>
       ))}
     </div>
-  )
+  );
 }
