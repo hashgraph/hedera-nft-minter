@@ -1,6 +1,9 @@
 import { useContext, useMemo } from 'react';
 import { LayoutContext } from '@utils/context/LayoutContext';
-import { useScrollDirection } from '@/utils/hooks/useScrollDir';
+import {
+  ScrollDirection,
+  useScrollDirection,
+} from '@/utils/hooks/useScrollDir';
 
 const useLayout = () => {
   const { pageMenuPositionY, setPageMenuPositionY, scrollPosition } =
@@ -20,7 +23,7 @@ const useLayout = () => {
         isPageMenu &&
         pageMenuPositionY &&
         scrollPosition.y > pageMenuPositionY &&
-        scrollDirection === 'down'
+        scrollDirection === ScrollDirection.up
       ),
     [isPageMenu, pageMenuPositionY, scrollDirection, scrollPosition.y]
   );
