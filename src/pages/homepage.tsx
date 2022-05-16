@@ -6,7 +6,6 @@ import HTS, { AccountInfo, Fee, NewTokenType } from '@/services/HTS';
 import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
 import {
-  TransactionReceipt,
   TokenId,
   CustomFee,
   CustomFixedFee,
@@ -143,26 +142,14 @@ export default function Homepage() {
 
   const createToken = useCallback(
     async (values: NewTokenType): Promise<TokenId | null> => {
-      const token = await HTS.createToken(values);
-      const res = (await sendTransaction(token)) as TransactionReceipt & {
-        receipt: Uint8Array;
-      };
+      const createTokenTx = await HTS.createToken(values);
+      const createTokenResponse = await sendTransaction(createTokenTx, true);
 
-      if (!res) {
+      if (!createTokenResponse) {
         throw new Error('Create Token Error.');
       }
 
-      const receipt = TransactionReceipt.fromBytes(res.receipt);
-
-      if (!receipt) {
-        throw new Error('Get Transaction Receipt error');
-      }
-
-      if (!receipt.tokenId) {
-        throw new Error('Get Token ID error');
-      }
-
-      return receipt.tokenId;
+      return createTokenResponse.tokenId;
     },
     [sendTransaction]
   );
@@ -210,7 +197,7 @@ export default function Homepage() {
 
         // upload metadata
         const metaCIDs = await Promise.all(
-          Array.from(new Array(values.qty)).map(() =>
+          Array.from(new Array(parseInt(values.qty))).map(() =>
             uploadMetadata(filteredValues)
           )
         );
@@ -242,11 +229,12 @@ export default function Homepage() {
         const tokenId = await createToken({
           accountId: userWalletId,
           tokenName: values.name,
+          amount: values.qty,
           tokenSymbol,
           ...filteredKeys,
           treasuryAccountId,
           customFees,
-        });
+        } as NewTokenType);
 
         if (!tokenId) {
           throw new Error('Error! Problem with creating token!');

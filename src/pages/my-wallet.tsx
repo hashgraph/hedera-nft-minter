@@ -21,10 +21,9 @@ export default function MyWallet() {
       const nfts = await MirrorNode.fetchUserNFTs(accountId);
 
       setNFTs(nfts);
+      setLoading(false);
     } catch (e) {
       // toast.error(e.message)
-    } finally {
-      setLoading(false);
     }
   }, [userWalletId]);
 
