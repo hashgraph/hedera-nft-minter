@@ -1,5 +1,16 @@
 import React from 'react';
+<<<<<<< HEAD
+import {
+  FastField,
+  FieldArray,
+  Form,
+  Field,
+  FormikProps,
+  FormikValues,
+} from 'formik';
+=======
 import { FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
+>>>>>>> main
 import { DeleteOutlined } from '@ant-design/icons';
 
 import Error from '@/components/shared/form/Error';
@@ -17,10 +28,24 @@ export default function NFTForm({
     <Form className='form'>
       <div>
         <div className='form__row'>
+<<<<<<< HEAD
+          <label htmlFor='hip'>NFT Type:</label>
+          <Switch
+            name='hip'
+            options={[
+              { name: 'HIP-10', value: 'hip-10' },
+              { name: 'HIP-412', value: 'hip-412' },
+            ]}
+          />
+        </div>
+        <div className='form__row'>
+=======
+>>>>>>> main
           <label htmlFor='image'>File:</label>
           <DragAndDropFileInput name='image' />
+          <Error name='image' />
         </div>
-        <Error name='image' />
+
         <div className='form__row'>
           <label htmlFor='null'>Properties:</label>
           <FieldArray name='properties'>
@@ -215,6 +240,12 @@ export default function NFTForm({
         </div>
 
         <div className='form__btns'>
+<<<<<<< HEAD
+=======
+          <button type='submit' className='btn--md' disabled={isSubmitting}>
+            Submit
+          </button>
+>>>>>>> main
           <button
             type='button'
             onClick={handleReset}

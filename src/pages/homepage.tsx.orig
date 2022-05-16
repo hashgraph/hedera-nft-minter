@@ -112,7 +112,7 @@ export default function Homepage() {
 
       const filtredProperties = {} as { [key: string]: string };
       for (const [, value] of filtred.properties.entries()) {
-        filtredProperties[`${ value.name }`] = value.value;
+        filtredProperties[`${value.name}`] = value.value;
       }
       filtred.properties = filtredProperties;
 

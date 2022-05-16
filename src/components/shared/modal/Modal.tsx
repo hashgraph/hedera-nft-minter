@@ -1,12 +1,12 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { ModalContext } from '@/utils/context/ModalContext';
 import { useOnClickAway } from 'use-on-click-away';
 import classNames from 'classnames';
 
 const Modal = () => {
-  const { closeModal, isModalShowed, modalContent } = useContext(ModalContext);
   const ref = useRef(null);
+  const { closeModal, isModalShowed, modalContent } = useContext(ModalContext);
 
   useEffect(() => {
     const handleExit = (e: KeyboardEvent) => {
@@ -22,10 +22,12 @@ const Modal = () => {
     closeModal();
   });
 
-  const modalBackgroundClassnames = classNames({
-    'modal-background': true,
-    'is-modal-background-showed': isModalShowed,
-  });
+  const modalBackgroundClassnames = useMemo(() => classNames(
+    'modal-background',
+    {
+      'is-modal-background-showed': isModalShowed,
+    }
+  ), [isModalShowed]);
 
   return (
     <>

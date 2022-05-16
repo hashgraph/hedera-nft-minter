@@ -4,9 +4,7 @@ import MirrorNode from '@/services/MirrorNode';
 import NFT from '@components/views/my-wallet/NFT';
 import Loader from '@components/shared/loader/Loader';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import Hero from '@/components/shared/layout/Hero';
 import { TokenInfo } from '@utils/entity/TokenInfo';
-import PageMenu from '@/components/shared/layout/PageMenu';
 
 export default function MyWallet() {
   const { userWalletId } = useHederaWallets();
@@ -30,22 +28,26 @@ export default function MyWallet() {
   }, [userWalletId]);
 
   useEffect(() => {
-    load();
+      load();
   }, [load]);
 
   return (
     <>
-      <Hero title={'My wallet'} />
-      <PageMenu />
-
+      <div className='hero'>
+        <div>
+          <h2>My Wallet</h2>
+        </div>
+      </div>
       <div className='container'>
+
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
-        ) : loading ? (
-          <Loader />
         ) : (
-          <div>
-            <h2>Your NFT's</h2>
+          loading ? (
+            <Loader />
+          ) : (
+            <div>
+              <h2>Your NFT's</h2>
 
               {nfts?.length ? (
                 <div className='nft-grid'>
@@ -56,9 +58,11 @@ export default function MyWallet() {
               ) : (
                 <div>No nfts :(</div>
               )}
-          </div>
+            </div>
+          )
         )}
+
       </div>
     </>
-  );
+  )
 }

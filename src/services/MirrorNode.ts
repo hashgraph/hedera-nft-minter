@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
+import { TokenId } from '@hashgraph/sdk';
 
 interface Token {
   token_id: string,
@@ -37,7 +38,7 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchNFTInfo(tokenId: string): Promise<{ nfts: NFTInfo[] }> {
+  static async fetchNFTInfo(tokenId: string | TokenId): Promise<{ nfts: NFTInfo[] }> {
     const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts`);
 
     return data;
@@ -61,15 +62,19 @@ export default class MirrorNode {
       balance.tokens
         .filter(i => i.balance > 0)
         .map(async token => {
-        const t = await this.fetchTokenInfo(token.token_id);
+          const t = await this.fetchTokenInfo(token.token_id);
 
-        if (t.type !== 'NON_FUNGIBLE_UNIQUE') {
-          return null;
-        }
+          if (t.type !== 'NON_FUNGIBLE_UNIQUE') {
+            return null;
+          }
 
-        return this.fetchNFTInfo(token.token_id);
-      })
-    );
+          return this.fetchNFTInfo(token.token_id)
+            .then(res => ({
+              ...res,
+              info: t,
+            }));
+        })
+    ) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
 
     return nfts.filter(Boolean);
   }

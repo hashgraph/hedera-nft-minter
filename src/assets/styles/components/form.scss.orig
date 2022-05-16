@@ -9,12 +9,13 @@
   }
   &__row {
     padding-top: 1rem;
-    &__fees {
-      border: 1px solid rgba(66, 68, 90, 0.2);
+    &__fees{
+      border:1px solid rgba(66, 68, 90, 0.2);
       border-radius: 5px;
       padding: 10px;
       margin-bottom: 1rem;
     }
+
   }
 
   &__error {
@@ -39,6 +40,7 @@
     color: $vapor;
     display: block;
     padding: 0 1rem 0.2rem;
+<<<<<<< HEAD
     font-size: 14px;
   }
 
@@ -52,9 +54,28 @@
     border-radius: 25px;
     width: 100%;
     font-size: 20px;
+=======
+    font-size: 0.8rem;
 
-    &:focus {
-      border-color: $blue;
+    label {
+      display: inline-flex;
+      padding: 0 0 0 .5rem;
+      align-items: center;
+    }
+  }
+
+  input, select {
+    &:not([type="radio"], [type="checkbox"]) {
+      display: block;
+      border: 1px solid rgba($blue, .5);
+      padding: 0.75rem 1rem;
+      border-radius: 25px;
+      width: 100%;
+>>>>>>> main
+
+      &:focus {
+        border-color: $blue;
+      }
     }
   }
 

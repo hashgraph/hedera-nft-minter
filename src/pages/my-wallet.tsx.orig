@@ -4,13 +4,20 @@ import MirrorNode from '@/services/MirrorNode';
 import NFT from '@components/views/my-wallet/NFT';
 import Loader from '@components/shared/loader/Loader';
 import { NFTInfo } from '@utils/entity/NFTInfo';
+<<<<<<< HEAD
 import Hero from '@/components/shared/layout/Hero';
-import { TokenInfo } from '@utils/entity/TokenInfo';
 import PageMenu from '@/components/shared/layout/PageMenu';
 
 export default function MyWallet() {
   const { userWalletId } = useHederaWallets();
+  const [nfts, setNFTs] = useState<({ nfts: NFTInfo[] } | null)[]>([]);
+=======
+import { TokenInfo } from '@utils/entity/TokenInfo';
+
+export default function MyWallet() {
+  const { userWalletId } = useHederaWallets();
   const [nfts, setNFTs] = useState<({ nfts: NFTInfo[], info: TokenInfo } )[] | null>([]);
+>>>>>>> main
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
@@ -30,7 +37,11 @@ export default function MyWallet() {
   }, [userWalletId]);
 
   useEffect(() => {
+<<<<<<< HEAD
     load();
+=======
+      load();
+>>>>>>> main
   }, [load]);
 
   return (
@@ -47,6 +58,12 @@ export default function MyWallet() {
           <div>
             <h2>Your NFT's</h2>
 
+<<<<<<< HEAD
+            <div className='nft-grid'>
+              {nfts.map((nft) => (
+                <NFT key={nft?.nfts[0].token_id} {...nft} />
+              ))}
+=======
               {nfts?.length ? (
                 <div className='nft-grid'>
                   {nfts.map(nft => (
@@ -56,6 +73,8 @@ export default function MyWallet() {
               ) : (
                 <div>No nfts :(</div>
               )}
+>>>>>>> main
+            </div>
           </div>
         )}
       </div>

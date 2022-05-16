@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import useHederaWallets from '@/utils/hooks/useHederaWallets';
 
-const ConnectionModal = () => {
+export default function ConnectionModal() {
   const { userWalletId, connectedWalletType, connect, disconnect } =
     useHederaWallets();
 
@@ -37,6 +37,4 @@ const ConnectionModal = () => {
       )}
     </>
   );
-};
-
-export default ConnectionModal;
+}
