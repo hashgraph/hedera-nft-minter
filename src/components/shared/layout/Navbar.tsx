@@ -9,7 +9,6 @@ const Navbar = () => {
     () =>
       window.scroll({
         top: 0,
-        left: 0,
         behavior: 'smooth',
       }),
     []
@@ -18,20 +17,20 @@ const Navbar = () => {
   const [scrollingBreakpoint, setScrollingBreakpoint] = useState(0);
 
   useEffect(() => {
-    setScrollingBreakpoint(navRef.current.offsetTop);
+    setScrollingBreakpoint(navRef?.current?.offsetTop ?? 0);
+  }, [setScrollingBreakpoint]);
 
+  useEffect(() => {
     const handleScroll = () => {
       if (navRef) {
-        if (scrolledToTopOfPage) {
-          setScrolledToTopOfPage(window.scrollY > scrollingBreakpoint);
-        } else {
-          setScrolledToTopOfPage(window.scrollY > navRef.current.offsetTop);
-        }
+        scrolledToTopOfPage
+          ? setScrolledToTopOfPage(window.scrollY > scrollingBreakpoint)
+          : setScrolledToTopOfPage(window.scrollY > navRef.current.offsetTop);
       }
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [setScrollingBreakpoint, scrolledToTopOfPage, scrollingBreakpoint]);
+  }, [scrolledToTopOfPage, scrollingBreakpoint]);
 
   const navClassnames = classNames({
     'minter-nav': true,
