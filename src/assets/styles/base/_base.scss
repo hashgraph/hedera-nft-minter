@@ -38,7 +38,7 @@ textarea {
   cursor: pointer;
 }
 
-input,
+input:not([type="radio"], [type="checkbox"]),
 select {
   -webkit-appearance: none;
 }

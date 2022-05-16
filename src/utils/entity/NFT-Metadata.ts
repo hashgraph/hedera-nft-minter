@@ -8,6 +8,10 @@ interface Propertie {
   name: string,
   value: string,
 }
+interface Attribute {
+  trait_type: string,
+  value: string,
+}
 
 interface Localization {
   uri: string,
@@ -24,5 +28,6 @@ export interface NFTMetadata {
   files?: FileMetadata[],
   format?: string,
   properties?: Propertie[],
+  attributes?: Attribute[],
   localization?: Localization
 }

@@ -17,6 +17,7 @@ module.exports = {
       '@utils': `${SRC_PATH}/utils`,
       '@const': `${SRC_PATH}/utils/const`,
       '@helpers': `${SRC_PATH}/utils/helpers`,
+      '@services': `${SRC_PATH}/services`,
       '@hooks': `${SRC_PATH}/utils/hooks`,
       // Components
       '@components': `${SRC_PATH}/components`,
