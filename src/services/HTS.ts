@@ -9,6 +9,9 @@ import {
   TokenType,
   TokenSupplyType,
   CustomFee,
+  TokenUpdateTransaction,
+  Key,
+  Timestamp,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 
@@ -47,6 +50,24 @@ export type Fee = {
   assessmentMethod?: 'inclusive' | 'exclusive';
 };
 
+type UpdateTokenProps = {
+  tokenId?: string | TokenId | undefined;
+  tokenName?: string | undefined;
+  tokenSymbol?: string | undefined;
+  treasuryAccountId?: string | AccountId | undefined;
+  adminKey?: Key | undefined;
+  kycKey?: Key | undefined;
+  freezeKey?: Key | undefined;
+  wipeKey?: Key | undefined;
+  supplyKey?: Key | undefined;
+  autoRenewAccountId?: string | AccountId | undefined;
+  expirationTime?: Date | Timestamp | undefined;
+  autoRenewPeriod?: number | import('long').Long | undefined;
+  tokenMemo?: string | undefined;
+  feeScheduleKey?: Key | undefined;
+  pauseKey?: Key | undefined;
+} | undefined
+
 export default class HTS {
   static async createToken({
     amount,
@@ -78,6 +99,31 @@ export default class HTS {
       .freeze();
 
     return mintTx;
+  }
+
+  static updateToken(tokenId: string | TokenId, acc1: string, newValues: UpdateTokenProps) {
+    const txID = TransactionId.generate(acc1);
+
+    const updateTx = new TokenUpdateTransaction(newValues)
+      .setTransactionId(txID)
+      .setTokenId(tokenId)
+      .setNodeAccountIds([ new AccountId(3) ])
+      .freeze();
+
+    return updateTx;
+  }
+
+  static sendNFT(tokenId: string | TokenId, serial: number, sender: string, receiver: string) {
+    const txID = TransactionId.generate(sender);
+
+    const tx = new TransferTransaction()
+      .setTransactionId(txID)
+      .addNftTransfer(tokenId, serial, sender, receiver)
+      .setNodeAccountIds([ new AccountId(3) ])
+      .freeze()
+    ;
+
+    return tx;
   }
 
   static transfer(acc1: string, acc2: string) {

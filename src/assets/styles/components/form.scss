@@ -17,7 +17,7 @@
       padding: 10px;
       margin-bottom: 1rem;
     }
-    
+
   }
 
   &__error{
@@ -44,7 +44,7 @@
     }
   }
 
-  input {
+  input, select {
     &:not([type="radio"], [type="checkbox"]) {
       display: block;
       border: 1px solid rgba($blue, .5);
@@ -56,6 +56,10 @@
         border-color: $blue;
       }
     }
+  }
+
+  select {
+    appearance: auto;
   }
 
   &__btns {
