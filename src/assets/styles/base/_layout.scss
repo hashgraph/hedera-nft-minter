@@ -60,7 +60,10 @@ header {
   width: 100%;
   height: 80px;
   transition: generateTransitions((transform, background-color), 200ms);
-
+  svg{
+    margin-left: 8px;
+    font-size: 13px;
+  }
   .container {
     padding: 1rem;
     width: 100%;

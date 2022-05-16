@@ -3,11 +3,14 @@ button,
   border-radius: 15px;
   padding: 0 20px;
   height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   border: 1px solid var(--border-color, #{$black});
   color: var(--font-color, #{$black});
   font-size: 8px;
   letter-spacing: 1.33px;
-  // line-height: 28px;
 
   $transitionAttributes: (border-color, background-color, color);
   transition: generateTransitions($transitionAttributes, 400ms);

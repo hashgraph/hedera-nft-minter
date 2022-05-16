@@ -287,7 +287,13 @@ export default function Homepage() {
           pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui
           posuere blandit.
         </p>
-        <button className='btn--invert'>TOKEN DOCUMENTATION</button>
+        <a
+          href='https://hedera.com/token-service'
+          target={'_blank'}
+          className='btn btn--invert'
+        >
+          TOKEN DOCUMENTATION
+        </a>
       </Hero>
       <PageMenu />
       <div className='black-background'>

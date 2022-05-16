@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import useLayout from '@utils/hooks/useLayout';
 
 type Props = {
-  children: React.ReactElement;
+  children?: React.ReactElement;
   className?: string;
 };
 

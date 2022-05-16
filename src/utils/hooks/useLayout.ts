@@ -23,7 +23,7 @@ const useLayout = () => {
         isPageMenu &&
         pageMenuPositionY &&
         scrollPosition.y > pageMenuPositionY &&
-        scrollDirection === ScrollDirection.up
+        scrollDirection === ScrollDirection.down
       ),
     [isPageMenu, pageMenuPositionY, scrollDirection, scrollPosition.y]
   );
