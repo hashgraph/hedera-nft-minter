@@ -4,9 +4,10 @@ import { ProfileTwoTone } from '@ant-design/icons';
 import { ModalContext } from '@utils/context/ModalContext';
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
 import useHederaWallets from '@hooks/useHederaWallets';
+import Logo from '@assets/images/hedera_logomark.png';
 
 const Navbar = () => {
-  const { connectedWalletType, userWalletId } = useHederaWallets()
+  const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
 
   const handleShowModal = useCallback(() => {
@@ -17,13 +18,14 @@ const Navbar = () => {
   return (
     <header>
       <Link className='logo_link' to='/'>
-        <h1>NFT Minter</h1>
+        <img src={Logo} alt='hedera_logo' height={30} width={30} /> Hedera
       </Link>
 
       <div className='header__buttons-wrapper'>
         <Link to='/my-wallet'>My NFT Collection</Link>
         <button onClick={handleShowModal}>
-          {connectedWalletType === 'noconnection' ? 'Connect' : userWalletId} <ProfileTwoTone />
+          {connectedWalletType === 'noconnection' ? 'Connect' : userWalletId}{' '}
+          <ProfileTwoTone />
         </button>
       </div>
     </header>

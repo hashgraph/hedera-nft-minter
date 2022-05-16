@@ -199,9 +199,13 @@ export default function Homepage() {
   return (
     <div className='homepage'>
       <div className='hero'>
-        <div>
-          <p>Mint your own NFT at speed of light!</p>
-        </div>
+        <h1>Mint your own NFT at speed of light!</h1>
+        <p>
+          Proin eget tortor risus. Praesent sapien massa, convallis a
+          pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui
+          posuere blandit.
+        </p>
+        <button className='btn--invert'>TOKEN DOCUMENTATION</button>
       </div>
       <div className='container'>
         {tokenCreated ? (
