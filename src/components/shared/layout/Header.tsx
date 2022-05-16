@@ -1,11 +1,4 @@
-import React, {
-  useContext,
-  useCallback,
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { useContext, useCallback, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginOutlined, DisconnectOutlined } from '@ant-design/icons';
 import { ModalContext } from '@utils/context/ModalContext';
@@ -14,11 +7,12 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import LogoBlack from '@assets/images/black-cutout.svg';
 import LogoWhite from '@assets/images/reversed-cutout.svg';
 import classNames from 'classnames';
+import useLayout from '@utils/hooks/useLayout';
 
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const [scrolledAboveHeader, setScrolledAboveHeader] = useState(false);
+  const { scrollPosition, isNavbarHidden } = useLayout();
   const headerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const handleShowModal = useCallback(() => {
@@ -40,19 +34,10 @@ const Header = () => {
     [connectedWalletType, userWalletId]
   );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (headerRef) {
-        if (window.scrollY > headerRef.current.offsetHeight) {
-          setScrolledAboveHeader(true);
-        } else {
-          setScrolledAboveHeader(false);
-        }
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const scrolledAboveHeader = useMemo(
+    () => headerRef && scrollPosition.y > headerRef?.current?.offsetHeight,
+    [scrollPosition, headerRef]
+  );
 
   const hederaLogo = useMemo(
     () => (scrolledAboveHeader ? LogoBlack : LogoWhite),
@@ -61,6 +46,7 @@ const Header = () => {
 
   const headerClassnames = classNames({
     'is-white': scrolledAboveHeader,
+    'is-hide': isNavbarHidden,
   });
   const logoLinkClassnames = classNames({
     'logo_link': true,

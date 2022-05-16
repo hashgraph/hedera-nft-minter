@@ -1,9 +1,58 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
 import Arrow from '@assets/images/interior-nav-arrow-up.png';
 import classNames from 'classnames';
+import useLayout from '@utils/hooks/useLayout';
 
-const Navbar = ({ children }: { children: React.ReactElement }) => {
+type Props = {
+  children: React.ReactElement;
+  className?: string;
+};
+
+const PageMenu = (
+  { children }: Props,
+  props: React.PropsWithChildren<Props>
+) => {
   const navRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+
+  const { setPageMenuPositionY, isNavbarHidden, scrollPosition } = useLayout();
+
+  useEffect(() => {
+    if (navRef) {
+      setPageMenuPositionY(navRef.current.offsetTop);
+    }
+  }, [setPageMenuPositionY]);
+
+  const [scrolledToTopOfPage, setScrolledToTopOfPage] = useState(false);
+  const [scrollingBreakpoint, setScrollingBreakpoint] = useState(0);
+
+  useEffect(() => {
+    setScrollingBreakpoint(navRef?.current?.offsetTop - 80 ?? 0);
+  }, [setScrollingBreakpoint]);
+
+  useEffect(() => {
+    if (navRef) {
+      if (scrolledToTopOfPage) {
+        setScrolledToTopOfPage(scrollPosition.y > scrollingBreakpoint);
+      } else {
+        setScrolledToTopOfPage(
+          scrollPosition.y > navRef.current.offsetTop - 80
+        );
+      }
+    }
+  }, [scrolledToTopOfPage, scrollingBreakpoint, scrollPosition]);
+
+  const navClassnames = classNames({
+    'page-menu': true,
+    'page-menu__sticked-to-top': scrolledToTopOfPage,
+    'page-menu__scrolled-to-top': isNavbarHidden,
+    [props?.className as string]: !!props?.className,
+  });
+
+  const deviderClassnames = classNames({
+    'page-menu-divider': true,
+    'page-menu-divider__visible': scrolledToTopOfPage,
+  });
+
   const scrollToTop = useCallback(
     () =>
       window.scroll({
@@ -12,36 +61,9 @@ const Navbar = ({ children }: { children: React.ReactElement }) => {
       }),
     []
   );
-  const [scrolledToTopOfPage, setScrolledToTopOfPage] = useState(false);
-  const [scrollingBreakpoint, setScrollingBreakpoint] = useState(0);
-
-  useEffect(() => {
-    setScrollingBreakpoint(navRef?.current?.offsetTop ?? 0);
-  }, [setScrollingBreakpoint]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (navRef) {
-        scrolledToTopOfPage
-          ? setScrolledToTopOfPage(window.scrollY > scrollingBreakpoint)
-          : setScrolledToTopOfPage(window.scrollY > navRef.current.offsetTop);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [scrolledToTopOfPage, scrollingBreakpoint]);
-
-  const navClassnames = classNames({
-    'minter-nav': true,
-    'minter-nav__scrolled-to-top': scrolledToTopOfPage,
-  });
-
-  const deviderClassnames = classNames({
-    'minter-nav-divider': scrolledToTopOfPage,
-  });
 
   return (
-    <>
+    <div className='page-menu-wrapper'>
       <nav ref={navRef} className={navClassnames}>
         <div className='nav-links'>{children}</div>
         <button onClick={scrollToTop}>
@@ -54,8 +76,8 @@ const Navbar = ({ children }: { children: React.ReactElement }) => {
         </button>
       </nav>
       <div className={deviderClassnames}></div>
-    </>
+    </div>
   );
 };
 
-export default Navbar;
+export default PageMenu;

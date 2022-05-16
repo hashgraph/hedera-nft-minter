@@ -7,21 +7,24 @@ import Routes from '@routes/index';
 import AuthProvider from '@utils/context/AuthContext';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 import ModalProvider from '@utils/context/ModalContext';
+import LayoutProvider from '@utils/context/LayoutContext';
 
 function App() {
   return (
-    <ModalProvider>
-      <AuthProvider>
-        <HederaWalletsProvider>
-          <>
-            <Router>
-              <Routes />
-            </Router>
-            <ToastContainer />
-          </>
-        </HederaWalletsProvider>
-      </AuthProvider>
-    </ModalProvider>
+    <LayoutProvider>
+      <ModalProvider>
+        <AuthProvider>
+          <HederaWalletsProvider>
+            <>
+              <Router>
+                <Routes />
+              </Router>
+              <ToastContainer />
+            </>
+          </HederaWalletsProvider>
+        </AuthProvider>
+      </ModalProvider>
+    </LayoutProvider>
   );
 }
 

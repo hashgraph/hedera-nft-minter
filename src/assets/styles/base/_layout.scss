@@ -46,14 +46,21 @@ textarea {
 }
 
 header.is-white {
-  background: $vapor;
+  z-index: 1;
+  background-color: $vapor;
+}
+header.is-hide{
+  transform: translateY(-80px);
 }
 header {
   top: 0;
   margin: 0 auto;
   position: fixed;
+  background-color: transparent;
   width: 100%;
   height: 80px;
+  transition: generateTransitions((transform, background-color), 400ms);
+
   .container {
     padding: 1rem;
     width: 100%;
@@ -180,7 +187,10 @@ header {
   padding: 0 1rem;
 }
 
-.minter-nav {
+.page-menu-wrapper{
+  background: $gradient;
+}
+.page-menu {
   z-index: 1;
   position: relative;
   background: $gradient;
@@ -189,6 +199,7 @@ header {
   justify-content: center;
   align-items: center;
   padding: 23px 0px;
+  transition: transform 400ms linear;;
   a {
     font-weight: 400;
     font-size: 14px;
@@ -225,13 +236,25 @@ header {
   }
 
   &__scrolled-to-top {
+    transform: translateY(-80px);
+  }
+  &__sticked-to-top {
     position: fixed;
-    top: 0;
+    top: 80px;
   }
 }
 
-.minter-nav-divider {
+.page-menu-divider {
+  background: $gradient;
+  position: absolute;
   height: 47px;
-  width: 100px;
+  top: 0;
+  width: 100%;
+  z-index: -1;
   content: '';
+  &__visible{
+    z-index: 0;
+    position: relative;
+  }
+
 }
