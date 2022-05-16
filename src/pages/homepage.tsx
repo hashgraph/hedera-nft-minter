@@ -82,15 +82,14 @@ export default function Homepage() {
       tokenName: string,
       tokenSymbol: string,
       accountId: string,
-      amount: number
     ): Promise<TokenId | null> => {
       const createTokenTx = await HTS.createToken(
         tokenName,
         tokenSymbol,
         accountId,
-        amount
       );
-      const createTokenResponse = await sendTransaction(createTokenTx);
+
+      const createTokenResponse = await sendTransaction(createTokenTx, true);
 
       if (!createTokenResponse) {
         throw new Error('Create Token Error.');
@@ -155,7 +154,6 @@ export default function Homepage() {
           values.name,
           values.symbol,
           userWalletId,
-          values.qty
         );
 
         if (!tokenId) {

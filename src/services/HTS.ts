@@ -4,7 +4,14 @@ import {
   TokenMintTransaction,
   TransactionId,
   TransferTransaction,
-  AccountId, TokenId, TokenType, TokenSupplyType, PublicKey
+  AccountId,
+  TokenId,
+  TokenType,
+  TokenSupplyType,
+  PublicKey,
+  TokenUpdateTransaction,
+  Key,
+  Timestamp,
 } from '@hashgraph/sdk';
 import {Buffer} from 'buffer'
 
@@ -15,8 +22,26 @@ type AccountInfo = Response & {
   }
 }
 
+type UpdateTokenProps = {
+  tokenId?: string | TokenId | undefined;
+  tokenName?: string | undefined;
+  tokenSymbol?: string | undefined;
+  treasuryAccountId?: string | AccountId | undefined;
+  adminKey?: Key | undefined;
+  kycKey?: Key | undefined;
+  freezeKey?: Key | undefined;
+  wipeKey?: Key | undefined;
+  supplyKey?: Key | undefined;
+  autoRenewAccountId?: string | AccountId | undefined;
+  expirationTime?: Date | Timestamp | undefined;
+  autoRenewPeriod?: number | import('long').Long | undefined;
+  tokenMemo?: string | undefined;
+  feeScheduleKey?: Key | undefined;
+  pauseKey?: Key | undefined;
+} | undefined
+
 export default class HTS {
-  static async createToken(tokenName: string, tokenSymbol: string, accountId: string, amount: number): Promise<TokenCreateTransaction> {
+  static async createToken(tokenName: string, tokenSymbol: string, accountId: string): Promise<TokenCreateTransaction> {
 
     let accountInfo : AccountInfo = await window.fetch('https://testnet.mirrornode.hedera.com/api/v1/accounts/' + accountId, { method: 'GET' });
 
@@ -34,7 +59,7 @@ export default class HTS {
       tokenSymbol,
     })
       .setInitialSupply(0)
-      .setMaxSupply(amount)
+      .setMaxSupply(100)
       .setTokenType(TokenType.NonFungibleUnique)
       .setDecimals(0)
       .setSupplyKey(key)
@@ -42,9 +67,6 @@ export default class HTS {
       .setSupplyType(TokenSupplyType.Finite)
       .setTreasuryAccountId(AccountId.fromString(accountId))
       .setExpirationTime(expirationTime)
-
-    // eslint-disable-next-line no-console
-    console.log({ token });
 
     return token;
   }
@@ -61,6 +83,31 @@ export default class HTS {
       .freeze();
 
     return mintTx;
+  }
+
+  static updateToken(tokenId: string | TokenId, acc1: string, newValues: UpdateTokenProps) {
+    const txID = TransactionId.generate(acc1);
+
+    const updateTx = new TokenUpdateTransaction(newValues)
+      .setTransactionId(txID)
+      .setTokenId(tokenId)
+      .setNodeAccountIds([ new AccountId(3) ])
+      .freeze();
+
+    return updateTx;
+  }
+
+  static sendNFT(tokenId: string | TokenId, serial: number, sender: string, receiver: string) {
+    const txID = TransactionId.generate(sender);
+
+    const tx = new TransferTransaction()
+      .setTransactionId(txID)
+      .addNftTransfer(tokenId, serial, sender, receiver)
+      .setNodeAccountIds([ new AccountId(3) ])
+      .freeze()
+    ;
+
+    return tx;
   }
 
   static transfer(acc1: string, acc2: string) {

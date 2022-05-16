@@ -87,7 +87,7 @@ const useHederaWallets = () => {
   },[connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds])
 
 
-  const sendTransaction = useCallback(async(tx) => {
+  const sendTransaction = useCallback(async(tx, sign = false) => {
     if (!userWalletId) {
       throw new Error('Loading logged Hedera account id Error.');
     }
@@ -110,8 +110,13 @@ const useHederaWallets = () => {
           throw new Error('Loading topic Error.');
         }
 
-        // eslint-disable-next-line no-case-declarations
-        const txBytes = await SigningService.makeBytes(tx, userWalletId);
+        // eslint-disable-next-line no-case-declarations,no-undef
+        let txBytes: Uint8Array = new Buffer([]);
+        if (sign) {
+          txBytes = await SigningService.makeBytes(tx, userWalletId);
+        } else {
+          txBytes = tx.toBytes();
+        }
 
         // eslint-disable-next-line no-case-declarations
         response = await hashConnect?.sendTransaction(hashConnectSaveData.topic, {
