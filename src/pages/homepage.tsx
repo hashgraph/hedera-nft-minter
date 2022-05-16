@@ -9,7 +9,7 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 import Hero from '@/components/shared/layout/Hero';
-import Navbar from '@/components/shared/layout/Navbar';
+import PageMenu from '@/components/shared/layout/PageMenu';
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
@@ -208,7 +208,7 @@ export default function Homepage() {
         </p>
         <button className='btn--invert'>TOKEN DOCUMENTATION</button>
       </Hero>
-      <Navbar />
+      <PageMenu />
       <div className='black-background'>
         <div className='container'>
           {tokenCreated ? (

@@ -75,10 +75,12 @@ const Header = () => {
     <header className={headerClassnames} ref={headerRef}>
       <div className={'container'}>
         <Link className={logoLinkClassnames} to='/'>
-          <img src={hederaLogo} alt='hedera_logo' height={30} width={30} />{' '}
+          <img src={hederaLogo} alt='hedera_logo' height={43} width={43} />{' '}
           Hedera
         </Link>
         <div className={buttonsWrapperClassnames}>
+          <Link to='/'>Mint token</Link>
+          <Link to='/my-wallet'>My NFT Collection</Link>
           <button onClick={handleShowModal}>{buttonContent()}</button>
         </div>
       </div>

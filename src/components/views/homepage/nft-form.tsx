@@ -1,12 +1,23 @@
 import React from 'react';
-import { FastField, FieldArray, Form, Field, FormikProps, FormikValues } from 'formik';
+import {
+  FastField,
+  FieldArray,
+  Form,
+  Field,
+  FormikProps,
+  FormikValues,
+} from 'formik';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import Error from '@/components/shared/form/Error';
 import Switch from '@components/shared/form/switch/Switch';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 
-export default function NFTForm({ values, handleReset, isSubmitting }: FormikProps<FormikValues>) {
+export default function NFTForm({
+  values,
+  handleReset,
+  isSubmitting,
+}: FormikProps<FormikValues>) {
   return (
     <Form className='form'>
       <div>
@@ -16,7 +27,7 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
             name='hip'
             options={[
               { name: 'HIP-10', value: 'hip-10' },
-              { name: 'HIP-412', value: 'hip-412' }
+              { name: 'HIP-412', value: 'hip-412' },
             ]}
           />
         </div>
@@ -120,19 +131,15 @@ export default function NFTForm({ values, handleReset, isSubmitting }: FormikPro
 
         <div className='form__btns'>
           <button
-            type='submit'
-            className='btn--md'
-            disabled={isSubmitting}
-          >
-            Submit
-          </button>
-          <button
             type='button'
             onClick={handleReset}
-            className='btn--grey btn--md'
+            className='btn--grey btn--transparent-white'
             disabled={isSubmitting}
           >
             Clear form
+          </button>
+          <button type='submit' className='btn' disabled={isSubmitting}>
+            Submit
           </button>
         </div>
       </div>

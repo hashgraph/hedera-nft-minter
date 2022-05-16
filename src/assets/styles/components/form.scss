@@ -1,5 +1,4 @@
 .form {
-
   &__group {
     display: grid;
     grid-template-columns: 1fr 1fr 40px;
@@ -13,14 +12,20 @@
     padding-top: 1rem;
   }
 
-  &__error{
+  &__error {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    color: $red;
+    color: $orange;
     padding-left: 2px;
-    font-size: 0.7rem;
-    &.image_error{
+    font-size: 11px;
+    font-family: 'Styrene A Web';
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    padding-right: 5px;
+    min-height: 14px;
+    &.image_error {
       padding-right: 50px;
     }
   }
@@ -29,10 +34,11 @@
     color: $vapor;
     display: block;
     padding: 0 1rem 0.2rem;
-    font-size: 0.8rem;
+    font-size: 14px;
   }
 
-  input {
+  input,
+  textarea {
     display: block;
     color: $vapor;
     background: transparent;
@@ -40,6 +46,7 @@
     padding: 0.75rem 1rem;
     border-radius: 25px;
     width: 100%;
+    font-size: 20px;
 
     &:focus {
       border-color: $blue;
@@ -53,7 +60,15 @@
     grid-gap: 1rem;
   }
 
-  .form__fileDrop__container{
+  button {
+    font-family: 'Styrene A Web';
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .form__fileDrop__container {
     $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
     $transitionTime: 0.4s;
     $transitionAttributes: (border-color, box-shadow);
@@ -67,20 +82,17 @@
     transition: generateTransitions($transitionAttributes, $transitionTime);
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
 
-    &.is-focused{
+    &.is-focused {
       border-color: $ultraviolet;
       box-shadow: $boxShadow;
     }
-    &.is-drag-accepted{
+    &.is-drag-accepted {
       border-color: $green;
       box-shadow: $boxShadow;
-
     }
-    &.is-drag-rejected{
+    &.is-drag-rejected {
       border-color: $orange;
       box-shadow: $boxShadow;
     }
   }
-
 }
-

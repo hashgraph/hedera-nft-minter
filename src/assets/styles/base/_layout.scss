@@ -1,8 +1,51 @@
-html, body {
+html,
+body {
   min-width: 320px;
 }
 
-header.is-white{
+p {
+  font-family: 'Styrene A Web';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Styrene A Web';
+  font-weight: 100;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+a {
+  font-family: 'Styrene A Web';
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+button {
+  font-family: 'Styrene A Web';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+label,
+input,
+textarea {
+  font-family: 'Styrene A Web';
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+header.is-white {
   background: $vapor;
 }
 header {
@@ -11,7 +54,7 @@ header {
   position: fixed;
   width: 100%;
   height: 80px;
-  .container{
+  .container {
     padding: 1rem;
     width: 100%;
     max-width: $container;
@@ -21,7 +64,7 @@ header {
     align-items: center;
   }
   @include respond-to('desktop') {
-    .container{
+    .container {
       padding: 0;
     }
   }
@@ -32,8 +75,10 @@ header {
     height: max-content;
     display: flex;
     align-items: center;
+    font-weight: 400;
+    font-size: 17px;
 
-    &__is-white{
+    &__is-white {
       color: $vapor;
     }
 
@@ -42,30 +87,48 @@ header {
     }
   }
 
-  .header__buttons-wrapper{
-
+  .header__buttons-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    column-gap: 20px;
-    button{
+    column-gap: 40px;
+    letter-spacing: 0.1em;
+
+    a {
+      font-size: 12px;
+      text-decoration: none;
+      color: $charcoal;
+      opacity: 0.8;
+      transition: opacity 0.25s linear 0s;
+      transition-property: opacity;
+      transition-duration: 0.25s;
+      transition-timing-function: linear;
+      transition-delay: 0s;
+      &:hover{
+        opacity: 1;
+      }
+    }
+    button {
       background-color: transparent;
       border-color: $black;
-      &:hover{
+      &:hover {
         border-color: $blue;
       }
     }
 
-    &__is-white{
-      button{
-        border-color: $vapor;
+    &__is-white {
+      button,
+      a {
         color: $vapor;
+      }
+      button {
+        border-color: $vapor;
       }
     }
   }
 }
 
-.black-background{
+.black-background {
   background-color: $black;
 }
 
@@ -76,13 +139,13 @@ header {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-image: url("https://images.hedera.com/fees-hero.jpg?w=1685&auto=compress%2Cformat&fit=crop&fp-x=0.5&fp-y=0.5&dm=1638466501&s=ff18fae1bb54166bf511fbc348181ae9");
+  background-image: url('https://images.hedera.com/fees-hero.jpg?w=1685&auto=compress%2Cformat&fit=crop&fp-x=0.5&fp-y=0.5&dm=1638466501&s=ff18fae1bb54166bf511fbc348181ae9');
   background-size: cover;
   background-position: center;
   height: 60vh;
   color: $vapor;
 
-  h1{
+  h1 {
     font-weight: 300;
     font-size: 40px;
     line-height: 50px;
@@ -91,15 +154,14 @@ header {
     letter-spacing: -0.015em;
     max-width: 800px;
   }
-  p{
+  p {
     max-width: 600px;
     line-height: 30px;
     margin-bottom: 48px;
   }
-  button{
-    background: $vapor;;
+  button {
+    background: $vapor;
     border-color: $vapor;
-
   }
   > div {
     max-width: $container;
@@ -109,7 +171,6 @@ header {
 
   @include respond-to('mobile') {
     height: 50vh;
-
   }
 }
 
@@ -119,7 +180,7 @@ header {
   padding: 0 1rem;
 }
 
-nav{
+.minter-nav {
   z-index: 1;
   position: relative;
   background: $gradient;
@@ -127,7 +188,8 @@ nav{
   display: flex;
   justify-content: center;
   align-items: center;
-  a{
+  padding: 23px 0px;
+  a {
     font-weight: 400;
     font-size: 14px;
     letter-spacing: 1.2px;
@@ -135,9 +197,9 @@ nav{
     color: $vapor;
     position: relative;
     text-decoration: none;
-    &:hover{
-      &:after{
-        content: "";
+    &:hover {
+      &:after {
+        content: '';
         display: block;
         position: absolute;
         bottom: 0;
@@ -148,28 +210,28 @@ nav{
       }
     }
   }
-  button{
+  button {
     position: absolute;
     right: 30px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
-    &:hover, &:active{
+    &:hover,
+    &:active {
       border: none;
       background: transparent;
     }
   }
-}
-.minter-nav{
-  &__scrolled-to-top{
+
+  &__scrolled-to-top {
     position: fixed;
     top: 0;
   }
 }
 
-.minter-nav-divider{
-  height: 63px;
+.minter-nav-divider {
+  height: 47px;
   width: 100px;
-  content: "";
+  content: '';
 }

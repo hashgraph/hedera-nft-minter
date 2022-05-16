@@ -5,7 +5,7 @@ import NFT from '@components/views/my-wallet/NFT';
 import Loader from '@components/shared/loader/Loader';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import Hero from '@/components/shared/layout/Hero';
-import Navbar from '@/components/shared/layout/Navbar';
+import PageMenu from '@/components/shared/layout/PageMenu';
 
 export default function MyWallet() {
   const { userWalletId } = useHederaWallets();
@@ -36,7 +36,7 @@ export default function MyWallet() {
   return (
     <>
       <Hero title={'My wallet'} />
-      <Navbar />
+      <PageMenu />
 
       <div className='container'>
         {!userWalletId ? (
