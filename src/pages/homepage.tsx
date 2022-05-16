@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import useHederaWallets from '@hooks/useHederaWallets';
 import { TokenId } from '@hashgraph/sdk';
 import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
+import Hero from '@/components/shared/layout/Hero';
+import Navbar from '@/components/shared/layout/Navbar';
 
 type FormValues = NFTMetadata & { symbol?: string; qty: number };
 
@@ -198,29 +200,31 @@ export default function Homepage() {
 
   return (
     <div className='homepage'>
-      <div className='hero'>
-        <h1>Mint your own NFT at speed of light!</h1>
+      <Hero title={'Mint your own NFT at speed of light!'}>
         <p>
           Proin eget tortor risus. Praesent sapien massa, convallis a
           pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui
           posuere blandit.
         </p>
         <button className='btn--invert'>TOKEN DOCUMENTATION</button>
-      </div>
-      <div className='container'>
-        {tokenCreated ? (
-          <div>
-            <h2>Token Created successfully</h2>
-            <p>Your new NFT Token ID: {tokenId}</p>
-          </div>
-        ) : (
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleFormSubmit}
-            component={NFTForm}
-            validationSchema={ValidationSchema}
-          />
-        )}
+      </Hero>
+      <Navbar />
+      <div className='black-background'>
+        <div className='container'>
+          {tokenCreated ? (
+            <div>
+              <h2>Token Created successfully</h2>
+              <p>Your new NFT Token ID: {tokenId}</p>
+            </div>
+          ) : (
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleFormSubmit}
+              component={NFTForm}
+              validationSchema={ValidationSchema}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

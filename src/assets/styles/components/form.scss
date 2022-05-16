@@ -1,6 +1,5 @@
 .form {
 
-
   &__group {
     display: grid;
     grid-template-columns: 1fr 1fr 40px;
@@ -27,6 +26,7 @@
   }
 
   label {
+    color: $vapor;
     display: block;
     padding: 0 1rem 0.2rem;
     font-size: 0.8rem;
@@ -34,7 +34,9 @@
 
   input {
     display: block;
-    border: 1px solid rgba($blue, .5);
+    color: $vapor;
+    background: transparent;
+    border: $border;
     padding: 0.75rem 1rem;
     border-radius: 25px;
     width: 100%;
@@ -57,7 +59,7 @@
     $transitionAttributes: (border-color, box-shadow);
 
     border-radius: 20px;
-    border: 1px solid rgba($blue, .5);
+    border: $border;
     color: $lightGrey;
     display: grid;
     place-items: center;
@@ -66,16 +68,16 @@
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
 
     &.is-focused{
-      border-color: black;
+      border-color: $ultraviolet;
       box-shadow: $boxShadow;
     }
     &.is-drag-accepted{
-      border-color: green;
+      border-color: $green;
       box-shadow: $boxShadow;
 
     }
     &.is-drag-rejected{
-      border-color: red;
+      border-color: $orange;
       box-shadow: $boxShadow;
     }
   }

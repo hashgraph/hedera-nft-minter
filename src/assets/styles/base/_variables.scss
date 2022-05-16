@@ -21,6 +21,12 @@ $orange: #FF4200;
 $yellow: #EADA0B;
 $lime: #B7F133;
 
+//HEDERA GRADIENT
+$gradient: linear-gradient(160deg, #5281e7, #5a73e7 34%, #765aea);
+
+$border: 1px solid hsla(0,0%,100%,.2);
+
+
 // breakpoints
 $breakpoints: (
   'mobile': 600px,
@@ -28,3 +34,4 @@ $breakpoints: (
   'laptop': 992px,
   'desktop': 1200px,
 );
+

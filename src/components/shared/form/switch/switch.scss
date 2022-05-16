@@ -4,22 +4,35 @@
   display: flex;
   align-items: center;
   grid-gap: .5rem;
-  border: 1px solid rgba($blue, .5);
+  border: $border;
   padding: 0 .5rem;
   height: 41px;
   border-radius: 25px;
   width: 100%;
 
   button {
-    --color: white;
+    color: $vapor;
+    background: transparent;
+    border: $border;
+    padding: 0.75rem 1rem;
+    border-radius: 25px;
+
+    &:focus {
+      border-color: $blue;
+    }
 
     &:hover {
       --color: #{ $blue };
     }
 
+    &:active{
+      border-color: $ultraviolet;
+    }
+
     &.active {
       --color: #{$blue} !important;
       pointer-events: none;
+      border-color: var(--color);
     }
   }
 }

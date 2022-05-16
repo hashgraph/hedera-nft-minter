@@ -1,34 +1,65 @@
-import { useContext, useCallback } from 'react';
+import React, { useCallback, useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ProfileTwoTone } from '@ant-design/icons';
-import { ModalContext } from '@utils/context/ModalContext';
-import ConnectionModal from '@components/shared/modals/ConnectionModal';
-import useHederaWallets from '@hooks/useHederaWallets';
-import Logo from '@assets/images/hedera_logomark.png';
+import Arrow from '@assets/images/interior-nav-arrow-up.png';
+import classNames from 'classnames';
 
 const Navbar = () => {
-  const { connectedWalletType, userWalletId } = useHederaWallets();
-  const { showModal, setModalContent } = useContext(ModalContext);
+  const navRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const scrollToTop = useCallback(
+    () =>
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      }),
+    []
+  );
+  const [scrolledToTopOfPage, setScrolledToTopOfPage] = useState(false);
+  const [scrollingBreakpoint, setScrollingBreakpoint] = useState(0);
 
-  const handleShowModal = useCallback(() => {
-    setModalContent(<ConnectionModal />);
-    showModal();
-  }, [setModalContent, showModal]);
+  useEffect(() => {
+    setScrollingBreakpoint(navRef.current.offsetTop);
+
+    const handleScroll = () => {
+      if (navRef) {
+        if (scrolledToTopOfPage) {
+          setScrolledToTopOfPage(window.scrollY > scrollingBreakpoint);
+        } else {
+          setScrolledToTopOfPage(window.scrollY > navRef.current.offsetTop);
+        }
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [setScrollingBreakpoint, scrolledToTopOfPage, scrollingBreakpoint]);
+
+  const navClassnames = classNames({
+    'minter-nav': true,
+    'minter-nav__scrolled-to-top': scrolledToTopOfPage,
+  });
+
+  const deviderClassnames = classNames({
+    'minter-nav-divider': scrolledToTopOfPage,
+  });
 
   return (
-    <header>
-      <Link className='logo_link' to='/'>
-        <img src={Logo} alt='hedera_logo' height={30} width={30} /> Hedera
-      </Link>
-
-      <div className='header__buttons-wrapper'>
-        <Link to='/my-wallet'>My NFT Collection</Link>
-        <button onClick={handleShowModal}>
-          {connectedWalletType === 'noconnection' ? 'Connect' : userWalletId}{' '}
-          <ProfileTwoTone />
+    <>
+      <nav ref={navRef} className={navClassnames}>
+        <div className='nav-links'>
+          <Link to='/'>Mint token</Link>
+          <Link to='/my-wallet'>My NFT Collection</Link>
+        </div>
+        <button onClick={scrollToTop}>
+          <img
+            src={Arrow}
+            height={30}
+            width={30}
+            alt='nav-links-scroll-arrow'
+          />
         </button>
-      </div>
-    </header>
+      </nav>
+      <div className={deviderClassnames}></div>
+    </>
   );
 };
 
