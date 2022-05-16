@@ -147,7 +147,7 @@ header {
   align-items: center;
   text-align: center;
   background-image: url('https://images.hedera.com/fees-hero.jpg?w=1685&auto=compress%2Cformat&fit=crop&fp-x=0.5&fp-y=0.5&dm=1638466501&s=ff18fae1bb54166bf511fbc348181ae9');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center;
   height: 60vh;
   color: $vapor;
@@ -165,6 +165,8 @@ header {
     max-width: 600px;
     line-height: 30px;
     margin-bottom: 48px;
+    font-weight: 300;
+    font-size: 15px;
   }
   button {
     background: $vapor;
@@ -193,6 +195,7 @@ header {
 .page-menu {
   z-index: 1;
   position: relative;
+  min-height: 62px;
   background: $gradient;
   width: 100%;
   display: flex;
