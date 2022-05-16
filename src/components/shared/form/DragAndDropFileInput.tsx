@@ -18,15 +18,15 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   );
   const onDropRejected = useCallback((files) => {
     if (files.length > 1) {
-      return toast('❌ Only single image file can be upload!');
+      return toast.error('❌ Only single image file can be upload!');
     }
 
     const doesIncludeFileType = files[0].file.type.includes('image/');
     if (!doesIncludeFileType) {
-      return toast('❌ You can only upload only image files!');
+      return toast.error('❌ You can only upload only image files!');
     }
 
-    return toast('❌ Upload file again!');
+    return toast.error('❌ Upload file again!');
   }, []);
 
   const {

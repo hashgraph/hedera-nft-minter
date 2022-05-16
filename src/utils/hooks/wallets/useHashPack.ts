@@ -150,7 +150,7 @@ const useHashPack = () => {
   const pairingEventHandler = useCallback(
     (data) => {
       setSaveDataAndInLocalStorage(data);
-      toast('➕ New HashPack account(s) paired!');
+      toast.success('➕ New HashPack account(s) paired!');
     },
     [setSaveDataAndInLocalStorage]
   );

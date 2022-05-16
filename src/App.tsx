@@ -19,7 +19,11 @@ function App() {
               <Router>
                 <Routes />
               </Router>
-              <ToastContainer />
+              <ToastContainer
+                theme='dark'
+                position='bottom-right'
+                newestOnTop
+              />
             </>
           </HederaWalletsProvider>
         </AuthProvider>

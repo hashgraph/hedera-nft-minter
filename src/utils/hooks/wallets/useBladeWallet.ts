@@ -28,18 +28,18 @@ const useBladeWallet = () => {
     } catch (e) {
       if (typeof e === 'function') {
         const { message } = e();
-        toast(message);
+        toast.error(message);
       } else if (typeof e === 'string') {
-        toast(e);
+        toast.error(e);
       } else if (e instanceof Error) {
-        toast(e.message);
+        toast.error(e.message);
       }
     } finally {
       if (!loggedId) {
         toast.error('Cannot find connected account id in Blade Wallet!');
       } else {
         if (!loadLocalData(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME)) {
-          toast('Blade Wallet has been connected!');
+          toast.success('Blade Wallet has been connected!');
         }
         setBladeAccountId(loggedId);
         localStorage.setItem(
@@ -50,7 +50,6 @@ const useBladeWallet = () => {
         );
       }
     }
-
   }, [setBladeAccountId]);
 
   //INITIALIZATION
