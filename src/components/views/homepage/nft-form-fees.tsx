@@ -142,31 +142,29 @@ const NftFormFees = ({ fees }: Props) => {
   ]);
 
   return (
-    <>
-      <label htmlFor='fees'>
-        Fee type:
-        <FieldArray
-          name='fees'
-          render={() => (
+    <div>
+      <label htmlFor='fees'>Fee type:</label>
+      <FieldArray
+        name='fees'
+        render={() => (
+          <div className='form__row'>
             <span>
-              <label htmlFor='fees_fixedFee'>
-                <Field name='fees' type='checkbox' value='fixedFee' />
-                Fixed
-              </label>
-              <label htmlFor='fees_fractionalFee'>
-                <Field name='fees' type='checkbox' value='fractionalFee' />
-                Fractional
-              </label>
-              <label htmlFor='fees_royaltyFee'>
-                <Field name='fees' type='checkbox' value='royaltyFee' />
-                Royality
-              </label>
+              <label htmlFor='fees_fixedFee'>Fixed</label>
+              <Field name='fees' type='checkbox' value='fixedFee' />
             </span>
-          )}
-        />
-      </label>
+            <span>
+              <label htmlFor='fees_fractionalFee'>Fractional</label>
+              <Field name='fees' type='checkbox' value='fractionalFee' />
+            </span>
+            <span>
+              <label htmlFor='fees_royaltyFee'>Royality</label>
+              <Field name='fees' type='checkbox' value='royaltyFee' />
+            </span>
+          </div>
+        )}
+      />
       {renderCheckedFeesFormFields()}
-    </>
+    </div>
   );
 };
 

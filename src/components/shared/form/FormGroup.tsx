@@ -19,7 +19,7 @@ interface Props {
 const FormGroup = ({ values, name }: Props) => {
   return (
     <>
-      <div className='form__row'>
+      <div className='form__group-row'>
         <FieldArray name={name}>
           {({ remove, push }) => (
             <>
