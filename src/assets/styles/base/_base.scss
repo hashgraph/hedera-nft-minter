@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-
 * {
   @include box-sizing(border-box);
 }
@@ -15,18 +13,23 @@ body {
 
   height: 100%;
   min-height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-family: Arial;
   color: $grey;
 }
 
 a {
   display: inline-block;
+  &.btn {
+    &:focus,
+    &:hover {
+      outline: none;
+    }
+  }
 }
 img {
   max-width: 100%;
 }
 
-a,
 button,
 input,
 select,
@@ -38,7 +41,24 @@ textarea {
   cursor: pointer;
 }
 
-input:not([type="radio"], [type="checkbox"]),
+button {
+  &:focus {
+    border-color: $blue !important;
+  }
+  cursor: pointer;
+}
+
+.btn {
+  &:focus {
+    border-color: $blue !important;
+  }
+  button {
+    color: $blue;
+  }
+  cursor: pointer;
+}
+
+input:not([type='radio'], [type='checkbox']),
 select {
   -webkit-appearance: none;
 }
