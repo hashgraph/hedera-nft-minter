@@ -16,6 +16,7 @@ import classNames from 'classnames';
 import useLayout from '@utils/hooks/useLayout';
 import { Divide as Hamburger } from 'hamburger-react';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { useOnClickAway } from 'use-on-click-away';
 
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
@@ -100,6 +101,7 @@ const Header = () => {
     [openNavbar, closeNavbar]
   );
 
+  const expandedMenuRef = useRef(null);
   const mobileNavbar = useCallback(
     () => (
       <>
@@ -122,7 +124,10 @@ const Header = () => {
           </div>
         </header>
 
-        <div className={mobileNavbarExpandedMenuClassnames}>
+        <div
+          className={mobileNavbarExpandedMenuClassnames}
+          ref={expandedMenuRef}
+        >
           <Link onClick={closeNavbar} to='/'>
             Mint token
           </Link>
@@ -175,6 +180,10 @@ const Header = () => {
     () => (isMobile ? mobileNavbar() : desktopNavbar()),
     [isMobile, mobileNavbar, desktopNavbar]
   );
+
+  useOnClickAway(expandedMenuRef, () => {
+    closeNavbar();
+  });
 
   return renderNavbar();
 };

@@ -22,12 +22,13 @@ const Modal = () => {
     closeModal();
   });
 
-  const modalBackgroundClassnames = useMemo(() => classNames(
-    'modal-background',
-    {
-      'is-modal-background-showed': isModalShowed,
-    }
-  ), [isModalShowed]);
+  const modalBackgroundClassnames = useMemo(
+    () =>
+      classNames('modal-background', {
+        'is-modal-background-showed': isModalShowed,
+      }),
+    [isModalShowed]
+  );
 
   return (
     <>
