@@ -4,8 +4,11 @@
   .container{
     background-color: $black;
   }
-
-  .form {
+form{
+  margin: 2rem 0;
+  padding-top: 2rem;
+}
+  .form__row__two-columns {
     position: relative;
     display: grid;
     grid-template-columns: 1fr;

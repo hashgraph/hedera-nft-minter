@@ -49,156 +49,158 @@ export default function NFTForm({
         <Error name='image' />
       </div>
 
-      <div>
-        <FormStep title='On-chain' />
+      <div className='form__row__two-columns'>
+        <div>
+          <FormStep title='On-chain' />
 
-        <div className='form__row'>
-          <div className='form__col'>
-            <FieldWrapper
-              fastField
-              name='creator'
-              type='text'
-              label='Creator'
-            />
-          </div>
-          <div className='form__col'>
-            <FieldWrapper
-              fastField
-              name='creatorDID'
-              type='text'
-              label='Creator DID'
-            />
-          </div>
-        </div>
-
-        <div className='form__row'>
-          <div className='form__col form__col_before_number'>
-            <FieldWrapper
-              fastField
-              name='description'
-              type='test'
-              label='Description'
-            />
+          <div className='form__row'>
+            <div className='form__col'>
+              <FieldWrapper
+                fastField
+                name='creator'
+                type='text'
+                label='Creator'
+              />
+            </div>
+            <div className='form__col'>
+              <FieldWrapper
+                fastField
+                name='creatorDID'
+                type='text'
+                label='Creator DID'
+              />
+            </div>
           </div>
 
-          <div className='form__col form__col_number'>
-            <FieldWrapper
-              fastField
-              name='qty'
-              type='number'
-              label='# quantity'
-              max='10'
-            />
+          <div className='form__row'>
+            <div className='form__col form__col_before_number'>
+              <FieldWrapper
+                fastField
+                name='description'
+                type='test'
+                label='Description'
+              />
+            </div>
+
+            <div className='form__col form__col_number'>
+              <FieldWrapper
+                fastField
+                name='qty'
+                type='number'
+                label='# quantity'
+                max='10'
+              />
+            </div>
+          </div>
+
+          <div className='form__row'>
+            <label htmlFor={'null'}>Custom keys</label>
+            <button type='button' name='custom_keys' onClick={toogleCustomKeys}>
+              Show keys
+            </button>
+          </div>
+          {customKeys && (
+            <>
+              <div className='form__row'>
+                <label htmlFor='treasury'>
+                  Treasury account:
+                  <span>
+                    <label htmlFor='treasury_account'>
+                      <Field name='treasury' type='radio' value='account' />
+                      My account id
+                    </label>
+                    <label htmlFor='treasury_custom'>
+                      <Field name='treasury' type='radio' value='custom' />
+                      Custom account id
+                    </label>
+                  </span>
+                </label>
+                {values.treasury === 'custom' && (
+                  <>
+                    <Field name='treasury_account_id' type='input' />
+                    <Error name='treasury_account_id' />
+                  </>
+                )}
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='kyc' />
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='admin' />
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='freeze' />
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='wipe' />
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='pause' />
+              </div>
+
+              <div className='form__row'>
+                <NFTKeyField name='supply' />
+              </div>
+
+              <div className='form__btns'>
+                <button
+                  type='button'
+                  onClick={handleReset}
+                  className='btn--grey btn--transparent-white'
+                  disabled={isSubmitting}
+                >
+                  Clear form
+                </button>
+                <button type='submit' className='btn' disabled={isSubmitting}>
+                  Submit
+                </button>
+              </div>
+            </>
+          )}
+
+          <div className='form__row'>
+            <NftFormFees fees={values.fees} />
           </div>
         </div>
+        <div>
+          <FormStep title='Off-chain' />
 
-        <div className='form__row'>
-          <label htmlFor={'null'}>Custom keys</label>
-          <button type='button' name='custom_keys' onClick={toogleCustomKeys}>
-            Show keys
-          </button>
+          <FormGroup
+            name='properties'
+            values={values.properties.map(() => [
+              {
+                name: 'name',
+                type: 'string',
+                label: 'Name',
+              },
+              {
+                name: 'value',
+                type: 'string',
+                label: 'Value',
+              },
+            ])}
+          />
+          <FormGroup
+            name='attributes'
+            values={values.attributes.map(() => [
+              {
+                name: 'trait_type',
+                type: 'string',
+                label: 'Trait type',
+              },
+              {
+                name: 'value',
+                type: 'string',
+                label: 'Value',
+              },
+            ])}
+          />
         </div>
-        {customKeys && (
-          <>
-            <div className='form__row'>
-              <label htmlFor='treasury'>
-                Treasury account:
-                <span>
-                  <label htmlFor='treasury_account'>
-                    <Field name='treasury' type='radio' value='account' />
-                    My account id
-                  </label>
-                  <label htmlFor='treasury_custom'>
-                    <Field name='treasury' type='radio' value='custom' />
-                    Custom account id
-                  </label>
-                </span>
-              </label>
-              {values.treasury === 'custom' && (
-                <>
-                  <Field name='treasury_account_id' type='input' />
-                  <Error name='treasury_account_id' />
-                </>
-              )}
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='kyc' />
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='admin' />
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='freeze' />
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='wipe' />
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='pause' />
-            </div>
-
-            <div className='form__row'>
-              <NFTKeyField name='supply' />
-            </div>
-
-            <div className='form__btns'>
-              <button
-                type='button'
-                onClick={handleReset}
-                className='btn--grey btn--transparent-white'
-                disabled={isSubmitting}
-              >
-                Clear form
-              </button>
-              <button type='submit' className='btn' disabled={isSubmitting}>
-                Submit
-              </button>
-            </div>
-          </>
-        )}
-
-        <div className='form__row'>
-          <NftFormFees fees={values.fees} />
-        </div>
-      </div>
-      <div>
-        <FormStep title='Off-chain' />
-
-        <FormGroup
-          name='properties'
-          values={values.properties.map(() => [
-            {
-              name: 'name',
-              type: 'string',
-              label: 'Name',
-            },
-            {
-              name: 'value',
-              type: 'string',
-              label: 'Value',
-            },
-          ])}
-        />
-        <FormGroup
-          name='attributes'
-          values={values.attributes.map(() => [
-            {
-              name: 'trait_type',
-              type: 'string',
-              label: 'Trait type',
-            },
-            {
-              name: 'value',
-              type: 'string',
-              label: 'Value',
-            },
-          ])}
-        />
       </div>
       <div className='form__btns'>
         <button
