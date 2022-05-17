@@ -28,6 +28,7 @@ export default function LayoutProvider({
     y: 0,
   });
   const [isMobile, setIsMobile] = useState(true);
+  const ref = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,10 +39,9 @@ export default function LayoutProvider({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const ref = useRef(null);
   useEffect(() => {
     const handleResize = () => {
-      if (window.matchMedia('(max-width: 600px)').matches) {
+      if (window.matchMedia('(max-width: 599px)').matches) {
         setIsMobile(true);
       } else {
         clearAllBodyScrollLocks(ref);
