@@ -6,7 +6,7 @@ import {
 } from '@/utils/hooks/useScrollDir';
 
 const useLayout = () => {
-  const { pageMenuPositionY, setPageMenuPositionY, scrollPosition } =
+  const { pageMenuPositionY, setPageMenuPositionY, scrollPosition, isMobile } =
     useContext(LayoutContext);
 
   const scrollDirection = useScrollDirection();
@@ -34,6 +34,7 @@ const useLayout = () => {
     isPageMenu,
     scrollPosition,
     isNavbarHidden,
+    isMobile,
   };
 };
 
