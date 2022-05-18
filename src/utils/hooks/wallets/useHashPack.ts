@@ -1,13 +1,14 @@
+import { HEDERA_NETWORK } from '@/../Global.d';
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
-import { loadLocalData } from '@/utils/helpers/loadLocalData';
 import {
   SaveDataType,
   AppConfigType as HashConnectAppConfigType,
   DebugType as HashConnectDebugType,
   NetworkType as HashConnectNetworkType,
 } from '@utils/types/hashconnect.types';
+import { loadLocalData } from '@/utils/helpers/loadLocalData';
 
 export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = 'minerPocHashconnectData';
 
@@ -26,7 +27,7 @@ export const INITIAL_SAVE_DATA: SaveDataType = {
   accountsIds: [],
 };
 
-export const HASHCONNECT_INITIAL_NETWORK: HashConnectNetworkType = 'testnet';
+export const HASHCONNECT_INITIAL_NETWORK: HashConnectNetworkType = HEDERA_NETWORK;
 
 const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
 
@@ -150,7 +151,7 @@ const useHashPack = () => {
   const pairingEventHandler = useCallback(
     (data) => {
       setSaveDataAndInLocalStorage(data);
-      toast('➕ New HashPack account(s) paired!');
+      toast.success('➕ New HashPack account(s) paired!');
     },
     [setSaveDataAndInLocalStorage]
   );

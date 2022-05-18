@@ -1,28 +1,31 @@
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { Fee } from '@/services/HTS';
+import { Fees } from '@utils/entity/Fees';
+import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 
 type RequiredKey = 'account' | 'custom';
+type AccountKeyOrString = string | 'account_key';
 export type OptionalKey = 'no' | RequiredKey;
-export type FeeKey = 'royaltyFee' | 'fractionalFee' | 'fixedFee';
 
 export type FormValues = NFTMetadata & {
   symbol?: string;
   qty: number;
+  keys: TokenKey[],
   treasury: RequiredKey;
   treasury_account_id?: string;
   kyc: OptionalKey;
-  kyc_key?: string | 'account_key';
+  kyc_key?: AccountKeyOrString;
   admin: OptionalKey;
-  admin_key?: string | 'account_key';
+  admin_key?: AccountKeyOrString;
   freeze: OptionalKey;
-  freeze_key?: string | 'account_key';
+  freeze_key?: AccountKeyOrString;
   wipe: OptionalKey;
-  wipe_key?: string | 'account_key';
+  wipe_key?: AccountKeyOrString;
   supply: OptionalKey;
-  supply_key?: string | 'account_key';
+  supply_key?: AccountKeyOrString;
   pause: OptionalKey;
-  pause_key?: string | 'account_key';
-  fees: FeeKey[];
+  pause_key?: AccountKeyOrString;
+  fees: Fees[];
   activeFees: {
     royaltyFee?: Fee;
     fractionalFee?: Fee;
@@ -60,6 +63,9 @@ export const initialValues: FormValues = {
     },
   ],
   qty: 1,
+  keys: [
+    { type: TOKEN_KEY.TREASURY, value: 'account' }
+  ],
   treasury: 'account',
   kyc: 'no',
   admin: 'no',

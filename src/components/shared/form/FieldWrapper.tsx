@@ -11,7 +11,7 @@ type FieldWrapperProps = React.HTMLAttributes<HTMLInputElement> & {
 };
 
 const FieldWrapper = (
-  { name, label, fastField = false }: FieldWrapperProps,
+  { name, label, type, fastField = false }: FieldWrapperProps,
   props: React.HTMLAttributes<HTMLInputElement>
 ) => {
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
@@ -19,8 +19,10 @@ const FieldWrapper = (
   return (
     <>
       <label htmlFor={name}>{label}:</label>
-      <Component id={name} name={name} {...props} />
-      <Error name={name} />
+      <Component id={name} name={name} type={type} {...props} />
+      <div className='form__error_wrapper'>
+        <Error name={name} />
+      </div>
     </>
   );
 };

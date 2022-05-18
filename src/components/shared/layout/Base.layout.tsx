@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import Modal from '@components/shared/modal';
-import Navbar from '@components/shared/layout/Navbar';
+import Header from '@/components/shared/layout/Header';
 
 export const BaseLayout: FC = ({ children }) => {
   return (
     <>
-      <Navbar />
+      <Header />
       <main className=''>
         {children}
         <Modal />

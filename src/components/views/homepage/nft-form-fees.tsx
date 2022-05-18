@@ -1,39 +1,35 @@
 import React, { useCallback } from 'react';
-import { FieldArray, Field } from 'formik';
+import { FieldArray, Field, useField } from 'formik';
+import { toast } from 'react-toastify';
+
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import Switch from './../../shared/form/switch/Switch';
-import { FeeKey } from '@utils/const/nft-form';
+import Switch from '@/components/shared/form/switch/Switch';
+import { Fees, FEE } from '@utils/entity/Fees';
 
-type Props = {
-  fees: FeeKey[];
-};
-
-const NftFormFees = ({ fees }: Props) => {
-  const renderRoyaltyFeeFormFields = useCallback(
-    () => (
+const NftFormFees = () => {
+  const [field] = useField<Fees[]>('fees');
+  const renderRoyaltyFeeFormFields = useCallback((index: number) => (
       <div className='form__row__fees'>
-        <label htmlFor='null'>Royalty Fee:</label>
-
         <FieldWrapper
-          name={'activeFees.royaltyFee.feeCollectorAccountId'}
+          name={`fees.${ index }.feeCollectorAccountId`}
           type='text'
           label='Fee collector account ID'
         />
 
         <FieldWrapper
-          name={'activeFees.royaltyFee.fallbackFee'}
+          name={`fees.${ index }.fallbackFee`}
           type='number'
           label='Fallback fee'
         />
 
         <FieldWrapper
-          name={'activeFees.royaltyFee.numerator'}
+          name={`fees.${ index }.numerator`}
           type='number'
           label='Numerator'
         />
 
         <FieldWrapper
-          name={'activeFees.royaltyFee.denominator'}
+          name={`fees.${ index }.denominator`}
           type='number'
           label='Denominator'
         />
@@ -43,44 +39,42 @@ const NftFormFees = ({ fees }: Props) => {
   );
 
   const renderFractionalFeeFormFields = useCallback(
-    () => (
+    (index: number) => (
       <div className='form__row__fees'>
-        <label htmlFor='null'>Fractional Fee:</label>
-
         <FieldWrapper
-          name={'activeFees.fractionalFee.feeCollectorAccountId'}
+          name={`fees.${ index }.feeCollectorAccountId`}
           type='text'
           label='Fee collector account ID'
         />
 
         <FieldWrapper
-          name={'activeFees.fractionalFee.numerator'}
+          name={`fees.${ index }.numerator`}
           type='number'
           label='Numerator'
         />
 
         <FieldWrapper
-          name={'activeFees.fractionalFee.denominator'}
+          name={`fees.${ index }.denominator`}
           type='number'
           label='Denominator'
         />
         <FieldWrapper
-          name={'activeFees.fractionalFee.min'}
+          name={`fees.${ index }.min`}
           type='number'
           label='Min'
         />
 
         <FieldWrapper
-          name={'activeFees.fractionalFee.max'}
+          name={`fees.${ index }.max`}
           type='number'
           label='Max'
         />
 
         <Switch
-          name={'activeFees.fractionalFee.assessmentMethod'}
+          name={`fees.${ index }.assessmentMethod`}
           options={[
-            { name: 'Inclusive', value: 'inclusive' },
-            { name: 'Exclusive', value: 'exclusive' },
+            { name: 'Inclusive', value: false },
+            { name: 'Exclusive', value: true },
           ]}
         />
       </div>
@@ -89,30 +83,28 @@ const NftFormFees = ({ fees }: Props) => {
   );
 
   const renderFixedFeeFormFields = useCallback(
-    () => (
+    (index: number) => (
       <div className='form__row__fees'>
-        <label htmlFor='null'>Fixed Fee:</label>
-
         <FieldWrapper
-          name={'activeFees.fixedFee.feeCollectorAccountId'}
+          name={`fees.${ index }.feeCollectorAccountId`}
           type='text'
           label='Fee collector account ID'
         />
 
         <FieldWrapper
-          name={'activeFees.fixedFee.denominatingTokenId'}
+          name={`fees.${ index }.denominatingTokenId`}
           type='text'
           label='Denominating token ID'
         />
 
         <FieldWrapper
-          name={'activeFees.fixedFee.amount'}
+          name={`fees.${ index }.amount`}
           type='number'
           label='Amount'
         />
 
         <FieldWrapper
-          name={'activeFees.fixedFee.hbarAmount'}
+          name={`fees.${ index }.hbarAmount`}
           type='number'
           label='HBar amount'
         />
@@ -121,52 +113,50 @@ const NftFormFees = ({ fees }: Props) => {
     []
   );
 
-  const renderCheckedFeesFormFields = useCallback(() => {
-    return fees?.map((fee: string) => {
-      switch (fee) {
-        case 'royaltyFee':
-          return renderRoyaltyFeeFormFields();
-        case 'fractionalFee':
-          return renderFractionalFeeFormFields();
-        case 'fixedFee':
-          return renderFixedFeeFormFields();
-        default:
-          return;
-      }
-    });
+  const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
+    switch (fee) {
+      case FEE.ROYALITY:
+        return renderRoyaltyFeeFormFields(arrayIndex);
+      case FEE.FRACTIONAL:
+        return renderFractionalFeeFormFields(arrayIndex);
+      case FEE.FIXED:
+        return renderFixedFeeFormFields(arrayIndex);
+    }
   }, [
-    fees,
     renderRoyaltyFeeFormFields,
     renderFractionalFeeFormFields,
     renderFixedFeeFormFields,
   ]);
 
   return (
-    <>
-      <label htmlFor='fees'>
-        Fee type:
-        <FieldArray
-          name='fees'
-          render={() => (
-            <span>
-              <label htmlFor='fees_fixedFee'>
-                <Field name='fees' type='checkbox' value='fixedFee' />
-                Fixed
-              </label>
-              <label htmlFor='fees_fractionalFee'>
-                <Field name='fees' type='checkbox' value='fractionalFee' />
-                Fractional
-              </label>
-              <label htmlFor='fees_royaltyFee'>
-                <Field name='fees' type='checkbox' value='royaltyFee' />
-                Royality
-              </label>
-            </span>
-          )}
-        />
-      </label>
-      {renderCheckedFeesFormFields()}
-    </>
+    <div>
+      <FieldArray
+        name='fees'
+        render={({ push }) => (
+          <>
+            <h2>
+              Fees
+              <button onClick={() => field.value.length < 10 ? push({}) : toast.error('Enough!')} type='button'>Add Fee +</button>
+            </h2>
+
+            <div>
+              {field.value.map((fee, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={`fees_${ index }`}>
+                  <Field name={`fees.${ index }.type`} as='select'>
+                    <option value={FEE.ROYALITY}>Royalty Fee</option>
+                    <option value={FEE.FRACTIONAL}>Fractional Fee</option>
+                    <option value={FEE.FIXED}>Fixed Fee</option>
+                  </Field>
+
+                  {renderFeeFieldset(field.value[index].type, index)}
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      />
+    </div>
   );
 };
 

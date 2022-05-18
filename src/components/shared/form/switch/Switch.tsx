@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 interface Option {
   name: string;
-  value: string | number;
+  value: any;
 }
 
 interface SwitchProps {

@@ -1,23 +1,25 @@
-import './nft.scss';
-
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { toast } from 'react-toastify';
+
 import MirrorNode from '@/services/MirrorNode';
+import useHederaWallets from '@hooks/useHederaWallets';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import Loader from '@components/shared/loader/Loader';
-import placeholder from '@assets/images/placeholder.png';
+import { TokenInfo } from '@utils/entity/TokenInfo';
 import { ModalContext } from '@utils/context/ModalContext';
+
+import Loader from '@components/shared/loader/Loader';
 import ManageNFTModal from '@components/shared/modals/ManageNFTModal';
 import SendNFTModal from '@components/shared/modals/SendNFTModal';
-import useHederaWallets from '@hooks/useHederaWallets';
 import MintNFTModal from '@components/shared/modals/MintNFTModal';
-import { TokenInfo } from '@utils/entity/TokenInfo';
-import { toast } from 'react-toastify';
+
+import placeholder from '@assets/images/placeholder.png';
+import './nft.scss';
 
 interface NFTProps {
   nfts?: NFTInfo[] | undefined;
-  info: TokenInfo
+  info: TokenInfo;
 }
 
 export default function NFT(props: NFTProps) {
@@ -25,7 +27,7 @@ export default function NFT(props: NFTProps) {
   const [meta, setMeta] = useState<NFTMetadata | null>(null);
   const [loading, setLoading] = useState(true);
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { userWalletId } = useHederaWallets()
+  const { userWalletId } = useHederaWallets();
 
   const loadMetadata = useCallback(async (cid: string) => {
     try {
@@ -42,16 +44,12 @@ export default function NFT(props: NFTProps) {
   }, []);
 
   const handleManageNFT = useCallback(() => {
-    setModalContent(
-      <ManageNFTModal info={ props.info } />
-    );
+    setModalContent(<ManageNFTModal info={props.info} />);
     showModal();
   }, [setModalContent, showModal, props.info]);
 
   const handleSendNFT = useCallback(() => {
-    setModalContent(
-      <SendNFTModal {...props} />
-    );
+    setModalContent(<SendNFTModal {...props} />);
     showModal();
   }, [setModalContent, showModal, props]);
 
@@ -67,9 +65,7 @@ export default function NFT(props: NFTProps) {
       return;
     }
 
-    setModalContent(
-      <MintNFTModal tokenId={tokenId} meta={meta} />
-    );
+    setModalContent(<MintNFTModal tokenId={tokenId} meta={meta} />);
     showModal();
   }, [setModalContent, showModal, props, meta]);
 
@@ -95,7 +91,7 @@ export default function NFT(props: NFTProps) {
       <figcaption>
         <p>{meta?.name}</p>
         <p>{meta?.description}</p>
-        <p>{nfts?.filter(n => n.account_id === userWalletId).length}</p>
+        <p>{nfts?.filter((n) => n.account_id === userWalletId).length}</p>
 
         <div className='nft__buttons'>
           <button type='button' onClick={handleSendNFT}>
@@ -104,8 +100,11 @@ export default function NFT(props: NFTProps) {
           <button type='button' onClick={handleManageNFT}>
             Manage
           </button>
-          {parseInt(props.info.total_supply, 10) < parseInt(props.info.max_supply, 10) && (
-            <button type='button' onClick={handleMintNFT}>Mint</button>
+          {parseInt(props.info.total_supply, 10) <
+            parseInt(props.info.max_supply, 10) && (
+            <button type='button' onClick={handleMintNFT}>
+              Mint
+            </button>
           )}
         </div>
       </figcaption>

@@ -1,19 +1,24 @@
 button,
 .btn {
   border-radius: 15px;
-  padding: 0.35rem .75rem;
-  background: var(--color, #{$blue});
-  border: 1px solid var(--border-color, #{$blue});
-  color: var(--font-color, #{$grey});
+  padding: 0 20px;
+  height: 30px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border: 1px solid var(--border-color, #{$black});
+  color: var(--font-color, #{$black});
+  font-size: 8px;
+  letter-spacing: 1.33px;
 
-  &:hover {
-    background: white;
-    color: var(--color, #{$grey});
-  }
+  $transitionAttributes: (border-color, background-color, color);
+  transition: generateTransitions($transitionAttributes, 400ms);
 
   &--grey {
     --color: #{$grey};
-    --font-color: white;
+    --font-color: $vapor;
   }
 
   &--icon {
@@ -26,5 +31,29 @@ button,
   &--md {
     padding: 1rem 2rem;
     border-radius: 25px;
+  }
+
+  &:hover {
+    background: $black;
+    color: $vapor;
+    border-color: $vapor;
+  }
+
+  &--invert {
+    background: $vapor;
+    color: $black;
+    &:hover {
+      color: $vapor;
+      background: $black;
+    }
+  }
+  &--transparent-white {
+    background: transparent;
+    color: $vapor;
+    border-color: $vapor;
+    &:hover {
+      color: $black;
+      background: $vapor;
+    }
   }
 }

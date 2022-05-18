@@ -1,8 +1,9 @@
 import { useContext, useEffect, useMemo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { ModalContext } from '@/utils/context/ModalContext';
 import { useOnClickAway } from 'use-on-click-away';
 import classNames from 'classnames';
+
+import { ModalContext } from '@/utils/context/ModalContext';
 
 const Modal = () => {
   const ref = useRef(null);
@@ -22,12 +23,13 @@ const Modal = () => {
     closeModal();
   });
 
-  const modalBackgroundClassnames = useMemo(() => classNames(
-    'modal-background',
-    {
-      'is-modal-background-showed': isModalShowed,
-    }
-  ), [isModalShowed]);
+  const modalBackgroundClassnames = useMemo(
+    () =>
+      classNames('modal-background', {
+        'is-modal-background-showed': isModalShowed,
+      }),
+    [isModalShowed]
+  );
 
   return (
     <>

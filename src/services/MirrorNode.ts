@@ -1,7 +1,8 @@
+import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
+import { TokenId } from '@hashgraph/sdk';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import { TokenId } from '@hashgraph/sdk';
 
 interface Token {
   token_id: string,
@@ -20,11 +21,10 @@ interface BalanceResponse {
 }
 
 export default class MirrorNode {
-  static url = 'https://testnet.mirrornode.hedera.com/api/v1'
+  static url = `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1`
   static readonly instance = axios.create({
     baseURL: MirrorNode.url,
   });
-
 
   static async fetchAccountBalance(accountId: string) {
     const { data } = await this.instance.get<BalanceResponse>(`/balances?account.id=${ accountId }`);

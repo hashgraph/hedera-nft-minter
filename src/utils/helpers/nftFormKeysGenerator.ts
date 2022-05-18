@@ -1,7 +1,7 @@
-import { OptionalKey } from '@utils/const/nft-form';
 import { PublicKey } from '@hashgraph/sdk';
 import { FormikValues } from 'formik';
 import _ from 'lodash';
+import { OptionalKey } from '@utils/const/nft-form';
 
 type TokenKeysType = {
   adminKey?: PublicKey;
