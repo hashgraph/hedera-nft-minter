@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { IPFS_KEY, IPFS_URL } from '@/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import axios from 'axios';
 
 
 

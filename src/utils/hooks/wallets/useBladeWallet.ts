@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
-import { loadLocalData } from '@/utils/helpers/loadLocalData';
 import { toast } from 'react-toastify';
 import { BladeSigner } from '@bladelabs/blade-web3.js';
+import { loadLocalData } from '@/utils/helpers/loadLocalData';
 
 export const BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME =
   'minerPocBladeWalletData';

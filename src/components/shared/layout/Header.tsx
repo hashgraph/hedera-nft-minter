@@ -1,20 +1,20 @@
+import { DisconnectOutlined, LoginOutlined } from '@ant-design/icons';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import classNames from 'classnames';
+import { Divide as Hamburger } from 'hamburger-react';
 import React, {
-  useContext,
   useCallback,
-  useRef,
+  useContext,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Link } from 'react-router-dom';
-import { LoginOutlined, DisconnectOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
 import { useOnClickAway } from 'use-on-click-away';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { Divide as Hamburger } from 'hamburger-react';
 
+import useHederaWallets from '@hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 import useLayout from '@utils/hooks/useLayout';
-import useHederaWallets from '@hooks/useHederaWallets';
 
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
 

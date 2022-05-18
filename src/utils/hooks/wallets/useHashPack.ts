@@ -1,13 +1,13 @@
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
-import { loadLocalData } from '@/utils/helpers/loadLocalData';
 import {
   SaveDataType,
   AppConfigType as HashConnectAppConfigType,
   DebugType as HashConnectDebugType,
   NetworkType as HashConnectNetworkType,
 } from '@utils/types/hashconnect.types';
+import { loadLocalData } from '@/utils/helpers/loadLocalData';
 
 export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = 'minerPocHashconnectData';
 

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import Error from '@/components/shared/form/Error';
 import { Field, useFormikContext } from 'formik';
+import Error from '@/components/shared/form/Error';
 
 type Props = {
   name: string;

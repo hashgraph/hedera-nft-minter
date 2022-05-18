@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+
 export const ModalContext = React.createContext<{
   closeModal: () => void;
   showModal: () => void;

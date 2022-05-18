@@ -1,33 +1,34 @@
 import axios from 'axios';
+import { TokenId } from '@hashgraph/sdk';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import { TokenId } from '@hashgraph/sdk';
 
 interface Token {
-  token_id: string,
-  balance: number,
+  token_id: string;
+  balance: number;
 }
 
 interface AccountBalance {
-  account: string,
-  balance: number,
-  tokens: Token[],
+  account: string;
+  balance: number;
+  tokens: Token[];
 }
 
 interface BalanceResponse {
-  balances: AccountBalance[],
-  timestamp: string,
+  balances: AccountBalance[];
+  timestamp: string;
 }
 
 export default class MirrorNode {
-  static url = 'https://testnet.mirrornode.hedera.com/api/v1'
+  static url = 'https://testnet.mirrornode.hedera.com/api/v1';
   static readonly instance = axios.create({
     baseURL: MirrorNode.url,
   });
 
-
   static async fetchAccountBalance(accountId: string) {
-    const { data } = await this.instance.get<BalanceResponse>(`/balances?account.id=${ accountId }`);
+    const { data } = await this.instance.get<BalanceResponse>(
+      `/balances?account.id=${ accountId }`
+    );
 
     return data.balances[0];
   }
@@ -38,7 +39,9 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchNFTInfo(tokenId: string | TokenId): Promise<{ nfts: NFTInfo[] }> {
+  static async fetchNFTInfo(
+    tokenId: string | TokenId
+  ): Promise<{ nfts: NFTInfo[] }> {
     const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts`);
 
     return data;
@@ -58,23 +61,22 @@ export default class MirrorNode {
       throw new Error('No NFTs');
     }
 
-    const nfts = await Promise.all(
+    const nfts = (await Promise.all(
       balance.tokens
-        .filter(i => i.balance > 0)
-        .map(async token => {
+        .filter((i) => i.balance > 0)
+        .map(async (token) => {
           const t = await this.fetchTokenInfo(token.token_id);
 
           if (t.type !== 'NON_FUNGIBLE_UNIQUE') {
             return null;
           }
 
-          return this.fetchNFTInfo(token.token_id)
-            .then(res => ({
-              ...res,
-              info: t,
-            }));
+          return this.fetchNFTInfo(token.token_id).then((res) => ({
+            ...res,
+            info: t,
+          }));
         })
-    ) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
+    )) as { nfts: NFTInfo[]; info: TokenInfo }[];
 
     return nfts.filter(Boolean);
   }

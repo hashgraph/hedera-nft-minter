@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useEffect, useState } from 'react';
-import Arrow from '@assets/images/interior-nav-arrow-up.png';
 import classNames from 'classnames';
 import useLayout from '@utils/hooks/useLayout';
+import Arrow from '@assets/images/interior-nav-arrow-up.png';
 
 type Props = {
   children?: React.ReactElement;

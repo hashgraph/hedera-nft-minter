@@ -1,7 +1,8 @@
 import { FieldArray } from 'formik';
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import { DeleteOutlined } from '@ant-design/icons';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { DeleteOutlined } from '@ant-design/icons';
+
+import FieldWrapper from '@/components/shared/form/FieldWrapper';
 
 type Input = {
   label: string;

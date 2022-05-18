@@ -1,10 +1,6 @@
+import _ from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { Formik, FormikValues } from 'formik';
-import NFTForm from '@components/views/homepage/nft-form';
-import IPFS from '@/services/IPFS';
-import HTS, { AccountInfo, Fee, NewTokenType } from '@/services/HTS';
-import { toast } from 'react-toastify';
-import useHederaWallets from '@hooks/useHederaWallets';
 import {
   TokenId,
   CustomFee,
@@ -14,12 +10,18 @@ import {
   CustomFractionalFee,
   HbarUnit,
 } from '@hashgraph/sdk';
-import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
-import _ from 'lodash';
+import { toast } from 'react-toastify';
+
+import IPFS from '@/services/IPFS';
+import HTS, { AccountInfo, Fee, NewTokenType } from '@/services/HTS';
+import useHederaWallets from '@hooks/useHederaWallets';
 import { nftFormKeysGenerator } from '@/utils/helpers/nftFormKeysGenerator';
+import { initialValues } from '@utils/const/nft-form';
+
+import NFTForm from '@components/views/homepage/nft-form';
+import { ValidationSchema } from '@components/views/homepage/nft-form-validation-schema';
 import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
-import { initialValues } from '@utils/const/nft-form';
 
 export default function Homepage() {
   const { userWalletId, sendTransaction } = useHederaWallets();
