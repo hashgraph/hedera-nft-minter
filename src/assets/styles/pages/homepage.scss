@@ -1,62 +1,8 @@
 .homepage {
   display: flex;
   flex-direction: column;
+
   .container {
     background-color: $black;
-  }
-  form {
-    margin: 2rem 0;
-    padding-top: 2rem;
-  }
-  .form__row__two-columns {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-column-gap: 2rem;
-    // padding-bottom: 2.5rem;
-    @include respond-to('tablet') {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    p,
-    h1 {
-      color: $vapor;
-    }
-    h1 {
-      font-family: 'Styrene A Web';
-      font-style: normal;
-      font-stretch: normal;
-      font-size: 26px;
-      padding: 0;
-      margin: 0;
-      text-align: left;
-      line-height: 1.2;
-      letter-spacing: -1px;
-      font-weight: 500;
-    }
-  }
-  .form__row__two-columns-flex {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    // padding-bottom: 2.5rem;
-    column-gap: 20px;
-    .number {
-      input {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      flex: 0 1 101px;
-    }
-    .before-number {
-      flex: 0 1 calc(100% - 121px);
-    }
-    div {
-      flex: 0 1 100%;
-    }
-    @include respond-to('tablet') {
-      div {
-        flex: 0 1 calc(50% - 20px);
-      }
-    }
   }
 }

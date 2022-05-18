@@ -7,22 +7,26 @@ import React, {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginOutlined, DisconnectOutlined } from '@ant-design/icons';
+import classNames from 'classnames';
+import { useOnClickAway } from 'use-on-click-away';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { Divide as Hamburger } from 'hamburger-react';
+
 import { ModalContext } from '@utils/context/ModalContext';
-import ConnectionModal from '@components/shared/modals/ConnectionModal';
+import useLayout from '@utils/hooks/useLayout';
 import useHederaWallets from '@hooks/useHederaWallets';
+
+import ConnectionModal from '@components/shared/modals/ConnectionModal';
+
 import LogoBlack from '@assets/images/black-cutout.svg';
 import LogoWhite from '@assets/images/reversed-cutout.svg';
-import classNames from 'classnames';
-import useLayout from '@utils/hooks/useLayout';
-import { Divide as Hamburger } from 'hamburger-react';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { useOnClickAway } from 'use-on-click-away';
 
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
   const { scrollPosition, isNavbarHidden, isMobile } = useLayout();
   const headerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const expandedMenuRef = useRef(null);
   const [isMobileNavbarMenuExpanded, setIsMobileNavbarMenuExpanded] =
     useState(false);
 
@@ -45,7 +49,7 @@ const Header = () => {
     [connectedWalletType, userWalletId]
   );
 
-  const scrolledAboveHeader = useMemo(
+  const isScrolledAboveHeader = useMemo(
     () => headerRef && scrollPosition.y > headerRef?.current?.offsetHeight,
     [scrollPosition, headerRef]
   );
@@ -57,34 +61,31 @@ const Header = () => {
 
   const hederaLogo = useMemo(
     () =>
-      isMobileNavbarMenuToogled
-        ? LogoWhite
-        : scrolledAboveHeader
+      !isMobileNavbarMenuToogled && isScrolledAboveHeader
         ? LogoBlack
         : LogoWhite,
-    [scrolledAboveHeader, isMobileNavbarMenuToogled]
+    [isScrolledAboveHeader, isMobileNavbarMenuToogled]
   );
 
-  const headerClassnames = classNames({
-    'header': true,
+  const headerClassnames = classNames('header', {
     'is-white': isMobile
-      ? scrolledAboveHeader && !isMobileNavbarMenuToogled
-      : scrolledAboveHeader,
+      ? isScrolledAboveHeader && !isMobileNavbarMenuToogled
+      : isScrolledAboveHeader,
     'is-hide': isNavbarHidden,
     'is-mobile': isMobile,
   });
-  const logoLinkClassnames = classNames({
-    'logo_link': true,
-    'logo_link__is-white': !scrolledAboveHeader,
+  const logoLinkClassnames = classNames('logo_link', {
+    'logo_link__is-white': !isScrolledAboveHeader,
   });
-  const buttonsWrapperClassnames = classNames({
-    'header__buttons-wrapper': true,
-    'header__buttons-wrapper__is-white': !scrolledAboveHeader,
+  const buttonsWrapperClassnames = classNames('header__buttons-wrapper', {
+    'header__buttons-wrapper__is-white': !isScrolledAboveHeader,
   });
-  const mobileNavbarExpandedMenuClassnames = classNames({
-    'header__mobile-menu__wrapper': true,
-    'header__mobile-menu__is-hide': !isMobileNavbarMenuToogled,
-  });
+  const mobileNavbarExpandedMenuClassnames = classNames(
+    'header__mobile-menu__wrapper',
+    {
+      'header__mobile-menu__is-hide': !isMobileNavbarMenuToogled,
+    }
+  );
 
   const openNavbar = useCallback(() => {
     setIsMobileNavbarMenuExpanded(true);
@@ -101,12 +102,11 @@ const Header = () => {
     [openNavbar, closeNavbar]
   );
 
-  const expandedMenuRef = useRef(null);
   const mobileNavbar = useCallback(
     () => (
       <>
         <header className={headerClassnames} ref={headerRef}>
-          <div className={'container'}>
+          <div className={'header-container'}>
             <Link className={logoLinkClassnames} to='/'>
               <img src={hederaLogo} alt='hedera_logo' height={43} width={43} />{' '}
             </Link>
@@ -154,7 +154,7 @@ const Header = () => {
   const desktopNavbar = useCallback(() => {
     return (
       <header className={headerClassnames} ref={headerRef}>
-        <div className={'container'}>
+        <div className={'header-container'}>
           <Link className={logoLinkClassnames} to='/'>
             <img src={hederaLogo} alt='hedera_logo' height={43} width={43} />{' '}
             Hedera

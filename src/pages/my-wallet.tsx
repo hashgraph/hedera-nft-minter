@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useHederaWallets from '@hooks/useHederaWallets';
+import { NFTInfo } from '@utils/entity/NFTInfo';
+import { TokenInfo } from '@utils/entity/TokenInfo';
 import MirrorNode from '@/services/MirrorNode';
 import NFT from '@components/views/my-wallet/NFT';
 import Loader from '@components/shared/loader/Loader';
-import { NFTInfo } from '@utils/entity/NFTInfo';
 import Hero from '@/components/shared/layout/Hero';
-import { TokenInfo } from '@utils/entity/TokenInfo';
 import PageMenu from '@/components/shared/layout/PageMenu';
 
 export default function MyWallet() {
   const { userWalletId } = useHederaWallets();
-  const [nfts, setNFTs] = useState<({ nfts: NFTInfo[], info: TokenInfo } )[] | null>([]);
+  const [nfts, setNFTs] = useState<
+    { nfts: NFTInfo[]; info: TokenInfo }[] | null
+  >([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
@@ -47,15 +49,15 @@ export default function MyWallet() {
           <div>
             <h2>Your NFT's</h2>
 
-              {nfts?.length ? (
-                <div className='nft-grid'>
-                  {nfts.map(nft => (
-                    <NFT key={nft?.nfts[0].token_id} {...nft} />
-                  ))}
-                </div>
-              ) : (
-                <div>No nfts :(</div>
-              )}
+            {nfts?.length ? (
+              <div className='nft-grid'>
+                {nfts.map((nft) => (
+                  <NFT key={nft?.nfts[0].token_id} {...nft} />
+                ))}
+              </div>
+            ) : (
+              <div>No nfts :(</div>
+            )}
           </div>
         )}
       </div>

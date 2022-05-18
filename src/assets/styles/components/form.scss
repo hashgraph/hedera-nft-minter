@@ -1,4 +1,7 @@
 .form {
+  margin: 2rem 0;
+  padding-top: 2rem;
+
   label {
     color: $vapor;
     display: block;
@@ -7,120 +10,20 @@
     padding-left: 3px;
     letter-spacing: -1px;
   }
-  &__group {
-    display: flex;
-    align-items: center;
-    column-gap: 20px;
-    &-row{
-      padding-bottom: 2.5rem;
-    }
-    &__remove_button_row {
-      padding-top: 16px;
-    }
-    &__label-wrapper {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      border-bottom: 1px solid #fff;
-      padding: 0 0 11px;
-      margin: 0px 0 15px;
-      label {
-        font-size: 20px;
-        font-weight: 300;
-        letter-spacing: -1px;
-        line-height: 1.2;
-        text-align: left;
-      }
-    }
-  }
 
-  &__row {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 20px;
-    &__full-width{
-      width: 100%;
-    }
-    &__fees {
-      border: 1px solid rgba(66, 68, 90, 0.2);
-      border-radius: 5px;
-      padding: 10px;
-      margin-bottom: 1rem;
-    }
-  }
-  &__col {
-    flex: 0 1 100%;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    @include respond-to('mobile') {
-      flex: 0 1 calc(50% - 20px);
-    }
-  }
-
-  &__error_wrapper {
-    min-height: 16px;
-  }
-  &__error {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    color: $orange;
-    padding-left: 2px;
-    font-size: 11px;
+  button {
     font-family: 'Styrene A Web';
-    font-weight: 300;
+    font-weight: 400;
     font-style: normal;
     font-stretch: normal;
-    padding-right: 5px;
-    padding-top: 2px;
-    &.image_error {
-      padding-right: 50px;
+    padding: 0.35rem 0.75rem;
+    &:focus {
+      border-color: $blue;
     }
   }
 
-  &__step-wrapper {
-    margin-bottom: 2rem;
-    h1 {
-      color: $blue;
-      width: 100%;
-      display: block;
-      padding: 0 0 10px;
-      margin-bottom: 15px;
-      position: relative;
-      text-transform: uppercase;
-      font-size: 26px;
-      font-weight: 300;
-      position: relative;
-      &:after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        position: absolute;
-        background: $gradient;
-        bottom: 0;
-        left: 0;
-      }
-    }
-    span,
-    p {
-      font-size: 26px;
-      color: $vapor;
-      padding: 0;
-      margin: 0;
-      text-align: left;
-      line-height: 1.2;
-      letter-spacing: -1px;
-      font-weight: 100;
-    }
-    p {
-      font-weight: 500;
-    }
-  }
-
-  &__properties__remove_button_row {
-    display: grid;
-    place-items: center;
+  select {
+    appearance: auto;
   }
 
   input {
@@ -142,11 +45,13 @@
       border-color: $blue;
     }
   }
+
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
+
   input[type='number'] {
     text-align: center;
     display: flex;
@@ -154,6 +59,7 @@
     align-items: center;
     max-width: 111px;
   }
+
   input[type='checkbox'] {
     text-align: center;
     display: flex;
@@ -161,27 +67,233 @@
     align-items: center;
     max-width: 50px;
     position: relative;
+
     &:focus {
-      &:before{
-        content: "";
+      border-color: $blue;
+
+      &:before {
+        content: '';
         width: 42px;
         height: 42px;
         border-radius: 4px;
         z-index: 0;
         border: 1px solid $blue;
       }
-      border-color: $blue;
     }
   }
+
+  &__group {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    &-row {
+      padding-bottom: 2.5rem;
+    }
+
+    &__remove_button_row {
+      padding-top: 16px;
+    }
+
+    &__label-wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      border-bottom: 1px solid #fff;
+      padding: 0 0 11px;
+      margin: 0px 0 15px;
+
+      label {
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: -1px;
+        line-height: 1.2;
+        text-align: left;
+      }
+    }
+
+    &__item {
+      &-enter {
+        opacity: 0;
+      }
+
+      &-enter-active {
+        opacity: 1;
+        transition: opacity 500ms ease-in;
+      }
+
+      &-exit {
+        opacity: 1;
+      }
+
+      &-exit-active {
+        opacity: 0;
+        transition: opacity 500ms ease-in;
+      }
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+
+    &__full-width {
+      width: 100%;
+    }
+
+    &__fees {
+      border: 1px solid rgba(66, 68, 90, 0.2);
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 1rem;
+    }
+
+    &__two-columns {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-column-gap: 2rem;
+      // padding-bottom: 2.5rem;
+      @include respond-to('tablet') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      p,
+      h1 {
+        color: $vapor;
+      }
+      h1 {
+        font-family: 'Styrene A Web';
+        font-style: normal;
+        font-stretch: normal;
+        font-size: 26px;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        line-height: 1.2;
+        letter-spacing: -1px;
+        font-weight: 500;
+      }
+
+      &-flex {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 20px;
+        grid-template-columns: unset;
+        grid-column-gap: unset;
+        .number {
+          input {
+            margin-left: auto;
+            margin-right: auto;
+          }
+          flex: 0 1 101px;
+        }
+        .before-number {
+          flex: 0 1 calc(100% - 121px);
+        }
+        div {
+          flex: 0 1 100%;
+        }
+        @include respond-to('tablet') {
+          grid-template-columns: unset;
+          div {
+            flex: 0 1 calc(50% - 20px);
+          }
+        }
+      }
+    }
+
+  }
+
+  &__col {
+    flex: 0 1 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @include respond-to('mobile') {
+      flex: 0 1 calc(50% - 20px);
+    }
+  }
+
+  &__error_wrapper {
+    min-height: 16px;
+  }
+
+  &__error {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    color: $orange;
+    padding-left: 2px;
+    font-size: 11px;
+    font-family: 'Styrene A Web';
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    padding-right: 5px;
+    padding-top: 2px;
+
+    &.image_error {
+      padding-right: 50px;
+    }
+  }
+
+  &__step-wrapper {
+    margin-bottom: 2rem;
+
+    h1 {
+      color: $blue;
+      width: 100%;
+      display: block;
+      padding: 0 0 10px;
+      margin-bottom: 15px;
+      position: relative;
+      text-transform: uppercase;
+      font-size: 26px;
+      font-weight: 300;
+      position: relative;
+
+      &:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        position: absolute;
+        background: $gradient;
+        bottom: 0;
+        left: 0;
+      }
+    }
+
+    span,
+    p {
+      font-size: 26px;
+      color: $vapor;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      font-weight: 100;
+    }
+
+    p {
+      font-weight: 500;
+    }
+  }
+
+  &__properties__remove_button_row {
+    display: grid;
+    place-items: center;
+  }
+
   &__col_number {
     flex: 0 1 111px;
   }
+
   &__col_before_number {
     flex: 0 1 calc(100% - 151px);
-  }
-
-  select {
-    appearance: auto;
   }
 
   &__btns {
@@ -189,17 +301,6 @@
     justify-content: flex-end;
     padding-top: 1rem;
     grid-gap: 1rem;
-  }
-
-  button {
-    font-family: 'Styrene A Web';
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    padding: 0.35rem 0.75rem;
-    &:focus {
-      border-color: $blue;
-    }
   }
 
   .form__fileDrop__container {
@@ -230,19 +331,4 @@
       box-shadow: $boxShadow;
     }
   }
-}
-
-.form__group__item-enter {
-  opacity: 0;
-}
-.form__group__item-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-.form__group__item-exit {
-  opacity: 1;
-}
-.form__group__item-exit-active {
-  opacity: 0;
-  transition: opacity 500ms ease-in;
 }
