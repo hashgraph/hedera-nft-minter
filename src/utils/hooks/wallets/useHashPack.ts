@@ -1,3 +1,4 @@
+import { HEDERA_NETWORK } from '@/../Global.d';
 import { useState, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
@@ -26,7 +27,7 @@ export const INITIAL_SAVE_DATA: SaveDataType = {
   accountsIds: [],
 };
 
-export const HASHCONNECT_INITIAL_NETWORK: HashConnectNetworkType = 'testnet';
+export const HASHCONNECT_INITIAL_NETWORK: HashConnectNetworkType = HEDERA_NETWORK;
 
 const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
 

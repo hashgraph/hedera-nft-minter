@@ -58,6 +58,7 @@ module.exports = {
       chunkFilename: 'css/[name].[hash].css',
     }),
     new webpack.DefinePlugin({
+      HEDERA_NETWORK: JSON.stringify(process.env.HEDERA_NETWORK),
       IPFS_KEY: JSON.stringify(process.env.IPFS_KEY),
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
     }),

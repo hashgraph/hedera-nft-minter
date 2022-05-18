@@ -26,12 +26,13 @@
     appearance: auto;
   }
 
-  input {
+  input, select {
     height: 42px;
   }
 
   input,
-  textarea {
+  textarea,
+  select, {
     display: block;
     color: $vapor;
     background: transparent;
