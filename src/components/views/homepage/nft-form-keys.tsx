@@ -65,11 +65,13 @@ const NftFormKeys = () => {
           <div className='flex-center'>
             <Field name={`keys.${ index }.value`} type='radio' value='custom' />
           </div>
-          <div className='form__group__table__row__remove-buton'>
-            <button type='button' onClick={() => remove(index)}>
-              Remove
-            </button>
-          </div>
+          {index !== 0 && (
+            <div className='form__group__table__row__remove-buton'>
+              <button type='button' onClick={() => remove(index)}>
+                Remove
+              </button>
+            </div>
+          )}
         </div>
 
         <SwitchTransition>
@@ -123,56 +125,16 @@ const NftFormKeys = () => {
               <label htmlFor={'account_0'}>My account value</label>
               <label htmlFor={'custom_0'}>Custom value</label>
             </div>
-            <div className='form__group__table__row-container'>
-              <div className='flex form__group__table__row '>
-                <label htmlFor={'account_0'}>Treasury account ID</label>
-                <div className='flex-center'>
-                  <Field name={'keys.0.value'} type='radio' value='account' />
-                </div>
-                <div className='flex-center'>
-                  <Field name={'keys.0.value'} type='radio' value='custom' />
-                </div>
-                <div className='form__group__table__row-disabled-buton'>
-                  <button type='button'>Remove</button>
-                </div>
-              </div>
-
-              <SwitchTransition>
-                <CSSTransition
-                  timeout={300}
-                  key={field.value[0].value}
-                  addEndListener={(node: HTMLElement, done: () => void) =>
-                    node.addEventListener('transitionend', done, false)
-                  }
-                  classNames='form__group__item'
-                >
-                  <div>
-                    {field.value[0]?.value === 'custom' && (
-                      <div className='form__group__table__row w-100'>
-                        <label htmlFor={'keys.0.key'}>Value: </label>
-                        <div className='form__group__table__row__custom-key w-100'>
-                          <Field name={'keys.0.key'} type='text' />
-                          <Error name={'keys.0.key'} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </CSSTransition>
-              </SwitchTransition>
-            </div>
             <TransitionGroup className='form__group__list'>
-              {field.value.map(
-                (_, index) =>
-                  index !== 0 && (
-                    <CSSTransition
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={`${ index }.form__group__item`}
-                      timeout={300}
-                      classNames='form__group__item'
-                    >
-                      {renderKey(index, remove)}
-                    </CSSTransition>
-                  )
+              {field.value.map((_, index) =>
+                  <CSSTransition
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${ index }.form__group__item`}
+                    timeout={300}
+                    classNames='form__group__item'
+                  >
+                    {renderKey(index, remove)}
+                  </CSSTransition>
               )}
             </TransitionGroup>
           </div>

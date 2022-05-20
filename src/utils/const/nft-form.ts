@@ -40,7 +40,7 @@ export const initialValues: FormValues = {
   ],
   qty: 1,
   keys: [
-    { type: TOKEN_KEY.TREASURY, value: 'account' }
+    { type: TOKEN_KEY.SUPPLY, value: 'account' }
   ],
   fees: [],
 };
