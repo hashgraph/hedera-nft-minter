@@ -1,4 +1,4 @@
-import React, { useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { FieldArray, useField } from 'formik';
 import { toast } from 'react-toastify';
 import {
@@ -24,22 +24,22 @@ const NftFormFees = () => {
             label='Fee collector account ID'
           />
         </div>
-        <div className='form__row__number-columns-flex'>
-          <div className='form__row__number-columns-flex__column'>
+        <div className='form__row__number-columns'>
+          <div className='form__row__number-columns__column'>
             <FieldWrapper
               name={`fees.${ index }.fallbackFee`}
               type='number'
               label='Fallback fee'
             />
           </div>
-          <div className='form__row__number-columns-flex__column'>
+          <div className='form__row__number-columns__column'>
             <FieldWrapper
               name={`fees.${ index }.numerator`}
               type='number'
               label='Numerator'
             />
           </div>
-          <div className='form__row__number-columns-flex__column'>
+          <div className='form__row__number-columns__column'>
             <FieldWrapper
               name={`fees.${ index }.denominator`}
               type='number'
@@ -60,7 +60,7 @@ const NftFormFees = () => {
           type='text'
           label='Fee collector account ID'
         />
-        <div className='form__row__number-columns-flex'>
+        <div className='form__row__number-columns'>
           <div>
             <FieldWrapper
               name={`fees.${ index }.numerator`}

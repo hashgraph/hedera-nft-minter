@@ -12,32 +12,35 @@ import FieldSelect from '@/components/shared/form/FieldSelect';
 
 export default function NftFormKeys() {
   const [field] = useField<TokenKey[]>('keys');
-  const tokenKeys = useMemo(()=>([
-    {
-      title: 'KYC',
-      value: TOKEN_KEY.KYC,
-    },
-    {
-      title: 'Admin',
-      value: TOKEN_KEY.ADMIN,
-    },
-    {
-      title: 'Freeze',
-      value: TOKEN_KEY.FREEZE,
-    },
-    {
-      title: 'Wipe',
-      value: TOKEN_KEY.WIPE,
-    },
-    {
-      title: 'Pause',
-      value: TOKEN_KEY.PAUSE,
-    },
-    {
-      title: 'Supply',
-      value: TOKEN_KEY.SUPPLY,
-    },
-  ]), []);
+  const tokenKeys = useMemo(
+    () => [
+      {
+        title: 'KYC',
+        value: TOKEN_KEY.KYC,
+      },
+      {
+        title: 'Admin',
+        value: TOKEN_KEY.ADMIN,
+      },
+      {
+        title: 'Freeze',
+        value: TOKEN_KEY.FREEZE,
+      },
+      {
+        title: 'Wipe',
+        value: TOKEN_KEY.WIPE,
+      },
+      {
+        title: 'Pause',
+        value: TOKEN_KEY.PAUSE,
+      },
+      {
+        title: 'Supply',
+        value: TOKEN_KEY.SUPPLY,
+      },
+    ],
+    []
+  );
 
   const renderOptions = useCallback(
     () =>
@@ -51,7 +54,11 @@ export default function NftFormKeys() {
             );
           }
         }
-        return <option key={key.value} value={key.value}>{key.title}</option>;
+        return (
+          <option key={key.value} value={key.value}>
+            {key.title}
+          </option>
+        );
       }),
     [field, tokenKeys]
   );
@@ -67,14 +74,14 @@ export default function NftFormKeys() {
                 {renderOptions()}
               </FieldSelect>
             </div>
-            <div className='flex-column'>
+            <div className='flex-center'>
               <Field
                 name={`keys.${ index }.value`}
                 type='radio'
                 value='account'
               />
             </div>
-            <div className='flex-column'>
+            <div className='flex-center'>
               <Field name={`keys.${ index }.value`} type='radio' value='custom' />
             </div>
             <div className='form__group__table__row__remove-buton'>
@@ -139,12 +146,11 @@ export default function NftFormKeys() {
             </div>
             <div className='form__group__table__row-container'>
               <div className='flex form__group__table__row '>
-                {/* <div className='form__group__labels__divider' /> */}
                 <label htmlFor={'account_0'}>Treasury account ID</label>
-                <div className='flex-column'>
+                <div className='flex-center'>
                   <Field name={'keys.0.value'} type='radio' value='account' />
                 </div>
-                <div className='flex-column'>
+                <div className='flex-center'>
                   <Field name={'keys.0.value'} type='radio' value='custom' />
                 </div>
                 <div className='form__group__table__row-disabled-buton'>
