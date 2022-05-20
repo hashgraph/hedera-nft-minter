@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 interface Option {
   name: string;
-  value: string | number;
+  value: any;
 }
 
 interface SwitchProps {
@@ -15,7 +15,7 @@ interface SwitchProps {
   label?: string;
 }
 
-export default function Switch({ options, name }: SwitchProps) {
+export default function Switch({ options, name, label }: SwitchProps) {
   const [field, , helpers] = useField(name);
   const classess = useCallback(
     (val) =>
@@ -26,17 +26,20 @@ export default function Switch({ options, name }: SwitchProps) {
   );
 
   return (
-    <div className='switch'>
-      {options.map(({ name, value }) => (
-        <button
-          key={value}
-          type='button'
-          className={classess(value)}
-          onClick={() => helpers.setValue(value)}
-        >
-          {name}
-        </button>
-      ))}
+    <div className='switch-wrapper'>
+      <label htmlFor={name}>{label}:</label>
+      <div className='switch'>
+        {options.map(({ name, value }) => (
+          <button
+            key={value}
+            type='button'
+            className={classess(value)}
+            onClick={() => helpers.setValue(value)}
+          >
+            {name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

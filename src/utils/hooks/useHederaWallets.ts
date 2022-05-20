@@ -169,7 +169,6 @@ const useHederaWallets = () => {
     connectedWalletType,
     connect,
     disconnect,
-    // sign,
     sendTransaction,
   };
 };

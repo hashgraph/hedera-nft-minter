@@ -331,3 +331,14 @@ header {
     }
   }
 }
+
+.w-100{
+  width: 100%;
+}
+.flex{
+  display: flex;
+  &-column{
+    display: flex;
+    flex-direction: column;
+  }
+}
