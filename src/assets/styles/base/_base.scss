@@ -59,6 +59,12 @@ button,
   padding: 0.35rem 0.75rem;
   cursor: pointer;
 
+  &--big {
+    border-radius: 30px !important;
+    font-size: 12px !important;
+    padding: 1.2rem 2.5rem !important;
+  }
+
   button {
     color: $blue;
   }

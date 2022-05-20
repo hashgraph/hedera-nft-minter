@@ -14,7 +14,6 @@ export default function NFTForm({
   handleReset,
   isSubmitting,
 }: FormikProps<FormikValues>) {
-
   return (
     <Form className='form'>
       <div>
@@ -148,12 +147,16 @@ export default function NFTForm({
             <button
               type='button'
               onClick={handleReset}
-              className='btn--grey btn--transparent-white'
+              className='btn--grey btn--transparent-white btn--big'
               disabled={isSubmitting}
             >
               Clear form
             </button>
-            <button type='submit' className='btn' disabled={isSubmitting}>
+            <button
+              type='submit'
+              className='btn btn--big'
+              disabled={isSubmitting}
+            >
               Submit
             </button>
           </div>

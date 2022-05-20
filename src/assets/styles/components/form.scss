@@ -2,128 +2,6 @@
   margin: 2rem 0;
   padding-top: 2rem;
 
-  label {
-    color: $vapor;
-    display: block;
-    font-size: 14px;
-    padding-bottom: 15px;
-    padding-left: 3px;
-    letter-spacing: -1px;
-  }
-
-  button {
-    font-family: 'Styrene A Web';
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    padding: 0.35rem 0.75rem;
-    &:focus {
-      border-color: $blue;
-    }
-  }
-
-  select {
-    appearance: auto;
-  }
-
-  input,
-  select {
-    height: 42px;
-  }
-
-  input[type='radio'] {
-    font-size: 20px;
-    /* Add if not using autoprefixer */
-    -webkit-appearance: none;
-    appearance: none;
-    /* For iOS < 15 to remove gradient background */
-    background-color: $black;
-    /* Not removed via appearance */
-    margin: 0;
-    font: inherit;
-    color: currentColor;
-    width: 1em;
-    height: 1em;
-    padding: 1em;
-    border: 0.15em solid $vapor;
-    border-radius: 50%;
-    position: relative;
-
-    &:before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 0.65em;
-      height: 0.65em;
-      border-radius: 50%;
-      transform: scale(0) translate(-50%, -50%);
-      transition: 200ms transform ease-in-out;
-      box-shadow: inset 1em 1em $vapor;
-    }
-
-    &:checked {
-      &:before {
-        background: red;
-        transform: scale(1) translate(-50%, -50%);
-      }
-    }
-  }
-
-  input,
-  textarea,
-  select {
-    font-family: 'Styrene A Web';
-    display: block;
-    color: $vapor;
-    background: transparent;
-    border: $border;
-    padding: 0.75rem 1rem;
-    border-radius: 25px;
-    width: 100%;
-    font-size: 1rem;
-
-    &:focus {
-      border-color: $blue;
-    }
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input[type='number'] {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 111px;
-  }
-
-  input[type='checkbox'] {
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 50px;
-    position: relative;
-
-    &:focus {
-      border-color: $blue;
-
-      &:before {
-        content: '';
-        width: 42px;
-        height: 42px;
-        border-radius: 4px;
-        z-index: 0;
-        border: 1px solid $blue;
-      }
-    }
-  }
-
   &__select_row {
     position: relative;
 
@@ -284,6 +162,18 @@
 
       &-mt {
         margin-top: 30px;
+      }
+    }
+
+    &__inputs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      column-gap: 20px;
+
+      &__row {
+        flex: 0 1 calc(50% - 62.5px);
       }
     }
 

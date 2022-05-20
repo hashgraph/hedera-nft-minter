@@ -1,6 +1,5 @@
 import { FieldArray } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { DeleteOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 
@@ -43,10 +42,10 @@ const FormGroup = ({ values, name }: Props) => {
                   timeout={500}
                   classNames='form__group__item'
                 >
-                  <div className='form__group'>
+                  <div className='form__group__inputs'>
                     {inputPair.map((input: Input, pairIndex: number) => (
                       <div
-                        className='form__group__inputs_row'
+                        className='form__group__inputs__row'
                         // eslint-disable-next-line react/no-array-index-key
                         key={`form__group__inputs_row_${ index }.${ pairIndex }_${ name }.${ input.name }`}
                       >
@@ -58,13 +57,9 @@ const FormGroup = ({ values, name }: Props) => {
                       </div>
                     ))}
 
-                    <div className='form__group__remove_button_row'>
-                      <button
-                        type='button'
-                        className='btn--icon'
-                        onClick={() => remove(index)}
-                      >
-                        <DeleteOutlined />
+                    <div className='form__group__table__row__remove-buton'>
+                      <button type='button' onClick={() => remove(index)}>
+                        Del
                       </button>
                     </div>
                   </div>
