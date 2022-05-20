@@ -8,9 +8,7 @@ import { HEDERA_NETWORK } from '@/../Global.d';
 import IPFS from '@/services/IPFS';
 import HTS, { AccountInfo, NewTokenType } from '@/services/HTS';
 
-import transformToFees from '@helpers/transformToFees';
 import { initialValues } from '@utils/const/nft-form';
-import { nftFormKeysGenerator } from '@/utils/helpers/nftFormKeysGenerator';
 import useHederaWallets from '@hooks/useHederaWallets';
 
 import NFTForm from '@components/views/homepage/nft-form';
@@ -37,31 +35,30 @@ export default function Homepage() {
       'attributes',
     ]) as FormikValues;
 
-      filtred.format = 'opensea';
+    filtred.format = 'opensea';
 
-      const filtredProperties = {} as { [key: string]: string };
-      for (const [, value] of filtred.properties.entries()) {
-        filtredProperties[`${ value.name }`] = value.value;
-      }
-      filtred.properties = filtredProperties;
+    const filtredProperties = {} as { [key: string]: string };
+    for (const [, value] of filtred.properties.entries()) {
+      filtredProperties[`${ value.name }`] = value.value;
+    }
+    filtred.properties = filtredProperties;
 
-      filtred = Object.keys(filtred).reduce(
-        (params: FormikValues, paramName: string) => {
-          if (
-            (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
-            (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
-          ) {
-            params[paramName] = filtred[paramName];
-          }
+    filtred = Object.keys(filtred).reduce(
+      (params: FormikValues, paramName: string) => {
+        if (
+          (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
+          (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
+        ) {
+          params[paramName] = filtred[paramName];
+        }
 
-          return params;
-        },
-        {}
-      );
-    },
+        return params;
+      },
+      {}
+    );
 
-    []
-  );
+    return filtred
+  }, []);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
@@ -82,7 +79,9 @@ export default function Homepage() {
       }
 
       return createTokenResponse.tokenId;
-    }, [sendTransaction]);
+    },
+    [sendTransaction]
+  );
 
   const mint = useCallback(async (tokenId: string, cids: string[]) => {
       if (!userWalletId) {
@@ -117,9 +116,7 @@ export default function Homepage() {
         if (!imageData.ok) {
           throw new Error('Error when uploading NFT File!');
         }
-        //add required image type metadata field
         filteredValues.type = values.image.type;
-        //replace image with IMAGE_CID
         filteredValues.image = imageData.value.cid;
       }
 
@@ -144,23 +141,14 @@ export default function Homepage() {
         );
       }
 
-      //Filter form keys
-      const filteredKeys = nftFormKeysGenerator(values, accountInfo.key.key);
-
-      const treasuryAccountId =
-        values.treasury === 'custom'
-          ? values.treasury_account_id
-          : userWalletId;
-
       // create token
       const tokenId = await createToken({
+        tokenSymbol,
         accountId: userWalletId,
         tokenName: values.name,
         amount: values.qty,
-        tokenSymbol,
-        ...filteredKeys,
-        treasuryAccountId,
-        customFees: transformToFees(values.fees),
+        keys: values.keys,
+        customFees: values.fees,
       } as NewTokenType);
 
       if (!tokenId) {
@@ -179,10 +167,7 @@ export default function Homepage() {
 
       // eslint-disable-next-line no-console
       console.log({ mintRes });
-
       setTokenCreated(true);
-
-      // mint token
     } catch (e) {
       if (typeof e === 'string') {
         toast.error(e);

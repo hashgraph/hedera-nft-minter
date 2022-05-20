@@ -1,16 +1,16 @@
 export enum TOKEN_KEY {
-  TREASURY = 'treasury',
-  KYC = 'kyc',
-  ADMIN = 'admin',
-  FREEZE = 'freeze',
-  WIPE = 'wipe',
-  PAUSE = 'pause',
-  SUPPLY = 'supply'
+  TREASURY = 'treasuryAccountId',
+  KYC = 'kycKey',
+  ADMIN = 'adminKey',
+  FREEZE = 'freezeKey',
+  WIPE = 'wipeKey',
+  PAUSE = 'pauseKey',
+  SUPPLY = 'supplyKey'
 }
 
 export interface TresauryKeyAccount {
   type: TOKEN_KEY.TREASURY,
-  value: 'account' | 'custom'
+  value: 'account',
 }
 export interface TresauryKeyCustom {
   type: TOKEN_KEY.TREASURY,

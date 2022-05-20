@@ -8,12 +8,16 @@ import {
   TokenId,
   TokenType,
   TokenSupplyType,
-  CustomFee,
   TokenUpdateTransaction,
   Key,
   Timestamp,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
+import { HEDERA_NETWORK } from '@/../Global.d';
+import transformToFees from '@helpers/transformToFees';
+import transformToKeys from '@helpers/transformToKeys';
+import { TokenKey } from '@utils/entity/TokenKeys';
+import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {
   result?: string;
@@ -27,27 +31,9 @@ export type NewTokenType = {
   tokenName: string;
   tokenSymbol: string;
   amount: number;
-  admin_key?: string;
-  freeze_key?: string;
-  kyc_key?: string;
-  supply_key?: string;
-  wipe_key?: string;
-  treasuryAccountId: string;
   pause_key?: string;
-  customFees?: CustomFee[];
-};
-
-export type Fee = {
-  feeCollectorAccountId: string | AccountId;
-  amount?: number;
-  hbarAmount?: number;
-  denominatingTokenId?: string;
-  numerator?: number;
-  denominator?: number;
-  fallbackFee?: number;
-  min?: number;
-  max?: number;
-  assessmentMethod?: 'inclusive' | 'exclusive';
+  customFees?: Fees[];
+  keys?: TokenKey[];
 };
 
 type UpdateTokenProps = {
@@ -73,8 +59,16 @@ export default class HTS {
     amount,
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
-    const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
+    const accountInfo: AccountInfo = await window.fetch(
+      `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ tokenProps.accountId }`,
+      { method: 'GET' }
+    ).then(res => res.json());
 
+    if (!accountInfo.key?.key) {
+      throw new Error('Error while try to fetch user Public key.');
+    }
+
+    const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
     const token = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
@@ -82,6 +76,8 @@ export default class HTS {
       maxSupply: amount,
       expirationTime,
       ...tokenProps,
+      customFees: tokenProps.customFees ? transformToFees(tokenProps.customFees) : undefined,
+      ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
     });
 
     return token;

@@ -91,10 +91,11 @@ export default function NFTForm({
             </div>
           </div>
         </div>
+        <div className='form__row__two-columns'>
+          <NftFormKeys />
 
-        <NftFormKeys />
-
-        <NftFormFees />
+          <NftFormFees />
+        </div>
       </div>
 
       <div>
