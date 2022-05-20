@@ -79,7 +79,9 @@ export default function Homepage() {
       }
 
       return createTokenResponse.tokenId;
-    }, [sendTransaction]);
+    },
+    [sendTransaction]
+  );
 
   const mint = useCallback(async (tokenId: string, cids: string[]) => {
       if (!userWalletId) {
