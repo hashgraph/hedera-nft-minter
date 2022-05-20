@@ -222,7 +222,7 @@ const NftFormFees = () => {
                         </CSSTransition>
                       </SwitchTransition>
                     </div>
-                    <button onClick={() => remove(index)}>Remove</button>
+                    <button onClick={() => remove(index)}>Del</button>
                   </div>
                 </CSSTransition>
               ))}
