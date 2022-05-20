@@ -26,7 +26,7 @@ const Modal = () => {
   const modalBackgroundClassnames = useMemo(
     () =>
       classNames('modal-background', {
-        'is-modal-background-showed': isModalShowed,
+        'modal-background__is-showed': isModalShowed,
       }),
     [isModalShowed]
   );

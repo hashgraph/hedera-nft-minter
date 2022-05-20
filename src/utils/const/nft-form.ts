@@ -5,7 +5,8 @@ import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 export type FormValues = NFTMetadata & {
   symbol?: string;
   qty: number;
-  keys: TokenKey[],
+  maxSupply: number;
+  keys: TokenKey[];
   fees: Fees[];
 };
 
@@ -39,8 +40,7 @@ export const initialValues: FormValues = {
     },
   ],
   qty: 1,
-  keys: [
-    { type: TOKEN_KEY.TREASURY, value: 'account' }
-  ],
+  maxSupply: 10,
+  keys: [{ type: TOKEN_KEY.TREASURY, value: 'account' }],
   fees: [],
 };

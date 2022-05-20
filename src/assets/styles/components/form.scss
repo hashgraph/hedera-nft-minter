@@ -132,14 +132,14 @@
         }
 
         div {
-          flex: 0 1 100%;
+          flex: 0 1 calc(50% - 10px);
         }
 
         @include respond-to('tablet') {
           grid-template-columns: unset;
 
           div {
-            flex: 0 1 calc(50% - 20px);
+            flex: 0 1 calc(50% - 10px);
           }
         }
 

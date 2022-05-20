@@ -70,7 +70,7 @@ export default function NFTForm({
           </div>
 
           <div className='form__row__two-columns-flex'>
-            <div className='before-number'>
+            <div>
               <FieldWrapper
                 fastField
                 name='description'
@@ -79,14 +79,24 @@ export default function NFTForm({
               />
             </div>
 
-            <div className='number'>
-              <FieldWrapper
-                fastField
-                name='qty'
-                type='number'
-                label='# quantity'
-                max='10'
-              />
+            <div className='form__row__number-columns'>
+              <div>
+                <FieldWrapper
+                  fastField
+                  name='qty'
+                  type='number'
+                  label='# decimals'
+                  max='10'
+                />
+              </div>
+              <div>
+                <FieldWrapper
+                  fastField
+                  name='maxSupply'
+                  type='number'
+                  label='# max supply'
+                />
+              </div>
             </div>
           </div>
         </div>
