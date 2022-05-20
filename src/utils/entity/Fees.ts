@@ -1,5 +1,3 @@
-import { CustomFixedFee } from '@hashgraph/sdk';
-
 export enum FEE {
   ROYALITY = 'royality',
   FRACTIONAL = 'fractional',
@@ -9,7 +7,7 @@ export enum FEE {
 export interface RoyalityFee {
   type: FEE.ROYALITY,
   feeCollectorAccountId: string,
-  fallbackFee: CustomFixedFee,
+  fallbackFee: number,
   numerator: number,
   denominator: number,
 }

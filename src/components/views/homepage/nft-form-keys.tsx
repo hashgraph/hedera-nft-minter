@@ -10,7 +10,7 @@ export default function NftFormKeys() {
     return (
       <div key={field.value[index].type}>
         <Field name={`keys.${ index }.type`} as='select'>
-          <option value={TOKEN_KEY.TREASURY}>Tresaury</option>
+          <option value={TOKEN_KEY.TREASURY}>Treasury</option>
           <option value={TOKEN_KEY.KYC}>KYC</option>
           <option value={TOKEN_KEY.ADMIN}>Admin</option>
           <option value={TOKEN_KEY.FREEZE}>Freeze</option>
