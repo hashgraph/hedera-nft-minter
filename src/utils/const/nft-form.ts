@@ -1,9 +1,6 @@
-import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { Fees } from '@utils/entity/Fees';
+import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
-
-type RequiredKey = 'account' | 'custom';
-export type OptionalKey = 'no' | RequiredKey;
 
 export type FormValues = NFTMetadata & {
   symbol?: string;
