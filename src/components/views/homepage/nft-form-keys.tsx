@@ -1,16 +1,17 @@
 import React, { useCallback, useMemo } from 'react';
 import { Field, FieldArray, useField } from 'formik';
-import { TokenKey, TOKEN_KEY } from '@utils/entity/TokenKeys';
-import Error from '@components/shared/form/Error';
+import { toast } from 'react-toastify';
 import {
   CSSTransition,
   TransitionGroup,
   SwitchTransition,
 } from 'react-transition-group';
-import { toast } from 'react-toastify';
+
+import { TokenKey, TOKEN_KEY } from '@utils/entity/TokenKeys';
+import Error from '@components/shared/form/Error';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 
-export default function NftFormKeys() {
+const NftFormKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
   const tokenKeys = useMemo(
     () => [
@@ -64,7 +65,7 @@ export default function NftFormKeys() {
   );
 
   const renderKey = useCallback(
-    (key: TokenKey, index: number, remove: (index: number) => void) => {
+    (index: number, remove: (index: number) => void) => {
       return (
         <div className='form__group__table__row-container'>
           <div className='form__group__table__row flex'>
@@ -183,15 +184,15 @@ export default function NftFormKeys() {
             </div>
             <TransitionGroup className='form__group__list'>
               {field.value.map(
-                (key, index) =>
+                (_, index) =>
                   index !== 0 && (
                     <CSSTransition
                       // eslint-disable-next-line react/no-array-index-key
-                      key={`${ name }.${ index }.form__group__item`}
+                      key={`${ index }.form__group__item`}
                       timeout={300}
                       classNames='form__group__item'
                     >
-                      {renderKey(key, index, remove)}
+                      {renderKey(index, remove)}
                     </CSSTransition>
                   )
               )}
@@ -201,4 +202,6 @@ export default function NftFormKeys() {
       />
     </div>
   );
-}
+};
+
+export default NftFormKeys;

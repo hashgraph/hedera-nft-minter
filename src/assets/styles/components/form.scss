@@ -160,9 +160,13 @@
       width: 100%;
 
       &__fee {
-        border-radius: 5px;
         padding: 1rem 0;
         margin-bottom: 1rem;
+
+        &-fixed {
+          display: flex;
+          column-gap: 20px;
+        }
       }
 
       &-container {

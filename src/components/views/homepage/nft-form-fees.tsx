@@ -92,7 +92,7 @@ const NftFormFees = () => {
         </div>
 
         <Switch
-          label='Assessment method:'
+          label='Assessment method'
           name={`fees.${ index }.assessmentMethod`}
           options={[
             { name: 'Inclusive', value: false },
@@ -124,7 +124,7 @@ const NftFormFees = () => {
           </div>
         </div>
 
-        <div className='form__row__fixed-fee'>
+        <div className='form__row__fees__fee-fixed'>
           <div>
             <FieldWrapper
               name={`fees.${ index }.amount`}
@@ -146,14 +146,14 @@ const NftFormFees = () => {
   );
 
   const renderFeeFieldset = useCallback(
-    (fee: FEE, arrayIndex: number, remove: void) => {
+    (fee: FEE, arrayIndex: number) => {
       switch (fee) {
         case FEE.ROYALITY:
-          return renderRoyaltyFeeFormFields(arrayIndex, remove);
+          return renderRoyaltyFeeFormFields(arrayIndex);
         case FEE.FRACTIONAL:
-          return renderFractionalFeeFormFields(arrayIndex, remove);
+          return renderFractionalFeeFormFields(arrayIndex);
         case FEE.FIXED:
-          return renderFixedFeeFormFields(arrayIndex, remove);
+          return renderFixedFeeFormFields(arrayIndex);
         case FEE.NONE:
           return;
       }
