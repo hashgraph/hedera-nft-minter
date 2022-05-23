@@ -13,8 +13,8 @@ import FieldSelect from '@/components/shared/form/FieldSelect';
 
 const NftFormKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
-  const tokenKeys = useMemo(
-    () => [
+  const tokenKeys = useMemo(() =>
+    [
       { title: 'KYC', value: TOKEN_KEY.KYC },
       { title: 'Admin', value: TOKEN_KEY.ADMIN },
       { title: 'Freeze', value: TOKEN_KEY.FREEZE },
@@ -68,40 +68,38 @@ const NftFormKeys = () => {
           <div className='flex-center'>
             <Field name={`keys.${ index }.value`} type='radio' value='custom' />
           </div>
-          {index !== 0 && (
             <div className='form__group__table__row__remove-buton'>
               <button type='button' onClick={() => remove(index)}>
                 Del
               </button>
             </div>
-          )}
-          </div>
-
-          <SwitchTransition>
-            <CSSTransition
-              timeout={300}
-              key={field.value[index].value}
-              addEndListener={(node: HTMLElement, done: () => void) =>
-                node.addEventListener('transitionend', done, false)
-              }
-              classNames='form__group__item'
-            >
-              <div>
-                {field.value[index]?.value === 'custom' && (
-                  <div className='form__group__table__row w-100'>
-                    <label htmlFor={`keys.${ index }.key`}>Value: </label>
-                    <div className='form__group__table__row__custom-key w-100'>
-                      <Field name={`keys.${ index }.key`} type='text' />
-                      <Error name={`keys.${ index }.key`} />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </CSSTransition>
-          </SwitchTransition>
         </div>
-      );
-    },
+
+        <SwitchTransition>
+          <CSSTransition
+            timeout={300}
+            key={field.value[index].value}
+            addEndListener={(node: HTMLElement, done: () => void) =>
+              node.addEventListener('transitionend', done, false)
+            }
+            classNames='form__group__item'
+          >
+            <div>
+              {field.value[index]?.value === 'custom' && (
+                <div className='form__group__table__row w-100'>
+                  <label htmlFor={`keys.${ index }.key`}>Value: </label>
+                  <div className='form__group__table__row__custom-key w-100'>
+                    <Field name={`keys.${ index }.key`} type='text' />
+                    <Error name={`keys.${ index }.key`} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </CSSTransition>
+        </SwitchTransition>
+      </div>
+    );
+  },
     [field, renderOptions]
   );
 
@@ -169,14 +167,14 @@ const NftFormKeys = () => {
             </div>
             <TransitionGroup className='form__group__list'>
               {field.value.map((_, index) =>
-                  <CSSTransition
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${ index }.form__group__item`}
-                    timeout={300}
-                    classNames='form__group__item'
-                  >
-                    {renderKey(index, remove)}
-                  </CSSTransition>
+                <CSSTransition
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={`${ index }.form__group__item`}
+                  timeout={300}
+                  classNames='form__group__item'
+                >
+                  {renderKey(index, remove)}
+                </CSSTransition>
               )}
             </TransitionGroup>
           </div>

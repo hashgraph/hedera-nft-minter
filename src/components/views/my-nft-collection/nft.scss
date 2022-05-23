@@ -108,7 +108,7 @@
     &__buttons {
       flex: 0 1 100%;
       display: flex;
-      column-gap: 20px;
+      column-gap: $columnGap;
       justify-content: flex-start;
       align-items: center;
       padding: 40px 0px 0px 0px !important;

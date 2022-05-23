@@ -1,4 +1,5 @@
 $container: 1140px;
+$columnGap: 1.25rem;
 
 $grey: #3a3a3a;
 $lightGrey: #909090;
@@ -8,26 +9,23 @@ $white: #fff;
 //HEDERA PRIMARY COLORS
 $black: #222222;
 $charcoal: #464646;
-$smoke: #8C8C8C;
-$vapor: #F9F9F9;
+$smoke: #8c8c8c;
+$vapor: #f9f9f9;
 
 //HEDERA SECONDARY COLORS
-$ultraviolet: #8259EF;
-$green: #07E78E;
-$blue: #2D84EB;
-$orange: #FF4200;
+$ultraviolet: #8259ef;
+$green: #07e78e;
+$blue: #2d84eb;
+$orange: #ff4200;
 
 //HEDERA ACCENTS COLORS
-$yellow: #EADA0B;
-$lime: #B7F133;
+$yellow: #eada0b;
+$lime: #b7f133;
 
 //HEDERA GRADIENT
 $gradient: linear-gradient(160deg, #5281e7, #5a73e7 34%, #765aea);
 
-$border: 1px solid hsla(0,0%,100%,.2);
-
-
-
+$border: 1px solid hsla(0, 0%, 100%, 0.2);
 
 // breakpoints
 $breakpoints: (
@@ -36,4 +34,3 @@ $breakpoints: (
   'laptop': 992px,
   'desktop': 1200px,
 );
-

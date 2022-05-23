@@ -30,7 +30,7 @@
   &__row {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 20px;
+    column-gap: $columnGap;
 
     &__fees {
       display: flex;
@@ -43,14 +43,14 @@
 
         &-fixed {
           display: flex;
-          column-gap: 20px;
+          column-gap: $columnGap;
         }
       }
 
       &-container {
         display: flex;
         width: 100%;
-        column-gap: 40px;
+        column-gap: $columnGap ;
         padding: 1.5rem 0;
         border-top: 1px solid $grey;
 
@@ -71,7 +71,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      column-gap: 10px;
+      column-gap: $columnGap / 2;
       &__column {
         display: flex;
         flex-direction: column;
@@ -83,7 +83,7 @@
       position: relative;
       display: grid;
       grid-template-columns: 1fr;
-      grid-column-gap: 2rem;
+      grid-column-gap: $columnGap;
       @include respond-to('tablet') {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -110,12 +110,12 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        column-gap: 20px;
+        column-gap: $columnGap;
         grid-template-columns: unset;
 
         &__numbers {
           display: flex;
-          column-gap: 20px;
+          column-gap: $columnGap;
         }
 
         .number {
@@ -155,7 +155,7 @@
   &__group {
     display: flex;
     align-items: center;
-    column-gap: 20px;
+    column-gap: $columnGap;
 
     &-row {
       padding-bottom: 2.5rem;
@@ -170,7 +170,7 @@
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      column-gap: 20px;
+      column-gap: $columnGap;
 
       &__row {
         flex: 0 1 calc(50% - 50px);

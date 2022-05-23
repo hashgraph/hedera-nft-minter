@@ -110,10 +110,8 @@ export default function NFT(props: NFTProps) {
         <p>{meta?.name}</p>
       </div>
       <div className='nft__table__header'>
-        {/* <div className='nft__table__header__name'>Name</div> */}
         <div className='nft__table__header__description'>Description</div>
         <div className='nft__table__header__owned'># owned</div>
-        {/* <div className='nft__table__header__buttons'></div> */}
       </div>
 
       <div className='nft__table__row__description'>
@@ -133,8 +131,8 @@ export default function NFT(props: NFTProps) {
         <button type='button' onClick={handleManageNFT}>
           Manage
         </button>
-        {parseInt(props.info.total_supply, 10) <
-          parseInt(props.info.max_supply, 10) && (
+        {parseInt(props.info.total_supply as string, 10) <
+          parseInt(props.info.max_supply as string, 10) && (
           <button type='button' onClick={handleMintNFT}>
             Mint
           </button>
@@ -143,24 +141,3 @@ export default function NFT(props: NFTProps) {
     </div>
   );
 }
-
-/**
- * <figcaption>
-
-
-        <div className='nft__buttons'>
-          <button type='button' onClick={handleSendNFT}>
-            Send
-          </button>
-          <button type='button' onClick={handleManageNFT}>
-            Manage
-          </button>
-          {parseInt(props.info.total_supply, 10) <
-            parseInt(props.info.max_supply, 10) && (
-            <button type='button' onClick={handleMintNFT}>
-              Mint
-            </button>
-          )}
-        </div>
-      </figcaption>
- */
