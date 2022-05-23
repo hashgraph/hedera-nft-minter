@@ -40,9 +40,13 @@ export const initialValues: FormValues = {
     },
   ],
   qty: 1,
+<<<<<<< HEAD
   maxSupply: 10,
+  keys: [{ type: TOKEN_KEY.TREASURY, value: 'account' }],
+=======
   keys: [
     { type: TOKEN_KEY.SUPPLY, value: 'account' }
   ],
+>>>>>>> main
   fees: [],
 };
