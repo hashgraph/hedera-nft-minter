@@ -57,7 +57,7 @@ export default function Homepage() {
       {}
     );
 
-    return filtred;
+    return filtred
   }, []);
 
   const uploadNFTFile = useCallback(async (file) => {
@@ -70,8 +70,7 @@ export default function Homepage() {
     return data;
   }, []);
 
-  const createToken = useCallback(
-    async (values: NewTokenType): Promise<TokenId | null> => {
+  const createToken = useCallback(async (values: NewTokenType): Promise<TokenId | null> => {
       const createTokenTx = await HTS.createToken(values);
       const createTokenResponse = await sendTransaction(createTokenTx, true);
 
@@ -84,8 +83,7 @@ export default function Homepage() {
     [sendTransaction]
   );
 
-  const mint = useCallback(
-    async (tokenId: string, cids: string[]) => {
+  const mint = useCallback(async (tokenId: string, cids: string[]) => {
       if (!userWalletId) {
         throw new Error('Error with loading logged account data!');
       }
@@ -102,83 +100,82 @@ export default function Homepage() {
     [userWalletId, sendTransaction]
   );
 
-  const handleFormSubmit = useCallback(
-    async (values) => {
-      const tokenSymbol = values.symbol;
-      delete values.symbol;
+  const handleFormSubmit = useCallback(async (values) => {
+    const tokenSymbol = values.symbol;
+    delete values.symbol;
 
-      const filteredValues = filterParams(values);
+    const filteredValues = filterParams(values);
 
-      try {
-        if (!userWalletId) {
-          throw new Error('First connect your wallet');
-        }
-        //upload image
-        if (values.image) {
-          const imageData = await uploadNFTFile(values.image);
-          if (!imageData.ok) {
-            throw new Error('Error when uploading NFT File!');
-          }
-          filteredValues.type = values.image.type;
-          filteredValues.image = imageData.value.cid;
-        }
-
-        // upload metadata
-        const metaCIDs = await Promise.all(
-          Array.from(new Array(parseInt(values.qty))).map(() =>
-            uploadMetadata(filteredValues)
-          )
-        );
-
-        //Fetch account data
-        let accountInfo: AccountInfo = await window.fetch(
-          `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ userWalletId }`,
-          { method: 'GET' }
-        );
-
-        accountInfo = await accountInfo.json();
-
-        if (!accountInfo.key) {
-          throw new Error(
-            'Error when loading user key from hedera mirrornode API(testnet)!'
-          );
-        }
-
-        // create token
-        const tokenId = await createToken({
-          tokenSymbol,
-          accountId: userWalletId,
-          tokenName: values.name,
-          amount: values.qty,
-          keys: values.keys,
-          customFees: values.fees,
-        } as NewTokenType);
-
-        if (!tokenId) {
-          throw new Error('Error! Problem with creating token!');
-        }
-
-        //check if is string
-        const tokenIdToMint = tokenId.toString();
-        setTokenId(tokenIdToMint);
-
-        // mint
-        const mintRes = await mint(
-          tokenIdToMint,
-          metaCIDs.map(({ value }) => value.cid)
-        );
-
-        // eslint-disable-next-line no-console
-        console.log({ mintRes });
-        setTokenCreated(true);
-      } catch (e) {
-        if (typeof e === 'string') {
-          toast.error(e);
-        } else if (e instanceof Error) {
-          toast.error(e.message);
-        }
+    try {
+      if (!userWalletId) {
+        throw new Error('First connect your wallet');
       }
-    },
+      //upload image
+      if (values.image) {
+        const imageData = await uploadNFTFile(values.image);
+        if (!imageData.ok) {
+          throw new Error('Error when uploading NFT File!');
+        }
+        filteredValues.type = values.image.type;
+        filteredValues.image = imageData.value.cid;
+      }
+
+      // upload metadata
+      const metaCIDs = await Promise.all(
+        Array.from(new Array(parseInt(values.qty))).map(() =>
+          uploadMetadata(filteredValues)
+        )
+      );
+
+      //Fetch account data
+      let accountInfo: AccountInfo = await window.fetch(
+        `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ userWalletId }`,
+        { method: 'GET' }
+      );
+
+      accountInfo = await accountInfo.json();
+
+      if (!accountInfo.key) {
+        throw new Error(
+          'Error when loading user key from hedera mirrornode API(testnet)!'
+        );
+      }
+
+      // create token
+      const tokenId = await createToken({
+        tokenSymbol,
+        accountId: userWalletId,
+        tokenName: values.name,
+        amount: values.qty,
+        keys: values.keys,
+        customFees: values.fees,
+      } as NewTokenType);
+
+      if (!tokenId) {
+        throw new Error('Error! Problem with creating token!');
+      }
+
+      //check if is string
+      const tokenIdToMint = tokenId.toString();
+      setTokenId(tokenIdToMint);
+
+      // mint
+      const mintRes = await mint(
+        tokenIdToMint,
+        metaCIDs.map(({ value }) => value.cid)
+      );
+
+      // eslint-disable-next-line no-console
+      console.log({ mintRes });
+      setTokenCreated(true);
+    } catch (e) {
+      if (typeof e === 'string') {
+        toast.error(e);
+      } else if (e instanceof Error) {
+        toast.error(e.message);
+      }
+    }
+  },
     [
       createToken,
       filterParams,

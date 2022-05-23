@@ -36,37 +36,33 @@ export type NewTokenType = {
   keys?: TokenKey[];
 };
 
-type UpdateTokenProps =
-  | {
-      tokenId?: string | TokenId | undefined;
-      tokenName?: string | undefined;
-      tokenSymbol?: string | undefined;
-      treasuryAccountId?: string | AccountId | undefined;
-      adminKey?: Key | undefined;
-      kycKey?: Key | undefined;
-      freezeKey?: Key | undefined;
-      wipeKey?: Key | undefined;
-      supplyKey?: Key | undefined;
-      autoRenewAccountId?: string | AccountId | undefined;
-      expirationTime?: Date | Timestamp | undefined;
-      autoRenewPeriod?: number | import('long').Long | undefined;
-      tokenMemo?: string | undefined;
-      feeScheduleKey?: Key | undefined;
-      pauseKey?: Key | undefined;
-    }
-  | undefined;
+type UpdateTokenProps = {
+  tokenId?: string | TokenId | undefined;
+  tokenName?: string | undefined;
+  tokenSymbol?: string | undefined;
+  treasuryAccountId?: string | AccountId | undefined;
+  adminKey?: Key | undefined;
+  kycKey?: Key | undefined;
+  freezeKey?: Key | undefined;
+  wipeKey?: Key | undefined;
+  supplyKey?: Key | undefined;
+  autoRenewAccountId?: string | AccountId | undefined;
+  expirationTime?: Date | Timestamp | undefined;
+  autoRenewPeriod?: number | import('long').Long | undefined;
+  tokenMemo?: string | undefined;
+  feeScheduleKey?: Key | undefined;
+  pauseKey?: Key | undefined;
+} | undefined
 
 export default class HTS {
   static async createToken({
     amount,
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
-    const accountInfo: AccountInfo = await window
-      .fetch(
-        `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ tokenProps.accountId }`,
-        { method: 'GET' }
-      )
-      .then((res) => res.json());
+    const accountInfo: AccountInfo = await window.fetch(
+      `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ tokenProps.accountId }`,
+      { method: 'GET' }
+    ).then(res => res.json());
 
     if (!accountInfo.key?.key) {
       throw new Error('Error while try to fetch user Public key.');
@@ -79,12 +75,8 @@ export default class HTS {
       decimals: amount,
       expirationTime,
       ...tokenProps,
-      customFees: tokenProps.customFees
-        ? transformToFees(tokenProps.customFees)
-        : undefined,
-      ...(tokenProps.keys
-        ? transformToKeys(tokenProps.keys, accountInfo.key.key)
-        : {}),
+      customFees: tokenProps.customFees ? transformToFees(tokenProps.customFees) : undefined,
+      ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
     });
 
     return token;
@@ -104,28 +96,19 @@ export default class HTS {
     return mintTx;
   }
 
-  static updateToken(
-    tokenId: string | TokenId,
-    acc1: string,
-    newValues: UpdateTokenProps
-  ) {
+  static updateToken(tokenId: string | TokenId, acc1: string, newValues: UpdateTokenProps) {
     const txID = TransactionId.generate(acc1);
 
     const updateTx = new TokenUpdateTransaction(newValues)
       .setTransactionId(txID)
       .setTokenId(tokenId)
-      .setNodeAccountIds([new AccountId(3)])
+      .setNodeAccountIds([ new AccountId(3) ])
       .freeze();
 
     return updateTx;
   }
 
-  static sendNFT(
-    tokenId: string | TokenId,
-    serial: number,
-    sender: string,
-    receiver: string
-  ) {
+  static sendNFT(tokenId: string | TokenId, serial: number, sender: string, receiver: string) {
     const txID = TransactionId.generate(sender);
 
     const tx = new TransferTransaction()

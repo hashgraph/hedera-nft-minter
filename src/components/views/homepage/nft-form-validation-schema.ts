@@ -2,18 +2,22 @@ import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
 
 const feeValidator = yup.object().shape({
-  type: yup.string().oneOf(Object.values(FEE)).required('Required'),
+  type: yup.string().oneOf(Object.values(FEE))
+    .required('Required'),
   feeCollectorAccountId: yup.string().required('Required'),
   fallbackFee: yup.number(),
-  numerator: yup.number().required('Required'),
-  denominator: yup.number().required('Required'),
+  numerator: yup.number()
+    .required('Required'),
+  denominator: yup.number()
+    .required('Required'),
   max: yup.number(),
   min: yup.number(),
   assessmentMethod: yup.boolean(),
-  amount: yup.number().when('type', {
-    is: FEE.FIXED,
-    then: yup.number().required('Required'),
-  }),
+  amount: yup.number()
+    .when('type', {
+      is: FEE.FIXED,
+      then: yup.number().required('Required'),
+    }),
 });
 
 export const ValidationSchema = yup.object().shape({
@@ -63,5 +67,5 @@ export const ValidationSchema = yup.object().shape({
         .required('Required'),
     })
   ),
-  fees: yup.array().of(feeValidator),
+  fees: yup.array().of(feeValidator)
 });

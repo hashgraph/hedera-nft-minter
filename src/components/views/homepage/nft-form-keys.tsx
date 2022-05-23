@@ -13,17 +13,14 @@ import FieldSelect from '@/components/shared/form/FieldSelect';
 
 const NftFormKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
-  const tokenKeys = useMemo(() =>
-    [
-      { title: 'KYC', value: TOKEN_KEY.KYC },
-      { title: 'Admin', value: TOKEN_KEY.ADMIN },
-      { title: 'Freeze', value: TOKEN_KEY.FREEZE },
-      { title: 'Wipe', value: TOKEN_KEY.WIPE },
-      { title: 'Pause', value: TOKEN_KEY.PAUSE },
-      { title: 'Supply', value: TOKEN_KEY.SUPPLY },
-    ],
-    []
-  );
+  const tokenKeys = useMemo(() => [
+    { title: 'KYC', value: TOKEN_KEY.KYC },
+    { title: 'Admin', value: TOKEN_KEY.ADMIN },
+    { title: 'Freeze', value: TOKEN_KEY.FREEZE },
+    { title: 'Wipe', value: TOKEN_KEY.WIPE },
+    { title: 'Pause', value: TOKEN_KEY.PAUSE },
+    { title: 'Supply', value: TOKEN_KEY.SUPPLY },
+  ], []);
 
   const renderOptions = useCallback(
     () =>
@@ -42,9 +39,7 @@ const NftFormKeys = () => {
             {key.title}
           </option>
         );
-      }),
-    [field, tokenKeys]
-  );
+      }), [field, tokenKeys]);
 
   const renderKey = useCallback((
     index: number,
@@ -167,14 +162,14 @@ const NftFormKeys = () => {
             </div>
             <TransitionGroup className='form__group__list'>
               {field.value.map((_, index) =>
-                <CSSTransition
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`${ index }.form__group__item`}
-                  timeout={300}
-                  classNames='form__group__item'
-                >
-                  {renderKey(index, remove)}
-                </CSSTransition>
+                  <CSSTransition
+                    // eslint-disable-next-line react/no-array-index-key
+                    key={`${ index }.form__group__item`}
+                    timeout={300}
+                    classNames='form__group__item'
+                  >
+                    {renderKey(index, remove)}
+                  </CSSTransition>
               )}
             </TransitionGroup>
           </div>
