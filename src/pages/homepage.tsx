@@ -176,14 +176,14 @@ export default function Homepage() {
       }
     }
   },
-    [
-      createToken,
-      filterParams,
-      mint,
-      uploadMetadata,
-      uploadNFTFile,
-      userWalletId,
-    ]
+  [
+    createToken,
+    filterParams,
+    mint,
+    uploadMetadata,
+    uploadNFTFile,
+    userWalletId,
+  ]
   );
 
   return (
