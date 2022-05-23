@@ -4,7 +4,8 @@ import { FEE } from '@utils/entity/Fees';
 const feeValidator = yup.object().shape({
   type: yup.string().oneOf(Object.values(FEE))
     .required('Required'),
-  feeCollectorAccountId: yup.string().required('Required'),
+  feeCollectorAccountId: yup.string()
+    .required('Required'),
   fallbackFee: yup.number(),
   numerator: yup.number()
     .required('Required'),
@@ -16,7 +17,7 @@ const feeValidator = yup.object().shape({
   amount: yup.number()
     .when('type', {
       is: FEE.FIXED,
-      then: yup.number().required('Required'),
+      then: yup.number().required('Required')
     }),
 });
 
