@@ -94,9 +94,7 @@ const NftFormKeys = () => {
         </SwitchTransition>
       </div>
     );
-  },
-    [field, renderOptions]
-  );
+  }, [field, renderOptions]);
 
   return (
     <div className='form__group-row form__group-row-mt'>
