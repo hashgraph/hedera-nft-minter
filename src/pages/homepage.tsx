@@ -183,8 +183,7 @@ export default function Homepage() {
     uploadMetadata,
     uploadNFTFile,
     userWalletId,
-  ]
-  );
+  ]);
 
   return (
     <div className='homepage'>

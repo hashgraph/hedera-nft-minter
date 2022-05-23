@@ -7,7 +7,7 @@ export type Route = {
   path: string;
   icon?: JSX.Element;
   desc?: string;
-  child?: Route[];
+  child?: Route[],
   component: FC;
 };
 

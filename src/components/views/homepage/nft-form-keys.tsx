@@ -39,7 +39,9 @@ const NftFormKeys = () => {
             {key.title}
           </option>
         );
-      }), [field, tokenKeys]);
+      }),
+    [field, tokenKeys]
+  );
 
   const renderKey = useCallback((
     index: number,
