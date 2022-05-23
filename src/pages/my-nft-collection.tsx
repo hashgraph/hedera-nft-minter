@@ -3,12 +3,12 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import MirrorNode from '@/services/MirrorNode';
-import NFT from '@components/views/my-wallet/NFT';
+import NFT from '@/components/views/my-nft-collection/NFT';
 import Loader from '@components/shared/loader/Loader';
 import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
 
-export default function MyWallet() {
+export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
   const [nfts, setNFTs] = useState<
     { nfts: NFTInfo[]; info: TokenInfo }[] | null
@@ -37,24 +37,34 @@ export default function MyWallet() {
 
   return (
     <>
-      <Hero title={'My wallet'} />
+      <Hero title={'My NFT Collection'}>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed mi in
+          purus aliquet imperdiet. Nulla risus felis, porttitor eget lacus vel,
+          egestas molestie nibh. Duis commodo, nulla eu mollis dictum, mauris
+          arcu consectetur risus, in vulputate turpis risus sed est. Sed sed
+          odio et nunc tempor malesuada.
+        </p>
+      </Hero>
       <PageMenu />
 
       <div className='container'>
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
         ) : loading ? (
-          <Loader />
+          <div className='my-nft-collection__loader-wrapper'>
+            <Loader />
+          </div>
         ) : (
           <div>
-            <h2>Your NFT's</h2>
-
             {nfts?.length ? (
-              <div className='nft-grid'>
-                {nfts.map((nft) => (
-                  <NFT key={nft?.nfts[0].token_id} {...nft} />
-                ))}
-              </div>
+              <>
+                <div className='my-nft-collection'>
+                  {nfts.map((nft) => (
+                    <NFT key={nft?.nfts[0].token_id} {...nft} />
+                  ))}
+                </div>
+              </>
             ) : (
               <div>No nfts :(</div>
             )}

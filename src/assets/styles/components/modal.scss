@@ -2,9 +2,8 @@ $absoluteHorizontalCenter: translateX(-50%);
 $absoluteCenter: $absoluteHorizontalCenter translateY(-50%);
 $transition: opacity 200ms, transform 700ms;
 @mixin modal {
-  border: 2px solid $lightGrey;
-  border-radius: 10px;
-  background: $white;
+  border: 2px solid $grey;
+  background: $black;
   width: 80vw;
   max-width: 600px;
   height: max-content;
@@ -15,6 +14,15 @@ $transition: opacity 200ms, transform 700ms;
   left: 50%;
   top: 50%;
   transform: $absoluteCenter;
+  color: $vapor;
+
+  h2 {
+    font-weight: bold !important;
+  }
+
+  input {
+    margin-bottom: 20px;
+  }
 }
 
 .modal {
@@ -37,7 +45,7 @@ $transition: opacity 200ms, transform 700ms;
     width: 100vw;
     height: 100vh;
     z-index: -1;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.7);
     opacity: 0;
     transition: 0.35s transform ease-in-out, 0.5s opacity ease-in-out;
     backdrop-filter: blur(5px);

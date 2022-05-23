@@ -1,16 +1,13 @@
 import { FC } from 'react';
 import { JSX } from '@babel/types';
 
-import {
-  Homepage,
-  MyWallet,
-} from '@/pages';
+import { Homepage, MyWallet } from '@/pages';
 
 export type Route = {
   path: string;
   icon?: JSX.Element;
   desc?: string;
-  child?: Route[],
+  child?: Route[];
   component: FC;
 };
 
@@ -20,7 +17,7 @@ const routes: Route[] = [
     component: Homepage,
   },
   {
-    path: '/my-wallet',
+    path: '/my-nft-collection',
     component: MyWallet,
   },
 ];
