@@ -14,6 +14,7 @@ export default function NFTForm({
   handleReset,
   isSubmitting,
 }: FormikProps<FormikValues>) {
+
   return (
     <Form className='form'>
       <div>
@@ -100,7 +101,7 @@ export default function NFTForm({
             </div>
           </div>
         </div>
-        <div className='form__row__two-columns'>
+        <div className='form__row__groups'>
           <NftFormKeys />
 
           <NftFormFees />

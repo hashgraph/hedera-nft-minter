@@ -123,7 +123,22 @@ pre {
 }
 
 select {
-  appearance: auto;
+  padding: 0.5rem 1rem;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+
+  option{
+    color: $black;
+
+    &:disabled{
+      background: $grey;
+    }
+  }
+
+  &:active {
+    border-color: $blue;
+  }
 }
 
 input,
@@ -176,16 +191,12 @@ select {
   font-family: 'Styrene A Web';
   display: block;
   color: $vapor;
-  background: transparent;
+  background-color: transparent;
   border: $border;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 25px;
   width: 100%;
   font-size: 1rem;
-
-  &:focus {
-    border-color: $blue;
-  }
 }
 
 input[type='number']::-webkit-inner-spin-button,

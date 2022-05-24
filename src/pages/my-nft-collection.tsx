@@ -58,13 +58,11 @@ export default function MyNFTCollection() {
         ) : (
           <div>
             {nfts?.length ? (
-              <>
-                <div className='my-nft-collection'>
-                  {nfts.map((nft) => (
-                    <NFT key={nft?.nfts[0].token_id} {...nft} />
-                  ))}
-                </div>
-              </>
+              <div className='my-nft-collection'>
+                {nfts.map((nft) => (
+                  <NFT key={nft?.nfts[0].token_id} {...nft} />
+                ))}
+              </div>
             ) : (
               <div>No nfts :(</div>
             )}

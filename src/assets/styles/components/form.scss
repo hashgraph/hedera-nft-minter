@@ -4,19 +4,17 @@
 
   &__select_row {
     position: relative;
+    min-height: calc(42px + #{$errorHeight});
+    width: 100%;
 
-    select {
-      padding: 0.5rem 1rem;
-      -moz-appearance: none; /* Firefox */
-      -webkit-appearance: none; /* Safari and Chrome */
-      appearance: none;
+    &__radios{
+      margin-bottom: $errorHeight;
     }
 
     .arrow {
       position: absolute;
-      top: 50%;
+      top: calc(42px / 2);
       right: 1rem;
-      transform: translateY(-50%);
       width: 30px;
       height: 17px;
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAWCAYAAAGHyp2xAAAAAXNSR0IArs4c6QAAAMdJREFUOBHdksENwjAMRQNHpIoFOHQINmEG7qzEKkjdowMwAKeG5zR2HaUKXECISEl+/v+u7SYhrI4YYxdYzqamA0tvjIDCkokesksuA1mJidUFtSa2qtpuNsDDWAWiMpY6VfD77GmYMEjVVTmJhJ/bkU+qsyCzcIScfN4CI16+aNgUyfOB/HfgtdIQRubwYeFAjluVwxMY5C/JmJjte/WBign6sw+ctLXmTt/yWuUWZQzM5dWuRWL4wYAdZb3fg++LwL0/v8JPRopLxx/wYTIAAAAASUVORK5CYII=);
@@ -32,6 +30,20 @@
     flex-wrap: wrap;
     column-gap: $columnGap;
 
+    &__groups{
+      display: flex;
+      flex-direction: column;
+
+      @include respond-to('desktop') {
+        flex-direction: row;
+        column-gap: 20px;
+        flex-wrap: wrap;
+        & > div{
+            flex: 0 1 calc(50% - 10px);
+        }
+      }
+    }
+
     &__fees {
       display: flex;
       flex-direction: column;
@@ -39,6 +51,9 @@
 
       &__fee {
         padding: 1rem 0;
+        width: 100%;
+        max-width: 544px;
+        margin: 0 auto;
         margin-bottom: 1rem;
 
         &-fixed {
@@ -54,9 +69,6 @@
         padding: 1.5rem 0;
         border-top: 1px solid $grey;
 
-        &:first-of-type {
-          border: unset;
-        }
       }
 
       &-wrapper {
@@ -212,6 +224,7 @@
 
         &__remove-buton {
           button {
+            margin-bottom: $errorHeight;
             margin-left: auto;
           }
         }
@@ -223,6 +236,7 @@
             background: $grey;
             color: $vapor;
             margin-left: auto;
+            margin-bottom: $errorHeight;
             border: unset;
             border: 1px solid $grey;
 
@@ -234,8 +248,12 @@
         }
 
         &-container {
-          padding: 2rem 0;
+          padding: 1.5rem 0;
           border-top: 1px solid $grey;
+
+          &_firsts{
+            margin-top: 10px;
+          }
 
           &__disabled-button {
             button {
@@ -247,9 +265,10 @@
         }
 
         &__custom-key {
-          padding-top: 1.5rem;
+          padding-top: 0.7rem;
           margin-bottom: 1rem;
           flex: 0 1 74% !important;
+          height: 48px;
         }
       }
     }

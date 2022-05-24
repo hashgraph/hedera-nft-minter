@@ -9,42 +9,38 @@ import {
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from '@/components/shared/form/switch/Switch';
-import { Fees, FEE } from '@utils/entity/Fees';
+import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 
 const NftFormFees = () => {
   const [field] = useField<Fees[]>('fees');
+
   const renderRoyaltyFeeFormFields = useCallback(
     (index: number) => (
       <div className='form__row__fees__fee'>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.feeCollectorAccountId`}
-            type='text'
-            label='Fee collector account ID'
-          />
-        </div>
-        <div className='form__row__number-columns'>
-          <div className='form__row__number-columns__column'>
+        <div className='form__row__two-columns-flex'>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.feeCollectorAccountId`}
+              type='text'
+              label='Fee collector account ID'
+            />
+          </div>
+          <div className='form__row__two-columns-flex'>
+          <div >
             <FieldWrapper
               name={`fees.${ index }.fallbackFee`}
               type='number'
               label='Fallback fee'
             />
           </div>
-          <div className='form__row__number-columns__column'>
-            <FieldWrapper
-              name={`fees.${ index }.numerator`}
-              type='number'
-              label='Numerator'
-            />
-          </div>
-          <div className='form__row__number-columns__column'>
-            <FieldWrapper
-              name={`fees.${ index }.denominator`}
-              type='number'
-              label='Denominator'
-            />
+            <div>
+              <FieldWrapper
+                name={`fees.${ index }.percent`}
+                type='number'
+                label='% of royalty'
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -63,20 +59,6 @@ const NftFormFees = () => {
         <div className='form__row__number-columns'>
           <div>
             <FieldWrapper
-              name={`fees.${ index }.numerator`}
-              type='number'
-              label='Numerator'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.denominator`}
-              type='number'
-              label='Denominator'
-            />
-          </div>
-          <div>
-            <FieldWrapper
               name={`fees.${ index }.min`}
               type='number'
               label='Min'
@@ -87,6 +69,13 @@ const NftFormFees = () => {
               name={`fees.${ index }.max`}
               type='number'
               label='Max'
+            />
+          </div>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.percent`}
+              type='number'
+              label='% of royalty'
             />
           </div>
         </div>
@@ -116,33 +105,51 @@ const NftFormFees = () => {
             />
           </div>
           <div>
-            <FieldWrapper
-              name={`fees.${ index }.denominatingTokenId`}
-              type='text'
-              label='Denominating token ID'
-            />
+            <label htmlFor={`fees.${ index }.collectingFeeType`}>
+            What to collect
+            </label>
+            <FieldSelect name={`fees.${ index }.collectingFeeType`}>
+              <option value={FEE.NONE}>Select...</option>
+              <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
+              <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
+            </FieldSelect>
           </div>
         </div>
+        {
+          field.value[index].type === FEE.FIXED &&
+          field.value[index].collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN &&
+            <div className='form__row__fees__fee-fixed'>
+              <div>
+                <FieldWrapper
+                  name={`fees.${ index }.denominatingTokenId`}
+                  type='text'
+                  label='Denominating token ID'
+                />
+              </div>
+              <div>
+                <FieldWrapper
+                  name={`fees.${ index }.amount`}
+                  type='number'
+                  label='# amount'
+                />
+              </div>
+            </div>
+        }
 
-        <div className='form__row__fees__fee-fixed'>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.amount`}
-              type='number'
-              label='# amount'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.hbarAmount`}
-              type='number'
-              label='# ℏ amount'
-            />
-          </div>
-        </div>
+        {
+          field.value[index].type === FEE.FIXED &&
+          field.value[index].collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS &&
+            <div>
+              <FieldWrapper
+                name={`fees.${ index }.hbarAmount`}
+                type='number'
+                label='# ℏ amount'
+              />
+            </div>
+        }
       </div>
     ),
-    []
+    [field]
   );
 
   const renderFeeFieldset = useCallback(
@@ -155,6 +162,8 @@ const NftFormFees = () => {
         case FEE.FIXED:
           return renderFixedFeeFormFields(arrayIndex);
         case FEE.NONE:
+          return;
+        default:
           return;
       }
     },
@@ -196,33 +205,35 @@ const NftFormFees = () => {
                       key={`fees_${ index }`}
                       className='form__row__fees-wrapper'
                     >
-                      <div className='form__select_row'>
-                        <FieldSelect name={`fees.${ index }.type`}>
-                          <option value={FEE.NONE}>Select a fee type...</option>
-                          <option value={FEE.ROYALITY}>Royalty Fee</option>
-                          <option value={FEE.FRACTIONAL}>Fractional Fee</option>
-                          <option value={FEE.FIXED}>Fixed Fee</option>
-                        </FieldSelect>
+                      <div className='form__row__fees-container'>
+                        <div className='form__select_row'>
+                          <FieldSelect name={`fees.${ index }.type`}>
+                            <option value={FEE.NONE}>Select a fee type...</option>
+                            <option value={FEE.ROYALITY}>Royalty Fee</option>
+                            <option value={FEE.FRACTIONAL}>Fractional Fee</option>
+                            <option value={FEE.FIXED}>Fixed Fee</option>
+                          </FieldSelect>
+                        </div>
+                        <button onClick={() => remove(index)}>Del</button>
+                        </div>
+                        <SwitchTransition>
+                          <CSSTransition
+                            timeout={300}
+                            key={field.value[index].type}
+                            addEndListener={(
+                              node: HTMLElement,
+                              done: () => void
+                            ) =>
+                              node.addEventListener('transitionend', done, false)
+                            }
+                            classNames='form__group__item'
+                          >
+                            <>
+                              {renderFeeFieldset(field.value[index].type, index)}
+                            </>
+                          </CSSTransition>
+                        </SwitchTransition>
                       </div>
-                      <SwitchTransition>
-                        <CSSTransition
-                          timeout={300}
-                          key={field.value[index].type}
-                          addEndListener={(
-                            node: HTMLElement,
-                            done: () => void
-                          ) =>
-                            node.addEventListener('transitionend', done, false)
-                          }
-                          classNames='form__group__item'
-                        >
-                          <>
-                            {renderFeeFieldset(field.value[index].type, index)}
-                          </>
-                        </CSSTransition>
-                      </SwitchTransition>
-                    </div>
-                    <button onClick={() => remove(index)}>Del</button>
                   </div>
                 </CSSTransition>
               ))}

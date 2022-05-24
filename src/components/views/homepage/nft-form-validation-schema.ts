@@ -1,25 +1,91 @@
 import * as yup from 'yup';
-import { FEE } from '@utils/entity/Fees';
+import { FEE, FIXED_FEE_COLLECTING_TYPE } from '@utils/entity/Fees';
 
 const feeValidator = yup.object().shape({
-  type: yup.string().oneOf(Object.values(FEE))
+  type: yup.string()
+    .oneOf(Object.values(FEE))
+    .ensure()
     .required('Required'),
-  feeCollectorAccountId: yup.string()
-    .required('Required'),
-  fallbackFee: yup.number(),
-  numerator: yup.number()
-    .required('Required'),
-  denominator: yup.number()
-    .required('Required'),
-  max: yup.number(),
-  min: yup.number(),
-  assessmentMethod: yup.boolean(),
-  amount: yup.number()
+
+  feeCollectorAccountId: yup.string().when(['type'], {
+    is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL, FEE.FIXED].includes(type),
+    then: yup.string().required('Required'),
+  }),
+
+  fallbackFee: yup.number().when('type', {
+    is: FEE.ROYALITY,
+    then: yup.number().required('Required'),
+  }),
+
+  percent: yup.number().when(['type'], {
+    is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL].includes(type),
+    then: yup.number().required('Required'),
+  }),
+
+  max: yup.number().when('type', {
+    is: FEE.FRACTIONAL,
+    then: yup.number().required('Required')
+  }),
+
+  min: yup.number().when('type', {
+    is: FEE.FRACTIONAL,
+    then: yup.number()
+      .required('Required')
+      .when('max', (max, schema) =>
+        schema.test({
+          test: (min : number) => !!max && min < max,
+          message: 'Min should be < max'
+        })
+     )
+  }),
+
+  assessmentMethod: yup.boolean().when('type', {
+    is: FEE.FRACTIONAL,
+    then: yup.boolean().required('Required')
+  }),
+
+  collectingFeeType: yup.string()
     .when('type', {
-      is: FEE.FIXED,
-      then: yup.number().required('Required')
-    }),
+      is: FEE.FRACTIONAL,
+      then: yup.string()
+        .oneOf(Object.values(FIXED_FEE_COLLECTING_TYPE))
+        .ensure()
+        .required('Required'),
+  }),
+
+  hbarAmount: yup.string()
+    .when(['type', 'collectingFeeType'], {
+      is: (type : string, collectingFeeType : string) =>
+        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS,
+      then: yup.string().required('Required')
+  }),
+
+  amount: yup.string()
+    .when(['type', 'collectingFeeType'], {
+      is: (type : string, collectingFeeType : string) =>
+        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN,
+      then: yup.string().required('Required')
+  }),
+
+  denominatingTokenId: yup.string()
+    .when(['type', 'collectingFeeType'], {
+      is: (type : string, collectingFeeType : string) =>
+        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN,
+        then: yup.string().required('Required')
+  })
 });
+
+const keyValidator = yup.object().shape({
+  type: yup.string()
+    .required('Required'),
+  value: yup.string().oneOf(['custom', 'account'])
+    .required('Required'),
+  key: yup.string()
+    .when('value', {
+      is: 'custom',
+      then: yup.string().required('Required')
+    })
+})
 
 export const ValidationSchema = yup.object().shape({
   image: yup.mixed().test('type', 'Only image files are accepted!', (value) => {
@@ -68,5 +134,6 @@ export const ValidationSchema = yup.object().shape({
         .required('Required'),
     })
   ),
-  fees: yup.array().of(feeValidator)
+  fees: yup.array().of(feeValidator),
+  keys: yup.array().of(keyValidator),
 });
