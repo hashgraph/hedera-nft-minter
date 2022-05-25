@@ -7,10 +7,7 @@ const feeValidator = yup.object().shape({
     .ensure()
     .required('Required'),
 
-  feeCollectorAccountId: yup.string().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL, FEE.FIXED].includes(type),
-    then: yup.string().required('Required'),
-  }),
+  feeCollectorAccountId: yup.string().required('Required'),
 
   fallbackFee: yup.number().when('type', {
     is: FEE.ROYALITY,
