@@ -34,11 +34,16 @@ const NftFormKeys = () => {
 
   const renderOptions = useCallback(() => {
       const keys = tokenKeys.map((key) => {
+        // Form rows for required token keys are always rendered and
+        // cannot be deleted, so required keys are not shown as select option.
         if(key.required) {
           return
         }
+
+        //Check, if value is already selected,
         for (const { type } of field.value) {
           if (type === key.value) {
+            // if yes, return option with passed disabled prop.
             return (
               <option key={key.value} disabled value={key.value}>
                 {key.title}
@@ -46,17 +51,20 @@ const NftFormKeys = () => {
             );
           }
         }
+
         return (
           <option key={key.value} value={key.value}>
             {key.title}
           </option>
         );
       })
-    keys.unshift((
+
+      keys.unshift((
         <option key={'key.blank'} value={''}>
           Select
         </option>
       ))
+
       return keys
     },
     [field, tokenKeys]
@@ -68,30 +76,30 @@ const NftFormKeys = () => {
   ) => {
     const isTokenKeyRequired = checkIfIsTokenKeyRequired(index);
     const baseClassName = 'form__group__table__row-container'
-    const className = classNames(baseClassName ,{
+    const className = classNames(baseClassName, {
       [baseClassName+'_firsts']: isTokenKeyRequired
     })
 
     return (
       <div className={className}>
         <div className='form__group__table__row flex'>
-          {isTokenKeyRequired ?
-             <>
-               <label htmlFor={`account_${ index }`}>
-                 {tokenKeys[index].title}
-               </label>
-               <Field
-                 name={`keys.${ index }.type`}
-                 type='hidden'
-                 value={index === 0 ? 'treasuryAccountId' : 'supplyKey'}
-                 checked
-               />
-             </>
-          :
-             <FieldSelect name={`keys.${ index }.type`}>
-               {renderOptions()}
-             </FieldSelect>
-          }
+          {isTokenKeyRequired ? (
+              <>
+                <label htmlFor={`account_${ index }`}>
+                  {tokenKeys[index].title}
+                </label>
+                <Field
+                  name={`keys.${ index }.type`}
+                  type='hidden'
+                  value={index === 0 ? 'treasuryAccountId' : 'supplyKey'}
+                  checked
+                />
+              </>
+            ) : (
+              <FieldSelect name={`keys.${ index }.type`}>
+                {renderOptions()}
+              </FieldSelect>
+          )}
           <div className='form__select_row__radios flex-center'>
             <Field
               name={`keys.${ index }.value`}

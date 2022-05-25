@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { FEE, FIXED_FEE_COLLECTING_TYPE } from '@utils/entity/Fees';
+import { FEE } from '@utils/entity/Fees';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
@@ -9,67 +9,11 @@ const feeValidator = yup.object().shape({
 
   feeCollectorAccountId: yup.string().required('Required'),
 
-  fallbackFee: yup.number().when('type', {
-    is: FEE.ROYALITY,
-    then: yup.number().required('Required'),
-  }),
-
   percent: yup.number().when(['type'], {
     is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL].includes(type),
     then: yup.number().max(100, 'Max 100%!').required('Required'),
   }),
 
-  max: yup.number().when('type', {
-    is: FEE.FRACTIONAL,
-    then: yup.number()
-      .when('min', (min, schema) =>
-        schema.test({
-          test: (max : number) => !!min && min < max,
-          message: 'Min should be < max'
-        })
-     )
-  }),
-
-  min: yup.number().when('type', {
-    is: FEE.FRACTIONAL,
-    then: yup.number()
-      .when('max', (max, schema) =>
-        schema.test({
-          test: (min : number) => !!max && min < max,
-          message: 'Min should be < max'
-        })
-     )
-  }),
-
-  collectingFeeType: yup.string()
-    .when('type', {
-      is: FEE.FIXED,
-      then: yup.string()
-        .oneOf(Object.values(FIXED_FEE_COLLECTING_TYPE), 'Select a type!')
-        .ensure()
-        .required('Required'),
-  }),
-
-  hbarAmount: yup.string()
-    .when(['type', 'collectingFeeType'], {
-      is: (type : string, collectingFeeType : string) =>
-        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS,
-      then: yup.string().required('Required')
-  }),
-
-  amount: yup.string()
-    .when(['type', 'collectingFeeType'], {
-      is: (type : string, collectingFeeType : string) =>
-        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN,
-      then: yup.string().required('Required')
-  }),
-
-  denominatingTokenId: yup.string()
-    .when(['type', 'collectingFeeType'], {
-      is: (type : string, collectingFeeType : string) =>
-        type === FEE.FIXED && collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN,
-        then: yup.string().required('Required')
-  })
 });
 
 const keyValidator = yup.object().shape({

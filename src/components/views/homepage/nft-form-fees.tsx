@@ -9,7 +9,7 @@ import {
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from '@/components/shared/form/switch/Switch';
-import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE } from '@utils/entity/Fees';
+import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE, FixedFee } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 
 const NftFormFees = () => {
@@ -93,6 +93,47 @@ const NftFormFees = () => {
     []
   );
 
+  const renderFixedFeeCollectingFormFields = useCallback(
+    (index) => {
+      switch((field.value[index] as FixedFee).collectingFeeType){
+        case FIXED_FEE_COLLECTING_TYPE.TOKEN:
+          return (
+            <div className='form__row__fees__fee-fixed'>
+              <div>
+                <FieldWrapper
+                  name={`fees.${ index }.denominatingTokenId`}
+                  type='text'
+                  label='Denominating token ID'
+                />
+              </div>
+              <div>
+                <FieldWrapper
+                  name={`fees.${ index }.amount`}
+                  type='number'
+                  label='# amount'
+                />
+              </div>
+            </div>
+          )
+
+        case FIXED_FEE_COLLECTING_TYPE.HBARS:
+          return (
+            <div>
+              <FieldWrapper
+                name={`fees.${ index }.hbarAmount`}
+                type='number'
+                label='ℏ amount'
+              />
+            </div>
+          )
+
+        case undefined:
+          return;
+      }
+    },
+    [field]
+  );
+
   const renderFixedFeeFormFields = useCallback(
     (index: number) => (
       <div className='form__row__fees__fee'>
@@ -115,41 +156,10 @@ const NftFormFees = () => {
             </FieldSelect>
           </div>
         </div>
-        {
-          field.value[index].type === FEE.FIXED &&
-          field.value[index].collectingFeeType === FIXED_FEE_COLLECTING_TYPE.TOKEN &&
-            <div className='form__row__fees__fee-fixed'>
-              <div>
-                <FieldWrapper
-                  name={`fees.${ index }.denominatingTokenId`}
-                  type='text'
-                  label='Denominating token ID'
-                />
-              </div>
-              <div>
-                <FieldWrapper
-                  name={`fees.${ index }.amount`}
-                  type='number'
-                  label='# amount'
-                />
-              </div>
-            </div>
-        }
-
-        {
-          field.value[index].type === FEE.FIXED &&
-          field.value[index].collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS &&
-            <div>
-              <FieldWrapper
-                name={`fees.${ index }.hbarAmount`}
-                type='number'
-                label='ℏ amount'
-              />
-            </div>
-        }
+        { renderFixedFeeCollectingFormFields(index) }
       </div>
     ),
-    [field]
+    [renderFixedFeeCollectingFormFields]
   );
 
   const renderFeeFieldset = useCallback(
@@ -193,7 +203,7 @@ const NftFormFees = () => {
               {field.value.map((_, index) => (
                 <CSSTransition
                   // eslint-disable-next-line react/no-array-index-key
-                  key={`${ name }.${ index }.form__group__item`}
+                  key={`fee_field_${ index }.form__group__item`}
                   timeout={500}
                   classNames='form__group__item'
                 >

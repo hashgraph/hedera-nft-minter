@@ -6,7 +6,14 @@ const prepareFees = (customFees : Fees[]) => {
   const filteredFees = customFees.map(fee=>{
     switch(fee.type){
       case FEE.FIXED:
-        return fee
+        return _.pick(fee,[
+          'collectingFeeType',
+          'hbarAmount',
+          'amount',
+          'denominatingTokenId',
+          'feeCollectorAccountId',
+          'type'
+        ])
 
       case FEE.FRACTIONAL:
         return {
