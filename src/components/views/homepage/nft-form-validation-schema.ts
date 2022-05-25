@@ -21,24 +21,24 @@ const feeValidator = yup.object().shape({
 
   max: yup.number().when('type', {
     is: FEE.FRACTIONAL,
-    then: yup.number().required('Required')
+    then: yup.number()
+      .when('min', (min, schema) =>
+        schema.test({
+          test: (max : number) => !!min && min < max,
+          message: 'Min should be < max'
+        })
+     )
   }),
 
   min: yup.number().when('type', {
     is: FEE.FRACTIONAL,
     then: yup.number()
-      .required('Required')
       .when('max', (max, schema) =>
         schema.test({
           test: (min : number) => !!max && min < max,
           message: 'Min should be < max'
         })
      )
-  }),
-
-  assessmentMethod: yup.boolean().when('type', {
-    is: FEE.FRACTIONAL,
-    then: yup.boolean().required('Required')
   }),
 
   collectingFeeType: yup.string()
