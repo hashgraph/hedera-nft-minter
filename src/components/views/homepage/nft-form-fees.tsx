@@ -192,7 +192,11 @@ const NftFormFees = () => {
               <label htmlFor='null'>Fees</label>
               <button
                 onClick={() =>
-                  field.value.length < 10 ? push({}) : toast.error('Enough!')
+                  field.value.length < 10 ? push({
+                    type: '',
+                    feeCollectorAccountId: '',
+                    percent: '',
+                  }) : toast.error('Enough!')
                 }
                 type='button'
               >
