@@ -15,62 +15,24 @@ import FieldSelect from '@/components/shared/form/FieldSelect';
 const NftFormFees = () => {
   const [field] = useField<Fees[]>('fees');
 
-  const renderRoyaltyFeeFormFields = useCallback(
-    (index: number) => (
-      <div className='form__row__fees__fee'>
-        <div className='form__row__two-columns-flex'>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.feeCollectorAccountId`}
-              type='text'
-              label='Fee collector account ID'
-            />
-          </div>
-          <div className='form__row__two-columns-flex'>
-          <div >
-            <FieldWrapper
-              name={`fees.${ index }.fallbackFee`}
-              type='number'
-              label='Fallback fee'
-            />
-          </div>
-            <div>
-              <FieldWrapper
-                name={`fees.${ index }.percent`}
-                type='number'
-                label='% of royalty'
-              />
-            </div>
-          </div>
+  const renderRoyaltyFeeFormFields = useCallback((index: number) => (
+    <div className='form__row__fees__fee'>
+      <div className='form__row__two-columns-flex'>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.feeCollectorAccountId`}
+            type='text'
+            label='Fee collector account ID'
+          />
         </div>
-      </div>
-    ),
-    []
-  );
-
-  const renderFractionalFeeFormFields = useCallback(
-    (index: number) => (
-      <div className='form__row__fees__fee'>
-        <FieldWrapper
-          name={`fees.${ index }.feeCollectorAccountId`}
-          type='text'
-          label='Fee collector account ID'
-        />
-        <div className='form__row__number-columns'>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.min`}
-              type='number'
-              label='Min'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.max`}
-              type='number'
-              label='Max'
-            />
-          </div>
+        <div className='form__row__two-columns-flex'>
+        <div >
+          <FieldWrapper
+            name={`fees.${ index }.fallbackFee`}
+            type='number'
+            label='Fallback fee'
+          />
+        </div>
           <div>
             <FieldWrapper
               name={`fees.${ index }.percent`}
@@ -79,108 +41,130 @@ const NftFormFees = () => {
             />
           </div>
         </div>
-
-        <Switch
-          label='Assessment method'
-          name={`fees.${ index }.assessmentMethod`}
-          options={[
-            { name: 'Inclusive', value: false },
-            { name: 'Exclusive', value: true },
-          ]}
-        />
       </div>
-    ),
-    []
-  );
+    </div>
+  ),[]);
 
-  const renderFixedFeeCollectingFormFields = useCallback(
-    (index) => {
-      switch((field.value[index] as FixedFee).collectingFeeType){
-        case FIXED_FEE_COLLECTING_TYPE.TOKEN:
-          return (
-            <div className='form__row__fees__fee-fixed'>
-              <div>
-                <FieldWrapper
-                  name={`fees.${ index }.denominatingTokenId`}
-                  type='text'
-                  label='Denominating token ID'
-                />
-              </div>
-              <div>
-                <FieldWrapper
-                  name={`fees.${ index }.amount`}
-                  type='number'
-                  label='# amount'
-                />
-              </div>
-            </div>
-          )
+  const renderFractionalFeeFormFields = useCallback((index: number) => (
+    <div className='form__row__fees__fee'>
+      <FieldWrapper
+        name={`fees.${ index }.feeCollectorAccountId`}
+        type='text'
+        label='Fee collector account ID'
+      />
+      <div className='form__row__number-columns'>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.min`}
+            type='number'
+            label='Min'
+          />
+        </div>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.max`}
+            type='number'
+            label='Max'
+          />
+        </div>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.percent`}
+            type='number'
+            label='% of royalty'
+          />
+        </div>
+      </div>
 
-        case FIXED_FEE_COLLECTING_TYPE.HBARS:
-          return (
+      <Switch
+        label='Assessment method'
+        name={`fees.${ index }.assessmentMethod`}
+        options={[
+          { name: 'Inclusive', value: false },
+          { name: 'Exclusive', value: true },
+        ]}
+      />
+    </div>
+  ),[]);
+
+  const renderFixedFeeCollectingFormFields = useCallback((index) => {
+    switch((field.value[index] as FixedFee).collectingFeeType){
+      case FIXED_FEE_COLLECTING_TYPE.TOKEN:
+        return (
+          <div className='form__row__fees__fee-fixed'>
             <div>
               <FieldWrapper
-                name={`fees.${ index }.hbarAmount`}
-                type='number'
-                label='ℏ amount'
+                name={`fees.${ index }.denominatingTokenId`}
+                type='text'
+                label='Denominating token ID'
               />
             </div>
-          )
+            <div>
+              <FieldWrapper
+                name={`fees.${ index }.amount`}
+                type='number'
+                label='# amount'
+              />
+            </div>
+          </div>
+        )
 
-        case undefined:
-          return;
-      }
-    },
-    [field]
-  );
-
-  const renderFixedFeeFormFields = useCallback(
-    (index: number) => (
-      <div className='form__row__fees__fee'>
-        <div className='form__row__two-columns-flex'>
+      case FIXED_FEE_COLLECTING_TYPE.HBARS:
+        return (
           <div>
             <FieldWrapper
-              name={`fees.${ index }.feeCollectorAccountId`}
-              type='text'
-              label='Fee collector account ID'
+              name={`fees.${ index }.hbarAmount`}
+              type='number'
+              label='ℏ amount'
             />
           </div>
-          <div>
-            <label htmlFor={`fees.${ index }.collectingFeeType`}>
-            What to collect
-            </label>
-            <FieldSelect name={`fees.${ index }.collectingFeeType`}>
-              <option value=''>Select...</option>
-              <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
-              <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
-            </FieldSelect>
-          </div>
-        </div>
-        { renderFixedFeeCollectingFormFields(index) }
-      </div>
-    ),
-    [renderFixedFeeCollectingFormFields]
-  );
+        )
+      default:
+        return null;
+    }
+  },[field]);
 
-  const renderFeeFieldset = useCallback(
-    (fee: FEE, arrayIndex: number) => {
-      switch (fee) {
-        case FEE.ROYALITY:
-          return renderRoyaltyFeeFormFields(arrayIndex);
-        case FEE.FRACTIONAL:
-          return renderFractionalFeeFormFields(arrayIndex);
-        case FEE.FIXED:
-          return renderFixedFeeFormFields(arrayIndex);
-        default:
-          return;
-      }
-    },
-    [
-      renderRoyaltyFeeFormFields,
-      renderFractionalFeeFormFields,
-      renderFixedFeeFormFields,
-    ]
-  );
+  const renderFixedFeeFormFields = useCallback((index: number) => (
+    <div className='form__row__fees__fee'>
+      <div className='form__row__two-columns-flex'>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.feeCollectorAccountId`}
+            type='text'
+            label='Fee collector account ID'
+          />
+        </div>
+        <div>
+          <label htmlFor={`fees.${ index }.collectingFeeType`}>
+          What to collect
+          </label>
+          <FieldSelect name={`fees.${ index }.collectingFeeType`}>
+            <option value=''>Select...</option>
+            <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
+            <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
+          </FieldSelect>
+        </div>
+      </div>
+      { renderFixedFeeCollectingFormFields(index) }
+    </div>
+  ), [renderFixedFeeCollectingFormFields]);
+
+  const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
+    switch (fee) {
+      case FEE.ROYALITY:
+        return renderRoyaltyFeeFormFields(arrayIndex);
+      case FEE.FRACTIONAL:
+        return renderFractionalFeeFormFields(arrayIndex);
+      case FEE.FIXED:
+        return renderFixedFeeFormFields(arrayIndex);
+      default:
+        return;
+    }
+  },[
+    renderRoyaltyFeeFormFields,
+    renderFractionalFeeFormFields,
+    renderFixedFeeFormFields
+  ]);
 
   return (
     <div className='form__group-row form__group-row-mt'>
