@@ -71,7 +71,7 @@ export default function NFTForm({
           </div>
 
           <div className='form__row__two-columns-flex'>
-            <div className='before-number'>
+            <div>
               <FieldWrapper
                 fastField
                 name='description'
@@ -80,18 +80,28 @@ export default function NFTForm({
               />
             </div>
 
-            <div className='number'>
-              <FieldWrapper
-                fastField
-                name='qty'
-                type='number'
-                label='# quantity'
-                max='10'
-              />
+            <div className='form__row__number-columns'>
+              <div>
+                <FieldWrapper
+                  fastField
+                  name='qty'
+                  type='number'
+                  label='# decimals'
+                  max='10'
+                />
+              </div>
+              <div>
+                <FieldWrapper
+                  fastField
+                  name='maxSupply'
+                  type='number'
+                  label='# max supply'
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div className='form__row__two-columns'>
+        <div className='form__row__groups'>
           <NftFormKeys />
 
           <NftFormFees />
@@ -148,12 +158,16 @@ export default function NFTForm({
             <button
               type='button'
               onClick={handleReset}
-              className='btn--grey btn--transparent-white'
+              className='btn--grey btn--transparent-white btn--big'
               disabled={isSubmitting}
             >
               Clear form
             </button>
-            <button type='submit' className='btn' disabled={isSubmitting}>
+            <button
+              type='submit'
+              className='btn btn--big'
+              disabled={isSubmitting}
+            >
               Submit
             </button>
           </div>

@@ -1,2 +1,2 @@
 export { default as Homepage } from './homepage';
-export { default as MyWallet } from './my-wallet';
+export { default as MyWallet } from './my-nft-collection';

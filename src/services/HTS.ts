@@ -14,8 +14,8 @@ import {
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 import { HEDERA_NETWORK } from '@/../Global.d';
-import transformToFees from '@helpers/transformToFees';
 import transformToKeys from '@helpers/transformToKeys';
+import prepareFees from '@/utils/helpers/prepareFees';
 import { TokenKey } from '@utils/entity/TokenKeys';
 import { Fees } from '@utils/entity/Fees';
 
@@ -56,7 +56,6 @@ type UpdateTokenProps = {
 
 export default class HTS {
   static async createToken({
-    amount,
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
     const accountInfo: AccountInfo = await window.fetch(
@@ -73,10 +72,9 @@ export default class HTS {
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
       decimals: 0,
-      maxSupply: amount,
       expirationTime,
       ...tokenProps,
-      customFees: tokenProps.customFees ? transformToFees(tokenProps.customFees) : undefined,
+      customFees: tokenProps.customFees && tokenProps.customFees.length ? prepareFees(tokenProps.customFees) : undefined,
       ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
     });
 
@@ -115,10 +113,8 @@ export default class HTS {
     const tx = new TransferTransaction()
       .setTransactionId(txID)
       .addNftTransfer(tokenId, serial, sender, receiver)
-      .setNodeAccountIds([ new AccountId(3) ])
-      .freeze()
-    ;
-
+      .setNodeAccountIds([new AccountId(3)])
+      .freeze();
     return tx;
   }
 

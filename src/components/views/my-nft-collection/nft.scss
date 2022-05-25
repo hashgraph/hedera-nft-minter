@@ -1,0 +1,182 @@
+@import 'src/assets/styles/base/variables';
+@import 'src/assets/styles/base/mixins';
+@import 'src/assets/styles/base/functions';
+
+.nft__table {
+  padding: 0;
+  margin: 0;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  position: relative;
+  width: 100%;
+
+  &__header {
+    display: flex;
+    flex: 0 1 100%;
+    flex-wrap: wrap;
+    padding: 1rem 0 8px 0 !important;
+
+    & > div {
+      display: flex;
+      white-space: pre;
+      color: $vapor;
+      display: block;
+      font-size: 14px;
+      padding-bottom: 15px;
+      letter-spacing: -1px;
+    }
+
+    &__name {
+      flex: 0 1 calc(100%);
+    }
+
+    &__description {
+      flex: 0 1 calc(100% - 56.05px);
+    }
+
+    &__owned {
+      flex: 0 1 calc(56.05px);
+      text-align: center;
+    }
+
+    &__buttons {
+      flex: 0 1 100%;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 40px !important;
+      bottom: unset;
+      right: unset;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      background: $gradient;
+      width: 100%;
+      height: 2px !important;
+    }
+  }
+
+  &__row {
+    position: relative;
+    display: flex;
+    height: max-content;
+    margin: 4.5rem 0rem 1rem 0rem;
+    padding: 0 1rem 2rem 1rem;
+    flex-wrap: wrap;
+    background-color: $black;
+    align-self: center;
+    width: 100%;
+    border: 3px solid;
+    border-color: $black;
+    transition: generateTransitions((border-color, border-radius), 400ms);
+    color: $vapor;
+
+    & > div {
+      position: relative;
+      font-weight: 500;
+    }
+
+    &__name {
+      flex: 0 1 100%;
+      font-weight: 500;
+      text-transform: uppercase;
+      max-width: 20%;
+      font-size: 32px;
+      line-height: 50px;
+      letter-spacing: -0.015em;
+      font-weight: bold;
+    }
+
+    &__description {
+      flex: 0 1 calc(100% - 56.05px);
+      text-transform: uppercase;
+      font-weight: 500;
+      max-width: calc(100% - 56.05px);
+      text-overflow: ellipsis;
+    }
+
+    &__owned {
+      flex: 0 1 56.05px;
+      display: flex;
+      position: relative;
+      font-weight: 600;
+      text-align: center;
+      justify-content: center;
+      max-width: 56.05px;
+    }
+
+    &__buttons {
+      flex: 0 1 100%;
+      display: flex;
+      column-gap: $columnGap;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 40px 0px 0px 0px !important;
+      row-gap: 20px;
+      margin: 0 auto !important;
+      flex-wrap: wrap;
+      &:before {
+        flex: 0 1 100%;
+        position: relative;
+        content: '';
+        background: $lightGrey;
+        width: calc(100%) !important;
+        height: 1px !important;
+      }
+    }
+
+    &__image {
+      display: flex;
+      flex: 0 1 100%;
+      position: relative;
+      height: 100%;
+      min-height: 30px !important;
+      max-height: 30px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      img {
+        transition: generateTransitions((transform), 400ms);
+        position: relative;
+        background: $gradient;
+        -webkit-box-shadow: 0px 0px 0px 5px #{$blue} + 60;
+        -moz-box-shadow: 0px 0px 0px 5px #{$blue} + 60;
+        box-shadow: 0px 0px 0px 5px #{$blue} + 60;
+        margin: 0 auto;
+        margin-top: -70px;
+        width: 113px;
+        height: 113px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        object-fit: cover;
+        min-height: 113px;
+        border-radius: 100%;
+      }
+
+      &::before {
+        content: '';
+        height: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 100%;
+      }
+    }
+
+    &:hover {
+      border-color: $blue;
+      border-radius: 5px;
+
+      img:first-of-type {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__loading {
+    pointer-events: none;
+  }
+}

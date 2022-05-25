@@ -22,4 +22,5 @@ export interface TokenInfo {
   // custom_fees: string | null,
   pause_key: string | null,
   pause_status: string | null,
+  max_supply: string | null,
 }

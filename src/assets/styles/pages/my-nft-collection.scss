@@ -1,0 +1,26 @@
+.my-nft-collection {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding-top: 50px;
+
+  &__loader-wrapper {
+    display: grid;
+    width: 100%;
+    min-height: calc(40vh - 62px);
+    place-items: center;
+
+    img {
+      object-fit: contain;
+    }
+
+    @include respond-to('tablet') {
+      min-height: calc(50vh - 62px);
+    }
+  }
+}

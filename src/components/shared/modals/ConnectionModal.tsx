@@ -13,9 +13,9 @@ export default function ConnectionModal() {
 
   return (
     <>
-      <h4>
+      <h2>
         {connectedWalletType !== 'noconnection' && `Hedera ID: ${ userWalletId }`}
-      </h4>
+      </h2>
       <div className='modal__connection-buttons-wrapper'>
         {connectedWalletType !== 'bladewallet' && (
           <button onClick={connectToBladewallet}>

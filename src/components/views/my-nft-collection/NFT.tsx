@@ -1,4 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
 
@@ -78,36 +83,52 @@ export default function NFT(props: NFTProps) {
   }, [loadMetadata, nfts]);
 
   return (
-    <figure className={classNames('nft', { nft__loading: loading })}>
-      <div className='nft__image'>
-        {loading ? (
+    <div className={classNames('nft__table__row', { nft__loading: loading })}>
+      {loading ? (
+        <div className='my-nft-collection__loader-wrapper'>
           <Loader />
-        ) : meta?.image ? (
+        </div>
+      ) : meta?.image ? (
+        <div className='nft__table__row__image'>
           <img src={`https://ipfs.io/ipfs/${ meta.image }`} alt='' />
-        ) : (
+        </div>
+      ) : (
+        <div className='nft__table__row__image'>
           <img src={placeholder} alt='' />
+        </div>
+      )}
+      <div className='nft__table__row__name'>
+        <p>{meta?.name}</p>
+      </div>
+      <div className='nft__table__header'>
+        <div className='nft__table__header__description'>Description</div>
+        <div className='nft__table__header__owned'># owned</div>
+      </div>
+
+      <div className='nft__table__row__description'>
+        <p>{meta?.description}</p>
+      </div>
+      <div className='nft__table__row__owned'>
+        <p>{nfts?.filter((n) => n.account_id === userWalletId).length}</p>
+      </div>
+      <div className='nft__table__row__buttons'>
+        <button
+          type='button'
+          className='btn--transparent-white'
+          onClick={handleSendNFT}
+        >
+          Send
+        </button>
+        <button type='button' onClick={handleManageNFT}>
+          Manage
+        </button>
+        {parseInt(props.info.total_supply as string, 10) <
+          parseInt(props.info.max_supply as string, 10) && (
+          <button type='button' onClick={handleMintNFT}>
+            Mint
+          </button>
         )}
       </div>
-      <figcaption>
-        <p>{meta?.name}</p>
-        <p>{meta?.description}</p>
-        <p>{nfts?.filter((n) => n.account_id === userWalletId).length}</p>
-
-        <div className='nft__buttons'>
-          <button type='button' onClick={handleSendNFT}>
-            Send
-          </button>
-          <button type='button' onClick={handleManageNFT}>
-            Manage
-          </button>
-          {parseInt(props.info.total_supply, 10) <
-            parseInt(props.info.max_supply, 10) && (
-            <button type='button' onClick={handleMintNFT}>
-              Mint
-            </button>
-          )}
-        </div>
-      </figcaption>
-    </figure>
+    </div>
   );
 }

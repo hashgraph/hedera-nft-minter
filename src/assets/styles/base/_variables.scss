@@ -1,4 +1,6 @@
 $container: 1140px;
+$columnGap: 1.25rem;
+$errorHeight: 1rem;
 
 $grey: #3a3a3a;
 $lightGrey: #909090;
@@ -24,10 +26,7 @@ $lime: #B7F133;
 //HEDERA GRADIENT
 $gradient: linear-gradient(160deg, #5281e7, #5a73e7 34%, #765aea);
 
-$border: 1px solid hsla(0,0%,100%,.2);
-
-
-
+$border: 1px solid hsla(0, 0%, 100%, 0.2);
 
 // breakpoints
 $breakpoints: (
@@ -36,4 +35,3 @@ $breakpoints: (
   'laptop': 992px,
   'desktop': 1200px,
 );
-

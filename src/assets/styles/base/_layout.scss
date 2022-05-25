@@ -109,7 +109,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    column-gap: 40px;
+    column-gap: $columnGap;
     letter-spacing: 0.1em;
 
     a {
