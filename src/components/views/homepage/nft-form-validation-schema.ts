@@ -46,9 +46,9 @@ const feeValidator = yup.object().shape({
 
   collectingFeeType: yup.string()
     .when('type', {
-      is: FEE.FRACTIONAL,
+      is: FEE.FIXED,
       then: yup.string()
-        .oneOf(Object.values(FIXED_FEE_COLLECTING_TYPE))
+        .oneOf(Object.values(FIXED_FEE_COLLECTING_TYPE), 'Select a type!')
         .ensure()
         .required('Required'),
   }),
