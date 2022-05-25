@@ -132,7 +132,7 @@ const NftFormKeys = () => {
             <div>
               {field.value[index]?.value === 'custom' && (
                 <div className='form__group__table__row w-100'>
-                  <label htmlFor={`keys.${ index }.key`}>Value: {field.value[index]?.value}</label>
+                  <label htmlFor={`keys.${ index }.key`}>Value:</label>
                   <div className='form__group__table__row__custom-key w-100'>
                     <Field name={`keys.${ index }.key`} type='text' />
                     <Error name={`keys.${ index }.key`} />
