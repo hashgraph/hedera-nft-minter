@@ -17,7 +17,8 @@ import { HEDERA_NETWORK } from '@/../Global.d';
 import transformToFees from '@helpers/transformToFees';
 import transformToKeys from '@helpers/transformToKeys';
 import { TokenKey } from '@utils/entity/TokenKeys';
-import { Fees } from '@utils/entity/Fees';
+import { FEE, Fees } from '@utils/entity/Fees';
+import _ from 'lodash';
 
 export type AccountInfo = Response & {
   result?: string;
@@ -54,9 +55,37 @@ type UpdateTokenProps = {
   pauseKey?: Key | undefined;
 } | undefined
 
+const prepareFees = (customFees : Fees[] | undefined) => {
+  if(!customFees){
+    return undefined
+  }
+
+  const filteredFees = customFees.map(fee=>{
+    switch(fee.type){
+      case FEE.FIXED:
+        return fee
+
+      case FEE.FRACTIONAL:
+        return {
+          numerator: 1,
+          denominator: fee.percent,
+          ..._.pick(fee,['min', 'max', 'feeCollectorAccountId', 'assessmentMethod', 'type'])
+        }
+
+      case FEE.ROYALITY:
+          return{
+            numerator: 1,
+            denominator: fee.percent,
+            ..._.pick(fee,['feeCollectorAccountId', 'fallbackFee', 'type'])
+          }
+    }
+  })
+
+  return transformToFees(filteredFees);
+}
+
 export default class HTS {
   static async createToken({
-    amount,
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
     const accountInfo: AccountInfo = await window.fetch(
@@ -72,10 +101,10 @@ export default class HTS {
     const token = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
-      decimals: amount,
+      decimals: 0,
       expirationTime,
       ...tokenProps,
-      customFees: tokenProps.customFees ? transformToFees(tokenProps.customFees) : undefined,
+      customFees: prepareFees(tokenProps.customFees),
       ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
     });
 

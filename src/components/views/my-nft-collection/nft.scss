@@ -93,6 +93,7 @@
       text-transform: uppercase;
       font-weight: 500;
       max-width: calc(100% - 56.05px);
+      text-overflow: ellipsis;
     }
 
     &__owned {

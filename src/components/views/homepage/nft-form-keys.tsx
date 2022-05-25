@@ -15,9 +15,14 @@ import classNames from 'classnames';
 const NftFormKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
 
-  const tokenKeys = useMemo(() => [
-    { title: 'Treasury', value: TOKEN_KEY.TREASURY },
-    { title: 'Supply', value: TOKEN_KEY.SUPPLY },
+  const tokenKeys = useMemo<{
+    title: string;
+    value: TOKEN_KEY;
+    label?: string;
+    required?: boolean;
+}[]>(() => [
+    { title: 'Treasury account ID', value: TOKEN_KEY.TREASURY, required: true },
+    { title: 'Supply key', value: TOKEN_KEY.SUPPLY, required: true },
     { title: 'KYC', value: TOKEN_KEY.KYC },
     { title: 'Admin', value: TOKEN_KEY.ADMIN },
     { title: 'Freeze', value: TOKEN_KEY.FREEZE },
@@ -25,9 +30,11 @@ const NftFormKeys = () => {
     { title: 'Pause', value: TOKEN_KEY.PAUSE },
   ], []);
 
+  const checkIfIsTokenKeyRequired = useCallback((index) => !!tokenKeys[index]?.required, [tokenKeys])
+
   const renderOptions = useCallback(() => {
-      const keys = tokenKeys.map((key, index) => {
-        if(index < 2) {
+      const keys = tokenKeys.map((key) => {
+        if(key.required) {
           return
         }
         for (const { type } of field.value) {
@@ -45,7 +52,7 @@ const NftFormKeys = () => {
           </option>
         );
       })
-      keys.unshift((
+    keys.unshift((
         <option key={'key.blank'} value={''}>
           Select
         </option>
@@ -59,29 +66,31 @@ const NftFormKeys = () => {
     index: number,
     remove: (index: number) => void,
   ) => {
+    const isTokenKeyRequired = checkIfIsTokenKeyRequired(index);
     const baseClassName = 'form__group__table__row-container'
     const className = classNames(baseClassName ,{
-      [baseClassName+'_firsts']: index < 2
+      [baseClassName+'_firsts']: isTokenKeyRequired
     })
+
     return (
       <div className={className}>
         <div className='form__group__table__row flex'>
-          {index < 2 ?
-            <>
-              <label htmlFor={`account_${ index }`}>
-                {index === 0 ? 'Treasury account ID' : 'Supply key'}
-              </label>
-              <Field
-                name={`keys.${ index }.type`}
-                type='hidden'
-                value={index === 0 ? 'treasuryAccountId' : 'supplyKey'}
-                checked
-              />
-            </>
-            :
-            <FieldSelect name={`keys.${ index }.type`}>
-              {renderOptions()}
-            </FieldSelect>
+          {isTokenKeyRequired ?
+             <>
+               <label htmlFor={`account_${ index }`}>
+                 {tokenKeys[index].title}
+               </label>
+               <Field
+                 name={`keys.${ index }.type`}
+                 type='hidden'
+                 value={index === 0 ? 'treasuryAccountId' : 'supplyKey'}
+                 checked
+               />
+             </>
+          :
+             <FieldSelect name={`keys.${ index }.type`}>
+               {renderOptions()}
+             </FieldSelect>
           }
           <div className='form__select_row__radios flex-center'>
             <Field
@@ -93,18 +102,15 @@ const NftFormKeys = () => {
           <div className='form__select_row__radios flex-center'>
             <Field name={`keys.${ index }.value`} type='radio' value='custom' />
           </div>
-          {
-            index < 2 ?
-              <div className='form__group__table__row-disabled-buton'>
-                <button type='button'>Del</button>
-              </div>
-            :
-              <div className='form__group__table__row__remove-buton'>
+          <div className='form__group__table__row__remove-buton'>
+            {
+              !isTokenKeyRequired &&
                 <button type='button' onClick={() => remove(index)}>
                   Del
                 </button>
-              </div>
-          }
+            }
+          </div>
+
         </div>
 
         <SwitchTransition>
@@ -131,7 +137,7 @@ const NftFormKeys = () => {
         </SwitchTransition>
       </div>
     );
-  }, [field, renderOptions]);
+  }, [field, renderOptions, checkIfIsTokenKeyRequired, tokenKeys]);
 
   return (
     <div className='form__group-row form__group-row-mt'>
@@ -143,7 +149,7 @@ const NftFormKeys = () => {
               <label htmlFor='null'>Keys</label>
               <button
                 onClick={() =>
-                  field.value.length < tokenKeys.length + 1
+                  field.value.length < tokenKeys.length
                     ? push({value: 'account', type: '', key: ''})
                     : toast.error('Enough!')
                 }

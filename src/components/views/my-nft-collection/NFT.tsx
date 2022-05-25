@@ -3,7 +3,6 @@ import React, {
   useContext,
   useEffect,
   useState,
-  useMemo,
 } from 'react';
 import classNames from 'classnames';
 import { toast } from 'react-toastify';
@@ -83,14 +82,6 @@ export default function NFT(props: NFTProps) {
     }
   }, [loadMetadata, nfts]);
 
-  const tokenDescription = useMemo(
-    () =>
-      meta?.description && meta?.description?.length > 29
-        ? `${ meta?.description?.slice(0, 30) }...`
-        : meta?.description ?? '',
-    [meta]
-  );
-
   return (
     <div className={classNames('nft__table__row', { nft__loading: loading })}>
       {loading ? (
@@ -115,7 +106,7 @@ export default function NFT(props: NFTProps) {
       </div>
 
       <div className='nft__table__row__description'>
-        <p>{tokenDescription}</p>
+        <p>{meta?.description}</p>
       </div>
       <div className='nft__table__row__owned'>
         <p>{nfts?.filter((n) => n.account_id === userWalletId).length}</p>

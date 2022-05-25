@@ -109,7 +109,7 @@ const NftFormFees = () => {
             What to collect
             </label>
             <FieldSelect name={`fees.${ index }.collectingFeeType`}>
-              <option value={FEE.NONE}>Select...</option>
+              <option value=''>Select...</option>
               <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
               <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
             </FieldSelect>
@@ -143,7 +143,7 @@ const NftFormFees = () => {
               <FieldWrapper
                 name={`fees.${ index }.hbarAmount`}
                 type='number'
-                label='# ℏ amount'
+                label='ℏ amount'
               />
             </div>
         }
@@ -161,8 +161,6 @@ const NftFormFees = () => {
           return renderFractionalFeeFormFields(arrayIndex);
         case FEE.FIXED:
           return renderFixedFeeFormFields(arrayIndex);
-        case FEE.NONE:
-          return;
         default:
           return;
       }
@@ -208,7 +206,7 @@ const NftFormFees = () => {
                       <div className='form__row__fees-container'>
                         <div className='form__select_row'>
                           <FieldSelect name={`fees.${ index }.type`}>
-                            <option value={FEE.NONE}>Select a fee type...</option>
+                            <option value=''>Select a fee type...</option>
                             <option value={FEE.ROYALITY}>Royalty Fee</option>
                             <option value={FEE.FRACTIONAL}>Fractional Fee</option>
                             <option value={FEE.FIXED}>Fixed Fee</option>
