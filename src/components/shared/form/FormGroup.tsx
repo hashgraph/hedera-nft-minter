@@ -57,7 +57,7 @@ const FormGroup = ({ values, name }: Props) => {
                       </div>
                     ))}
 
-                    <div className='form__group__table__row__remove-buton'>
+                    <div className='form__group__table__row__remove-button'>
                       <button type='button' onClick={() => remove(index)}>
                         Del
                       </button>

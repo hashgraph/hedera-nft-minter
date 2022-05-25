@@ -222,14 +222,14 @@
           flex: 0 1 22%;
         }
 
-        &__remove-buton {
+        &__remove-button {
           button {
             margin-bottom: $errorHeight;
             margin-left: auto;
           }
         }
 
-        &-disabled-buton {
+        &-disabled-button {
           flex: 0 1 22% !important;
 
           button {

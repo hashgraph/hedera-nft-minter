@@ -102,7 +102,7 @@ const NftFormKeys = () => {
           <div className='form__select_row__radios flex-center'>
             <Field name={`keys.${ index }.value`} type='radio' value='custom' />
           </div>
-          <div className='form__group__table__row__remove-buton'>
+          <div className='form__group__table__row__remove-button'>
             {
               !isTokenKeyRequired &&
                 <button type='button' onClick={() => remove(index)}>
