@@ -19,7 +19,7 @@ const feeValidator = yup.object().shape({
 
   percent: yup.number().when(['type'], {
     is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL].includes(type),
-    then: yup.number().required('Required'),
+    then: yup.number().max(100, 'Max 100%!').required('Required'),
   }),
 
   max: yup.number().when('type', {

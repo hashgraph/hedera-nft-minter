@@ -67,15 +67,15 @@ const prepareFees = (customFees : Fees[] | undefined) => {
 
       case FEE.FRACTIONAL:
         return {
-          numerator: 1,
-          denominator: fee.percent,
+          numerator: fee.percent,
+          denominator: 100,
           ..._.pick(fee,['min', 'max', 'feeCollectorAccountId', 'assessmentMethod', 'type'])
         }
 
       case FEE.ROYALITY:
           return{
-            numerator: 1,
-            denominator: fee.percent,
+            numerator: fee.percent,
+            denominator: 100,
             ..._.pick(fee,['feeCollectorAccountId', 'fallbackFee', 'type'])
           }
     }
