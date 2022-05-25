@@ -14,11 +14,10 @@ import {
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
 import { HEDERA_NETWORK } from '@/../Global.d';
-import transformToFees from '@helpers/transformToFees';
 import transformToKeys from '@helpers/transformToKeys';
+import prepareFees from '@/utils/helpers/prepareFees';
 import { TokenKey } from '@utils/entity/TokenKeys';
-import { FEE, Fees } from '@utils/entity/Fees';
-import _ from 'lodash';
+import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {
   result?: string;
@@ -55,35 +54,6 @@ type UpdateTokenProps = {
   pauseKey?: Key | undefined;
 } | undefined
 
-const prepareFees = (customFees : Fees[] | undefined) => {
-  if(!customFees){
-    return undefined
-  }
-
-  const filteredFees = customFees.map(fee=>{
-    switch(fee.type){
-      case FEE.FIXED:
-        return fee
-
-      case FEE.FRACTIONAL:
-        return {
-          numerator: fee.percent,
-          denominator: 100,
-          ..._.pick(fee,['min', 'max', 'feeCollectorAccountId', 'assessmentMethod', 'type'])
-        }
-
-      case FEE.ROYALITY:
-          return{
-            numerator: fee.percent,
-            denominator: 100,
-            ..._.pick(fee,['feeCollectorAccountId', 'fallbackFee', 'type'])
-          }
-    }
-  })
-
-  return transformToFees(filteredFees);
-}
-
 export default class HTS {
   static async createToken({
     ...tokenProps
@@ -104,7 +74,7 @@ export default class HTS {
       decimals: 0,
       expirationTime,
       ...tokenProps,
-      customFees: prepareFees(tokenProps.customFees),
+      customFees: tokenProps.customFees ? prepareFees(tokenProps.customFees) : undefined,
       ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
     });
 
