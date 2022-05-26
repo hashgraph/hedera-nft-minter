@@ -53,11 +53,11 @@ header {
   background-color: transparent;
   width: 100%;
   height: 80px;
-  z-index: 3;
+  z-index: 4;
   transition: generateTransitions((transform, background-color), 200ms);
 
   &.is-white {
-    z-index: 1;
+    z-index: 2;
     background-color: $vapor;
   }
 
@@ -154,7 +154,7 @@ header {
 
 .header__mobile-menu {
   &__wrapper {
-    z-index: 2;
+    z-index: 3;
     position: fixed;
     top: 0;
     left: 0;
@@ -254,7 +254,7 @@ header {
 }
 
 .page-menu {
-  z-index: 1;
+  z-index: 2;
   position: relative;
   min-height: 62px;
   background: $gradient;

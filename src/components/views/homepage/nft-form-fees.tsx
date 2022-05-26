@@ -11,12 +11,26 @@ import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from '@/components/shared/form/switch/Switch';
 import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE, FixedFee } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
+import Tooltip from '@/components/shared/form/Tooltip';
 
 const NftFormFees = () => {
   const [field] = useField<Fees[]>('fees');
 
   const renderRoyaltyFeeFormFields = useCallback((index: number) => (
     <div className='form__row__fees__fee'>
+      <Tooltip title='Royalty fee' showLabel>
+      A fee to assess during a CryptoTransfer that changes ownership of an NFT.
+      Defines the fraction of the fungible value exchanged for an NFT that the
+      ledger should collect as a royalty. ("Fungible value" includes both ℏ and units of
+      fungible HTS tokens.) When the NFT sender does not receive any fungible value, the
+      ledger will assess the fallback fee, if present, to the new NFT owner. <br />
+        <a
+          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/royaltyfee'
+          target='_blank'
+        >
+            Link to docs
+        </a>
+      </Tooltip>
       <div className='form__row__two-columns-flex'>
         <div>
           <FieldWrapper
@@ -46,45 +60,59 @@ const NftFormFees = () => {
   ),[]);
 
   const renderFractionalFeeFormFields = useCallback((index: number) => (
-    <div className='form__row__fees__fee'>
-      <FieldWrapper
-        name={`fees.${ index }.feeCollectorAccountId`}
-        type='text'
-        label='Fee collector account ID'
-      />
-      <div className='form__row__number-columns'>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.min`}
-            type='number'
-            label='Min'
-          />
+    <>
+      <Tooltip title='Fractional fee' showLabel>
+      A fraction of the transferred units of a token to assess as a fee.
+      The amount assessed will never be less than the given minimum_amount,
+      and never greater than the given maximum_amount. The denomination is always
+      units of the token to which this fractional fee is attached. <br />
+        <a
+          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/fractionalfee'
+          target='_blank'
+        >
+            Link to docs
+        </a>
+      </Tooltip>
+      <div className='form__row__fees__fee'>
+        <FieldWrapper
+          name={`fees.${ index }.feeCollectorAccountId`}
+          type='text'
+          label='Fee collector account ID'
+        />
+        <div className='form__row__number-columns'>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.min`}
+              type='number'
+              label='Min'
+            />
+          </div>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.max`}
+              type='number'
+              label='Max'
+            />
+          </div>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.percent`}
+              type='number'
+              label='% of royalty'
+            />
+          </div>
         </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.max`}
-            type='number'
-            label='Max'
-          />
-        </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.percent`}
-            type='number'
-            label='% of royalty'
-          />
-        </div>
-      </div>
 
-      <Switch
-        label='Assessment method'
-        name={`fees.${ index }.assessmentMethod`}
-        options={[
-          { name: 'Inclusive', value: false },
-          { name: 'Exclusive', value: true },
-        ]}
-      />
-    </div>
+        <Switch
+          label='Assessment method'
+          name={`fees.${ index }.assessmentMethod`}
+          options={[
+            { name: 'Inclusive', value: false },
+            { name: 'Exclusive', value: true },
+          ]}
+        />
+      </div>
+    </>
   ),[]);
 
   const renderFixedFeeCollectingFormFields = useCallback((index) => {
@@ -126,6 +154,17 @@ const NftFormFees = () => {
 
   const renderFixedFeeFormFields = useCallback((index: number) => (
     <div className='form__row__fees__fee'>
+      <Tooltip title='Fixed fee' showLabel>
+        A fixed number of units (hbar or token) to ssess as a
+        fee during a CryptoTransfer that transfers units of
+        the token to which this fixed fee is attached. <br />
+        <a
+          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/fixedfee'
+          target='_blank'
+        >
+            Link to docs
+        </a>
+      </Tooltip>
       <div className='form__row__two-columns-flex'>
         <div>
           <FieldWrapper
