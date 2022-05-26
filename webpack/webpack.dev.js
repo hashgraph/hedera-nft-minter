@@ -70,7 +70,7 @@ module.exports = {
     }),
     // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /pl/),
     new FaviconsWebpackPlugin({
-      logo: path.join(__dirname, '../src/assets/images/logo.svg'),
+      logo: path.join(__dirname, '../src/assets/images/black-cutout.svg'),
       inject: true,
     }),
     new HtmlWebpackPlugin({

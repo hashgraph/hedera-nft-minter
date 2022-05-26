@@ -2,7 +2,34 @@
   display: flex;
   flex-direction: column;
 
-  .container {
+  &__container {
     background-color: $black;
+    padding: 0 1rem;
+
+    @include respond-to('mobile') {
+      padding: 0 2rem;
+    }
+  }
+
+  &__token-created{
+    &__container{
+      padding: 40px;
+      color: $vapor;
+      min-height: calc(40vh - 62px);
+
+      @include respond-to('mobile') {
+        min-height: calc(50vh - 62px);
+      }
+
+      h1{
+        margin: 0;
+        font-weight: bold;
+      }
+
+      a{
+        color: $vapor;
+
+      }
+    }
   }
 }

@@ -5,18 +5,24 @@ import HTS from '@services/HTS';
 import { toast } from 'react-toastify';
 import IPFS from '@services/IPFS';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
+import Tooltip from '../form/Tooltip';
 
 const ModalForm = () => (
-  <Form className='form'>
-    <div className='form__row'>
-      <label htmlFor='qty'>Count:</label>
-      <Field name='qty' type='number' min={1} max={10} />
-    </div>
+  <>
+    <Tooltip showLabel>
+      Token has to been associated with reciver account first.
+    </Tooltip>
+    <Form className='form'>
+      <div className='form__row'>
+        <label htmlFor='qty'>Count:</label>
+        <Field name='qty' type='number' min={1} max={10} />
+      </div>
 
-    <div className='form__btns'>
-      <button>Submit</button>
-    </div>
-  </Form>
+      <div className='form__btns'>
+        <button>Submit</button>
+      </div>
+    </Form>
+  </>
 )
 
 interface MintNFTModalProps {
@@ -34,8 +40,8 @@ export default function MintNFTModal({ tokenId, meta }: MintNFTModalProps) {
       }
 
       const metaCIDs = await Promise.all(
-        Array.from(new Array(qty)).map((_, i) =>
-          IPFS.createMetadataFile(meta, i)
+        Array.from(new Array(qty)).map(() =>
+          IPFS.createMetadataFile(meta)
             .then(res => res.data)
         )
       );

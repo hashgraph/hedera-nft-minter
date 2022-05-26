@@ -77,7 +77,7 @@ module.exports = {
       },
     }),
     new FaviconsWebpackPlugin({
-      logo: path.join(__dirname, '../src/assets/images/logo.svg'),
+      logo: path.join(__dirname, '../src/assets/images/black-cutout.svg'),
       inject: true,
     }),
     new webpack.ProvidePlugin({

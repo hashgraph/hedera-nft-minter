@@ -61,7 +61,7 @@ export default function NFT(props: NFTProps) {
   const handleMintNFT = useCallback(() => {
     const tokenId = props.nfts?.length ? props.nfts[0].token_id : '';
 
-    if (!props.nfts?.length || props.nfts[0].token_id) {
+    if (!props.nfts?.length || !props.nfts[0].token_id) {
       toast.error('No token ID');
       return;
     }
