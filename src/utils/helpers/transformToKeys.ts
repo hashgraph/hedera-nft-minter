@@ -5,10 +5,10 @@ interface Keys {
   [key: string]: Key | AccountId,
 }
 
-export default function transformToKeys(keys: TokenKey[], accountKey: string) {
+export default function transformToKeys(keys: TokenKey[], accountId: string, accountKey: string) {
   return keys.reduce<Keys>((keysObject, key) => {
     if (key.type === TOKEN_KEY.TREASURY) {
-      keysObject[key.type] = PublicKey.fromString(accountKey).toAccountId(0, 0);
+      keysObject[key.type] = AccountId.fromString(key.value === 'account' ? accountId: key.key);
       return keysObject;
     }
 

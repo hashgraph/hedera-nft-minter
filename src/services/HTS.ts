@@ -68,6 +68,7 @@ export default class HTS {
     }
 
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
+
     const token = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
@@ -75,7 +76,7 @@ export default class HTS {
       expirationTime,
       ...tokenProps,
       customFees: tokenProps.customFees && tokenProps.customFees.length ? prepareFees(tokenProps.customFees) : undefined,
-      ...(tokenProps.keys ? transformToKeys(tokenProps.keys, accountInfo.key.key) : {})
+      ...(tokenProps.keys ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key) : {})
     });
 
     return token;
