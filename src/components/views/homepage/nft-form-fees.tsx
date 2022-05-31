@@ -17,7 +17,7 @@ const NftFormFees = () => {
   const [field] = useField<Fees[]>('fees');
 
   const renderRoyaltyFeeFormFields = useCallback((index: number) => (
-    <div className='form__row__fees__fee'>
+    <>
       <Tooltip title='Royalty fee' showLabel>
       A fee to assess during a CryptoTransfer that changes ownership of an NFT.
       Defines the fraction of the fungible value exchanged for an NFT that the
@@ -31,32 +31,34 @@ const NftFormFees = () => {
             Link to docs
         </a>
       </Tooltip>
-      <div className='form__row__two-columns-flex'>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.feeCollectorAccountId`}
-            type='text'
-            label='Fee collector account ID'
-          />
-        </div>
+      <div className='form__row__fees__fee'>
         <div className='form__row__two-columns-flex'>
-        <div >
-          <FieldWrapper
-            name={`fees.${ index }.fallbackFee`}
-            type='number'
-            label='Fallback fee'
-          />
-        </div>
           <div>
             <FieldWrapper
-              name={`fees.${ index }.percent`}
-              type='number'
-              label='% of royalty'
+              name={`fees.${ index }.feeCollectorAccountId`}
+              type='text'
+              label='Fee collector account ID'
             />
+          </div>
+          <div className='form__row__two-columns-flex'>
+          <div >
+            <FieldWrapper
+              name={`fees.${ index }.fallbackFee`}
+              type='number'
+              label='Fallback fee'
+            />
+          </div>
+            <div>
+              <FieldWrapper
+                name={`fees.${ index }.percent`}
+                type='number'
+                label='% of royalty'
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   ),[]);
 
   const renderFractionalFeeFormFields = useCallback((index: number) => (
@@ -153,7 +155,7 @@ const NftFormFees = () => {
   },[field]);
 
   const renderFixedFeeFormFields = useCallback((index: number) => (
-    <div className='form__row__fees__fee'>
+    <>
       <Tooltip title='Fixed fee' showLabel>
         A fixed number of units (hbar or token) to ssess as a
         fee during a CryptoTransfer that transfers units of
@@ -165,27 +167,29 @@ const NftFormFees = () => {
             Link to docs
         </a>
       </Tooltip>
-      <div className='form__row__two-columns-flex'>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.feeCollectorAccountId`}
-            type='text'
-            label='Fee collector account ID'
-          />
+      <div className='form__row__fees__fee'>
+        <div className='form__row__two-columns-flex'>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.feeCollectorAccountId`}
+              type='text'
+              label='Fee collector account ID'
+            />
+          </div>
+          <div>
+            <label htmlFor={`fees.${ index }.collectingFeeType`}>
+            What to collect
+            </label>
+            <FieldSelect name={`fees.${ index }.collectingFeeType`}>
+              <option value=''>Select...</option>
+              <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
+              <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
+            </FieldSelect>
+          </div>
         </div>
-        <div>
-          <label htmlFor={`fees.${ index }.collectingFeeType`}>
-          What to collect
-          </label>
-          <FieldSelect name={`fees.${ index }.collectingFeeType`}>
-            <option value=''>Select...</option>
-            <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
-            <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
-          </FieldSelect>
-        </div>
+        { renderFixedFeeCollectingFormFields(index) }
       </div>
-      { renderFixedFeeCollectingFormFields(index) }
-    </div>
+    </>
   ), [renderFixedFeeCollectingFormFields]);
 
   const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {

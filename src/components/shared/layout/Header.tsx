@@ -129,7 +129,7 @@ const Header = () => {
           ref={expandedMenuRef}
         >
           <Link onClick={closeNavbar} to='/'>
-            Mint token
+            Mint NFT
           </Link>
           <Link onClick={closeNavbar} to='/my-nft-collection'>
             My NFT Collection

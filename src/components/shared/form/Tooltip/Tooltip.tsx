@@ -35,7 +35,9 @@ const Tooltip = ({showLabel, title, children }: Props) => {
       <div ref={ref} className='tooltip__wrapper'>
         {title && <h1>{title}</h1>}
         <p>{children}</p>
-        <button onClick={()=>setShow(false)}>Close hint</button>
+        <button type='button' onClick={ () => setShow(false) }>
+          Close hint
+        </button>
       </div>
     </CSSTransition>
 
