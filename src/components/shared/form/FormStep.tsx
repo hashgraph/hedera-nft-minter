@@ -30,7 +30,7 @@ const FormStep = ({
 
   return (
     <div className='form__step-wrapper'>
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       {renderDescription()}
     </div>
   );

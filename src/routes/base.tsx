@@ -1,7 +1,12 @@
 import { FC } from 'react';
 import { JSX } from '@babel/types';
 
-import { Homepage, MyWallet } from '@/pages';
+import {
+  Homepage,
+  MyWallet,
+  Profile,
+  Book,
+} from '@/pages';
 
 export type Route = {
   path: string;
@@ -20,6 +25,14 @@ const routes: Route[] = [
     path: '/my-nft-collection',
     component: MyWallet,
   },
+  {
+    path: '/profile',
+    component: Profile,
+  },
+  {
+    path: '/book',
+    component: Book,
+  }
 ];
 
 export default routes;

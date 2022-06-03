@@ -1,20 +1,38 @@
-import React from 'react';
-import { Field } from 'formik';
+import React, { SelectHTMLAttributes, useMemo } from 'react';
+import { FastField, Field, FieldAttributes } from 'formik';
 import Error from '@/components/shared/form/Error';
+import { DownOutlined } from '@ant-design/icons';
 
-type Props = {
-  children: React.ReactNode;
+type FieldWrapperProps = FieldAttributes<SelectHTMLAttributes<HTMLSelectElement>> & {
   name: string;
+  label?: string;
+  fastField?: boolean;
+  max?: string | number;
+  hideError?: boolean,
 };
 
-const FieldSelect = ({ name, children }: Props) => {
+const FieldSelect = ({
+  name,
+  label,
+  fastField = false,
+  hideError = false,
+  children,
+  ...restProps
+}: FieldWrapperProps) => {
+  const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
+
   return (
-    <div className='form__select_row'>
-      <Field name={name} as='select'>
-        {children}
-      </Field>
-      <div className='arrow' />
-      <Error name={name} />
+    <div className='form__row form__select'>
+      {Boolean(label) && <label htmlFor={name}>{label}:</label>}
+      <div className='select__component'>
+        <Component name={name} as='select' {...restProps}>
+          {children}
+        </Component>
+        <DownOutlined className='arrow' />
+      </div>
+      {!hideError && (
+        <Error name={name} />
+      )}
     </div>
   );
 };

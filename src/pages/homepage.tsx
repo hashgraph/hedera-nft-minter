@@ -202,7 +202,7 @@ export default function Homepage() {
         </a>
       </Hero>
       <PageMenu />
-      <div className='black-background'>
+      <div className='dark-schema'>
         <div className='container'>
           {tokenCreated ? (
             <div>
