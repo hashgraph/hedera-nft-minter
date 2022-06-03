@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IPFS_KEY, IPFS_URL } from '@/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
-interface UploadRespone {
+export interface UploadRespone {
   ok: boolean,
   value: {
     cid: string;

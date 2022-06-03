@@ -13,7 +13,7 @@ import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE, FixedFee } from '@utils/entity/Fe
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import Tooltip from '@/components/shared/form/Tooltip';
 
-const NftFormFees = () => {
+const MinterWizardFees = () => {
   const [field] = useField<Fees[]>('fees');
 
   const renderRoyaltyFeeFormFields = useCallback((index: number) => (
@@ -284,4 +284,4 @@ const NftFormFees = () => {
   );
 };
 
-export default NftFormFees;
+export default MinterWizardFees;

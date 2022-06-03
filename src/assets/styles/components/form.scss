@@ -241,6 +241,10 @@ input[type='number'] {
     }
   }
 
+  &__radio{
+    display: flex;
+  }
+
   &__checkbox,
   &__radio {
     display: grid;

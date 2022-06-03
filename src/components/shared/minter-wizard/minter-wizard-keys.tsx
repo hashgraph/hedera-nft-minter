@@ -12,7 +12,7 @@ import Error from '@components/shared/form/Error';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import classNames from 'classnames';
 
-const NftFormKeys = () => {
+const MinterWizardKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
 
   const tokenKeys = useMemo<{
@@ -191,4 +191,4 @@ const NftFormKeys = () => {
   );
 };
 
-export default NftFormKeys;
+export default MinterWizardKeys;
