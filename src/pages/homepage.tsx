@@ -9,11 +9,11 @@ import useHederaWallets from '@/utils/hooks/useHederaWallets';
 import filterFormValuesToNFTMetadata from '@/utils/helpers/filterFormValuesToNFTMetadata';
 
 import { initialValues } from '@/utils/const/minter-wizard';
+import { MintTypes } from '@utils/entity/MinterWizard'
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
 import MinterWizard from '@/components/views/minter-wizard';
-import {MintTypes} from '@/components/views/minter-wizard/wizard-steps';
 import Summary from '@/components/views/minter-wizard/summary';
 
 export default function Homepage() {

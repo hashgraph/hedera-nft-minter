@@ -1,4 +1,4 @@
-import {MintTypes} from '@/components/views/minter-wizard/wizard-steps';
+import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@/components/shared/form/button-group'
 
 export default function Welcome() {
