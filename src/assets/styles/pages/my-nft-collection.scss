@@ -19,7 +19,7 @@
       object-fit: contain;
     }
 
-    @include respond-to('tablet') {
+    @include respond-to('mobile') {
       min-height: calc(50vh - 62px);
     }
   }

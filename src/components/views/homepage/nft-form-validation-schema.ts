@@ -3,7 +3,7 @@ import { FEE } from '@utils/entity/Fees';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
-    .oneOf(Object.values(FEE))
+    .oneOf(Object.values(FEE), 'Select a type!')
     .ensure()
     .required('Required'),
 

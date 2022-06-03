@@ -31,17 +31,10 @@ export default function Homepage() {
       'image',
       'files',
       'format',
-      'properties',
       'attributes',
     ]) as FormikValues;
 
     filtred.format = 'opensea';
-
-    const filtredProperties = {} as { [key: string]: string };
-    for (const [, value] of filtred.properties.entries()) {
-      filtredProperties[`${ value.name }`] = value.value;
-    }
-    filtred.properties = filtredProperties;
 
     filtred = Object.keys(filtred).reduce(
       (params: FormikValues, paramName: string) => {
@@ -149,6 +142,7 @@ export default function Homepage() {
         amount: values.qty,
         keys: values.keys,
         customFees: values.fees,
+        maxSupply: values.maxSupply
       } as NewTokenType);
 
       if (!tokenId) {
@@ -187,27 +181,32 @@ export default function Homepage() {
 
   return (
     <div className='homepage'>
-      <Hero title={'Mint your own NFT at speed of light!'}>
+      <Hero title={'Mint your own NFT on Hedera'}>
         <p>
-          Proin eget tortor risus. Praesent sapien massa, convallis a
-          pellentesque nec, egestas non nisi. Curabitur aliquet quam id dui
-          posuere blandit.
+          Minting NFTs on Hedera is fast and simple. You can mint
+          new NFTs and Collections without using smart contracts.
         </p>
         <a
           href='https://hedera.com/token-service'
           target={'_blank'}
           className='btn btn--invert'
         >
-          TOKEN DOCUMENTATION
+          HEDERA TOKEN SERVICE DOCUMENTATION
         </a>
       </Hero>
       <PageMenu />
       <div className='dark-schema'>
         <div className='container'>
           {tokenCreated ? (
-            <div>
-              <h2>Token Created successfully</h2>
-              <p>Your new NFT Token ID: {tokenId}</p>
+            <div className='homepage__token-created__container'>
+              <h1>Token Created successfully</h1>
+              <p>Your new NFT Token ID: <b>{tokenId}</b></p>
+              <a
+                href={`https://https://app.dragonglass.me/hedera/tokens/${ tokenId }`}
+                target='_blank'
+              >
+                Link to your token in <i>app.dragonglass.me</i>
+              </a>
             </div>
           ) : (
             <Formik
