@@ -1,18 +1,19 @@
 import React from 'react';
 
-const Hero = ({
+export default function Hero ({
   title,
   children,
 }: {
-  title: string;
-  children?: React.ReactNode;
-}) => {
+  title?: string,
+  children?: React.ReactNode,
+  profile?: boolean
+}) {
   return (
     <div className='hero'>
-      <h1>{title}</h1>
+      {Boolean(title) && (
+        <h1>{title}</h1>
+      )}
       {children}
     </div>
   );
-};
-
-export default Hero;
+}

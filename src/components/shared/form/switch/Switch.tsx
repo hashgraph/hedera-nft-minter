@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 interface Option {
   name: string;
-  value: any;
+  value: number | string | boolean;
 }
 
 interface SwitchProps {
@@ -31,7 +31,7 @@ export default function Switch({ options, name, label }: SwitchProps) {
       <div className='switch'>
         {options.map(({ name, value }) => (
           <button
-            key={value}
+            key={`${ name }_${ value }`}
             type='button'
             className={classess(value)}
             onClick={() => helpers.setValue(value)}

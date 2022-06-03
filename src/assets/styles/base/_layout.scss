@@ -5,10 +5,12 @@ body {
 
 p,
 span {
-  font-family: 'Styrene A Web';
+  font-family: 'Styrene A Web', sans-serif;
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
+  line-height: 1.8;
+  letter-spacing: .015rem;
 }
 
 h1,
@@ -17,21 +19,21 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Styrene A Web';
-  font-weight: 100;
-  font-style: normal;
+  font-family: 'Styrene A Web', Arial, sans-serif;
+  font-weight: 300;
   font-stretch: normal;
+  color: var(--main-color);
+  line-height: 1.2;
+  letter-spacing: -0.015rem;
 }
 
 a {
-  font-family: 'Styrene A Web';
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
 }
 
 button {
-  font-family: 'Styrene A Web';
   font-weight: 400;
   font-style: normal;
   font-stretch: normal;
@@ -40,7 +42,6 @@ button {
 label,
 input,
 textarea {
-  font-family: 'Styrene A Web';
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;

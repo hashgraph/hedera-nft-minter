@@ -1,7 +1,6 @@
 import React from 'react';
 import { ErrorMessage } from 'formik';
 import classNames from 'classnames';
-
 type Props = {
   name: string;
 };
@@ -12,9 +11,9 @@ const Error = ({ name }: Props) => {
   });
 
   return (
-    <ErrorMessage name={name}>
-      {(msg) => <div className={className}>{msg}</div>}
-    </ErrorMessage>
+    <div className={className}>
+      <ErrorMessage name={name} />
+    </div>
   );
 };
 

@@ -1,0 +1,12 @@
+.collapse {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    align-items: center;
+  }
+}

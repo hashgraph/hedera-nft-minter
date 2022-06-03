@@ -195,7 +195,8 @@ export default function Homepage() {
         </a>
       </Hero>
       <PageMenu />
-        <div className='homepage__container'>
+      <div className='dark-schema'>
+        <div className='container'>
           {tokenCreated ? (
             <div className='homepage__token-created__container'>
               <h1>Token Created successfully</h1>
@@ -216,6 +217,7 @@ export default function Homepage() {
             />
           )}
         </div>
+      </div>
     </div>
   );
 }
