@@ -1,6 +1,7 @@
 import { JSX } from '@babel/types';
-import { FieldAttributes, useField } from 'formik';
+import { FieldAttributes } from 'formik';
 import { ButtonHTMLAttributes } from 'react';
+import Button from './button-group-button';
 
 interface Option {
   label: string | JSX.Element,
@@ -16,14 +17,16 @@ export default function ButtonGroup({
   name,
   options,
 }: ButtonGroupProps) {
-  const [,, helpers] = useField(name);
 
   return (
     <div className='form__row form__buttons'>
       {options.map(({ label, value }: Option) => (
-        <button key={value} type='button' onClick={() => helpers.setValue(value)}>
-          {label}
-        </button>
+        <Button
+          key={value}
+          value={value}
+          label={label}
+          name={name}
+        />
       ))}
     </div>
   )

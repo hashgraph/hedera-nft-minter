@@ -12,17 +12,14 @@ import { initialValues } from '@/utils/const/minter-wizard';
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
-import MinterWizard, { MintTypes } from '@/components/views/minter-wizard';
+import MinterWizard from '@/components/views/minter-wizard';
+import {MintTypes} from '@/components/views/minter-wizard/wizard-steps';
 import Summary from '@/components/views/minter-wizard/summary';
 
 export default function Homepage() {
   const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
   const [tokenId, setTokenId] = useState('');
-
-  const filterParams = useCallback((values) => {
-    return filterFormValuesToNFTMetadata(values)
-  }, []);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
@@ -83,7 +80,7 @@ export default function Homepage() {
         values.mint_type === MintTypes.NewCollectionNewNFT
         || values.mint_type === MintTypes.ExistingCollectionNewNFT
       ) {
-        const filteredValues = filterParams(values);
+        const filteredValues = filterFormValuesToNFTMetadata(values);
 
         //upload image
         if (values.image) {
@@ -156,7 +153,6 @@ export default function Homepage() {
   },
     [
       createToken,
-      filterParams,
       mint,
       uploadMetadata,
       uploadNFTFile,

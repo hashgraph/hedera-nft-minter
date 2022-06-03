@@ -292,6 +292,11 @@ input[type='number'] {
       color: var(--main-color);
       background: var(--background-color);
 
+      &.isActive{
+        background: var(--main-color);
+        color: var(--background-color);
+      }
+
       &:first-of-type {
         border-radius: 25px 0 0 25px;
         padding-left: 1rem;

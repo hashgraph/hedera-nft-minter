@@ -1,26 +1,26 @@
 import React from 'react'
 import SideSummary from '@/components/shared/minter-wizard/side-sumary';
+import useMinterWizard, { WizardScreen } from '@/utils/hooks/useMinterWizard';
 
 type Props = {
-  children: React.ReactNode;
-  isFirstScreen: boolean;
-  isLastScreen: boolean;
-  handlePrevButton: () => void;
-  handleNextButton: () => void;
+  steps: WizardScreen[]
 }
 
-export default function MinterWizardStepWrapper({
-  children,
-  isFirstScreen,
-  isLastScreen,
-  handlePrevButton,
-  handleNextButton
-}: Props) {
+export default function MinterWizardStepWrapper({steps} : Props) {
+  const {
+    step,
+    isFirstScreen,
+    isLastScreen,
+    handleNextButton,
+    handlePrevButton,
+    renderMinterWizardScreen
+  } = useMinterWizard(steps)
+
   return (
     <div className='minter-wizard__step__container'>
       <div className='minter-wizard__step__creator'>
 
-        {children}
+        {renderMinterWizardScreen(step)}
 
         <button
           type='button'

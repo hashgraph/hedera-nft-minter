@@ -1,14 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Form, FormikProps, FormikValues } from 'formik';
 
 import Welcome from '@components/views/minter-wizard/welcome';
-import NewCollectionNewNFT from '@components/views/minter-wizard/new-collection-new-nft'
+import wizardSteps, { MintTypes } from './wizard-steps';
+import MinterWizardStepWrapper from '@/components/shared/minter-wizard/minter-wizard-step-wrapper';
 
-export enum MintTypes {
-  NewCollectionNewNFT = 'new_collection_new_NFT',
-  ExistingCollectionNewNFT = 'existing_collection_new_NFT',
-  ExistingCollectionExistingNFT = 'existing_collection_existing_NFT',
-}
 
 export enum FormWizardSteps {
   WelcomeScreen = 0,
@@ -20,18 +16,9 @@ export default function MinterWizard({
 }: FormikProps<FormikValues>) {
   const [step, setStep] = useState(FormWizardSteps.WelcomeScreen);
 
-  const renderMinterWizard = useCallback((step: MintTypes) => {
-    switch (step) {
-      case MintTypes.NewCollectionNewNFT:
-        return <NewCollectionNewNFT />
-
-      case MintTypes.ExistingCollectionNewNFT:
-        return <p>ExistingCollectionNewNFT</p>
-
-      case MintTypes.ExistingCollectionExistingNFT:
-        return <p>ExistingCollectionExistingNFT</p>
-    }
-  }, [])
+  const minterWizardSteps = useMemo(() =>
+    wizardSteps[values.mint_type as MintTypes],
+  [values.mint_type])
 
   const renderFormWizard = useCallback((step: FormWizardSteps) => {
     switch (step) {
@@ -39,9 +26,9 @@ export default function MinterWizard({
         return <Welcome />
 
       case FormWizardSteps.MinterScreen:
-        return renderMinterWizard(values.mint_type)
+        return <MinterWizardStepWrapper steps={minterWizardSteps} />
     }
-  }, [renderMinterWizard, values.mint_type])
+  }, [minterWizardSteps])
 
   return (
     <Form className='form'>

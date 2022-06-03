@@ -1,28 +1,27 @@
-import { MintTypes } from '@components/views/minter-wizard'
-import FieldRadio from '@/components/shared/form/FieldRadio'
+import {MintTypes} from '@/components/views/minter-wizard/wizard-steps';
+import ButtonGroup from '@/components/shared/form/button-group'
 
 export default function Welcome() {
   return (
     <div className='minter-wizard__step__container'>
       <div className='minter-wizard__step__creator'>
-        <fieldset>
-          <legend>What you want to mint?</legend>
-          <FieldRadio
-            name='mint_type'
-            value={MintTypes.NewCollectionNewNFT}
-            label='New collection new NFT'
-          />
-          <FieldRadio
-            name='mint_type'
-            value={MintTypes.ExistingCollectionNewNFT}
-            label='Existing collection new NFT'
-          />
-          <FieldRadio
-            name='mint_type'
-            value={MintTypes.ExistingCollectionExistingNFT}
-            label='Existing collection existing NFT'
-          />
-        </fieldset>
+        <ButtonGroup
+          name='mint_type'
+          options={[
+            {
+              label: 'New collection new NFT',
+              value: MintTypes.NewCollectionNewNFT
+            },
+            {
+              label: 'Existing collection new NFT',
+              value: MintTypes.ExistingCollectionNewNFT
+            },
+            {
+              label: 'Existing collection existing NFT',
+              value: MintTypes.ExistingCollectionExistingNFT
+            },
+          ]}
+        />
       </div>
     </div>
 

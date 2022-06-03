@@ -12,15 +12,15 @@ export default function OnChain() {
       <ButtonGroup
         name='is_multiple_mint'
         options={[
-        {
-          label: 'Create collection with multiplie copies of NFT',
-          value: 'true'
-        },
-        {
-          label: 'Create collection with single NFT',
-          value: 'false'
-        },
-      ]}
+          {
+            label: 'Create collection with multiplie copies of NFT',
+            value: 'true'
+          },
+          {
+            label: 'Create collection with single NFT',
+            value: 'false'
+          },
+        ]}
       />
 
       <div className='form__row__two-columns-flex'>
