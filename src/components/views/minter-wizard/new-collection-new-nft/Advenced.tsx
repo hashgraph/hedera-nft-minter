@@ -15,12 +15,12 @@ export default function Advenced() {
           inputsSchema={[
             {
               name: 'name',
-              type: 'string',
+              type: 'text',
               label: 'Name',
             },
             {
               name: 'value',
-              type: 'string',
+              type: 'text',
               label: 'Value',
             },
           ]}
@@ -30,12 +30,12 @@ export default function Advenced() {
           inputsSchema={[
             {
               name: 'trait_type',
-              type: 'string',
+              type: 'text',
               label: 'Trait type',
             },
             {
               name: 'value',
-              type: 'string',
+              type: 'text',
               label: 'Value',
             },
           ]}

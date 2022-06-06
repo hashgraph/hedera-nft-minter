@@ -6,7 +6,7 @@ import FieldWrapper from '@/components/shared/form/FieldWrapper';
 
 type Input = {
   label: string;
-} & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 interface Props {
   inputsSchema: [Input, Input];
