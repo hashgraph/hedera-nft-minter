@@ -1,4 +1,4 @@
-import {WizardSteps as IWizardSteps} from '@utils/entity/MinterWizard'
+import {MintTypes, WizardSteps as IWizardSteps} from '@utils/entity/MinterWizard'
 import
   NewCollectionNewNftSteps
 from '@components/views/minter-wizard/new-collection-new-nft/steps';
@@ -10,9 +10,9 @@ import
 from '@components/views/minter-wizard/existing-collection-existing-nft/steps';
 
 const wizardSteps = {
-  'new_collection_new_NFT': NewCollectionNewNftSteps,
-  'existing_collection_new_NFT': ExistingCollectionNewNftSteps,
-  'existing_collection_existing_NFT': ExistingCollectionExistingNftSteps
+  [MintTypes.NewCollectionNewNFT]: NewCollectionNewNftSteps,
+  [MintTypes.ExistingCollectionNewNFT]: ExistingCollectionNewNftSteps,
+  [MintTypes.ExistingCollectionExistingNFT]: ExistingCollectionExistingNftSteps
 } as IWizardSteps
 
 export default wizardSteps
