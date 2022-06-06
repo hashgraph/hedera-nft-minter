@@ -1,7 +1,7 @@
 import { JSX } from '@babel/types';
 import { FieldAttributes } from 'formik';
 import { ButtonHTMLAttributes } from 'react';
-import Button from './button-group-button';
+import FieldRadioButton from '../field-radio-button';
 
 interface Option {
   label: string | JSX.Element,
@@ -21,7 +21,7 @@ export default function ButtonGroup({
   return (
     <div className='form__row form__buttons'>
       {options.map(({ label, value }: Option) => (
-        <Button
+        <FieldRadioButton
           key={value}
           value={value}
           label={label}

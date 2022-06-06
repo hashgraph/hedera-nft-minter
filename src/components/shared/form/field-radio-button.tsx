@@ -9,7 +9,7 @@ type Props = {
   name: string;
 }
 
-export default function Button({value, label, name} : Props) {
+export default function FieldRadioButton({value, label, name} : Props) {
   const [field, , helpers] = useField(name);
 
   const isActive = useMemo(() =>
