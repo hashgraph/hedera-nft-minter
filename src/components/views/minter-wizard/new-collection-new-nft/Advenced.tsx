@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import { useFormikContext } from 'formik';
-import { WizardValues } from '@/utils/const/minter-wizard';
 import FormGroup from '@/components/shared/form/FormGroup';
 import MinterWizardFees from '@/components/shared/minter-wizard/minter-wizard-fees';
 import MinterWizardKeys from '@/components/shared/minter-wizard/minter-wizard-keys';
 
 export default function Advenced() {
-  const { values } = useFormikContext<WizardValues>()
   const [wantFees, setWantFees] = useState(false)
   const [wantKeys, setWantKeys] = useState(false)
-
 
   return (
     <div>
       <div className='form__row__two-columns'>
         <FormGroup
           name='properties'
-          values={values.properties.map(() => [
+          inputsSchema={[
             {
               name: 'name',
               type: 'string',
@@ -27,11 +23,11 @@ export default function Advenced() {
               type: 'string',
               label: 'Value',
             },
-          ])}
+          ]}
         />
         <FormGroup
           name='attributes'
-          values={values?.attributes?.map(() => [
+          inputsSchema={[
             {
               name: 'trait_type',
               type: 'string',
@@ -42,7 +38,7 @@ export default function Advenced() {
               type: 'string',
               label: 'Value',
             },
-          ])}
+          ]}
         />
       </div>
       <div className='form__row__two-columns'>

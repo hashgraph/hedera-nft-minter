@@ -1,3 +1,4 @@
+import React from 'react';
 import { FieldArray } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -5,22 +6,18 @@ import FieldWrapper from '@/components/shared/form/FieldWrapper';
 
 type Input = {
   label: string;
-  name: string;
-  type: string;
-};
-
-type InputPair = [Input, Input];
+} & React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 interface Props {
-  values: InputPair[];
+  inputsSchema: [Input, Input];
   name: string;
 }
 
-const FormGroup = ({ values, name }: Props) => {
+const FormGroup = ({ inputsSchema, name }: Props) => {
   return (
     <div className='form__group-row'>
       <FieldArray name={name}>
-        {({ remove, push }) => (
+        {({ remove, push, form }) => (
           <>
             <div className='form__group__label-wrapper'>
               <label htmlFor='null'>
@@ -33,9 +30,8 @@ const FormGroup = ({ values, name }: Props) => {
                 Add +
               </button>
             </div>
-
             <TransitionGroup className='form__group__list'>
-              {values?.map((inputPair: InputPair, index: number) => (
+              {form.values[name].map((_: Input, index: number) => (
                 <CSSTransition
                   // eslint-disable-next-line react/no-array-index-key
                   key={`${ name }.${ index }.form__group__item`}
@@ -43,16 +39,15 @@ const FormGroup = ({ values, name }: Props) => {
                   classNames='form__group__item'
                 >
                   <div className='form__group__inputs'>
-                    {inputPair.map((input: Input, pairIndex: number) => (
+                    {inputsSchema.map((input: Input, pairIndex: number) => (
                       <div
                         className='form__group__inputs__row'
                         // eslint-disable-next-line react/no-array-index-key
                         key={`form__group__inputs_row_${ index }.${ pairIndex }_${ name }.${ input.name }`}
                       >
                         <FieldWrapper
-                          label={input.label}
+                          {...input}
                           name={`${ name }.${ index }.${ input.name }`}
-                          type={input.type}
                         />
                       </div>
                     ))}

@@ -34,8 +34,7 @@ export default function MinterWizardForm({
     <Form className='form'>
       {renderFormWizard(step)}
 
-      {step === FormWizardSteps.WelcomeScreen
-        ? (
+      {step === FormWizardSteps.WelcomeScreen ? (
           <button
             disabled={!values.mint_type}
             type='button'
@@ -47,7 +46,7 @@ export default function MinterWizardForm({
           <button type='button' onClick={() => setStep(prev => prev - 1)}>
             Back to last step
           </button>
-        )}
+      )}
     </Form>
   );
 }
