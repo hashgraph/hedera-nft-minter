@@ -11,11 +11,11 @@ export default function useMinterWizard(
   const [step, setStep] = useState(0);
 
   const isFirstScreen = useMemo(() =>
-    step === steps[0].step,
+    step === steps[0]?.step,
   [step, steps])
 
   const isLastScreen = useMemo(()=>
-    step === steps[steps.length-1].step,
+    step === steps[steps?.length-1]?.step,
   [step, steps])
 
   const handleNextButton = useCallback(()=>
@@ -27,9 +27,12 @@ export default function useMinterWizard(
   [setStep, isFirstScreen])
 
   const renderMinterWizardScreen = useCallback((step: number) => {
-    const Component = steps[step].Component;
+    const Component = steps[step]?.Component;
+    if(Component !== undefined){
+      return <Component />;
+    }
 
-    return <Component />;
+    return null
   }, [steps])
 
   return {

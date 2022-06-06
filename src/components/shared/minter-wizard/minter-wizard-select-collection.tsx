@@ -25,8 +25,7 @@ export default function SelectCollection() {
     setFieldValue('symbol', loadedCollections[0]?.info.symbol)
     setFieldValue('token_id', loadedCollections[0]?.info.token_id)
     setLoading(false);
-  }
-    , [userWalletId, setCollections, setLoading, setFieldValue])
+  }, [userWalletId, setCollections, setLoading, setFieldValue])
 
   useEffect(() => {
     if (userWalletId) {
@@ -40,8 +39,7 @@ export default function SelectCollection() {
       setFieldValue('name', collection?.info.name)
       setFieldValue('symbol', collection?.info.symbol)
       return collection
-    }
-    , [values.token_id, collections, setFieldValue])
+    }, [values.token_id, collections, setFieldValue])
 
   return (
     <div>
