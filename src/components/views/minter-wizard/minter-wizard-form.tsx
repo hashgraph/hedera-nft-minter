@@ -11,7 +11,7 @@ export enum FormWizardSteps {
   MinterScreen = 1,
 }
 
-export default function MinterWizard({
+export default function MinterWizardForm({
   values,
 }: FormikProps<FormikValues>) {
   const [step, setStep] = useState(FormWizardSteps.WelcomeScreen);
