@@ -4,11 +4,11 @@ interface FileMetadata {
   metadata: NFTMetadata,
 }
 
-interface Propertie {
+export interface Propertie {
   name: string,
   value: string,
 }
-interface Attribute {
+export interface Attribute {
   trait_type: string,
   value: string,
 }

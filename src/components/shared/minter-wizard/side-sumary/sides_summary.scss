@@ -1,0 +1,15 @@
+@import "src/assets/styles/base/variables";
+
+.sidesummary{
+  width: 30%;
+  max-width: 400px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid $black;
+  color: $vapor;
+
+  pre{
+    color: $black;
+  }
+}

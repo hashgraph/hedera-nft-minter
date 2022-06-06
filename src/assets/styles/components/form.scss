@@ -241,6 +241,10 @@ input[type='number'] {
     }
   }
 
+  &__radio{
+    display: flex;
+  }
+
   &__checkbox,
   &__radio {
     display: grid;
@@ -287,6 +291,11 @@ input[type='number'] {
       font-weight: 300;
       color: var(--main-color);
       background: var(--background-color);
+
+      &.isActive{
+        background: var(--main-color);
+        color: var(--background-color);
+      }
 
       &:first-of-type {
         border-radius: 25px 0 0 25px;

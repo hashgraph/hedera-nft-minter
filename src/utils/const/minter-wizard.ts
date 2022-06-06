@@ -2,16 +2,27 @@ import { Fees } from '@utils/entity/Fees';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 
-export type FormValues = NFTMetadata & {
+export type WizardValues = NFTMetadata & {
+  mint_type: string;
   symbol?: string;
+  token_id?: string;
+  is_multiple_mint?: 'true' | 'false';
   qty: number;
   maxSupply: number;
+  edition_name?: string;
+  serial_number?: string;
+  serial_metadata?: string;
   keys: TokenKey[];
   fees: Fees[];
 };
 
-export const initialValues: FormValues = {
+export const initialValues: WizardValues = {
+  mint_type: '',
+  is_multiple_mint: 'false',
   name: '',
+  edition_name: '',
+  serial_number: '',
+  serial_metadata: '',
   symbol: '',
   creator: '',
   creatorDID: '',
