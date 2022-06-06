@@ -27,12 +27,9 @@ export default function useMinterWizard(
   [setStep, isFirstScreen])
 
   const renderMinterWizardScreen = useCallback((step: number) => {
-    for(const wizardScreen of steps){
-      if(step === wizardScreen.step){
-        return <wizardScreen.Component />
-      }
-    }
-    return;
+    const Component = steps[step].Component;
+
+    return <Component />;
   }, [steps])
 
   return {
