@@ -46,16 +46,16 @@ export default function Advenced() {
           <label htmlFor='null'>
             Are you want to add fees?
           </label>
+          <input type='text' name='xd' />
           <button
             type='button'
             onClick={() => setWantFees(prev => !prev)}
           >
             Toogle
           </button>
-          {
-            wantFees &&
+          {wantFees && (
             <MinterWizardFees />
-          }
+          )}
         </div>
         <div>
           <label htmlFor='null'>
@@ -67,10 +67,9 @@ export default function Advenced() {
           >
             Toogle
           </button>
-          {
-            wantKeys &&
+          {wantKeys && (
             <MinterWizardKeys />
-          }
+          )}
         </div>
       </div>
       <button type='submit'>Mint</button>
