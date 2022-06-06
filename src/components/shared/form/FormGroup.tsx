@@ -9,7 +9,7 @@ type Input = {
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 interface Props {
-  inputsSchema: [Input, Input];
+  inputsSchema: Input[];
   name: string;
 }
 
