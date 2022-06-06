@@ -1,4 +1,4 @@
-import {MintTypes, WizardSteps as IWizardSteps} from '@utils/entity/MinterWizard'
+import {WizardSteps as IWizardSteps, MintTypes} from '@utils/entity/MinterWizard'
 import
   NewCollectionNewNftSteps
 from '@components/views/minter-wizard/new-collection-new-nft/steps';
