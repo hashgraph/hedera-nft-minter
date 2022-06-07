@@ -1,13 +1,13 @@
 import SelectCollection from '@/components/shared/minter-wizard/minter-wizard-select-collection';
 import OnChain from '@components/views/minter-wizard/existing-collection-new-nft/OnChain';
 import OffChain from '@components/views/minter-wizard/existing-collection-new-nft/OffChain';
-import Advenced from '@components/views/minter-wizard/existing-collection-new-nft/Advenced';
+import Advanced from '@components/views/minter-wizard/existing-collection-new-nft/Advanced';
 
 export enum ExistingCollectionNewNFTWizardSteps {
   SelectCollectionScreen = 0,
   OnChainScreen = 1,
   OffChainScreen = 2,
-  AdvencedScreen = 3,
+  AdvancedScreen = 3,
 }
 
 const Steps = [
@@ -24,8 +24,8 @@ const Steps = [
     Component: OffChain
   },
   {
-    step: ExistingCollectionNewNFTWizardSteps.AdvencedScreen,
-    Component: Advenced
+    step: ExistingCollectionNewNFTWizardSteps.AdvancedScreen,
+    Component: Advanced
   },
 ]
 

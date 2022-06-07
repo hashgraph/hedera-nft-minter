@@ -38,9 +38,7 @@ export default function MinterWizard() {
     }
 
     return createTokenResponse.tokenId;
-  },
-    [sendTransaction]
-  );
+  },[sendTransaction]);
 
   const mint = useCallback(async (tokenId: string, cids: string[]) => {
     if (!userWalletId) {
@@ -55,9 +53,7 @@ export default function MinterWizard() {
     }
 
     return tokenMintResponse;
-  },
-    [userWalletId, sendTransaction]
-  );
+  },[userWalletId, sendTransaction]);
 
   const handleFormSubmit = useCallback(async (values) => {
     const tokenSymbol = values.symbol;
@@ -148,14 +144,13 @@ export default function MinterWizard() {
         toast.error(e.message);
       }
     }
-  },
-    [
-      createToken,
-      mint,
-      uploadMetadata,
-      uploadNFTFile,
-      userWalletId,
-    ]);
+  },[
+    createToken,
+    mint,
+    uploadMetadata,
+    uploadNFTFile,
+    userWalletId,
+  ]);
 
 
   return tokenCreated ? (

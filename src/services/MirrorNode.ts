@@ -75,14 +75,18 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchUserNFTs(accountId: string) {
-    const balance = await this.fetchAccountBalance(accountId);
+  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean }) {
+    const {
+      onlyAllowedToMint = false,
+      onlyHasNFTs = false,
+    } = options;
+    const { balance, key } = await this.fetchAccountInfo(accountId);
 
     if (!balance.tokens) {
       throw new Error('No NFTs');
     }
 
-    const nfts = await Promise.all(
+    const collections = await Promise.all(
       balance.tokens
         .filter(i => i.balance > 0)
         .map(async token => {
@@ -92,55 +96,26 @@ export default class MirrorNode {
             return null;
           }
 
+          if (onlyAllowedToMint && (
+            (t?.admin_key?.key !== key.key && t?.supply_key?.key !== key?.key)
+            || (parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0'))
+          )) {
+            return null;
+          }
+
           return this.fetchNFTInfo(token.token_id)
             .then(res => ({
               ...res,
               info: t,
             }));
         })
-    ) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
+    )
+      .then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
 
-    return nfts.filter(Boolean);
-  }
-
-  static async fetchUserNFTsCollectionsCanBeMintend(
-    accountId:string,
-    collectionMustHasNFTs = false
-  ){
-    if(!accountId){
-      throw new Error('Wrong hedera account ID!')
-    }
-
-    const {key: key, balance} = await this.fetchAccountInfo(accountId);
-
-    if (!balance.tokens) {
-      throw new Error('No NFTs');
-    }
-
-    const collections = await Promise.all(
-      balance.tokens
-        .map(async (token : Token) => {
-          const t = await this.fetchTokenInfo(token.token_id as string);
-          if (
-            (t?.admin_key?.key === key.key || t?.supply_key?.key === key?.key) &&
-            t.type === 'NON_FUNGIBLE_UNIQUE' &&
-            parseInt(t.total_supply as string || '0') <= parseInt(t.max_supply as string || '0')
-          ) {
-            return this.fetchNFTInfo(token.token_id as string)
-              .then(res => ({
-                ...res,
-                info: t,
-              }));
-            }
-            return null;
-
-        }).reverse()
-    ) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
-
-    if(collectionMustHasNFTs){
+    if (onlyHasNFTs) {
       return collections.filter(collection => collection?.nfts?.length > 0)
     }
 
-    return collections.filter(Boolean);
+    return collections;
   }
 }

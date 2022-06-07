@@ -1,7 +1,7 @@
 import React from 'react';
 import FormGroup from '@/components/shared/form/FormGroup';
 
-export default function Advenced() {
+export default function Advanced() {
   return (
     <div>
       <div className='form__row__two-columns'>

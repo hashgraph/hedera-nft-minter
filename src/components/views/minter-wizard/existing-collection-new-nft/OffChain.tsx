@@ -1,9 +1,11 @@
 import React from 'react';
+import { useFormikContext } from 'formik';
+
+import { WizardValues } from '@/utils/const/minter-wizard';
+
+import Error from '@/components/shared/form/Error';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
-import Error from '@/components/shared/form/Error';
-import { useFormikContext } from 'formik';
-import { WizardValues } from '@/utils/const/minter-wizard';
 
 export default function OffChain() {
   const { values } = useFormikContext<WizardValues>()
