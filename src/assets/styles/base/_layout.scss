@@ -48,16 +48,9 @@ textarea {
 }
 
 hr {
-  border-color: transparent;
-
-  &:after{
-    content: "";
-    width: 100%;
-    height: 1px;
-    background: $gradient;
-    position: relative;
-    display: flex;
-  }
+  border: unset;
+  height: 1px;
+  background: $gradient;
 }
 
 header {
