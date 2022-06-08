@@ -31,7 +31,7 @@ export default function OnChain() {
       />
 
       <h4>How many tokens do you want to have in collection?</h4>
-      <p>Remember, this field can't be unchanged in the future</p>
+      <p className='form__text'>Remember, this field can't be unchanged in the future</p>
       <div>
         <FieldWrapper
           fastField

@@ -34,7 +34,7 @@ export default function MinterWizardStepWrapper({
                 type='button'
                 onClick={backToMintTypeSelection}
               >
-                  Back to mint type selection
+                  Minting type
               </button>
             ) : (
               <button

@@ -26,14 +26,15 @@ export default function ButtonGroup({
 
   return (
     <div
-      className={classNames('form__row form__buttons', {
-        big: size === 'big',
-        medium: size === 'md',
-        square
-      })}
+      className={classNames('form__row form__buttons', { square })}
     >
       {options.map(({ label, value, image }: Option) => (
         <FieldRadioButton
+          className={classNames('button-group', {
+            big: size === 'big',
+            medium: size === 'md',
+            square
+          })}
           image={image}
           key={value}
           value={value}
