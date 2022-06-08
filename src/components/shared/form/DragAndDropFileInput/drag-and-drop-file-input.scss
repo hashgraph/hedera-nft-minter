@@ -1,0 +1,62 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+@import "src/assets/styles/base/functions";
+
+.drag-and-drop {
+  &__container {
+    $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
+    $transitionTime: 0.4s;
+    $transitionAttributes: (border-color, box-shadow);
+    width: 100%;
+    border-radius: 5px;
+    border: $border;
+    border-style: dashed;
+    margin-top: -5px;
+    color: $lightGrey;
+    display: grid;
+    place-items: center;
+    padding: 20px 50px;
+    transition: generateTransitions($transitionAttributes, $transitionTime);
+    box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
+
+    &.is-focused {
+      border-color: $ultraviolet;
+      box-shadow: $boxShadow;
+    }
+
+    &.is-drag-accepted {
+      border-color: $green;
+      box-shadow: $boxShadow;
+    }
+
+    &.is-drag-rejected {
+      border-color: $orange;
+      box-shadow: $boxShadow;
+    }
+  }
+
+  &__summary{
+    display: flex;
+    padding: 10px 20px;
+    margin-top: 1rem;
+    border-radius: 5px;
+    border: $border;
+
+    &__description{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      * {
+        margin: 0;
+      }
+    }
+
+    img{
+      object-fit: cover;
+      margin-right: 25px;
+      width: 60px;
+      height: 60px;
+    }
+  }
+}

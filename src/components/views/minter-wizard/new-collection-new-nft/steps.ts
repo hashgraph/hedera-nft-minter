@@ -10,15 +10,15 @@ export enum NewCollectionNewNFTWizardSteps {
 
 const Steps = [
   {
-    step: NewCollectionNewNFTWizardSteps.OnChainScreen,
+    creatorStep: NewCollectionNewNFTWizardSteps.OnChainScreen,
     Component: OnChain
   },
   {
-    step: NewCollectionNewNFTWizardSteps.OffChainScreen,
+    creatorStep: NewCollectionNewNFTWizardSteps.OffChainScreen,
     Component: OffChain
   },
   {
-    step: NewCollectionNewNFTWizardSteps.AdvencedScreen,
+    creatorStep: NewCollectionNewNFTWizardSteps.AdvencedScreen,
     Component: Advenced
   },
 ]

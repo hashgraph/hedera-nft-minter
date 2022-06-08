@@ -47,6 +47,19 @@ textarea {
   font-stretch: normal;
 }
 
+hr {
+  border-color: transparent;
+
+  &:after{
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: $gradient;
+    position: relative;
+    display: flex;
+  }
+}
+
 header {
   top: 0;
   margin: 0 auto;
@@ -80,7 +93,7 @@ header {
   .header-container {
     padding: 1rem;
     width: 100%;
-    max-width: $container;
+    max-width: $containerMaxWidth;
     height: 80px;
     display: flex;
     justify-content: space-between;
@@ -145,6 +158,7 @@ header {
       }
     }
   }
+
 }
 
 .header__mobile-menu {
@@ -195,12 +209,22 @@ header {
 }
 
 .container {
+  max-width: $containerMaxWidth;
   margin: 0 auto;
   padding: 12.5%;
+  min-height: $containerMinHeightMobile;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @include respond-to('mobile') {
+    min-height: $containerMinHeightDesktop;
+  }
 
   @include respond-to('tablet') {
     padding: 6.25% 6.25% calc(6.25% - 35px);
   }
+
 }
 
 .hero {
@@ -237,7 +261,7 @@ header {
     border-color: $vapor;
   }
   > div {
-    max-width: $container;
+    max-width: $containerMaxWidth;
     margin: 0 auto;
     padding: 0 1rem;
   }

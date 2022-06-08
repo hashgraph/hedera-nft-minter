@@ -1,46 +1,68 @@
 import React from 'react'
+import useMinterWizard from '@/utils/hooks/useMinterWizard';
+import { CreatorSteps } from '@/utils/entity/MinterWizard';
 import SideSummary from '@/components/shared/minter-wizard/side-sumary';
-import useMinterWizard, { WizardScreen } from '@/utils/hooks/useMinterWizard';
 
 type Props = {
-  steps: WizardScreen[]
+  steps: CreatorSteps,
+  backToMintTypeSelection: () => void;
 }
 
-export default function MinterWizardStepWrapper({steps} : Props) {
+export default function MinterWizardStepWrapper({
+  steps,
+  backToMintTypeSelection
+} : Props) {
   const {
-    step,
+    creatorStep,
+    setCreatorStep,
     isFirstScreen,
     isLastScreen,
-    handleNextButton,
-    handlePrevButton,
+    handleCreatorNextButton,
+    handleCreatorPrevButton,
     renderMinterWizardScreen
   } = useMinterWizard(steps)
 
   return (
-    <div className='minter-wizard__step__container'>
-      <div className='minter-wizard__step__creator'>
+    <div className='minter-wizard__creator__container'>
+      <div className='minter-wizard__creator__wrapper'>
+        {renderMinterWizardScreen(creatorStep)}
 
-        {renderMinterWizardScreen(step)}
+        <div className='step-buttons-wrapper'>
+          <div className='prev'>
+            {isFirstScreen ? (
+              <button
+                type='button'
+                onClick={backToMintTypeSelection}
+              >
+                  Back to mint type selection
+              </button>
+            ) : (
+              <button
+                type='button'
+                disabled={isFirstScreen}
+                onClick={handleCreatorPrevButton}
+              >
+                Prev
+              </button>
+            )}
+          </div>
 
-        <button
-          type='button'
-          disabled={isFirstScreen}
-          onClick={handlePrevButton}
-        >
-          Prev
-        </button>
-
-        {!isLastScreen && (
-          <button
-            type='button'
-            onClick={handleNextButton}
-          >
-            Next
-          </button>
-        )}
+          <div className='next'>
+            {isLastScreen ? (
+              <button type='submit'>Mint</button>
+            ) : (
+              <button
+                type='button'
+                onClick={handleCreatorNextButton}
+              >
+                Next
+              </button>
+            )}
+          </div>
+        </div>
       </div>
 
-      <SideSummary />
+      <SideSummary step={creatorStep} setStep={setCreatorStep}/>
     </div>
   )
 }

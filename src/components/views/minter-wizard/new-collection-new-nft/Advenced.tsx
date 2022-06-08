@@ -9,7 +9,7 @@ export default function Advenced() {
 
   return (
     <div>
-      <div className='form__row__two-columns'>
+      <div className='form__row'>
         <FormGroup
           name='properties'
           inputsSchema={[
@@ -25,6 +25,8 @@ export default function Advenced() {
             },
           ]}
         />
+      </div>
+      <div className='form__row'>
         <FormGroup
           name='attributes'
           inputsSchema={[
@@ -41,38 +43,39 @@ export default function Advenced() {
           ]}
         />
       </div>
-      <div className='form__row__two-columns'>
+      <div className='form__row'>
         <div>
           <label htmlFor='null'>
             Are you want to add fees?
+            <button
+              type='button'
+              onClick={() => setWantFees(prev => !prev)}
+            >
+              Toogle
+            </button>
           </label>
-          <input type='text' name='xd' />
-          <button
-            type='button'
-            onClick={() => setWantFees(prev => !prev)}
-          >
-            Toogle
-          </button>
           {wantFees && (
             <MinterWizardFees />
           )}
         </div>
+      </div>
+      <div className='form__row'>
         <div>
           <label htmlFor='null'>
             Are you want to add custom keys?
+            <button
+              type='button'
+              onClick={() => setWantKeys(prev => !prev)}
+            >
+              Toogle
+            </button>
           </label>
-          <button
-            type='button'
-            onClick={() => setWantKeys(prev => !prev)}
-          >
-            Toogle
-          </button>
+
           {wantKeys && (
             <MinterWizardKeys />
           )}
         </div>
       </div>
-      <button type='submit'>Mint</button>
     </div>
   );
 }

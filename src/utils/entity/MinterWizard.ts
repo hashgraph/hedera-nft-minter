@@ -1,4 +1,4 @@
-import { WizardScreen } from '../hooks/useMinterWizard';
+import React from 'react';
 
 export enum MintTypes {
   NewCollectionNewNFT = 'new_collection_new_NFT',
@@ -6,8 +6,15 @@ export enum MintTypes {
   ExistingCollectionExistingNFT = 'existing_collection_existing_NFT',
 }
 
+export type CreatorScreen = {
+  creatorStep: number,
+  Component: React.FC,
+}
+
+export type CreatorSteps = CreatorScreen[];
+
 export interface WizardSteps {
-  [MintTypes.NewCollectionNewNFT]: WizardScreen[],
-  [MintTypes.ExistingCollectionNewNFT]: WizardScreen[],
-  [MintTypes.ExistingCollectionExistingNFT]: WizardScreen[],
+  [MintTypes.NewCollectionNewNFT]: CreatorSteps,
+  [MintTypes.ExistingCollectionNewNFT]: CreatorSteps,
+  [MintTypes.ExistingCollectionExistingNFT]: CreatorSteps,
 }

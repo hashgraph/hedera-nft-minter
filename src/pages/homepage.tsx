@@ -7,7 +7,7 @@ import MinterWizard from '@/components/views/minter-wizard';
 export default function Homepage() {
 
   return (
-    <div className='homepage'>
+    <div className='minter-wizard'>
       <Hero title={'Mint your own NFT on Hedera'}>
         <p>
           Minting NFTs on Hedera is fast and simple. You can mint new NFTs and
@@ -22,7 +22,7 @@ export default function Homepage() {
         </a>
       </Hero>
       <PageMenu />
-      <div className='homepage__container'>
+      <div className='minter-wizard__container'>
         <MinterWizard />
       </div>
     </div>

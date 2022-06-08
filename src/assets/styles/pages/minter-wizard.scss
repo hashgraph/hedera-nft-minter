@@ -1,14 +1,63 @@
 .minter-wizard {
   &__step {
+    &__creator {
+      padding: 40px;
+    }
+
     &__container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__creator {
+    padding: 40px;
+
+    &__container {
+      width: 100%;
       display: flex;
     }
 
-    &__creator {
+    &__wrapper {
       padding: 40px;
-      border: 1px solid $grey;
-      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       width: 100%;
     }
+  }
+
+  .wizard-form {
+    border-radius: 4px;
+    align-items: center;
+    position: relative;
+    padding-bottom: 50px;
+
+    @include respond-to('mobile'){
+      padding-bottom: 0;
+    }
+  }
+
+  .step-buttons-wrapper{
+      display: flex;
+      margin-top: 40px;
+      justify-content: space-between;
+
+      button{
+        padding: 20px 30px;
+        border-radius: 20px;
+        font-size: 15px;
+        font-weight: 400;
+        font-weight: 400;
+      }
+
+      &.first-step{
+        button{
+          margin-left: auto;
+          margin-top: 40px;
+        }
+      }
   }
 }

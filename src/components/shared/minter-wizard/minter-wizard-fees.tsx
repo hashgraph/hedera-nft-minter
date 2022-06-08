@@ -253,7 +253,7 @@ const MinterWizardFees = () => {
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>
                         </div>
-                        <button onClick={() => remove(index)}>Del</button>
+                        <button type='button' onClick={() => remove(index)}>Del</button>
                         </div>
                         <SwitchTransition>
                           <CSSTransition
