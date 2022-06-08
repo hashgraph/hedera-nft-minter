@@ -21,7 +21,7 @@ button,
 
   &--big {
     border-radius: 30px !important;
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
     padding: 1.2rem 2.5rem !important;
   }
 
@@ -136,11 +136,11 @@ button,
 
     &:first-of-type {
       border-radius: unset;
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
     }
 
     &:last-of-type {
-      margin-top: 20px;
+      margin-top: 1.25rem;
       border-radius: unset;
     }
 
@@ -148,23 +148,23 @@ button,
       &:first-of-type {
         border-radius: unset;
         margin-bottom: unset;
-        margin-right: 10px;
+        margin-right: 0.625rem;
       }
 
       &:last-of-type {
         margin-top: unset;
-        margin-left: 10px;
+        margin-left: 0.625rem;
         border-radius: unset;
       }
     }
 
     @include respond-to("tablet") {
       &:first-of-type {
-        margin-right: 20px;
+        margin-right: 1.25rem;
       }
 
       &:last-of-type {
-        margin-left: 20px;
+        margin-left: 1.25rem;
       }
     }
   }

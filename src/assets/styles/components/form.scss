@@ -8,8 +8,8 @@ label {
   white-space: pre;
   color: var(--main-color);
   display: block;
-  font-size: 14px;
-  padding-bottom: 15px;
+  font-size: 0.875rem;
+  padding-bottom: 0.938rem;
   padding-left: 3px;
   letter-spacing: -1px;
 }
@@ -182,7 +182,7 @@ input[type='number'] {
         font-family: 'Styrene A Web';
         font-style: normal;
         font-stretch: normal;
-        font-size: 26px;
+        font-size: 1.625rem;
         padding: 0;
         margin: 0;
         text-align: left;
@@ -310,7 +310,7 @@ input[type='number'] {
       padding-bottom: 2.5rem;
 
       &-mt {
-        margin-top: 30px;
+        margin-top: 1.875rem;
       }
     }
 
@@ -411,7 +411,7 @@ input[type='number'] {
     }
 
     &__remove_button_row {
-      padding-top: 16px;
+      padding-top: 1rem;
     }
 
     &__label-wrapper {
@@ -419,11 +419,11 @@ input[type='number'] {
       width: 100%;
       justify-content: space-between;
       border-bottom: 1px solid #fff;
-      padding: 0 0 11px;
-      margin: 0px 0 15px;
+      padding: 0 0 0.688rem;
+      margin: 0px 0 0.938rem;
 
       label {
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: 300;
         letter-spacing: -1px;
         line-height: 1.2;
@@ -482,11 +482,11 @@ input[type='number'] {
       color: $blue;
       width: 100%;
       display: block;
-      padding: 0 0 10px;
-      margin-bottom: 15px;
+      padding: 0 0 0.625rem;
+      margin-bottom: 0.938rem;
       position: relative;
       text-transform: uppercase;
-      font-size: 26px;
+      font-size: 1.625rem;
       font-weight: 300;
       position: relative;
 
@@ -503,7 +503,7 @@ input[type='number'] {
 
     span,
     p {
-      font-size: 26px;
+      font-size: 1.625rem;
       color: $vapor;
       padding: 0;
       margin: 0;
