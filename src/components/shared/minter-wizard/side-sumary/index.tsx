@@ -6,14 +6,12 @@ import NewNftNewCollectionSideSummary from './new-nft-new-collection';
 import './sides_summary.scss'
 import Modal from '../../modal';
 
-type SetStep = React.Dispatch<React.SetStateAction<number>> | undefined
+type SetStep = React.Dispatch<React.SetStateAction<number>>
 
 type Props = {
   step: number,
   setStep: SetStep;
 }
-
-export const StepContext = React.createContext<[number, SetStep]>([0, undefined]);
 
 export default function SideSummary({ step, setStep }: Props) {
   const { values } = useFormikContext<FormikValues>()
@@ -28,7 +26,7 @@ export default function SideSummary({ step, setStep }: Props) {
     if (values && values.mint_type) {
       switch (values.mint_type) {
         case MintTypes.NewCollectionNewNFT:
-          return <NewNftNewCollectionSideSummary />
+          return <NewNftNewCollectionSideSummary step={step} setStep={setStep}/>
         case MintTypes.ExistingCollectionNewNFT:
           return <p>Existing coll new nft summary</p>
         case MintTypes.ExistingCollectionExistingNFT:
@@ -36,10 +34,10 @@ export default function SideSummary({ step, setStep }: Props) {
       }
     }
     return null
-  }, [values])
+  }, [values, step, setStep])
 
   return (
-    <StepContext.Provider value={[step, setStep]}>
+    <>
       {expandSummary && (
         <Modal
           closeModal={() => setExpandSummary(false)}
@@ -64,6 +62,6 @@ export default function SideSummary({ step, setStep }: Props) {
           summaryContent()
         )}
       </aside>
-    </StepContext.Provider>
+    </>
   )
 }

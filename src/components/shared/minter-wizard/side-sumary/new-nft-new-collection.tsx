@@ -1,14 +1,17 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormikValues, useFormikContext } from 'formik'
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 import { TokenKeys } from '@components/shared/minter-wizard/minter-wizard-keys';
-import { StepContext } from '@components/shared/minter-wizard/side-sumary';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
 import Error from '@components/shared/form/Error'
 import placeholder from '@assets/images/placeholder.png';
 
-export default function NewNftNewCollectionSideSummary() {
-  const [step, setStep] = useContext(StepContext)
+type Props = {
+  step: number,
+  setStep: (step: number) => void
+}
+
+export default function NewNftNewCollectionSideSummary({step, setStep} : Props) {
 
   const { values, errors } = useFormikContext<FormikValues>()
   const [showAdvenced, setShowAdvenced] = useState(false)
