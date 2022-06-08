@@ -1,56 +1,31 @@
 import { useFormikContext } from 'formik';
-import { useState, useCallback, useEffect } from 'react';
-import MirrorNode from '@/services/MirrorNode';
+
 import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { WizardValues } from '@/utils/const/minter-wizard';
-import { NFTMetadata } from '@/utils/entity/NFT-Metadata';
-import Loader from '@components/shared/loader/Loader';
-import placeholder from '@assets/images/placeholder.png';
 
-export default function SemiNFT({ data }: { data: NFTInfo }) {
-  const [meta, setMeta] = useState<NFTMetadata | null>(null)
-  const [isLoading, setLoading] = useState(true);
+import placeholder from '@assets/images/placeholder.png';
+import { useMemo } from 'react';
+
+export default function SemiNFT({ data }: { data: NFTInfo[] }) {
   const { setFieldValue } = useFormikContext<WizardValues>()
 
-  const loadMetadata = useCallback(async (cid: string) => {
-    try {
-      const json = await MirrorNode.fetchNFTMetadata(cid);
+  const serials = useMemo(() => data.map(d => d.serial_number), [data]);
 
-      if (typeof json === 'object') {
-        setMeta(json);
-      }
-    } catch (e) {
-      // toast.error(e.message)
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (data) {
-      loadMetadata(atob(data.metadata));
-    } else {
-      setLoading(false);
-    }
-  }, [loadMetadata, data]);
-
-  return (<div>
-    <label>#{data.serial_number}</label>
-    {isLoading ? (
-        <div className='my-nft-collection__loader-wrapper'>
-          <Loader />
-        </div>
-      ) : meta?.image ? (
+  return (
+    <div>
+      <label># {serials.sort((a,b) => a-b).join(', ')}</label>
+      {data[0]?.meta.image ? (
         <div className='nft__table__row__image'>
-          <img src={`https://ipfs.io/ipfs/${ meta.image }`} alt='' />
+          <img src={`https://ipfs.io/ipfs/${ data[0].meta.image }`} alt='' />
         </div>
       ) : (
         <div className='nft__table__row__image'>
           <img src={placeholder} alt='' />
         </div>
-    )}
-    <button type='button' onClick={() => setFieldValue('serial_number', data.serial_number)}>
-      Select {meta?.name}
-    </button>
-  </div>)
+      )}
+      <button type='button' onClick={() => setFieldValue('serial_number', data[0].serial_number)}>
+        Select {data[0].meta.name}
+      </button>
+    </div>
+  );
 }

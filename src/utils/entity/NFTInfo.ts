@@ -6,4 +6,7 @@ export interface NFTInfo {
   modified_timestamp: string,
   serial_number: number,
   token_id: string,
+  meta?: {
+    image: string
+  }
 }

@@ -66,10 +66,6 @@ export default function MinterWizard() {
         throw new Error('First connect your wallet');
       }
 
-      if (values.mint_type === MintTypes.ExistingCollectionExistingNFT) {
-        //TODO check if metaCIDs was already copied in wizard (only if minting SEMI-NFT)
-      }
-
       if (
         values.mint_type === MintTypes.NewCollectionNewNFT
         || values.mint_type === MintTypes.ExistingCollectionNewNFT
@@ -102,12 +98,7 @@ export default function MinterWizard() {
         );
       }
 
-      //check if token_id is from form values
-      if (formTokenId) {
-        //TODO check, if collection exist, maxSupply > supply, had admin/supply key
-        //     same as already logged account
-        //     MirrorNode.canBeTokenMinted(tokenId)
-      } else {
+      if (!formTokenId) {
         formTokenId = await createToken({
           tokenSymbol,
           accountId: userWalletId,
@@ -117,10 +108,10 @@ export default function MinterWizard() {
           customFees: values.fees,
           maxSupply: values.maxSupply
         } as NewTokenType);
+      }
 
-        if (!formTokenId) {
-          throw new Error('Error! Problem with creating token!');
-        }
+      if (!formTokenId) {
+        throw new Error('Error! Problem with creating token!');
       }
 
       //check if is string
