@@ -3,7 +3,6 @@ import {  useFormikContext } from 'formik';
 import { WizardValues } from '@/utils/const/minter-wizard';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import ButtonGroup from '@/components/shared/form/button-group';
-import Tooltip from '@/components/shared/form/Tooltip';
 import MultipleToken from '@assets/images/multiple_token.png'
 import SingleToken from '@assets/images/single_token.png'
 
@@ -43,9 +42,6 @@ export default function OnChain() {
       {values.is_multiple_mint === 'true' &&
         <>
           <hr />
-          <Tooltip showLabel>
-            You can mint maxiumum 10 tokens at once
-          </Tooltip>
 
           <h4>
             How many tokens do you want to have in collection?
@@ -56,6 +52,7 @@ export default function OnChain() {
             name='qty'
             type='number'
             label='Qty of tokens'
+            tooltip='You can mint maxiumum 10 tokens at once'
             max='10'
           />
         </>

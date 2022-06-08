@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { useOnClickAway } from 'use-on-click-away';
 
@@ -12,12 +12,33 @@ type Props = {
 
 const Tooltip = ({showLabel, title, children }: Props) => {
   const [isShowed, setShow] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-  useOnClickAway(ref, () => {
+  const [positionY, setPositionY] = useState(0);
+
+  const tooltipRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useOnClickAway(tooltipRef, () => {
     setShow(false);
   });
 
-  return <div className='tooltip__container'>
+  const updatePositionY = useCallback(()=>{
+    if(containerRef?.current) {
+      setPositionY(containerRef.current?.offsetTop ?? 0)
+      if(tooltipRef.current){
+        tooltipRef.current.style.setProperty('--position-y', `${ positionY.toString() }px`)
+      }
+    }
+  },[positionY, setPositionY])
+
+  useEffect(()=>{
+    updatePositionY()
+
+    window.addEventListener('resize', updatePositionY)
+    return () => window.removeEventListener('resize', updatePositionY)
+  },[updatePositionY])
+
+
+  return <div className='tooltip__container' ref={containerRef}>
     <div
       className='tooltip__button'
       onClick={() => {
@@ -32,7 +53,7 @@ const Tooltip = ({showLabel, title, children }: Props) => {
       classNames='tooltip__wrapper'
       unmountOnExit
     >
-      <div ref={ref} className='tooltip__wrapper'>
+      <div ref={tooltipRef} className='tooltip__wrapper'>
         {title && <h1>{title}</h1>}
         <p>{children}</p>
         <button type='button' onClick={ () => setShow(false) }>
