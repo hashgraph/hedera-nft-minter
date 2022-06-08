@@ -7,7 +7,7 @@ $transition: opacity 400ms, transform 400ms;
   position: absolute;
   max-width: 235px;
   width: 100%;
-  padding: 16px 16px 19px;
+  padding: 1rem 1rem 1.188rem;
   line-height: 1.2;
   z-index: 1;
   background: $vapor;
@@ -28,7 +28,7 @@ $transition: opacity 400ms, transform 400ms;
     background: transparent;
     color: #464646;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 0;
     padding-bottom: 5px;
   }
@@ -37,7 +37,7 @@ $transition: opacity 400ms, transform 400ms;
     background: transparent;
     color: #464646;
     font-weight: 300;
-    font-size: 12px;
+    font-size: 0.75rem;
     padding: 0;
   }
 
