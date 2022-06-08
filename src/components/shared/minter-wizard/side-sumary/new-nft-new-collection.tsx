@@ -96,8 +96,8 @@ export default function NewNftNewCollectionSideSummary({step, setStep} : Props) 
                   </p>
                   {values?.fees.length > 0 && values?.fees.map(((fee: { type: string }) => (
                     <p key={fee.type}>
-                      {fee.type[0].toUpperCase()}
-                      {fee.type.slice(1, fee.type.length)}
+                      {fee?.type[0]?.toUpperCase() ?? 'Empty'}
+                      {fee?.type?.slice(1, fee.type.length)}
                       {' '}Fee
                     </p>
                   )))}
