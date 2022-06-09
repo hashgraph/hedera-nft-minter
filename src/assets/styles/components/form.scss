@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // FORM INPUT STYLES
 input:not([type="radio"]):not([type="checkbox"]),
 select {
@@ -151,7 +153,7 @@ input[type='number'] {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      column-gap: $columnGap / 2;
+      column-gap: math.div($columnGap, 2)
 
       &__column {
         display: flex;
