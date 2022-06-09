@@ -19,7 +19,7 @@ function formatBytes(bytes : number, decimals = 2) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-type SelectedImage = any
+type SelectedImage = File | undefined
 
 const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   const { values, setValues } = useFormikContext<FormikValues>();

@@ -24,7 +24,7 @@ const Steps = [
     Component: OffChain
   },
   {
-    creatorStep: ExistingCollectionNewNFTWizardSteps.AdvencedScreen,
+    creatorStep: ExistingCollectionNewNFTWizardSteps.AdvancedScreen,
     Component: Advanced
   },
 ]

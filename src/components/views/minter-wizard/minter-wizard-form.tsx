@@ -46,7 +46,7 @@ export default function MinterWizardForm({
   return (
     <div className='wizard-form'>
       <Form className='form'>
-        <div className='minter-wizard__step__container'>
+        <div className='minter-wizard__container'>
           {renderFormWizard(step)}
         </div>
       </Form>

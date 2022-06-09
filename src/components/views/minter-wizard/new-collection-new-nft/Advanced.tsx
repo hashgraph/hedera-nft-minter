@@ -3,7 +3,7 @@ import FormGroup from '@/components/shared/form/FormGroup';
 import MinterWizardFees from '@/components/shared/minter-wizard/minter-wizard-fees';
 import MinterWizardKeys from '@/components/shared/minter-wizard/minter-wizard-keys';
 
-export default function Advenced() {
+export default function Advanced() {
   const [wantFees, setWantFees] = useState(false)
   const [wantKeys, setWantKeys] = useState(false)
 

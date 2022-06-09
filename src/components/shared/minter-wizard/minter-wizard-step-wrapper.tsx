@@ -14,7 +14,6 @@ export default function MinterWizardStepWrapper({
 } : Props) {
   const {
     creatorStep,
-    setCreatorStep,
     isFirstScreen,
     isLastScreen,
     handleCreatorNextButton,
@@ -23,46 +22,48 @@ export default function MinterWizardStepWrapper({
   } = useMinterWizard(steps)
 
   return (
-    <div className='minter-wizard__creator__container'>
-      <div className='minter-wizard__creator__wrapper'>
+    <div className='minter-wizard__creator'>
+      <div className='minter-wizard__creator__form'>
         {renderMinterWizardScreen(creatorStep)}
+      </div>
 
-        <div className='step-buttons-wrapper'>
-          <div className='prev'>
-            {isFirstScreen ? (
-              <button
-                type='button'
-                onClick={backToMintTypeSelection}
-              >
-                  Minting type
-              </button>
-            ) : (
-              <button
-                type='button'
-                disabled={isFirstScreen}
-                onClick={handleCreatorPrevButton}
-              >
-                Prev
-              </button>
-            )}
-          </div>
+      <div className='minter-wizard__creator__nav'>
+        <div className='prev'>
+          {isFirstScreen ? (
+            <button
+              type='button'
+              onClick={backToMintTypeSelection}
+            >
+                Minting type
+            </button>
+          ) : (
+            <button
+              type='button'
+              disabled={isFirstScreen}
+              onClick={handleCreatorPrevButton}
+            >
+              Prev
+            </button>
+          )}
+        </div>
 
-          <div className='next'>
-            {isLastScreen ? (
-              <button type='submit'>Mint</button>
-            ) : (
-              <button
-                type='button'
-                onClick={handleCreatorNextButton}
-              >
-                Next
-              </button>
-            )}
-          </div>
+        <div className='next'>
+          {isLastScreen ? (
+            <button type='submit'>Mint</button>
+          ) : (
+            <button
+              type='button'
+              onClick={handleCreatorNextButton}
+            >
+              Next
+            </button>
+          )}
         </div>
       </div>
 
-      <SideSummary step={creatorStep} setStep={setCreatorStep}/>
+      <div className='minter-wizard__creator__summary'>
+        <SideSummary step={creatorStep} />
+      </div>
     </div>
   )
 }

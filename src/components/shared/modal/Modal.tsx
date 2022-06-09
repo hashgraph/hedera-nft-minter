@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import { ModalContext } from '@/utils/context/ModalContext';
 
 type Props = {
-  closeModal: any;
-  isModalShowed: any;
+  closeModal: () => void;
+  isModalShowed: boolean;
   children: React.ReactNode;
 }
 
@@ -19,14 +19,6 @@ const Modal = ({ closeModal, isModalShowed, children} : Props) => {
 
   if(!closeModal){
     closeModal = modalContext.closeModal
-  }
-
-  if(!isModalShowed){
-    closeModal = modalContext.isModalShowed
-  }
-
-  if(!modalContent){
-    closeModal = modalContext.modalContent
   }
 
   useEffect(() => {

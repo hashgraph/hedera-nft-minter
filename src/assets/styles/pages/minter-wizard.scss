@@ -1,33 +1,30 @@
 .minter-wizard {
-  &__step {
-
-    &__container {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      margin-bottom: 2rem;
-      max-width: $containerMaxWidth;
-      margin: 0 auto;
-    }
-  }
-
   &__creator {
-    padding: 2.5rem;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      "form form form summary"
+      "nav nav nav summary"
+    ;
 
-    &__container {
-      width: 100%;
+    &__form {
+      grid-area: form;
+    }
+    &__nav {
+      grid-area: nav;
       display: flex;
+      justify-content: space-between;
+    }
+
+    &__summary {
+      grid-area: summary;
     }
 
     &__wrapper {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      width: 100%;
-
-      @include respond-to("mobile"){
-        padding-right: 2.5rem;
-      }
     }
   }
 
@@ -37,29 +34,29 @@
     position: relative;
     padding-bottom: 3.125rem;
 
-    @include respond-to('mobile'){
+    @include respond-to('mobile') {
       padding-bottom: 0;
     }
   }
 
-  .step-buttons-wrapper{
-      display: flex;
-      margin-top: 2.5rem;
-      justify-content: space-between;
+  .step-buttons-wrapper {
+    display: flex;
+    margin-top: 2.5rem;
+    justify-content: space-between;
 
-      button{
-        padding: 1.25rem 1.875rem;
-        border-radius: 20px;
-        font-size: 0.938rem;
-        font-weight: 400;
-        font-weight: 400;
-      }
+    button {
+      padding: 1.25rem 1.875rem;
+      border-radius: 20px;
+      font-size: 0.938rem;
+      font-weight: 400;
+      font-weight: 400;
+    }
 
-      &.first-step{
-        button{
-          margin-left: auto;
-          margin-top: 2.5rem;
-        }
+    &.first-step {
+      button {
+        margin-left: auto;
+        margin-top: 2.5rem;
       }
+    }
   }
 }

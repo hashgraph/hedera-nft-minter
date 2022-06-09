@@ -6,14 +6,11 @@ import NewNftNewCollectionSideSummary from './new-nft-new-collection';
 import './sides_summary.scss'
 import Modal from '../../modal';
 
-type SetStep = React.Dispatch<React.SetStateAction<number>>
-
 type Props = {
   step: number,
-  setStep: SetStep;
 }
 
-export default function SideSummary({ step, setStep }: Props) {
+export default function SideSummary({ step }: Props) {
   const { values } = useFormikContext<FormikValues>()
   const { isMobile } = useLayout()
   const [expandSummary, setExpandSummary] = useState(false)
@@ -26,7 +23,7 @@ export default function SideSummary({ step, setStep }: Props) {
     if (values && values.mint_type) {
       switch (values.mint_type) {
         case MintTypes.NewCollectionNewNFT:
-          return <NewNftNewCollectionSideSummary step={step} setStep={setStep}/>
+          return <NewNftNewCollectionSideSummary step={step} />
         case MintTypes.ExistingCollectionNewNFT:
           return <p>Existing coll new nft summary</p>
         case MintTypes.ExistingCollectionExistingNFT:
@@ -34,7 +31,7 @@ export default function SideSummary({ step, setStep }: Props) {
       }
     }
     return null
-  }, [values, step, setStep])
+  }, [values, step])
 
   return (
     <>
@@ -43,13 +40,13 @@ export default function SideSummary({ step, setStep }: Props) {
           closeModal={() => setExpandSummary(false)}
           isModalShowed={expandSummary}
         >
-          <div className='sidesummary__modal'>
+          <div className='side_summary__modal'>
             {summaryContent()}
           </div>
         </Modal>
       )}
 
-      <aside className='sidesummary'>
+      <aside className='side_summary'>
         <h4>Your NFT is under construction</h4>
         {isMobile ? (
           <button
