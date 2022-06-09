@@ -8,11 +8,11 @@ export enum ExistingCollectionExistingNFTWizardSteps {
 
 const Steps = [
   {
-    step: ExistingCollectionExistingNFTWizardSteps.SelectCollectionScreen,
+    creatorStep: ExistingCollectionExistingNFTWizardSteps.SelectCollectionScreen,
     Component: SelectCollection
   },
   {
-    step: ExistingCollectionExistingNFTWizardSteps.SelectEditionScreen,
+    creatorStep: ExistingCollectionExistingNFTWizardSteps.SelectEditionScreen,
     Component: SelectEdition
   },
 ]

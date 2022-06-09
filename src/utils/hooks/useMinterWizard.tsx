@@ -1,33 +1,30 @@
 import React, {useState, useMemo, useCallback} from 'react'
-
-export type WizardScreen = {
-  step: number,
-  Component: React.FC,
-}
+import { CreatorSteps } from '@utils/entity/MinterWizard';
 
 export default function useMinterWizard(
-  steps: WizardScreen[]
+  steps: CreatorSteps
 ) {
-  const [step, setStep] = useState(0);
+  const [creatorStep, setCreatorStep] = useState(0);
 
   const isFirstScreen = useMemo(() =>
-    step === steps[0]?.step,
-  [step, steps])
+    creatorStep === steps[0]?.creatorStep,
+  [creatorStep, steps])
 
   const isLastScreen = useMemo(()=>
-    step === steps[steps?.length-1]?.step,
-  [step, steps])
+    creatorStep === steps[steps?.length-1]?.creatorStep,
+  [creatorStep, steps])
 
-  const handleNextButton = useCallback(()=>
-    !isLastScreen && setStep(prev => prev + 1),
-  [setStep, isLastScreen])
+  const handleCreatorNextButton = useCallback((e)=>{
+    e.preventDefault();
+    return !isLastScreen && setCreatorStep(prev => prev + 1)
+  },[setCreatorStep, isLastScreen])
 
-  const handlePrevButton = useCallback(() =>
-    !isFirstScreen && setStep(prev => prev - 1),
-  [setStep, isFirstScreen])
+  const handleCreatorPrevButton = useCallback(() =>
+    !isFirstScreen && setCreatorStep(prev => prev - 1),
+  [setCreatorStep, isFirstScreen])
 
-  const renderMinterWizardScreen = useCallback((step: number) => {
-    const Component = steps[step]?.Component;
+  const renderMinterWizardScreen = useCallback((creatorStep: number) => {
+    const Component = steps[creatorStep]?.Component;
     if(Component !== undefined){
       return <Component />;
     }
@@ -35,13 +32,15 @@ export default function useMinterWizard(
     return null
   }, [steps])
 
+
   return {
-    step,
+    creatorStep,
+    setCreatorStep,
     isFirstScreen,
     isLastScreen,
-    handleNextButton,
-    handlePrevButton,
-    renderMinterWizardScreen
+    handleCreatorNextButton,
+    handleCreatorPrevButton,
+    renderMinterWizardScreen,
   }
 }
 

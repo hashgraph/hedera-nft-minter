@@ -21,7 +21,7 @@ button,
 
   &--big {
     border-radius: 30px !important;
-    font-size: 12px !important;
+    font-size: 0.75rem !important;
     padding: 1.2rem 2.5rem !important;
   }
 
@@ -45,6 +45,7 @@ button,
   &--invert {
     background: $vapor;
     color: $black;
+
     &:hover {
       color: $vapor;
       background: $black;
@@ -55,6 +56,7 @@ button,
     background: transparent;
     color: $vapor;
     border-color: $vapor;
+
     &:hover {
       color: $black;
       background: $vapor;
@@ -66,7 +68,114 @@ button,
     color: $vapor;
     border-color: $vapor;
   }
+
   &:focus {
-    border-color: $blue !important;
+    border-color: $blue  !important;
+  }
+
+  &.button-group {
+    border-radius: 0;
+    text-align: center;
+    margin-right: -1px;
+    height: 42px;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--main-color);
+    background: var(--background-color);
+    row-gap: 20px;
+
+    &:first-of-type {
+      border-radius: 25px 0 0 25px;
+      padding-left: 1rem;
+    }
+
+    &:last-of-type {
+      border-radius: 0 25px 25px 0;
+      margin-right: 0;
+      padding-right: 1rem;
+    }
+
+    &.isActive {
+      background: var(--main-color);
+      color: var(--background-color);
+
+      img {
+        filter: brightness(0) contrast(100);
+      }
+    }
+  }
+
+  &.big {
+    width: 150px;
+    height: 150px;
+
+    @include respond-to("tablet") {
+      width: 230px;
+      height: 230px;
+    }
+
+    @include respond-to("desktop") {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &.medium {
+    width: 150px;
+    height: 150px;
+
+    @include respond-to("tablet") {
+      width: 230px;
+      height: 230px;
+    }
+  }
+
+  &.square {
+    width: 100%;
+    filter: brightness(1.1);
+
+    &:first-of-type {
+      border-radius: unset;
+      margin-bottom: 1.25rem;
+    }
+
+    &:last-of-type {
+      margin-top: 1.25rem;
+      border-radius: unset;
+    }
+
+    @include respond-to("mobile") {
+      &:first-of-type {
+        border-radius: unset;
+        margin-bottom: unset;
+        margin-right: 0.625rem;
+      }
+
+      &:last-of-type {
+        margin-top: unset;
+        margin-left: 0.625rem;
+        border-radius: unset;
+      }
+    }
+
+    @include respond-to("tablet") {
+      &:first-of-type {
+        margin-right: 1.25rem;
+      }
+
+      &:last-of-type {
+        margin-left: 1.25rem;
+      }
+    }
+  }
+
+  &.hasImage {
+    min-height: 266px;
+    flex-direction: column;
+
+    img {
+      max-width: 100px;
+      max-height: 100px;
+    }
   }
 }

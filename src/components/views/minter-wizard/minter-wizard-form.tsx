@@ -20,33 +20,36 @@ export default function MinterWizardForm({
     wizardSteps[values.mint_type as MintTypes],
   [values.mint_type])
 
+  const backToMintTypeSelection = useCallback(() =>
+    setStep(FormWizardSteps.WelcomeScreen),
+  [setStep]);
+
+  const goToCreator = useCallback(() =>
+    setStep(FormWizardSteps.MinterScreen),
+  [setStep]);
+
   const renderFormWizard = useCallback((step: FormWizardSteps) => {
     switch (step) {
       case FormWizardSteps.WelcomeScreen:
-        return <Welcome />
+        return <Welcome goToCreator={goToCreator}/>
 
       case FormWizardSteps.MinterScreen:
-        return <MinterWizardStepWrapper steps={minterWizardSteps} />
+        return (
+          <MinterWizardStepWrapper
+            steps={minterWizardSteps}
+            backToMintTypeSelection={backToMintTypeSelection}
+          />
+        )
     }
-  }, [minterWizardSteps])
+  }, [minterWizardSteps, backToMintTypeSelection, goToCreator])
 
   return (
-    <Form className='form'>
-      {renderFormWizard(step)}
-
-      {step === FormWizardSteps.WelcomeScreen ? (
-          <button
-            disabled={!values.mint_type}
-            type='button'
-            onClick={() => setStep(prev => prev + 1)}
-          >
-            Next
-          </button>
-        ) : (
-          <button type='button' onClick={() => setStep(prev => prev - 1)}>
-            Back to last step
-          </button>
-      )}
-    </Form>
+    <div className='wizard-form'>
+      <Form className='form'>
+        <div className='minter-wizard__container'>
+          {renderFormWizard(step)}
+        </div>
+      </Form>
+    </div>
   );
 }

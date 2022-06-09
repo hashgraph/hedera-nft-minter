@@ -7,9 +7,11 @@ type Props = {
   value: string | number | boolean;
   label: string | JSX.Element;
   name: string;
+  image?: string;
+  className?: string;
 }
 
-export default function FieldRadioButton({value, label, name} : Props) {
+export default function FieldRadioButton({value, label, name, image, className} : Props) {
   const [field, , helpers] = useField(name);
 
   const isActive = useMemo(() =>
@@ -20,10 +22,13 @@ export default function FieldRadioButton({value, label, name} : Props) {
     helpers.setValue(value)
   ,[helpers, value])
 
-  const classnames = classNames({isActive})
+  const classnames = classNames(className, {isActive, hasImage: !!image})
 
   return (
     <button type='button' className={classnames} onClick={handleOnClick}>
+      {image && (
+        <img src={image} alt='icon' />
+      )}
       {label}
     </button>
   )

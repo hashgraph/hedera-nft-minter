@@ -10,8 +10,8 @@ label {
   white-space: pre;
   color: var(--main-color);
   display: block;
-  font-size: 14px;
-  padding-bottom: 15px;
+  font-size: 0.875rem;
+  padding-bottom: 0.938rem;
   padding-left: 3px;
   letter-spacing: -1px;
 }
@@ -85,7 +85,6 @@ input[type='number'] {
 
 // FORM STYLES
 .form {
-  margin: 2rem 0;
   padding-top: 2rem;
 
   &__select_row {
@@ -99,6 +98,11 @@ input[type='number'] {
   &__row {
     display: flex;
     flex-direction: column;
+
+    label {
+      display: flex;
+      column-gap: 8px;
+    }
 
     &__groups {
       display: flex;
@@ -180,7 +184,7 @@ input[type='number'] {
         font-family: 'Styrene A Web';
         font-style: normal;
         font-stretch: normal;
-        font-size: 26px;
+        font-size: 1.625rem;
         padding: 0;
         margin: 0;
         text-align: left;
@@ -235,6 +239,13 @@ input[type='number'] {
     }
   }
 
+  &__text{
+    color: var(--main-color);
+    font-size: 0.875rem;
+    font-weight: 300;
+    margin-top: 0;
+  }
+
   &__number {
     max-width: 111px;
 
@@ -276,38 +287,18 @@ input[type='number'] {
 
     .form__error {
       grid-area: error;
+
     }
   }
 
   &__buttons {
     display: flex;
-    border-radius: 25px;
-    flex-direction: row;
 
-    button {
-      border-radius: 0;
-      text-align: center;
-      margin-right: -1px;
-      height: 42px;
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--main-color);
-      background: var(--background-color);
+    &.square {
+      flex-direction: column;
 
-      &.isActive{
-        background: var(--main-color);
-        color: var(--background-color);
-      }
-
-      &:first-of-type {
-        border-radius: 25px 0 0 25px;
-        padding-left: 1rem;
-      }
-
-      &:last-of-type {
-        border-radius: 0 25px 25px 0;
-        margin-right: 0;
-        padding-right: 1rem;
+      @include respond-to("mobile") {
+        flex-direction: row;
       }
     }
   }
@@ -321,7 +312,7 @@ input[type='number'] {
       padding-bottom: 2.5rem;
 
       &-mt {
-        margin-top: 30px;
+        margin-top: 1.875rem;
       }
     }
 
@@ -422,7 +413,7 @@ input[type='number'] {
     }
 
     &__remove_button_row {
-      padding-top: 16px;
+      padding-top: 1rem;
     }
 
     &__label-wrapper {
@@ -430,11 +421,11 @@ input[type='number'] {
       width: 100%;
       justify-content: space-between;
       border-bottom: 1px solid #fff;
-      padding: 0 0 11px;
-      margin: 0px 0 15px;
+      padding: 0 0 0.688rem;
+      margin: 0px 0 0.938rem;
 
       label {
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: 300;
         letter-spacing: -1px;
         line-height: 1.2;
@@ -473,6 +464,14 @@ input[type='number'] {
     min-height: 14px;
     padding-right: 1rem;
 
+    &.hover{
+      cursor: pointer;
+
+      &:hover{
+        color: $vapor;
+      }
+    }
+
     &.image_error {
       padding-right: 50px;
     }
@@ -485,11 +484,11 @@ input[type='number'] {
       color: $blue;
       width: 100%;
       display: block;
-      padding: 0 0 10px;
-      margin-bottom: 15px;
+      padding: 0 0 0.625rem;
+      margin-bottom: 0.938rem;
       position: relative;
       text-transform: uppercase;
-      font-size: 26px;
+      font-size: 1.625rem;
       font-weight: 300;
       position: relative;
 
@@ -506,7 +505,7 @@ input[type='number'] {
 
     span,
     p {
-      font-size: 26px;
+      font-size: 1.625rem;
       color: $vapor;
       padding: 0;
       margin: 0;
@@ -531,38 +530,5 @@ input[type='number'] {
     justify-content: flex-end;
     padding-top: 1rem;
     grid-gap: 1rem;
-  }
-
-  &__fileDrop {
-    &__container {
-      $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
-      $transitionTime: 0.4s;
-      $transitionAttributes: (border-color, box-shadow);
-      width: 100%;
-      border-radius: 20px;
-      border: $border;
-      margin-top: -5px;
-      color: $lightGrey;
-      display: grid;
-      place-items: center;
-      padding: 20px 50px;
-      transition: generateTransitions($transitionAttributes, $transitionTime);
-      box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
-
-      &.is-focused {
-        border-color: $ultraviolet;
-        box-shadow: $boxShadow;
-      }
-
-      &.is-drag-accepted {
-        border-color: $green;
-        box-shadow: $boxShadow;
-      }
-
-      &.is-drag-rejected {
-        border-color: $orange;
-        box-shadow: $boxShadow;
-      }
-    }
   }
 }

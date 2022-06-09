@@ -12,19 +12,19 @@ export enum ExistingCollectionNewNFTWizardSteps {
 
 const Steps = [
   {
-    step: ExistingCollectionNewNFTWizardSteps.SelectCollectionScreen,
+    creatorStep: ExistingCollectionNewNFTWizardSteps.SelectCollectionScreen,
     Component: SelectCollection
   },
   {
-    step: ExistingCollectionNewNFTWizardSteps.OnChainScreen,
+    creatorStep: ExistingCollectionNewNFTWizardSteps.OnChainScreen,
     Component: OnChain
   },
   {
-    step: ExistingCollectionNewNFTWizardSteps.OffChainScreen,
+    creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainScreen,
     Component: OffChain
   },
   {
-    step: ExistingCollectionNewNFTWizardSteps.AdvancedScreen,
+    creatorStep: ExistingCollectionNewNFTWizardSteps.AdvancedScreen,
     Component: Advanced
   },
 ]

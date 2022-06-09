@@ -12,6 +12,16 @@ import Error from '@components/shared/form/Error';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import classNames from 'classnames';
 
+export const TokenKeys = [
+  { title: 'Treasury account ID', value: TOKEN_KEY.TREASURY, required: true },
+  { title: 'Supply key', value: TOKEN_KEY.SUPPLY, required: true },
+  { title: 'KYC', value: TOKEN_KEY.KYC },
+  { title: 'Admin', value: TOKEN_KEY.ADMIN },
+  { title: 'Freeze', value: TOKEN_KEY.FREEZE },
+  { title: 'Wipe', value: TOKEN_KEY.WIPE },
+  { title: 'Pause', value: TOKEN_KEY.PAUSE },
+]
+
 const MinterWizardKeys = () => {
   const [field] = useField<TokenKey[]>('keys');
 
@@ -20,15 +30,7 @@ const MinterWizardKeys = () => {
     value: TOKEN_KEY;
     label?: string;
     required?: boolean;
-}[]>(() => [
-    { title: 'Treasury account ID', value: TOKEN_KEY.TREASURY, required: true },
-    { title: 'Supply key', value: TOKEN_KEY.SUPPLY, required: true },
-    { title: 'KYC', value: TOKEN_KEY.KYC },
-    { title: 'Admin', value: TOKEN_KEY.ADMIN },
-    { title: 'Freeze', value: TOKEN_KEY.FREEZE },
-    { title: 'Wipe', value: TOKEN_KEY.WIPE },
-    { title: 'Pause', value: TOKEN_KEY.PAUSE },
-  ], []);
+}[]>(() => TokenKeys, []);
 
   const checkIfIsTokenKeyRequired = useCallback((index) => !!tokenKeys[index]?.required, [tokenKeys])
 

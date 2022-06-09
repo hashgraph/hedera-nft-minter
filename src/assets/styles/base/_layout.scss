@@ -47,6 +47,12 @@ textarea {
   font-stretch: normal;
 }
 
+hr {
+  border: unset;
+  height: 1px;
+  background: $gradient;
+}
+
 header {
   top: 0;
   margin: 0 auto;
@@ -80,7 +86,7 @@ header {
   .header-container {
     padding: 1rem;
     width: 100%;
-    max-width: $container;
+    max-width: $containerMaxWidth;
     height: 80px;
     display: flex;
     justify-content: space-between;
@@ -145,6 +151,7 @@ header {
       }
     }
   }
+
 }
 
 .header__mobile-menu {
@@ -203,6 +210,7 @@ header {
   }
 }
 
+
 .hero {
   padding: 40px 20px 40px 20px;
   display: flex;
@@ -237,7 +245,7 @@ header {
     border-color: $vapor;
   }
   > div {
-    max-width: $container;
+    max-width: $containerMaxWidth;
     margin: 0 auto;
     padding: 0 1rem;
   }
