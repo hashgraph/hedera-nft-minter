@@ -1,53 +1,38 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFormikContext } from 'formik';
+import map from 'lodash/map';
+import groupBy from 'lodash/groupBy';
 
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import MirrorNode from '@/services/MirrorNode';
-import { WizardValues } from '@/utils/const/minter-wizard';
 import { NFTInfo } from '@/utils/entity/NFTInfo';
+import { WizardValues } from '@/utils/const/minter-wizard';
 import Loader from '@/components/shared/loader/Loader';
+import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import SemiNFT from '@/components/shared/minter-wizard/semi-nft';
 
-
 export default function SelectEdition() {
-
-  const [nfts, setNfts] = useState<NFTInfo[]>([])
-  const [meta, setMeta] = useState({})
+  const [nfts, setNfts] = useState<{ [key: string]: NFTInfo[] }>({});
   const [isLoading, setLoading] = useState(true);
-  const { values, setFieldValue } = useFormikContext<WizardValues>()
-
+  const { values } = useFormikContext<WizardValues>()
 
   const loadNfts = useCallback(async () => {
     const loadedNfts = await MirrorNode.fetchNFTInfo(values.token_id as string)
 
-    setNfts(loadedNfts.nfts.reverse())
+    const nftsWithMetadata = await Promise.all(
+      loadedNfts.nfts.map(async (nft) => {
+        const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
+
+        return { ...nft, meta };
+      })
+    );
+
+    setNfts(groupBy(nftsWithMetadata, 'meta.image'));
     setLoading(false);
   }, [setNfts, setLoading, values.token_id])
 
   useEffect(() => {
     loadNfts()
   }, [loadNfts])
-
-  const selectedNft = useMemo(() => {
-    const serial = nfts
-      .find(nft => nft.serial_number === parseInt(values.serial_number as string))
-
-    setFieldValue('serial_metadata', meta)
-
-    return serial;
-  }, [values.serial_number, nfts, meta, setFieldValue])
-
-  const loadMeta = useCallback(async () => {
-    if (selectedNft?.metadata) {
-      const meta = await MirrorNode.fetchNFTMetadata(atob(selectedNft?.metadata))
-      setMeta(meta);
-    }
-  }, [selectedNft])
-
-  useEffect(() => {
-    loadMeta()
-  }, [loadMeta])
-
 
   return (
     <div className='wizard-form__select-edition'>
@@ -57,6 +42,7 @@ export default function SelectEdition() {
       </div> :
         <>
           <h2>Select NFT you want to copy</h2>
+
           <div>
             <FieldWrapper
               fastField
@@ -68,10 +54,13 @@ export default function SelectEdition() {
             />
           </div>
           <hr />
-          {nfts.map(nft => <SemiNFT
-            key={`semi_nftf_${ nft.token_id }.${ nft.serial_number }`}
-            data={nft}
-                           />)}
+          {map(nfts, (nft, key) => (
+            <SemiNFT
+              key={key}
+              data={nft}
+            />
+          ))}
+
         </>
       }
     </div>

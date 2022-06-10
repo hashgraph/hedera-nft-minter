@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import "../../base/variables";
 
 .collected {
@@ -21,18 +22,18 @@
     grid-column: 2 / 6;
     display: flex;
     flex-wrap: wrap;
-    grid-gap: $columnGap / 2;
+    grid-gap: math.div($columnGap, 2);
 
     .filter__item {
       display: flex;
       align-items: center;
       @include bg($black);
       color: #{$vapor};
-      padding: $columnGap / 3 $columnGap / 1.2;
+      padding: math.div($columnGap, 3) math.div($columnGap, 1.2);
       border-radius: 25px;
 
       .arrow {
-        margin-left: $columnGap / 2;
+        margin-left: math.div($columnGap, 2);
 
         &:hover {
           color: $smoke;
