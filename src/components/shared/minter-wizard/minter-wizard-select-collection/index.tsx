@@ -71,7 +71,7 @@ export default function SelectCollection() {
         'fees'
       ])
     }})
-  },[resetForm, values])
+  }, [resetForm, values])
 
   return (
     <div>
