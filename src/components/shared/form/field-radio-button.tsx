@@ -17,14 +17,14 @@ export default function FieldRadioButton({value, label, name, image, className, 
 
   const isActive = useMemo(() => (
     field.value === value
-  ),[field.value, value])
+  ), [field.value, value])
 
   const handleOnClick = useCallback((e) => {
     if(onClick){
       onClick(e)
     }
     helpers.setValue(value)
-  },[helpers, value, onClick])
+  }, [helpers, value, onClick])
 
   const classnames = classNames(className, {isActive, hasImage: !!image})
 
