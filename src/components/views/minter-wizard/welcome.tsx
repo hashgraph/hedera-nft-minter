@@ -12,7 +12,7 @@ export default function Welcome({goToCreator} : Props) {
   const [{ value }] = useField('mint_type')
   const { resetForm } = useFormikContext<WizardValues>()
 
-  useEffect(()=>{
+  useEffect(() => {
     resetForm({values: {...initialValues, mint_type: value}} as Partial<FormikState<WizardValues>>)
   },[resetForm, value])
 

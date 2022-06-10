@@ -28,16 +28,14 @@ export default function SelectEdition() {
     loadNfts()
   }, [loadNfts])
 
+  const selectedNft = useMemo(() => {
+    const serial = nfts
+      .find(nft => nft.serial_number === parseInt(values.serial_number as string))
 
-  const selectedNft = useMemo(
-    () => {
-      const serial = nfts
-        .find(nft => nft.serial_number === parseInt(values.serial_number as string))
-      setFieldValue('serial_metadata', meta)
-      return serial;
-    }
-    , [values.serial_number, nfts, meta, setFieldValue])
+    setFieldValue('serial_metadata', meta)
 
+    return serial;
+  }, [values.serial_number, nfts, meta, setFieldValue])
 
   const loadMeta = useCallback(async () => {
     if (selectedNft?.metadata) {
@@ -74,8 +72,6 @@ export default function SelectEdition() {
             key={`semi_nftf_${ nft.token_id }.${ nft.serial_number }`}
             data={nft}
                            />)}
-
-
         </>
       }
     </div>

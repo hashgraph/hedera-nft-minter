@@ -12,6 +12,7 @@ import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
 import './minter-wizard-select-collection.scss';
+import { pick } from 'lodash/pick';
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
@@ -56,17 +57,19 @@ export default function SelectCollection() {
   useEffect(()=>{
     resetForm({values: {
       ...values,
-      edition_name: '',
-      serial_metadata: '',
-      creator: '',
-      creatorDID: '',
-      image: null,
-      files: [],
-      properties: initialValues.properties,
-      attributes: initialValues.attributes,
-      qty: 1,
-      keys: initialValues.keys,
-      fees: initialValues.fees,
+      ...pick(initialValues, [
+        'edition_name',
+        'serial_metadata',
+        'creator',
+        'creatorDID',
+        'image',
+        'files',
+        'properties',
+        'attributes',
+        'qty',
+        'keys',
+        'fees'
+      ])
     }})
   },[resetForm, values])
 

@@ -237,7 +237,7 @@ input[type='number'] {
     }
   }
 
-  &__text{
+  &__text {
     color: var(--main-color);
     font-size: 0.875rem;
     font-weight: 300;
@@ -252,7 +252,7 @@ input[type='number'] {
     }
   }
 
-  &__radio{
+  &__radio {
     display: flex;
   }
 

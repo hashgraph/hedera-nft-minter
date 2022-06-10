@@ -22,14 +22,15 @@
       grid-template-columns: repeat(4, 1fr);
       grid-gap: 2.5rem;
       grid-template-areas:
-      "form form form summary"
-      "nav nav nav summary"
-    ;
+        "form form form summary"
+        "nav nav nav summary"
+      ;
     }
 
     &__form {
       grid-area: form;
     }
+
     &__nav {
       grid-area: nav;
       display: flex;
@@ -55,7 +56,7 @@
   }
 
   &__select-edition {
-    &__semi-nft{
+    &__semi-nft {
       position: relative;
       border: $border;
       margin-bottom: 6.20rem;
@@ -116,7 +117,7 @@
 
         @include gradient-border("bottom", 1px);
 
-        &:after{
+        &:after {
           transition: filter 0.4s ease-in-out;
           filter: grayscale(100%);
         }
@@ -139,7 +140,7 @@
         margin-left: auto;
       }
 
-      .nft__table__row__image{
+      .nft__table__row__image {
         z-index: 1;
         height: 113px;
         width: inherit;
@@ -149,7 +150,7 @@
         transition: 0.4s ease-in-out;
         transition-property: transform margin-top;
 
-        img{
+        img {
           @include respond-to('tablet') {
             margin-top: 25px;
           }
@@ -172,7 +173,6 @@
 
         .nft__table__row__image {
           transform: scale(1.2) translateY(-10px);
-
         }
       }
     }

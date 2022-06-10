@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { FormikValues, useFormikContext } from 'formik'
+import renderValue from '@/utils/helpers/renderValue';
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 import { TokenKeys } from '@components/shared/minter-wizard/minter-wizard-keys';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
@@ -12,10 +13,6 @@ type Props = {
 export default function NewNftNewCollectionSideSummary({step} : Props) {
   const { values } = useFormikContext<FormikValues>()
   const [showAdvanced, setShowAdvanced] = useState(false)
-
-  const renderValue = useCallback((value) =>
-    value ? value : <span>(empty)</span>
-  , []);
 
   return (
     <>

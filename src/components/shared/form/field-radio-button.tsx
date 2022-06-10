@@ -15,9 +15,9 @@ type Props = {
 export default function FieldRadioButton({value, label, name, image, className, onClick} : Props) {
   const [field, , helpers] = useField(name);
 
-  const isActive = useMemo(() =>
+  const isActive = useMemo(() => (
     field.value === value
-  ,[field.value, value])
+  ),[field.value, value])
 
   const handleOnClick = useCallback((e) => {
     if(onClick){

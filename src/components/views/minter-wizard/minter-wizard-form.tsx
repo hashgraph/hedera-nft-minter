@@ -16,17 +16,17 @@ export default function MinterWizardForm({
 }: FormikProps<FormikValues>) {
   const [step, setStep] = useState(FormWizardSteps.WelcomeScreen);
 
-  const minterWizardSteps = useMemo(() =>
-    wizardSteps[values.mint_type as MintTypes],
-  [values.mint_type])
+  const minterWizardSteps = useMemo(() => (
+    wizardSteps[values.mint_type as MintTypes]
+  ), [values.mint_type])
 
-  const backToMintTypeSelection = useCallback(() =>
-    setStep(FormWizardSteps.WelcomeScreen),
-  [setStep]);
+  const backToMintTypeSelection = useCallback(() =>(
+    setStep(FormWizardSteps.WelcomeScreen)
+  ), [setStep]);
 
-  const goToCreator = useCallback(() =>
-    setStep(FormWizardSteps.MinterScreen),
-  [setStep]);
+  const goToCreator = useCallback(() =>(
+    setStep(FormWizardSteps.MinterScreen)
+  ), [setStep]);
 
   const renderFormWizard = useCallback((step: FormWizardSteps) => {
     switch (step) {
