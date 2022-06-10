@@ -1,0 +1,14 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+@import "src/assets/styles/base/functions";
+
+.select-collection {
+  &__select-wrapper {
+    width: 100%;
+
+    @include respond-to("mobile") {
+      max-width: 50%;
+      min-width: 400px;
+    }
+  }
+}

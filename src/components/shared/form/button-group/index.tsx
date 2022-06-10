@@ -1,19 +1,20 @@
 import { JSX } from '@babel/types';
 import classNames from 'classnames';
 import { FieldAttributes } from 'formik';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
 import FieldRadioButton from '../field-radio-button';
 
 interface Option {
   label: string | JSX.Element,
   value: string | number,
   image?: string,
+  onClick?: MouseEventHandler<HTMLButtonElement> ;
 }
 
 type ButtonGroupProps = FieldAttributes<ButtonHTMLAttributes<HTMLButtonElement>> & {
   name: string,
   options: Option[],
-  size?: 'big' | 'md' ;
+  size?: 'big' | 'md';
   square?: boolean;
 }
 
@@ -28,7 +29,7 @@ export default function ButtonGroup({
     <div
       className={classNames('form__row form__buttons', { square })}
     >
-      {options.map(({ label, value, image }: Option) => (
+      {options.map(({ label, value, image, onClick }: Option) => (
         <FieldRadioButton
           className={classNames('button-group', {
             big: size === 'big',
@@ -40,6 +41,7 @@ export default function ButtonGroup({
           value={value}
           label={label}
           name={name}
+          onClick={onClick}
         />
       ))}
     </div>

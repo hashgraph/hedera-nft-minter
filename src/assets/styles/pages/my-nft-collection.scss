@@ -19,6 +19,11 @@
       object-fit: contain;
     }
 
+    p {
+      font-size: 1.25rem;
+      color: $vapor;
+    }
+
     @include respond-to('mobile') {
       min-height: calc(50vh - 62px);
     }

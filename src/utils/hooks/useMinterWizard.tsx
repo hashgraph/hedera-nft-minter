@@ -7,11 +7,11 @@ export default function useMinterWizard(
   const [creatorStep, setCreatorStep] = useState(0);
 
   const isFirstScreen = useMemo(() =>
-    creatorStep === steps[0]?.creatorStep,
+    steps && creatorStep === steps[0]?.creatorStep,
   [creatorStep, steps])
 
   const isLastScreen = useMemo(()=>
-    creatorStep === steps[steps?.length-1]?.creatorStep,
+    steps && creatorStep === steps[steps?.length-1]?.creatorStep,
   [creatorStep, steps])
 
   const handleCreatorNextButton = useCallback((e)=>{

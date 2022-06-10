@@ -5,6 +5,8 @@ import { MintTypes } from '@/utils/entity/MinterWizard';
 import NewNftNewCollectionSideSummary from './new-nft-new-collection';
 import './sides_summary.scss'
 import Modal from '../../modal';
+import ExistingCollectionNewNFTSideSummary from './existing-collection-new-nft';
+import ExistingCollectionExistingNFTSideSummary from './existing-collection-existing-nft';
 
 type Props = {
   step: number,
@@ -17,7 +19,7 @@ export default function SideSummary({ step }: Props) {
 
   const handleShowModal = useCallback(() =>
     isMobile && setExpandSummary(prev => !prev),
-  [isMobile, setExpandSummary])
+    [isMobile, setExpandSummary])
 
   const summaryContent = useCallback(() => {
     if (values && values.mint_type) {
@@ -25,9 +27,9 @@ export default function SideSummary({ step }: Props) {
         case MintTypes.NewCollectionNewNFT:
           return <NewNftNewCollectionSideSummary step={step} />
         case MintTypes.ExistingCollectionNewNFT:
-          return <p>Existing coll new nft summary</p>
+          return <ExistingCollectionNewNFTSideSummary step={step} />
         case MintTypes.ExistingCollectionExistingNFT:
-          return <p>Existing coll existing nft summary</p>
+          return <ExistingCollectionExistingNFTSideSummary step={step} />
       }
     }
     return null
@@ -47,17 +49,19 @@ export default function SideSummary({ step }: Props) {
       )}
 
       <aside className='side_summary'>
-        <h4>Your NFT is under construction</h4>
-        {isMobile ? (
-          <button
-            type='button'
-            onClick={handleShowModal}
-          >
-            Show data
-          </button>
-        ) : (
-          summaryContent()
-        )}
+        <div className='side_summary__wrapper'>
+          <h4>Your NFT is under construction</h4>
+          {isMobile ? (
+            <button
+              type='button'
+              onClick={handleShowModal}
+            >
+              Show data
+            </button>
+          ) : (
+            summaryContent()
+          )}
+        </div>
       </aside>
     </>
   )

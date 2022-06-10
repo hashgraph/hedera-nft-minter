@@ -1,0 +1,44 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+@import "src/assets/styles/base/functions";
+
+.collectionsummary {
+  color: $vapor;
+  display: flex;
+  padding: 0.75rem 0;
+  flex-direction: column;
+
+  @include respond-to("mobile") {
+    max-width: 50%;
+    min-width: 400px;
+  }
+
+  &__title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+
+    @include gradient-border("bottom", 1px);
+  }
+
+  &__values {
+    display: flex;
+    align-items: center;
+
+    p {
+      position: relative;
+      font-size: 0.75rem;
+      @include gradient-border("right", 1px);
+      padding: 0 .5rem;
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+
+      &:last-of-type {
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}

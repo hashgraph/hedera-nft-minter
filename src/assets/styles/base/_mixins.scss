@@ -118,3 +118,62 @@
   -o-user-select: $type;
   user-select: $type;
 }
+
+@mixin gradient-border($direction, $size) {
+  position: relative;
+
+  &:after {
+    content: "";
+    display: flex;
+    position: absolute;
+    background-image: $gradient;
+  }
+
+  @if $direction == "top" {
+    padding-top: 1rem;
+
+    &:after {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: $size;
+    }
+  }
+
+  @if $direction == "bottom" {
+    padding-bottom: 1rem;
+
+    &:after {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: $size;
+    }
+  }
+
+  @if $direction == "left" {
+    padding-left: 1rem;
+
+    &:after {
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      height: 100%;
+      width: $size;
+    }
+  }
+
+  @if $direction == "right" {
+    padding-right: 1rem;
+
+    &:after {
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      height: 100%;
+      width: $size;
+    }
+  }
+}

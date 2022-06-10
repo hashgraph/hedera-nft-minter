@@ -29,6 +29,9 @@ export default function NewNftNewCollectionSideSummary({step} : Props) {
       <p className='side_summary__info__row'>
         Collection max supply:&nbsp;<span>{renderValue(values?.maxSupply)}</span>
       </p>
+      <p className='side_summary__info__row'>
+        Tokens to mint:&nbsp;<span>{renderValue(values?.qty)}</span>
+      </p>
       {step >= NewCollectionNewNFTWizardSteps.OffChainScreen && (
         <>
           <p className='side_summary__info__collection-name'>

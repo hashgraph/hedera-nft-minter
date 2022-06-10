@@ -20,24 +20,22 @@ export default function Advanced() {
               },
             ]}
         />
-          <FormGroup
-            name='attributes'
-            inputsSchema={[
-              {
-                name: 'trait_type',
-                type: 'text',
-                label: 'Trait type',
-              },
-              {
-                name: 'value',
-                type: 'text',
-                label: 'Value',
-              },
-            ]}
-          />
-        </div>
-      <button type='submit'>Mint</button>
-
+        <FormGroup
+          name='attributes'
+          inputsSchema={[
+            {
+              name: 'trait_type',
+              type: 'text',
+              label: 'Trait type',
+            },
+            {
+              name: 'value',
+              type: 'text',
+              label: 'Value',
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function SelectEdition() {
   const loadNfts = useCallback(async () => {
     const loadedNfts = await MirrorNode.fetchNFTInfo(values.token_id as string)
 
-    setNfts(loadedNfts.nfts)
+    setNfts(loadedNfts.nfts.reverse())
     setLoading(false);
   }, [setNfts, setLoading, values.token_id])
 
@@ -46,41 +46,36 @@ export default function SelectEdition() {
     }
   }, [selectedNft])
 
-
   useEffect(() => {
     loadMeta()
   }, [loadMeta])
 
 
   return (
-    <div>
+    <div className='wizard-form__select-edition'>
       {isLoading ? <div className='my-nft-collection__loader-wrapper'>
         <Loader />
         Gathering collections info...
       </div> :
         <>
-          <p>Select NFT you want to copy</p>
-          {nfts.map(nft => <SemiNFT
-            key={`semi_nftf_${ nft.token_id }.${ nft.serial_number }`}
-            data={nft}
-                           />)}
-
-          <p>Selected edition:</p>
-
-          <pre>
-            {JSON.stringify(meta, null, 2)}
-          </pre>
+          <h2>Select NFT you want to copy</h2>
           <div>
             <FieldWrapper
               fastField
               name='qty'
               type='number'
-              label='Number of editions to mint'
+              label='Number of editions you want to mint now'
               max='10'
+              tooltip='You can mint max 10 tokens at once.'
             />
           </div>
+          <hr />
+          {nfts.map(nft => <SemiNFT
+            key={`semi_nftf_${ nft.token_id }.${ nft.serial_number }`}
+            data={nft}
+                           />)}
 
-          <button type='submit'>Mint</button>
+
         </>
       }
     </div>
