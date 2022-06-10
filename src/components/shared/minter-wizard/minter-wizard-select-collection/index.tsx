@@ -71,7 +71,8 @@ export default function SelectCollection() {
         'fees'
       ])
     }})
-  }, [resetForm, values])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetForm])
 
   return (
     <div>
