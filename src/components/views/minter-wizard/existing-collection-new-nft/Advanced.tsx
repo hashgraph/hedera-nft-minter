@@ -8,17 +8,17 @@ export default function Advanced() {
         <FormGroup
           name='properties'
           inputsSchema={[
-              {
-                name: 'name',
-                type: 'text',
-                label: 'Name',
-              },
-              {
-                name: 'value',
-                type: 'text',
-                label: 'Value',
-              },
-            ]}
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Name',
+            },
+            {
+              name: 'value',
+              type: 'text',
+              label: 'Value',
+            },
+          ]}
         />
         <FormGroup
           name='attributes'
