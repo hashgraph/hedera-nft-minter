@@ -1,5 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { FormikValues, useFormikContext } from 'formik'
+import renderValue from '@/utils/helpers/renderValue';
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 import { TokenKeys } from '@components/shared/minter-wizard/minter-wizard-keys';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
@@ -13,10 +14,6 @@ export default function NewNftNewCollectionSideSummary({step} : Props) {
   const { values } = useFormikContext<FormikValues>()
   const [showAdvanced, setShowAdvanced] = useState(false)
 
-  const renderValue = useCallback((value) =>
-    value ? value : <span>(empty)</span>
-  , []);
-
   return (
     <>
       <img
@@ -28,6 +25,9 @@ export default function NewNftNewCollectionSideSummary({step} : Props) {
       />
       <p className='side_summary__info__row'>
         Collection max supply:&nbsp;<span>{renderValue(values?.maxSupply)}</span>
+      </p>
+      <p className='side_summary__info__row'>
+        Tokens to mint:&nbsp;<span>{renderValue(values?.qty)}</span>
       </p>
       {step >= NewCollectionNewNFTWizardSteps.OffChainScreen && (
         <>

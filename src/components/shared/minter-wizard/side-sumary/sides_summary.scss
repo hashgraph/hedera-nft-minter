@@ -5,7 +5,7 @@
 .side_summary {
   position: relative;
   height: 100%;
-  padding-left: 1rem;
+  padding-left: 1.5rem;
   color: var(--main-color);
 
   &:before {
@@ -51,6 +51,11 @@
     min-height: 113px;
     border-radius: 100%;
     margin-bottom: 20px;
+  }
+
+  &__wrapper {
+    position: sticky;
+    top: 105px;
   }
 
   &__error {

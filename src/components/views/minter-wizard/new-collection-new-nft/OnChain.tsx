@@ -7,7 +7,7 @@ import MultipleToken from '@assets/images/multiple_token.png'
 import SingleToken from '@assets/images/single_token.png'
 
 export default function OnChain() {
-  const { values } = useFormikContext<WizardValues>()
+  const { values, setFieldValue } = useFormikContext<WizardValues>()
 
   return (
     <div>
@@ -19,7 +19,8 @@ export default function OnChain() {
           {
             label: 'CREATE COLLECTION WITH SINGLE NFT',
             value: 'false',
-            image: SingleToken
+            image: SingleToken,
+            onClick: () => setFieldValue('qty', 1),
           },
           {
             label: 'CREATE COLLECTION WITH MULTIPLIE COPIES OF NFT',

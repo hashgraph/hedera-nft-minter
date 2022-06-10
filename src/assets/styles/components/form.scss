@@ -239,7 +239,7 @@ input[type='number'] {
     }
   }
 
-  &__text{
+  &__text {
     color: var(--main-color);
     font-size: 0.875rem;
     font-weight: 300;
@@ -254,7 +254,7 @@ input[type='number'] {
     }
   }
 
-  &__radio{
+  &__radio {
     display: flex;
   }
 
@@ -420,7 +420,7 @@ input[type='number'] {
       display: flex;
       width: 100%;
       justify-content: space-between;
-      border-bottom: 1px solid #fff;
+      @include gradient-border("bottom", 1px);
       padding: 0 0 0.688rem;
       margin: 0px 0 0.938rem;
 

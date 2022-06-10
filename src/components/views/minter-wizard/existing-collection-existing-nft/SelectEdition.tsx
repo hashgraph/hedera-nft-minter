@@ -13,7 +13,7 @@ import SemiNFT from '@/components/shared/minter-wizard/semi-nft';
 export default function SelectEdition() {
   const [nfts, setNfts] = useState<{ [key: string]: NFTInfo[] }>({});
   const [isLoading, setLoading] = useState(true);
-  const { values } = useFormikContext<WizardValues>();
+  const { values } = useFormikContext<WizardValues>()
 
   const loadNfts = useCallback(async () => {
     const loadedNfts = await MirrorNode.fetchNFTInfo(values.token_id as string)
@@ -28,20 +28,32 @@ export default function SelectEdition() {
 
     setNfts(groupBy(nftsWithMetadata, 'meta.image'));
     setLoading(false);
-  }, [values.token_id])
+  }, [setNfts, setLoading, values.token_id])
 
   useEffect(() => {
     loadNfts()
   }, [loadNfts])
 
   return (
-    <div>
+    <div className='wizard-form__select-edition'>
       {isLoading ? <div className='my-nft-collection__loader-wrapper'>
         <Loader />
         Gathering collections info...
       </div> :
         <>
-          <p>Select NFT you want to copy</p>
+          <h2>Select NFT you want to copy</h2>
+
+          <div>
+            <FieldWrapper
+              fastField
+              name='qty'
+              type='number'
+              label='Number of editions you want to mint now'
+              max='10'
+              tooltip='You can mint max 10 tokens at once.'
+            />
+          </div>
+          <hr />
           {map(nfts, (nft, key) => (
             <SemiNFT
               key={key}
@@ -49,23 +61,6 @@ export default function SelectEdition() {
             />
           ))}
 
-          <p>Selected edition:</p>
-
-          <pre>
-            {JSON.stringify(nfts, null, 2)}
-          </pre>
-
-          <div>
-            <FieldWrapper
-              fastField
-              name='qty'
-              type='number'
-              label='Number of editions to mint'
-              max='10'
-            />
-          </div>
-
-          <button type='submit'>Mint</button>
         </>
       }
     </div>
