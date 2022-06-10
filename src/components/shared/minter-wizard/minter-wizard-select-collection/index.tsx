@@ -12,7 +12,7 @@ import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
 import './minter-wizard-select-collection.scss';
-import { pick } from 'lodash/pick';
+import pick from 'lodash/pick';
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
