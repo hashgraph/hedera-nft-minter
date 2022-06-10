@@ -17,9 +17,9 @@ export default function SideSummary({ step }: Props) {
   const { isMobile } = useLayout()
   const [expandSummary, setExpandSummary] = useState(false)
 
-  const handleShowModal = useCallback(() =>
-    isMobile && setExpandSummary(prev => !prev),
-    [isMobile, setExpandSummary])
+  const handleShowModal = useCallback(() => (
+    isMobile && setExpandSummary(prev => !prev)
+  ), [isMobile, setExpandSummary])
 
   const summaryContent = useCallback(() => {
     if (values && values.mint_type) {
