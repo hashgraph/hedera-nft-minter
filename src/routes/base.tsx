@@ -1,22 +1,36 @@
-import { FC } from 'react';
 import { JSX } from '@babel/types';
 
 import {
   Homepage,
   MyWallet,
   Profile,
-  Book,
+  Book
 } from '@/pages';
 
-export type Route = {
+export type CommonRoute = {
   path: string;
   icon?: JSX.Element;
   desc?: string;
-  child?: Route[],
-  component: FC;
+  component: () => JSX.Element;
 };
 
-const routes: Route[] = [
+type NestedPageComponent = ({ children }: { children: JSX.Element }) => JSX.Element
+
+export type NestedRoute = {
+  path: string,
+  defaultComponent: JSX.Element
+  nestedRoutes: Array<CommonRoute | NestedRoute>,
+  wrapper: NestedPageComponent
+}
+
+export const instanceOfNestedRoute =
+  (data: NestedRoute | CommonRoute): data is NestedRoute =>
+    'nestedRoutes' in data &&
+    'path' in data &&
+    'defaultComponent' in data &&
+    'wrapper' in data
+
+const routes: Array<CommonRoute | NestedRoute> = [
   {
     path: '/',
     component: Homepage,
@@ -32,7 +46,7 @@ const routes: Route[] = [
   {
     path: '/book',
     component: Book,
-  }
+  },
 ];
 
 export default routes;
