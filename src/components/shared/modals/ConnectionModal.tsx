@@ -1,15 +1,22 @@
 import { useCallback } from 'react';
+import { useHistory } from 'react-router-dom'
 import useHederaWallets from '@/utils/hooks/useHederaWallets';
 
 export default function ConnectionModal() {
   const { userWalletId, connectedWalletType, connect, disconnect } =
     useHederaWallets();
 
+  const history = useHistory();
+
   const connectToHashpack = useCallback(() => connect('hashpack'), [connect]);
   const connectToBladewallet = useCallback(
     () => connect('bladewallet'),
     [connect]
   );
+
+  const handleGoToSettings = useCallback(()=>{
+    history.push('/settings');
+  },[history])
 
   return (
     <>
@@ -32,6 +39,7 @@ export default function ConnectionModal() {
       </div>
       {userWalletId && (
         <div className='modal__disconnection-buttons-wrapper'>
+          <button onClick={handleGoToSettings}>Go to settings</button>
           <button onClick={disconnect}>Disconnect</button>
         </div>
       )}

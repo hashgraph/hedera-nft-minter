@@ -4,7 +4,9 @@ import {
   Homepage,
   MyWallet,
   Profile,
-  Book
+  Book,
+  Settings,
+  settingsNestedRoutes
 } from '@/pages';
 
 export type CommonRoute = {
@@ -47,6 +49,12 @@ const routes: Array<CommonRoute | NestedRoute> = [
     path: '/book',
     component: Book,
   },
+  {
+    path: '/settings',
+    wrapper: Settings,
+    defaultComponent: <h1>Settings</h1>,
+    nestedRoutes: settingsNestedRoutes
+  }
 ];
 
 export default routes;
