@@ -38,7 +38,7 @@ export default function MinterWizard() {
     }
 
     return createTokenResponse.tokenId;
-  },[sendTransaction]);
+  }, [sendTransaction]);
 
   const mint = useCallback(async (tokenId: string, cids: string[]) => {
     if (!userWalletId) {
@@ -53,7 +53,7 @@ export default function MinterWizard() {
     }
 
     return tokenMintResponse;
-  },[userWalletId, sendTransaction]);
+  }, [userWalletId, sendTransaction]);
 
   const handleFormSubmit = useCallback(async (values) => {
     const tokenSymbol = values.symbol;
@@ -132,10 +132,18 @@ export default function MinterWizard() {
       if (typeof e === 'string') {
         toast.error(e);
       } else if (e instanceof Error) {
-        toast.error(e.message);
+        switch (e.message) {
+          case 'illegal buffer':
+            toast.error('User has aborted operation.')
+            break;
+          default:
+            toast.error(e.message);
+            break;
+        }
+
       }
     }
-  },[
+  }, [
     createToken,
     mint,
     uploadMetadata,
