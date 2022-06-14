@@ -15,10 +15,18 @@ type Props = {
 const Modal = ({ closeModal, isModalShowed, children} : Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const modalContext = useContext(ModalContext);
-  const modalContent = children
+  let modalContent = children
 
   if(!closeModal){
     closeModal = modalContext.closeModal
+  }
+  if(!isModalShowed){
+    isModalShowed = modalContext.isModalShowed
+  }
+  if(!children){
+    modalContent = modalContext.modalContent
+  } else {
+    modalContent = children
   }
 
   useEffect(() => {
