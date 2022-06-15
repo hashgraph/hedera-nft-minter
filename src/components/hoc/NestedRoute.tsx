@@ -5,9 +5,11 @@ import { instanceOfNestedRoute, NestedRoute as NestedRouteProps } from '@/routes
 
 export default function NestedRoute({
   path,
-  defaultComponent,
-  nestedRoutes,
-  wrapper: Wrapper
+  config: {
+    defaultComponent: DefaultComponent,
+    nestedRoutes,
+    wrapper: Wrapper
+  }
 }: NestedRouteProps) {
 
   return (
@@ -22,7 +24,7 @@ export default function NestedRoute({
             </Route>
         ))}
         <Route exact path={path}>
-          {defaultComponent}
+          <DefaultComponent />
         </Route>
       </Switch>
     </Wrapper>

@@ -1,12 +1,12 @@
 import { JSX } from '@babel/types';
 
+
 import {
   Homepage,
   MyWallet,
   Profile,
   Book,
-  Settings,
-  settingsNestedRoutes
+  SettingsConfig
 } from '@/pages';
 
 export type CommonRoute = {
@@ -18,19 +18,28 @@ export type CommonRoute = {
 
 type NestedPageComponent = ({ children }: { children: JSX.Element }) => JSX.Element
 
-export type NestedRoute = {
-  path: string,
-  defaultComponent: JSX.Element
+export type NestedRouteConfig = {
+  defaultComponent: () => JSX.Element
   nestedRoutes: Array<CommonRoute | NestedRoute>,
   wrapper: NestedPageComponent
 }
 
+export type NestedRoute = {
+  path: string,
+  config: NestedRouteConfig
+}
+
+export const instanceOfNestedRouteConfig =
+  (data : NestedRouteConfig): data is NestedRouteConfig =>
+    'wrapper' in data &&
+    'nestedRoutes' in data &&
+    'defaultComponent' in data
+
 export const instanceOfNestedRoute =
   (data: NestedRoute | CommonRoute): data is NestedRoute =>
-    'nestedRoutes' in data &&
     'path' in data &&
-    'defaultComponent' in data &&
-    'wrapper' in data
+    'config' in data &&
+    instanceOfNestedRouteConfig(data.config)
 
 const routes: Array<CommonRoute | NestedRoute> = [
   {
@@ -51,9 +60,7 @@ const routes: Array<CommonRoute | NestedRoute> = [
   },
   {
     path: '/settings',
-    wrapper: Settings,
-    defaultComponent: <h1>Settings</h1>,
-    nestedRoutes: settingsNestedRoutes
+    config: SettingsConfig,
   }
 ];
 
