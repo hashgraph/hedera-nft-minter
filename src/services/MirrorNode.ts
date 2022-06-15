@@ -75,7 +75,7 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean }) {
+  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
     const {
       onlyAllowedToMint = false,
       onlyHasNFTs = false,
