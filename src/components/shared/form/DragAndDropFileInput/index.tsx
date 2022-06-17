@@ -3,6 +3,8 @@ import { FormikValues, useFormikContext } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 import './drag-and-drop-file-input.scss'
 
@@ -87,7 +89,10 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : isFileUploaded ? (
-          <p>Uploaded file: {acceptedFiles[0].name}</p>
+          <p>
+            Uploaded file:
+            <p className='file-name'>{acceptedFiles[0].name}</p>
+          </p>
           ) : (
           <p>Drag 'n' drop some files here, or click to select files</p>
           )}
@@ -103,7 +108,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
         <div className='drag-and-drop__summary__description'>
           {values?.image ? (
             <>
-            <p>{values?.image.path}</p>
+            <p className='file-name'>{values?.image.path}</p>
             <p>{formatBytes(values?.image.size)}</p>
             </>
           ) : (

@@ -19,6 +19,7 @@
     transition: generateTransitions($transitionAttributes, $transitionTime);
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
 
+
     &.is-focused {
       border-color: $ultraviolet;
       box-shadow: $boxShadow;
@@ -58,5 +59,12 @@
       width: 60px;
       height: 60px;
     }
+  }
+
+  .file-name {
+    overflow: hidden;
+    max-width: 20ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
