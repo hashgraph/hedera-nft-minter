@@ -1,0 +1,44 @@
+.settings-profile {
+  padding: 0 2rem;
+
+  &__details {
+    display: grid;
+    grid-area: details;
+
+    @include respond-to('desktop') {
+      max-width: 465px;
+    }
+  }
+
+  &__images {
+    display: flex;
+    flex-direction: column;
+    grid-area: images;
+  }
+
+  form {
+    display: grid;
+    grid-template-areas:
+      "images"
+      "details";
+    column-gap: 1.3rem;
+
+
+
+    button[type=submit] {
+      margin-left: auto;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      padding: 0.65rem 1.25rem;
+      height: 30px;
+    }
+
+    @include respond-to('desktop') {
+      max-width: 750px;
+      grid-template-areas:
+        "details images";
+      grid-template-columns: 1fr minmax(150px, 200px);
+      padding-right: 0;
+    }
+  }
+}

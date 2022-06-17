@@ -1,4 +1,9 @@
 .settings {
   display: grid;
-  grid-template-columns: minmax(100px, 300px) max-content;
+  grid-template-columns: 1fr;
+  padding-bottom: 4rem;
+
+  @include respond-to('tablet') {
+    grid-template-columns: minmax(100px, 300px) 1fr;
+  }
 }

@@ -15,8 +15,7 @@ export default function Settings({children} : Props) {
       </Hero>
       <div className='settings'>
         <div className='settings-menu'>
-          <Link to={'/settings'}>Settings</Link>
-          <Link to={'/settings/profile'}>Profile</Link>
+          <Link to={'/settings'}>Profile</Link>
           <Link to={'/settings/notifications'}>Notifications</Link>
         </div>
 

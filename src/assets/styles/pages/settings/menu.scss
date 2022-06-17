@@ -1,4 +1,27 @@
 .settings-menu {
-  display: grid;
-  grid-template-rows: repeat(10, 1fr);
+  display: none;
+  grid-template-rows: repeat(10, 50px);
+  padding: 2rem;
+  background: $black;
+  height: calc(100% + 4rem);
+
+  a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    line-height: 28px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    color: $vapor;
+    padding: 1rem 0;
+    @include gradient-border("bottom", 1px);
+
+    &:hover {
+      color: $blue;
+    }
+  }
+
+  @include respond-to('tablet') {
+    display: grid;
+  }
 }
