@@ -56,9 +56,10 @@ export default function MinterWizard() {
   }, [userWalletId, sendTransaction]);
 
   const handleFormSubmit = useCallback(async (values) => {
-    const tokenSymbol = values.symbol;
-    delete values.symbol;
-    let formTokenId = values?.token_id
+    const formValues = values
+    const tokenSymbol = formValues.symbol;
+    delete formValues.symbol;
+    let formTokenId = formValues?.token_id
     let metaCIDs = [] as UploadRespone[]
 
     try {
@@ -67,32 +68,32 @@ export default function MinterWizard() {
       }
 
       if (
-        values.mint_type === MintTypes.NewCollectionNewNFT
-        || values.mint_type === MintTypes.ExistingCollectionNewNFT
+        formValues.mint_type === MintTypes.NewCollectionNewNFT
+        || formValues.mint_type === MintTypes.ExistingCollectionNewNFT
       ) {
-        const filteredValues = filterFormValuesToNFTMetadata(values);
+        const filteredValues = filterFormValuesToNFTMetadata(formValues);
 
         //upload image
-        if (values.image) {
-          const imageData = await uploadNFTFile(values.image);
+        if (formValues.image) {
+          const imageData = await uploadNFTFile(formValues.image);
           if (!imageData.ok) {
             throw new Error('Error when uploading NFT File!');
           }
-          filteredValues.type = values.image.type;
+          filteredValues.type = formValues.image.type;
           filteredValues.image = imageData.value.cid;
         }
 
         // if new NFT, upload metadata
         metaCIDs = await Promise.all(
-          Array.from(new Array(parseInt(values.qty))).map(() =>
+          Array.from(new Array(parseInt(formValues.qty))).map(() =>
             uploadMetadata(filteredValues)
           )
         );
       } else {
-        // if semi-NFT, use metadata from formik values
+        // if semi-NFT, use metadata from formik formValues
         metaCIDs = await Promise.all(
-          Array.from(new Array(parseInt(values.qty))).map(() =>
-            IPFS.createMetadataFile(values.serial_metadata)
+          Array.from(new Array(parseInt(formValues.qty))).map(() =>
+            IPFS.createMetadataFile(formValues.serial_metadata)
               .then(res => res.data)
           )
         );
@@ -102,11 +103,11 @@ export default function MinterWizard() {
         formTokenId = await createToken({
           tokenSymbol,
           accountId: userWalletId,
-          tokenName: values.name,
-          amount: values.qty,
-          keys: values.keys,
-          customFees: values.fees,
-          maxSupply: values.maxSupply
+          tokenName: formValues.name,
+          amount: formValues.qty,
+          keys: formValues.keys,
+          customFees: formValues.fees,
+          maxSupply: formValues.maxSupply
         } as NewTokenType);
       }
 

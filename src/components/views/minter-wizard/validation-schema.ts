@@ -4,10 +4,12 @@ import { FEE } from '@utils/entity/Fees';
 const feeValidator = yup.object().shape({
   type: yup.string()
     .oneOf(Object.values(FEE), 'Select a type!')
-    .ensure()
-    .required('Required'),
+    .ensure(),
 
-  feeCollectorAccountId: yup.string().required('Required'),
+  feeCollectorAccountId: yup.string().when(['type'], {
+    is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL, FEE.FIXED].includes(type),
+    then: yup.string().required('Required'),
+  }),
 
   percent: yup.number().when(['type'], {
     is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL].includes(type),
@@ -57,13 +59,11 @@ export const ValidationSchema = yup.object().shape({
       name: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
+        .max(50, 'Too Long!'),
       value: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
+        .max(50, 'Too Long!'),
     })
   ),
   attributes: yup.array().of(
@@ -71,13 +71,11 @@ export const ValidationSchema = yup.object().shape({
       trait_type: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
+        .max(50, 'Too Long!'),
       value: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!')
-        .required('Required'),
+        .max(50, 'Too Long!'),
     })
   ),
   fees: yup.array().of(feeValidator),

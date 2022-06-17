@@ -11,9 +11,6 @@ type Props = {
 export default function CollectionSummary({ collection }: Props) {
   return (
     <div className={classNames('collectionsummary')}>
-      <p className='collectionsummary__title'>
-        {collection.info.symbol} | {collection.info.name}
-      </p>
       <div className='collectionsummary__values'>
         <p>
           Max supply: <b>{collection?.info.max_supply}</b>

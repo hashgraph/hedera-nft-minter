@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
 
-import { initialValues , WizardValues } from '@/utils/const/minter-wizard';
+import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 import MirrorNode from '@/services/MirrorNode';
 import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { TokenInfo } from '@/utils/entity/TokenInfo';
@@ -13,6 +13,7 @@ import FieldSelect from '@/components/shared/form/FieldSelect';
 import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
 import './minter-wizard-select-collection.scss';
 import pick from 'lodash/pick';
+import FieldWrapper from '../../form/FieldWrapper';
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
@@ -54,25 +55,42 @@ export default function SelectCollection() {
     }
   }, [loadCollections, userWalletId]);
 
-  useEffect(()=>{
-    resetForm({values: {
-      ...values,
-      ...pick(initialValues, [
-        'edition_name',
-        'serial_metadata',
-        'creator',
-        'creatorDID',
-        'image',
-        'files',
-        'properties',
-        'attributes',
-        'qty',
-        'keys',
-        'fees'
-      ])
-    }})
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    resetForm({
+      values: {
+        ...values,
+        ...pick(initialValues, [
+          'edition_name',
+          'serial_metadata',
+          'creator',
+          'creatorDID',
+          'image',
+          'files',
+          'properties',
+          'attributes',
+          'qty',
+          'keys',
+          'fees'
+        ])
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resetForm])
+
+  const maxQtyNumber = useMemo(() => {
+    const maxQty = parseInt(selectedCollection?.info.max_supply as string)
+      - (selectedCollection?.nfts?.length ?? 0)
+
+    if (maxQty >= 10) {
+      return 10
+    }
+
+    return maxQty
+  }, [selectedCollection])
+
+  useEffect(() => {
+    setFieldValue('qty', 1);
+  }, [selectedCollection, setFieldValue])
 
   return (
     <div>
@@ -83,8 +101,7 @@ export default function SelectCollection() {
       ) : (
         <div className='select-collection'>
           <h3>Select a collection where your NFT will be placed</h3>
-
-          <label htmlFor='token_id'>Collection</label>
+          <label htmlFor='token_id'>Selected collection</label>
           <div className='select-collection__select-wrapper'>
             <FieldSelect name='token_id'>
               {collections.map((collection, index) =>
@@ -96,11 +113,19 @@ export default function SelectCollection() {
                 </option>
               )}
             </FieldSelect>
+            {selectedCollection && (
+              <CollectionSummary collection={selectedCollection} />
+            )}
           </div>
 
-          {selectedCollection && (
-            <CollectionSummary collection={selectedCollection} />
-          )}
+          <FieldWrapper
+            fastField
+            name='qty'
+            type='number'
+            label='Number of tokens you want to mint into collection'
+            max={maxQtyNumber}
+            min={1}
+          />
         </div>
       )}
     </div>

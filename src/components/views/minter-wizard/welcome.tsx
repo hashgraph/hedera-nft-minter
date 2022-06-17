@@ -29,7 +29,7 @@ export default function Welcome({goToCreator} : Props) {
             value: MintTypes.NewCollectionNewNFT
           },
           {
-            label: 'Existing NFT <span class="flex">with Existing Collection</span>',
+            label: 'New NFT <span class="flex">with Existing Collection</span>',
             value: MintTypes.ExistingCollectionNewNFT
           },
           // {

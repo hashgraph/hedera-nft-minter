@@ -194,4 +194,13 @@ button,
       max-height: 100px;
     }
   }
+
+  &:disabled {
+    &:hover {
+      background: $smoke;
+      color: $black;
+      filter: unset;
+      cursor: not-allowed;
+    }
+  }
 }

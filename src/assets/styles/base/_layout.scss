@@ -253,6 +253,16 @@ header {
   @include respond-to('mobile') {
     height: 50vh;
   }
+
+  &__dark-schema {
+    * {
+      color: $vapor;
+    }
+
+    h1 {
+      letter-spacing: 0.02rem;
+    }
+  }
 }
 
 .page-menu {

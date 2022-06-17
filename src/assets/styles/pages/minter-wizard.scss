@@ -53,6 +53,10 @@
       flex-direction: column;
       justify-content: space-between;
     }
+
+    .offchain-basis-header {
+      @include gradient-border('bottom', 1px);
+    }
   }
 
   &__select-edition {

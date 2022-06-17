@@ -3,7 +3,9 @@ import { FEE, Fees } from '@utils/entity/Fees';
 import _ from 'lodash';
 
 const prepareFees = (customFees : Fees[]) => {
-  const filteredFees = customFees.map(fee=>{
+  const filteredFees = customFees
+    .filter(fee => fee.type !== FEE.NONE)
+    .map(fee => {
     switch(fee.type){
       case FEE.FIXED:
         return _.pick(fee,[
@@ -38,6 +40,12 @@ const prepareFees = (customFees : Fees[]) => {
               'type'
             ])
           }
+
+      case FEE.NONE:
+        return {
+          type: FEE.NONE,
+          feeCollectorAccountId: ''
+        }
     }
   })
 

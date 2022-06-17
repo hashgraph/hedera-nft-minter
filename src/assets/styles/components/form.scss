@@ -47,6 +47,11 @@ select {
   padding: 0.5rem 1rem;
   border-radius: 25px;
   width: 100%;
+
+  &::placeholder {
+    font-weight: 200;
+    filter: brightness(1.4);
+  }
 }
 
 select {
@@ -57,6 +62,7 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+
 }
 
 input[type='number'] {
@@ -65,6 +71,8 @@ input[type='number'] {
   justify-content: center;
   align-items: center;
   max-width: 111px;
+  -moz-appearance:textfield;
+
 }
 
 
@@ -319,6 +327,7 @@ input[type='number'] {
     column-gap: $columnGap;
 
     &-row {
+      padding-bottom: 2rem;
 
       &-mt {
         margin-top: 1.875rem;
@@ -343,10 +352,14 @@ input[type='number'] {
         flex-wrap: wrap;
 
         label {
+          justify-content: center;
           text-align: center;
+          font-weight: 400;
+          text-transform: uppercase;
           flex: 0 1 26%;
 
           &:first-of-type {
+            justify-content: flex-start;
             text-align: left;
           }
         }
@@ -372,7 +385,6 @@ input[type='number'] {
 
         &__remove-button {
           button {
-            margin-bottom: $errorHeight;
             margin-left: auto;
           }
         }

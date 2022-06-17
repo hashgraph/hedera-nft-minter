@@ -4,6 +4,8 @@ import renderValue from '@/utils/helpers/renderValue';
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 import { TokenKeys } from '@components/shared/minter-wizard/minter-wizard-keys';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 
 type Props = {
@@ -43,7 +45,7 @@ export default function NewNftNewCollectionSideSummary({ step }: Props) {
           <p className='side_summary__info__header'>
             Description:
           </p>
-          <p className='side_summary__info__row'>
+          <p className='side_summary__info__row side_summary__description'>
             <span>{renderValue(values?.description)}</span>
           </p>
         </>
@@ -86,9 +88,6 @@ export default function NewNftNewCollectionSideSummary({ step }: Props) {
       {step >= NewCollectionNewNFTWizardSteps.AdvancedScreen && (
         <>
           <hr />
-          <p className='side_summary__info__header'>
-            Advanced settings:
-          </p>
           {values?.fees.length > 0 && (
             <div className='side_summary__info__multiple'>
               <p className='side_summary__info__subheader'>

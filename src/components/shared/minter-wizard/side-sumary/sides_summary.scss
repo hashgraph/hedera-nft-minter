@@ -80,6 +80,10 @@
     overflow: scroll;
   }
 
+  &__description span {
+    font-style: italic;
+  }
+
   &__info {
     &__collection-name {
       font-size: 1.5rem;
@@ -102,13 +106,11 @@
       margin: 0;
       display: flex;
       align-items: center;
+      color: #{$vapor}80;
 
       span {
-        font-size: 1rem;
-
-        span {
-          opacity: 0.6;
-        }
+        color: $vapor;
+        font-weight: 600;
       }
     }
 
@@ -118,9 +120,11 @@
     }
 
     &__subheader {
+      color: $vapor;
       font-size: 0.8rem;
       font-weight: 500;
     }
+
   }
 
   //@include respond-to('mobile') {
