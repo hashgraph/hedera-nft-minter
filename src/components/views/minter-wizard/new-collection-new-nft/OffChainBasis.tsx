@@ -21,7 +21,7 @@ export default function OffChainBasis() {
               name='name'
               type='text'
               label='Collection name'
-              placeholder="E.g. 'New Super Collection'"
+              placeholder='e.g My Super Collection'
             />
           </div>
           <div>
@@ -30,7 +30,7 @@ export default function OffChainBasis() {
               name='symbol'
               type='text'
               label='Collection symbol'
-              placeholder="E.g. 'NSC'"
+              placeholder='e.g MSC'
             />
           </div>
           <div>
@@ -39,7 +39,7 @@ export default function OffChainBasis() {
               name='edition_name'
               type='text'
               label='Edition name'
-              placeholder="E.g. 'Magic edition'"
+              placeholder='e.g Magic edition'
             />
           </div>
           <div>
@@ -59,7 +59,7 @@ export default function OffChainBasis() {
                 name='creator'
                 type='text'
                 label='Creator'
-                placeholder='E.g. John Wright'
+                placeholder='e.g John Smith'
               />
             </div>
             <div>

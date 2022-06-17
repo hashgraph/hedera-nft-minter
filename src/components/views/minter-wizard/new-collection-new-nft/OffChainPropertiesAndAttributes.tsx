@@ -12,13 +12,13 @@ export default function OffChainPropertiesAndAttributes() {
               name: 'name',
               type: 'text',
               label: 'Name',
-              placeholder: 'E.g. \'website\''
+              placeholder: 'e.g website'
             },
             {
               name: 'value',
               type: 'text',
               label: 'Value',
-              placeholder: 'E.g. \'www.mysite.com\''
+              placeholder: 'e.g www.mysite.com'
             },
           ]}
         />
@@ -31,13 +31,13 @@ export default function OffChainPropertiesAndAttributes() {
               name: 'trait_type',
               type: 'text',
               label: 'Trait type',
-              placeholder: 'E.g. \'hair\''
+              placeholder: 'e.g hair'
             },
             {
               name: 'value',
               type: 'text',
               label: 'Value',
-              placeholder: 'E.g. \'blue\''
+              placeholder: 'e.g blue'
             },
           ]}
         />
