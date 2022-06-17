@@ -32,10 +32,10 @@ export default function Welcome({goToCreator} : Props) {
             label: 'EXISTING COLLECTION NEW NFT',
             value: MintTypes.ExistingCollectionNewNFT
           },
-          {
-            label: 'EXISTING COLLECTION EXISTING NFT',
-            value: MintTypes.ExistingCollectionExistingNFT
-          },
+          // {
+          //   label: 'EXISTING COLLECTION EXISTING NFT',
+          //   value: MintTypes.ExistingCollectionExistingNFT
+          // },
         ]}
       />
       <div className='step-buttons-wrapper first-step'>
