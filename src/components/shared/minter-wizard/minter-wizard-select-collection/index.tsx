@@ -79,11 +79,10 @@ export default function SelectCollection() {
       {isLoading ? (
         <div className='my-nft-collection__loader-wrapper'>
           <Loader />
-          <p>Gathering collections info...</p>
         </div>
       ) : (
         <div className='select-collection'>
-          <h3>Select collection where NFT will appear</h3>
+          <h3>Select a collection where your NFT will be placed</h3>
 
           <label htmlFor='token_id'>Collection</label>
           <div className='select-collection__select-wrapper'>

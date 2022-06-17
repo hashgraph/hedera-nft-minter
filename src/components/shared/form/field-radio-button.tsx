@@ -1,11 +1,10 @@
 import { useField } from 'formik';
-import React, { MouseEventHandler, useCallback, useMemo } from 'react'
-import { JSX } from '@babel/types';
+import React, { useRef, MouseEventHandler, useCallback, useMemo, useEffect } from 'react'
 import classNames from 'classnames';
 
 type Props = {
   value: string | number | boolean;
-  label: string | JSX.Element;
+  label: string;
   name: string;
   image?: string;
   className?: string;
@@ -14,6 +13,8 @@ type Props = {
 
 export default function FieldRadioButton({value, label, name, image, className, onClick} : Props) {
   const [field, , helpers] = useField(name);
+
+  const labelRef = useRef<HTMLSpanElement | null>(null)
 
   const isActive = useMemo(() => (
     field.value === value
@@ -26,14 +27,21 @@ export default function FieldRadioButton({value, label, name, image, className, 
     helpers.setValue(value)
   }, [helpers, value, onClick])
 
+  useEffect(() => {
+      if (labelRef.current) {
+          labelRef.current.innerHTML = label;
+      }
+  }, [label, labelRef]);
+
   const classnames = classNames(className, {isActive, hasImage: !!image})
+
 
   return (
     <button type='button' className={classnames} onClick={handleOnClick}>
       {image && (
         <img src={image} alt='icon' />
       )}
-      {label}
+      <span ref={labelRef} />
     </button>
   )
 }

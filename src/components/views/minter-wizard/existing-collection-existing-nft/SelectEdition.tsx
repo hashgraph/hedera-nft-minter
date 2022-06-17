@@ -48,9 +48,9 @@ export default function SelectEdition() {
               fastField
               name='qty'
               type='number'
-              label='Number of editions you want to mint now'
+              label='Number of editions you want to mint'
               max='10'
-              tooltip='You can mint max 10 tokens at once.'
+              tooltip='You can mint a maximum of 10 tokens at once.'
             />
           </div>
           <hr />

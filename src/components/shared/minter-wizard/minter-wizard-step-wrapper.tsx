@@ -34,7 +34,7 @@ export default function MinterWizardStepWrapper({
               type='button'
               onClick={backToMintTypeSelection}
             >
-                Minting type
+                Back
             </button>
           ) : (
             <button
@@ -42,7 +42,7 @@ export default function MinterWizardStepWrapper({
               disabled={isFirstScreen}
               onClick={handleCreatorPrevButton}
             >
-              Prev
+              Back
             </button>
           )}
         </div>

@@ -25,11 +25,11 @@ export default function Welcome({goToCreator} : Props) {
         name='mint_type'
         options={[
           {
-            label: 'NEW COLLECTION NEW NFT',
+            label: 'New NFT',
             value: MintTypes.NewCollectionNewNFT
           },
           {
-            label: 'EXISTING COLLECTION NEW NFT',
+            label: 'Existing NFT <span class="flex">with Existing Collection</span>',
             value: MintTypes.ExistingCollectionNewNFT
           },
           // {
@@ -44,7 +44,7 @@ export default function Welcome({goToCreator} : Props) {
           type='button'
           onClick={goToCreator}
         >
-          Go to next step
+          Start minting
         </button>
       </div>
     </div>

@@ -16,7 +16,7 @@ button,
   color: var(--font-color, #{$black});
   font-size: 8px;
   letter-spacing: 1.33px;
-  $transitionAttributes: (border-color, background-color, color);
+  $transitionAttributes: (border-color, background-color, filter, color);
   transition: generateTransitions($transitionAttributes, 400ms);
 
   &--big {
@@ -109,6 +109,18 @@ button,
     width: 150px;
     height: 150px;
 
+    span {
+      font-size: 1.8rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+
+      span {
+        font-size: 1rem;
+      }
+    }
+
     @include respond-to("tablet") {
       width: 230px;
       height: 230px;
@@ -133,6 +145,10 @@ button,
   &.square {
     width: 100%;
     filter: brightness(1.1);
+
+    &:not(.isActive):hover {
+      filter: brightness(1.2);
+    }
 
     &:first-of-type {
       border-radius: unset;
