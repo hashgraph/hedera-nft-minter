@@ -24,7 +24,7 @@ select {
     color: $black;
 
     &:disabled {
-      background: $grey;
+      background: $smoke;
     }
   }
 
@@ -141,7 +141,7 @@ input[type='number'] {
         width: 100%;
         column-gap: $columnGap;
         padding: 1.5rem 0;
-        border-top: 1px solid $grey;
+        border-top: 1px solid $smoke;
 
       }
 
@@ -372,23 +372,23 @@ input[type='number'] {
           flex: 0 1 22% !important;
 
           button {
-            background: $grey;
+            background: $smoke;
             color: $vapor;
             margin-left: auto;
             margin-bottom: $errorHeight;
             border: unset;
-            border: 1px solid $grey;
+            border: 1px solid $smoke;
 
             &:hover {
               cursor: not-allowed;
-              border: 1px solid $grey;
+              border: 1px solid $smoke;
             }
           }
         }
 
         &-container {
           padding: 1.5rem 0;
-          border-top: 1px solid $grey;
+          border-top: 1px solid $smoke;
 
           &_firsts {
             margin-top: 10px;
@@ -396,7 +396,7 @@ input[type='number'] {
 
           &__disabled-button {
             button {
-              background: $grey;
+              background: $smoke;
               color: $vapor;
               margin-left: auto;
             }
@@ -461,7 +461,7 @@ input[type='number'] {
     color: $orange;
     padding-top: 2px;
     font-size: 0.6875rem;
-    min-height: 14px;
+    min-height: 21.8px;
     padding-right: 1rem;
 
     &.hover{
