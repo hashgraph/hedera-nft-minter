@@ -2,7 +2,7 @@ import pick from 'lodash/pick';
 import { FormikValues } from 'formik';
 
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {
-  let filtred = pick(values, [
+  let filtered = pick(values, [
     'name',
     'type',
     'creator',
@@ -14,15 +14,15 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     'attributes',
   ]) as FormikValues;
 
-  filtred.format = 'opensea';
+  filtered.format = 'opensea';
 
-  filtred = Object.keys(filtred).reduce(
+  filtered = Object.keys(filtered).reduce(
     (params: FormikValues, paramName: string) => {
       if (
-        (!Array.isArray(filtred[paramName]) && filtred[paramName]) ||
-        (Array.isArray(filtred[paramName]) && filtred[paramName].length > 0)
+        (!Array.isArray(filtered[paramName]) && filtered[paramName]) ||
+        (Array.isArray(filtered[paramName]) && filtered[paramName].length > 0)
       ) {
-        params[paramName] = filtred[paramName];
+        params[paramName] = filtered[paramName];
       }
 
       return params;
@@ -30,7 +30,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     {}
   );
 
-  return filtred
+  return filtered
 }
 
 export default filterFormValuesToNFTMetadata
