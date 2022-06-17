@@ -1,4 +1,4 @@
-import { Fees } from '@utils/entity/Fees';
+import { FEE, Fees } from '@utils/entity/Fees';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 
@@ -32,22 +32,14 @@ export const initialValues: WizardValues = {
   files: [],
   properties: [
     {
-      name: 'website',
-      value: 'www.mywebsite.com',
-    },
-    {
-      name: 'license',
-      value: 'Creative Common',
+      name: '',
+      value: '',
     },
   ],
   attributes: [
     {
-      trait_type: 'hair',
-      value: 'blue',
-    },
-    {
-      trait_type: 'size',
-      value: 'large',
+      trait_type: '',
+      value: '',
     },
   ],
   qty: 1,
@@ -56,5 +48,7 @@ export const initialValues: WizardValues = {
     { type: TOKEN_KEY.TREASURY, value: 'account' },
     { type: TOKEN_KEY.SUPPLY, value: 'account' },
   ],
-  fees: [],
+  fees: [
+    { type: FEE.NONE, feeCollectorAccountId: ''}
+  ],
 };

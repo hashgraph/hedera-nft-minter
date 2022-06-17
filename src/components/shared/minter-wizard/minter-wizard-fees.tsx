@@ -244,7 +244,7 @@ const MinterWizardFees = () => {
                       key={`fees_${ index }`}
                       className='form__row__fees-wrapper'
                     >
-                      <div className='form__row__fees-container'>
+                      <div className='form__row__fees__fee-container'>
                         <div className='form__select_row'>
                           <FieldSelect name={`fees.${ index }.type`}>
                             <option value=''>Select a fee type...</option>

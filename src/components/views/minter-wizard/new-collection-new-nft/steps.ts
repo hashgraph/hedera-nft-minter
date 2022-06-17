@@ -1,11 +1,13 @@
 import OnChain from '@components/views/minter-wizard/new-collection-new-nft/OnChain';
-import OffChain from '@components/views/minter-wizard/new-collection-new-nft/OffChain';
+import OffChainBasis from '@/components/views/minter-wizard/new-collection-new-nft/OffChainBasis';
+import OffChainPropertiesAndAttributes from '@/components/views/minter-wizard/new-collection-new-nft/OffChainPropertiesAndAttributes';
 import Advanced from '@components/views/minter-wizard/new-collection-new-nft/Advanced';
 
 export enum NewCollectionNewNFTWizardSteps {
   OnChainScreen = 0,
-  OffChainScreen = 1,
-  AdvancedScreen = 2,
+  OffChainBasisScreen = 1,
+  OffChainPropertiesAndAttributesScreen = 2,
+  AdvancedScreen = 3,
 }
 
 const Steps = [
@@ -14,8 +16,12 @@ const Steps = [
     Component: OnChain
   },
   {
-    creatorStep: NewCollectionNewNFTWizardSteps.OffChainScreen,
-    Component: OffChain
+    creatorStep: NewCollectionNewNFTWizardSteps.OffChainBasisScreen,
+    Component: OffChainBasis
+  },
+  {
+    creatorStep: NewCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,
+    Component: OffChainPropertiesAndAttributes
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedScreen,
