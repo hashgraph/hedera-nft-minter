@@ -12,7 +12,8 @@ export enum ExistingCollectionNewNFTWizardSteps {
 const Steps = [
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.SelectCollectionScreen,
-    Component: SelectCollection
+    Component: SelectCollection,
+    mandatoryFields: ['token_id', 'qty']
   },
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainScreen,

@@ -13,11 +13,13 @@ export enum NewCollectionNewNFTWizardSteps {
 const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OnChainScreen,
-    Component: OnChain
+    Component: OnChain,
+    mandatoryFields: ['maxSupply', 'qty']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainBasisScreen,
-    Component: OffChainBasis
+    Component: OffChainBasis,
+    mandatoryFields: ['name', 'symbol']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,

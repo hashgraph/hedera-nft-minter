@@ -6,9 +6,12 @@ export enum MintTypes {
   ExistingCollectionExistingNFT = 'existing_collection_existing_NFT',
 }
 
+export type CreatorStep = number;
+
 export type CreatorScreen = {
   creatorStep: number,
   Component: React.FC,
+  mandatoryFields?: string[]
 }
 
 export type CreatorSteps = CreatorScreen[];
