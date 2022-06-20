@@ -1,11 +1,11 @@
 import Notifications from './notifications';
 import { NestedRoute, CommonRoute } from '@/routes/base';
 
-const settingsNestedRoutes = [
+const settingsNestedRoutes : Array<NestedRoute | CommonRoute> = [
   {
     path: '/settings/notifications',
     component: Notifications,
   },
-] as Array<NestedRoute | CommonRoute>
+]
 
 export default settingsNestedRoutes

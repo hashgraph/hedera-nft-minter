@@ -15,6 +15,14 @@ import FacebookIcon from '@assets/images/socials/facebook.png'
 // @ts-ignore
 import InstagramIcon from '@assets/images/socials/instagram.png'
 
+interface ISocialsData {
+  value: ProfileSocials;
+  alt: string;
+  title: string,
+  icon: string,
+  placeholder: string
+}
+
 export enum ProfileSocials {
   Twitter = 'twitter',
   Facebook = 'facebook',
@@ -45,13 +53,7 @@ export const ProfileSocialsData = [
 ]
 
 export const useSocialsData = () => {
-  const socialsData = useMemo<{
-    value: ProfileSocials;
-    alt: string;
-    title: string,
-    icon: string,
-    placeholder: string
-  }[]>(() => ProfileSocialsData, []);
+  const socialsData = useMemo<ISocialsData[]>(() => ProfileSocialsData, []);
 
   return socialsData
 }

@@ -23,7 +23,13 @@
       "details";
     column-gap: 1.3rem;
 
-
+    @include respond-to('desktop') {
+      max-width: 750px;
+      grid-template-areas:
+        "details images";
+      grid-template-columns: 1fr minmax(150px, 200px);
+      padding-right: 0;
+    }
 
     button[type=submit] {
       margin-left: auto;
@@ -31,14 +37,6 @@
       font-size: 0.9rem;
       padding: 0.65rem 1.25rem;
       height: 30px;
-    }
-
-    @include respond-to('desktop') {
-      max-width: 750px;
-      grid-template-areas:
-        "details images";
-      grid-template-columns: 1fr minmax(150px, 200px);
-      padding-right: 0;
     }
   }
 }
