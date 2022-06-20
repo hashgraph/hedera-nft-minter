@@ -17,8 +17,7 @@ export default function Hero ({
   themeSchema?: HeroSchemaTypes;
 }) {
   const heroClassName = classNames('hero', {
-    'hero__dark-schema': themeSchema === HeroSchemaTypes.DARK,
-    'hero__light-schema': themeSchema === HeroSchemaTypes.LIGHT,
+    'hero--dark-schema': themeSchema === HeroSchemaTypes.DARK,
   })
 
   return (
