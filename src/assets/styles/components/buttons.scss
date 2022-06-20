@@ -49,6 +49,7 @@ button,
     &:hover {
       color: $vapor;
       background: $black;
+      border-color: $vapor;
     }
   }
 
@@ -67,7 +68,8 @@ button,
   &:hover {
     background: $black;
     color: $vapor;
-    border-color: $vapor;
+    border: 1px solid $vapor;
+
   }
 
   &:focus {
