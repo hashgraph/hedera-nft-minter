@@ -21,7 +21,7 @@ export default function useMinterWizard(
     steps && creatorStep === steps[steps?.length - 1]?.creatorStep
   ), [creatorStep, steps])
 
-  const getStepFieldsNames = useCallback(() => {
+  const getCurrentStepFieldsNames = useCallback(() => {
     const allMandatoryFields = [] as string[];
     const allOptionalFields = [] as string[];
     if (mintType) {
@@ -44,7 +44,7 @@ export default function useMinterWizard(
 
   const handleCreatorNextButton = useCallback((e) => {
     const checkIfMandatoryFieldsAreValidated = () => {
-      const {allMandatoryFields} = getStepFieldsNames()
+      const {allMandatoryFields} = getCurrentStepFieldsNames()
 
       for (const nameOfMandatoryFieldToValidate in allMandatoryFields) {
         if (typeof values[nameOfMandatoryFieldToValidate] !== 'undefined') {
@@ -69,7 +69,7 @@ export default function useMinterWizard(
     }
 
     const checkIfOptionalFieldsAreValidated = () => {
-      const { allOptionalFields } = getStepFieldsNames()
+      const { allOptionalFields } = getCurrentStepFieldsNames()
 
       for(const optionalFieldName of allOptionalFields){
         if(typeof errors[optionalFieldName] !== 'undefined'){
@@ -104,7 +104,7 @@ export default function useMinterWizard(
     isLastScreen,
     errors,
     validateField,
-    getStepFieldsNames,
+    getCurrentStepFieldsNames,
     values
   ])
 
