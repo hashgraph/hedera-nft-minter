@@ -79,11 +79,10 @@ export default function useMinterWizard(
                 return false
               }
             }
-          }
-
-          if(typeof errors[optionalFieldName] !== 'undefined'){
+          } else {
             return false
           }
+
         }
       }
       return true
