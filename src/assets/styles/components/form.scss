@@ -62,7 +62,6 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-
 }
 
 input[type='number'] {
@@ -72,7 +71,6 @@ input[type='number'] {
   align-items: center;
   max-width: 111px;
   -moz-appearance:textfield;
-
 }
 
 
@@ -166,7 +164,6 @@ input[type='number'] {
         display: flex;
         flex-direction: column;
         padding-top: 2rem;
-
       }
     }
 
@@ -305,7 +302,6 @@ input[type='number'] {
 
     .form__error {
       grid-area: error;
-
     }
   }
 
