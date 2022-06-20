@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import { FieldAttributes } from 'formik';
 import { ButtonHTMLAttributes, MouseEventHandler } from 'react';
+import { JSX } from '@babel/types'
 import FieldRadioButton from '../field-radio-button';
 
 interface Option {
-  label: string,
+  label: string | JSX.Element,
   value: string | number,
   image?: string,
   onClick?: MouseEventHandler<HTMLButtonElement> ;
