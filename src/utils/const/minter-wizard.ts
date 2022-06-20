@@ -44,6 +44,7 @@ export const initialValues: WizardValues = {
   ],
   qty: 1,
   maxSupply: 10,
+  token_id: '',
   keys: [
     { type: TOKEN_KEY.TREASURY, value: 'account' },
     { type: TOKEN_KEY.SUPPLY, value: 'account' },

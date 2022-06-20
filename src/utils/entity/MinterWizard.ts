@@ -11,7 +11,8 @@ export type CreatorStep = number;
 export type CreatorScreen = {
   creatorStep: number,
   Component: React.FC,
-  mandatoryFields?: string[]
+  mandatoryFields?: string[],
+  optionalFields?: string[]
 }
 
 export type CreatorSteps = CreatorScreen[];

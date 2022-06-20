@@ -19,15 +19,18 @@ const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainBasisScreen,
     Component: OffChainBasis,
-    mandatoryFields: ['name', 'symbol']
+    mandatoryFields: ['name', 'symbol'],
+    optionalFields: ['edition_name', 'description', 'creator', 'creatorDID']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,
-    Component: OffChainPropertiesAndAttributes
+    Component: OffChainPropertiesAndAttributes,
+    optionalFields: ['properties', 'attributes']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedScreen,
-    Component: Advanced
+    Component: Advanced,
+    optionalFields: ['keys', 'fees']
   },
 ]
 

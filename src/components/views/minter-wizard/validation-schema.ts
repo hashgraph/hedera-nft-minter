@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
+import { MintTypes } from '@/utils/entity/MinterWizard';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
@@ -66,6 +67,13 @@ export const ValidationSchema = yup.object().shape({
         .max(50, 'Too Long!'),
     })
   ),
+  token_id: yup.string().when(['mintType'], {
+    is: (mintType : MintTypes) => [
+      MintTypes.ExistingCollectionExistingNFT,
+      MintTypes.ExistingCollectionNewNFT,
+     ].includes(mintType),
+    then: yup.string().required('Required'),
+  }),
   attributes: yup.array().of(
     yup.object().shape({
       trait_type: yup
