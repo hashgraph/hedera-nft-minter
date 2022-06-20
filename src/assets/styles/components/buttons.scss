@@ -1,5 +1,6 @@
 button,
 .btn {
+  --border-color: #{$black};
   font-family: 'Styrene A Web';
   font-weight: 500;
   font-style: normal;
@@ -12,7 +13,7 @@ button,
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  border: 1px solid $vapor;
+  border: 1px solid var(--border-color);
   color: var(--font-color, #{$black});
   font-size: 8px;
   letter-spacing: 1.33px;
