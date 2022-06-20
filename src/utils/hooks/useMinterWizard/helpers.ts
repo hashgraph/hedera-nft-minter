@@ -3,6 +3,7 @@ import filter from 'lodash/filter';
 import isArray from 'lodash/isArray';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
 import wizardSteps from '@/components/views/minter-wizard/wizard-steps';
+import { WizardValues } from '@/utils/const/minter-wizard';
 
 export const getCurrentStepFieldsNames = (
   mintType: MintTypes,
@@ -62,7 +63,7 @@ export const checkIfMandatoryFieldsAreValidated = (
   return false
 }
 
-export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], errors: FormikErrors<FormikValues>) => {
+export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], errors: FormikErrors<WizardValues>) => {
   for (const optionalFieldName of allOptionalFields) {
     if (typeof errors[optionalFieldName] !== 'undefined') {
       switch (isArray(errors[optionalFieldName])) {
