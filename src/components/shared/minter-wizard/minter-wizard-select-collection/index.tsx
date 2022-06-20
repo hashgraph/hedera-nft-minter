@@ -81,11 +81,7 @@ export default function SelectCollection() {
     const maxQty = parseInt(selectedCollection?.info.max_supply as string)
       - (selectedCollection?.nfts?.length ?? 0)
 
-    if (maxQty >= 10) {
-      return 10
-    }
-
-    return maxQty
+    return maxQty >= 10 ? 10 : maxQty
   }, [selectedCollection])
 
   useEffect(() => {

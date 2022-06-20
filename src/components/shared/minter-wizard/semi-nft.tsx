@@ -15,7 +15,7 @@ export default function SemiNFT({ data }: { data: NFTInfo[] }) {
   const serials = useMemo(() => data.map(d => d.serial_number), [data]);
 
   const isActive = useMemo(() => {
-    if((data[0]?.serial_number.toString() as string) === (values?.serial_number as string)){
+    if((data[0]?.serial_number.toString()) === (values?.serial_number as string)){
       setFieldValue('serial_metadata', data[0]?.meta)
       return true
     }
