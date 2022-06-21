@@ -104,6 +104,7 @@ input[type='number'] {
   &__row {
     display: flex;
     flex-direction: column;
+    color: var(--main-color);
 
     label {
       display: flex;

@@ -1,4 +1,4 @@
-import { FEE, Fees } from '@utils/entity/Fees';
+import { Fees } from '@utils/entity/Fees';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 
@@ -49,7 +49,5 @@ export const initialValues: WizardValues = {
     { type: TOKEN_KEY.TREASURY, value: 'account' },
     { type: TOKEN_KEY.SUPPLY, value: 'account' },
   ],
-  fees: [
-    { type: FEE.NONE, feeCollectorAccountId: ''}
-  ],
+  fees: [],
 };

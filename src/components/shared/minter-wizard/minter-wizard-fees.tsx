@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FieldArray, useField } from 'formik';
 import { toast } from 'react-toastify';
 import {
@@ -209,8 +209,13 @@ const MinterWizardFees = () => {
     renderFixedFeeFormFields
   ]);
 
+  const isNoValues = useMemo(() =>
+    field.value.length === 0,
+  [field.value])
+
   return (
     <div className='form__group-row form__group-row-mt'>
+
       <FieldArray
         name='fees'
         render={({ push, remove }) => (
@@ -230,6 +235,12 @@ const MinterWizardFees = () => {
                 Add +
               </button>
             </div>
+            {isNoValues && (
+              <div className='form__row'>
+                <h4>Here you can add custom fees.</h4>
+                <p>Click add button above to add fee.</p>
+              </div>
+            )}
             <TransitionGroup className='form__group__list'>
               {field.value.map((_, index) => (
                 <CSSTransition
@@ -241,7 +252,7 @@ const MinterWizardFees = () => {
                   <div className='form__row__fees-container'>
                     <div
                       // eslint-disable-next-line react/no-array-index-key
-                      key={`fees_${ index }`}
+                      key={`fees_${ index }_row`}
                       className='form__row__fees-wrapper'
                     >
                       <div className='form__row__fees__fee-container'>

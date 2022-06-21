@@ -25,13 +25,13 @@ body {
   --background-color: #{$vapor};
   --border-color: #{$black};
   color: var(--main-color);
+}
 
-  .dark-schema {
-    background: $black;
-    --main-color: #{$vapor};
-    --background-color: #{$black};
-    --border-color: #{$border};
-  }
+.dark-schema {
+  background: $black;
+  --main-color: #{$vapor};
+  --background-color: #{$black};
+  --border-color: #{$border};
 }
 
 a {
