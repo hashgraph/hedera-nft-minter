@@ -27,7 +27,8 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
         validateField(`${ name }.${ newFieldIndex }.${ el.name }`)
       }
     })
-  },[field.value, validateField, setFieldTouched, inputsSchema, name])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[field.value, validateField, setFieldTouched, name])
 
   return (
     <div className='form__group-row'>
