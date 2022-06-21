@@ -237,8 +237,7 @@ const MinterWizardFees = () => {
             </div>
             {isNoValues && (
               <div className='form__row'>
-                <h4>Here you can add custom fees.</h4>
-                <p>Click add button above to add fee.</p>
+                <p>To add fees click the button above.</p>
               </div>
             )}
             <TransitionGroup className='form__group__list'>

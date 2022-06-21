@@ -7,12 +7,12 @@ import HTS, { NewTokenType } from '@/services/HTS';
 import IPFS, { UploadRespone } from '@/services/IPFS';
 import useHederaWallets from '@/utils/hooks/useHederaWallets';
 import filterFormValuesToNFTMetadata from '@/utils/helpers/filterFormValuesToNFTMetadata';
-
 import { initialValues } from '@/utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
+
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
-import MinterWizardForm from '@/components/views/minter-wizard/minter-wizard-form';
-import Summary from '@/components/views/minter-wizard/summary';
+import MinterWizardForm from '@/components/views/minter-wizard/MinterWizardForm';
+import Summary from '@/components/views/minter-wizard/Summary';
 
 export default function MinterWizard() {
   const { userWalletId, sendTransaction } = useHederaWallets();

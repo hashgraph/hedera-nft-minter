@@ -1,6 +1,6 @@
 import React from 'react';
-import MinterWizardFees from '@/components/shared/minter-wizard/minter-wizard-fees';
-import MinterWizardKeys from '@/components/shared/minter-wizard/minter-wizard-keys';
+import Fees from '@/components/shared/minter-wizard/Fees';
+import Keys from '@/components/shared/minter-wizard/Keys';
 
 export default function Advanced() {
 
@@ -8,10 +8,10 @@ export default function Advanced() {
   return (
     <div>
       <div className='form__row'>
-        <MinterWizardFees />
+        <Fees />
       </div>
       <div className='form__row'>
-        <MinterWizardKeys />
+        <Keys />
       </div>
     </div>
   );

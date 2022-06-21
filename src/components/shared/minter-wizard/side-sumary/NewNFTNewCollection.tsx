@@ -2,7 +2,7 @@ import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
 import renderValue from '@/utils/helpers/renderValue';
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
-import { TokenKeys } from '@components/shared/minter-wizard/minter-wizard-keys';
+import { TokenKeys } from '@/components/shared/minter-wizard/Keys';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

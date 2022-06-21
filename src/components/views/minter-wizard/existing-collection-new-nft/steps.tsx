@@ -1,4 +1,4 @@
-import SelectCollection from '@/components/shared/minter-wizard/minter-wizard-select-collection';
+import SelectCollection from '@/components/shared/minter-wizard/select-collection';
 import OffChainBasis from '@/components/views/minter-wizard/existing-collection-new-nft/OffChainBasis';
 import OffChainPropertiesAndAttributes
  from '@/components/views/minter-wizard/existing-collection-new-nft/OffChainPropertiesAndAttributes';

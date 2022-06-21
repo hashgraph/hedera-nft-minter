@@ -30,18 +30,8 @@ export const initialValues: WizardValues = {
   type: '',
   image: null,
   files: [],
-  properties: [
-    {
-      name: '',
-      value: '',
-    },
-  ],
-  attributes: [
-    {
-      trait_type: '',
-      value: '',
-    },
-  ],
+  properties: [],
+  attributes: [],
   qty: 1,
   maxSupply: 10,
   token_id: '',

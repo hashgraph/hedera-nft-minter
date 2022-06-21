@@ -1,8 +1,10 @@
-import React from 'react';
-import { FieldArray } from 'formik';
+import React, { useEffect } from 'react';
+import { FieldArray, useField, useFormikContext } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
+import each from 'lodash/each';
+import { WizardValues } from '@/utils/const/minter-wizard';
 
 type Input = {
   label: string;
@@ -14,6 +16,19 @@ interface Props {
 }
 
 const FormGroup = ({ inputsSchema, name }: Props) => {
+  const { setFieldTouched, validateField } = useFormikContext<WizardValues>()
+  const [ field ] = useField(name)
+
+  useEffect(()=>{
+    const newFieldIndex = field.value.length - 1
+    each(inputsSchema, (el) => {
+      if(newFieldIndex >= 0){
+        setFieldTouched(`${ name }.${ newFieldIndex }.${ el.name }`)
+        validateField(`${ name }.${ newFieldIndex }.${ el.name }`)
+      }
+    })
+  },[field.value, validateField, setFieldTouched, inputsSchema, name])
+
   return (
     <div className='form__group-row'>
       <FieldArray name={name}>
@@ -25,11 +40,16 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
               </label>
               <button
                 type='button'
-                onClick={() => push({ value: '', name: '' })}
+                onClick={() => push({ ...inputsSchema.map(el => el.name && ({[el.name] : ''})) })}
               >
                 Add +
               </button>
             </div>
+            {form.values[name].length <= 0 && (
+              <div className='form__row'>
+                <p>To add {name} click the button above.</p>
+              </div>
+            )}
             <TransitionGroup className='form__group__list'>
               {form.values[name].map((_: Input, index: number) => (
                 <CSSTransition

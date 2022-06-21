@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react'
 import { FormikValues, useFormikContext } from 'formik'
 import useLayout from '@utils/hooks/useLayout';
 import { MintTypes } from '@/utils/entity/MinterWizard';
-import NewNftNewCollectionSideSummary from './new-nft-new-collection';
+import Modal from '@components/shared/modal';
+import NewNftNewCollectionSideSummary from './NewNFTNewCollection';
+import ExistingCollectionNewNFTSideSummary from './ExistingCollectionNewNFT';
+import ExistingCollectionExistingNFTSideSummary from './ExistingCollectionExistingNFT';
 import './sides_summary.scss'
-import Modal from '../../modal';
-import ExistingCollectionNewNFTSideSummary from './existing-collection-new-nft';
-import ExistingCollectionExistingNFTSideSummary from './existing-collection-existing-nft';
 
 type Props = {
   step: number,

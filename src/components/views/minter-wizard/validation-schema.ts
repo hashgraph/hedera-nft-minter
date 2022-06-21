@@ -60,12 +60,20 @@ export const ValidationSchema = yup.object().shape({
       name: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!'),
+        .max(50, 'Too Long!')
+        .when(['value'], {
+          is: (value : string) => !!value,
+          then: (schema) => schema.required('Required')
+        }),
       value: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!'),
-    })
+        .max(50, 'Too Long!')
+        .when(['name'], {
+          is: (name : string) => !!name,
+          then: (schema) => schema.required('Required')
+        }),
+    }, [['name', 'value']])
   ),
   token_id: yup.string().when(['mintType'], {
     is: (mintType : MintTypes) => [
@@ -79,12 +87,21 @@ export const ValidationSchema = yup.object().shape({
       trait_type: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!'),
+        .max(50, 'Too Long!')
+        .when(['value'], {
+          is: (value : string) => !!value,
+          then: (schema) => schema.required('Required')
+        }),
       value: yup
         .string()
         .min(3, 'Too Short!')
-        .max(50, 'Too Long!'),
-    })
+        .max(50, 'Too Long!')
+        .when(['trait_type'], {
+          is: (trait_type : string) => !!trait_type,
+          then: (schema) => schema.required('Required')
+        })
+        ,
+    }, [['trait_type', 'value']])
   ),
   fees: yup.array().of(feeValidator),
   keys: yup.array().of(keyValidator),

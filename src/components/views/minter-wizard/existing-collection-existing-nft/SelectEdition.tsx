@@ -8,7 +8,7 @@ import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { WizardValues } from '@/utils/const/minter-wizard';
 import Loader from '@/components/shared/loader/Loader';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import SemiNFT from '@/components/shared/minter-wizard/semi-nft';
+import SemiNFT from '@/components/shared/minter-wizard/SemiNFT';
 
 export default function SelectEdition() {
   const [nfts, setNfts] = useState<{ [key: string]: NFTInfo[] }>({});
