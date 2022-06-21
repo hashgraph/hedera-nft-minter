@@ -204,6 +204,7 @@ header {
 .container {
   margin: 0 auto;
   padding: 12.5%;
+  background: var(--background-color);
 
   @include respond-to('tablet') {
     padding: 6.25% 6.25% calc(6.25% - 35px);
