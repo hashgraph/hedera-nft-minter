@@ -1,6 +1,6 @@
 import transformToFees from '@helpers/transformToFees';
 import { FEE, Fees } from '@utils/entity/Fees';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const prepareFees = (customFees : Fees[]) => {
   const filteredFees = customFees
@@ -8,7 +8,7 @@ const prepareFees = (customFees : Fees[]) => {
     .map(fee => {
     switch(fee.type){
       case FEE.FIXED:
-        return _.pick(fee,[
+        return pick(fee,[
           'collectingFeeType',
           'hbarAmount',
           'amount',
@@ -21,7 +21,7 @@ const prepareFees = (customFees : Fees[]) => {
         return {
           numerator: fee.percent,
           denominator: 100,
-          ..._.pick(fee,[
+          ...pick(fee,[
             'min',
             'max',
             'feeCollectorAccountId',
@@ -34,7 +34,7 @@ const prepareFees = (customFees : Fees[]) => {
           return {
             numerator: fee.percent,
             denominator: 100,
-            ..._.pick(fee,[
+            ...pick(fee,[
               'feeCollectorAccountId',
               'fallbackFee',
               'type'

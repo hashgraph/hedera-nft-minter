@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Hero, { HeroSchemaTypes } from '@/components/shared/layout/Hero';
+import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
 import MinterWizard from '@/components/views/minter-wizard';
 
@@ -9,7 +9,7 @@ export default function Homepage() {
   return (
     <div className='minter-wizard'>
       <Hero
-        themeSchema={HeroSchemaTypes.DARK}
+        darkSchema
         title={'Mint your NFTs on Hedera'}
       >
         <p>

@@ -1,23 +1,18 @@
 import classNames from 'classnames';
 import React from 'react';
 
-export enum HeroSchemaTypes {
-  DARK = 'dark',
-  LIGHT = 'light'
-}
-
 export default function Hero ({
   title,
   children,
-  themeSchema,
+  darkSchema,
 }: {
   title?: string,
   children?: React.ReactNode,
   profile?: boolean;
-  themeSchema?: HeroSchemaTypes;
+  darkSchema?: boolean;
 }) {
   const heroClassName = classNames('hero', {
-    'hero--dark-schema': themeSchema === HeroSchemaTypes.DARK,
+    'hero--dark-schema': darkSchema,
   })
 
   return (

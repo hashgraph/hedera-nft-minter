@@ -78,7 +78,7 @@ export default function SelectCollection() {
   }, [resetForm])
 
   const maxQtyNumber = useMemo(() => {
-    const maxQty = parseInt(selectedCollection?.info.max_supply as string)
+    const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
       - (selectedCollection?.nfts?.length ?? 0)
 
     return maxQty >= 10 ? 10 : maxQty

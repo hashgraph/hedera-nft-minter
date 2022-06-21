@@ -1,34 +1,35 @@
 import { FormikErrors, FormikValues } from 'formik';
 import filter from 'lodash/filter';
 import isArray from 'lodash/isArray';
+import every from 'lodash/every';
+import each from 'lodash/each';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
 import wizardSteps from '@/components/views/minter-wizard/wizard-steps';
-import { WizardValues } from '@/utils/const/minter-wizard';
+
 
 export const getCurrentStepFieldsNames = (
   mintType: MintTypes,
   creatorStep: number,
 ) => {
-  const allMandatoryFields: string[] = [];
-  const allOptionalFields: string[] = [];
-  if (mintType) {
+  let allMandatoryFields: string[] = [];
+  let allOptionalFields: string[] = [];
+
+  if (Object.values(MintTypes).includes(mintType)) {
     const currentStepsData: CreatorSteps = wizardSteps[mintType];
-    for (let i = 0; i <= creatorStep && i < currentStepsData.length; i++) {
+
+    for (let i = 0; (i <= creatorStep) && (i < currentStepsData.length); i++) {
       const mandatoryFields = currentStepsData[i]?.mandatoryFields;
       const optionalFields = currentStepsData[i]?.optionalFields
 
-      if (typeof mandatoryFields !== 'undefined') {
-        for (const nameOfMandatoryField of mandatoryFields) {
-          allMandatoryFields.push(nameOfMandatoryField)
-        }
+      if (mandatoryFields) {
+        allMandatoryFields = [...allMandatoryFields, ...mandatoryFields]
       }
-      if (typeof optionalFields !== 'undefined') {
-        for (const nameOfOptionalField of optionalFields) {
-          allOptionalFields.push(nameOfOptionalField)
-        }
+      if (optionalFields) {
+        allOptionalFields = [...allOptionalFields, ...optionalFields]
       }
     }
   }
+
   return { allMandatoryFields, allOptionalFields };
 }
 
@@ -39,12 +40,8 @@ export const checkIfMandatoryFieldsAreValidated = (
   values: FormikValues,
   errors: FormikErrors<FormikValues>
 ) => {
-  // First validate mandatory fields
-  for (const nameOfMandatoryFieldToValidate in allMandatoryFields) {
-    if (typeof values[nameOfMandatoryFieldToValidate] !== 'undefined') {
-      validateField(nameOfMandatoryFieldToValidate)
-    }
-  }
+  // // First validate mandatory fields
+  each(allMandatoryFields, (el) => !!values[el] && validateField(el))
 
   //Next set untouched mandatory fields to touched to display errors underneath
   const foundErrors = filter(Object.keys(errors),
@@ -54,32 +51,17 @@ export const checkIfMandatoryFieldsAreValidated = (
         return true
       }
       return false
-    })
+  })
 
-  if (foundErrors.length === 0) {
-    return true
-  }
-
-  return false
+  return foundErrors.length === 0
 }
 
-export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], errors: FormikErrors<WizardValues>) => {
-  for (const optionalFieldName of allOptionalFields) {
-    if (typeof errors[optionalFieldName] !== 'undefined') {
-      switch (isArray(errors[optionalFieldName])) {
-        case true:
-          for (const optionalArrayFieldValue in errors[optionalFieldName]) {
-            if (typeof errors[optionalFieldName][optionalArrayFieldValue] !== 'undefined') {
-              return false
-            }
-          }
-          break;
-
-        default:
-          return false
-      }
-    }
-  }
-  return true
+export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], errors: FormikErrors<FormikValues>) => {
+  const foundErrors = filter(allOptionalFields, (optionalFieldName) =>
+    isArray(errors[optionalFieldName])
+      ? every(errors[optionalFieldName] as [], (el) => !!el)
+      : !!errors[optionalFieldName]
+  )
+  return foundErrors.length === 0
 }
 
