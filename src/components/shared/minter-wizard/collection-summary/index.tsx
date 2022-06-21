@@ -19,10 +19,14 @@ export default function CollectionSummary({ collection }: Props) {
           Tokens minted: <b>{collection?.nfts?.length}</b>
         </p>
         <p>
-          Left to mint: <b>{
-            parseInt(collection.info.max_supply as string)
-            - collection.nfts.length
-          }</b>
+          {collection?.info?.max_supply && (
+            <>
+              Left to mint: <b>{
+                parseInt(collection.info.max_supply)
+                - collection.nfts.length
+              }</b>
+            </>
+          )}
         </p>
       </div>
     </div>

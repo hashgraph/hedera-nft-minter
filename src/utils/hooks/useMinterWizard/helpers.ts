@@ -68,7 +68,7 @@ export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], e
     if (typeof errors[optionalFieldName] !== 'undefined') {
       switch (isArray(errors[optionalFieldName])) {
         case true:
-          for (const optionalArrayFieldValue in errors[optionalFieldName] as []) {
+          for (const optionalArrayFieldValue in errors[optionalFieldName]) {
             if (typeof errors[optionalFieldName][optionalArrayFieldValue] !== 'undefined') {
               return false
             }
