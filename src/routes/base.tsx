@@ -13,6 +13,7 @@ export type CommonRoute = {
   path: string;
   icon?: JSX.Element;
   desc?: string;
+  title?: string;
   component: () => JSX.Element;
 };
 
@@ -21,12 +22,13 @@ type NestedPageComponent = ({ children }: { children: JSX.Element }) => JSX.Elem
 export type NestedRouteConfig = {
   defaultComponent: () => JSX.Element
   nestedRoutes: Array<CommonRoute | NestedRoute>,
-  wrapper: NestedPageComponent
+  wrapper: NestedPageComponent,
 }
 
 export type NestedRoute = {
   path: string,
-  config: NestedRouteConfig
+  config: NestedRouteConfig,
+  title: string
 }
 
 export const instanceOfNestedRouteConfig =
@@ -61,6 +63,7 @@ const routes: Array<CommonRoute | NestedRoute> = [
   {
     path: '/settings',
     config: SettingsConfig,
+    title: 'Profile'
   }
 ];
 

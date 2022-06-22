@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Hero from '@layout/Hero';
+import SideMenu from '@components/views/settings/SideMenu';
 
 type Props = {
   children: React.ReactNode;
@@ -14,17 +14,7 @@ export default function Settings({children} : Props) {
         This is Settings page
       </Hero>
       <div className='settings'>
-        <div className='settings-menu'>
-          <Link to={'/settings'}>Profile</Link>
-          <Link to={'/settings/featured-items'}>Featured items</Link>
-          <Link to={'/settings/notifications'}>Notifications</Link>
-          <Link to={'/settings/offers'}>Offers</Link>
-          <Link to={'/settings/payment'}>Payment</Link>
-          <Link to={'/settings/account-support'}>Account support</Link>
-          <Link to={'/settings/earnings'}>Earnings</Link>
-
-        </div>
-
+        <SideMenu />
         {children}
       </div>
     </div>
