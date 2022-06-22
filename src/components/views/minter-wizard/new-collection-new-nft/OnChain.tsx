@@ -1,63 +1,37 @@
 import React from 'react';
-import {  useFormikContext } from 'formik';
-import { WizardValues } from '@/utils/const/minter-wizard';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import ButtonGroup from '@/components/shared/form/button-group';
-import MultipleToken from '@assets/images/multiple_token.png'
-import SingleToken from '@assets/images/single_token.png'
 
 export default function OnChain() {
-  const { values, setFieldValue } = useFormikContext<WizardValues>()
-
   return (
-    <div>
-      <ButtonGroup
-        name='is_multiple_mint'
-        square
-        size='md'
-        options={[
-          {
-            label: 'CREATE COLLECTION WITH SINGLE NFT',
-            value: 'false',
-            image: SingleToken,
-            onClick: () => setFieldValue('qty', 1),
-          },
-          {
-            label: 'CREATE COLLECTION WITH MULTIPLIE COPIES OF NFT',
-            value: 'true',
-            image: MultipleToken
-          },
-        ]}
-      />
-
-      <h4>How many tokens do you want to have in collection?</h4>
-      <p className='form__text'>Remember, this field can't be unchanged in the future</p>
+    <>
       <div>
-        <FieldWrapper
-          fastField
-          name='maxSupply'
-          type='number'
-          label='# max supply'
-        />
+        <h3 className='offchain-basis-header'>
+          How many tokens do you want in your collection?
+        </h3>
+        <p className='form__text'>
+          Remember, <i><u>max-supply</u></i> field can’t be changed later.
+        </p>
       </div>
-      {values.is_multiple_mint === 'true' &&
-        <>
-          <hr />
-
-          <h4>
-            How many tokens do you want to have in collection?
-          </h4>
-
+      <div className='form__row__two-columns'>
+        <div className='form__row__two-columns'>
+          <FieldWrapper
+            fastField
+            name='maxSupply'
+            type='number'
+            label='# max supply'
+            min='0'
+          />
           <FieldWrapper
             fastField
             name='qty'
             type='number'
-            label='Qty of tokens'
-            tooltip='You can mint maxiumum 10 tokens at once'
+            label='Quantity of tokens'
+            tooltip='You can mint a maximum of 10 tokens at once.'
             max='10'
+            min='0'
           />
-        </>
-      }
-    </div>
+        </div>
+      </div>
+    </>
   );
 }

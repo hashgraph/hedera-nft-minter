@@ -4,12 +4,14 @@
 
 .drag-and-drop {
   &__container {
+    cursor: pointer;
     $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
     $transitionTime: 0.4s;
     $transitionAttributes: (border-color, box-shadow);
     width: 100%;
     border-radius: 5px;
     border: $border;
+    border-color: var(--border-color);
     border-style: dashed;
     margin-top: -5px;
     color: $lightGrey;

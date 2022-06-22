@@ -47,6 +47,11 @@ select {
   padding: 0.5rem 1rem;
   border-radius: 25px;
   width: 100%;
+
+  &::placeholder {
+    font-weight: 200;
+    filter: brightness(1.4);
+  }
 }
 
 select {
@@ -65,6 +70,7 @@ input[type='number'] {
   justify-content: center;
   align-items: center;
   max-width: 111px;
+  -moz-appearance:textfield;
 }
 
 
@@ -98,6 +104,7 @@ input[type='number'] {
   &__row {
     display: flex;
     flex-direction: column;
+    color: var(--main-color);
 
     label {
       display: flex;
@@ -127,11 +134,17 @@ input[type='number'] {
         padding: 1rem 0;
         width: 100%;
         max-width: 544px;
-        margin: 0 auto;
         margin-bottom: 1rem;
+        border-top: 1px solid $grey;
 
         &-fixed {
           display: flex;
+          column-gap: $columnGap;
+        }
+
+        &-container {
+          display: flex;
+          width: 100%;
           column-gap: $columnGap;
         }
       }
@@ -140,15 +153,18 @@ input[type='number'] {
         display: flex;
         width: 100%;
         column-gap: $columnGap;
-        padding: 1.5rem 0;
-        border-top: 1px solid $grey;
+        border-top: 1px solid $smoke;
 
+        &:first-of-type {
+          border-top: unset;
+        }
       }
 
       &-wrapper {
         width: 100%;
         display: flex;
         flex-direction: column;
+        padding-top: 2rem;
       }
     }
 
@@ -157,7 +173,7 @@ input[type='number'] {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      column-gap: math.div($columnGap, 2)
+      column-gap: math.div($columnGap, 2);
 
       &__column {
         display: flex;
@@ -177,7 +193,7 @@ input[type='number'] {
 
       p,
       h1 {
-        color: $vapor;
+        color: var(--main-color);
       }
 
       h1 {
@@ -287,7 +303,6 @@ input[type='number'] {
 
     .form__error {
       grid-area: error;
-
     }
   }
 
@@ -309,7 +324,7 @@ input[type='number'] {
     column-gap: $columnGap;
 
     &-row {
-      padding-bottom: 2.5rem;
+      padding-bottom: 2rem;
 
       &-mt {
         margin-top: 1.875rem;
@@ -334,10 +349,14 @@ input[type='number'] {
         flex-wrap: wrap;
 
         label {
+          justify-content: center;
           text-align: center;
+          font-weight: 400;
+          text-transform: uppercase;
           flex: 0 1 26%;
 
           &:first-of-type {
+            justify-content: flex-start;
             text-align: left;
           }
         }
@@ -363,7 +382,6 @@ input[type='number'] {
 
         &__remove-button {
           button {
-            margin-bottom: $errorHeight;
             margin-left: auto;
           }
         }
@@ -461,7 +479,7 @@ input[type='number'] {
     color: $orange;
     padding-top: 2px;
     font-size: 0.6875rem;
-    min-height: 14px;
+    min-height: 21.8px;
     padding-right: 1rem;
 
     &.hover{

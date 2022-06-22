@@ -11,9 +11,6 @@ type Props = {
 export default function CollectionSummary({ collection }: Props) {
   return (
     <div className={classNames('collectionsummary')}>
-      <p className='collectionsummary__title'>
-        {collection.info.symbol} | {collection.info.name}
-      </p>
       <div className='collectionsummary__values'>
         <p>
           Max supply: <b>{collection?.info.max_supply}</b>
@@ -22,10 +19,14 @@ export default function CollectionSummary({ collection }: Props) {
           Tokens minted: <b>{collection?.nfts?.length}</b>
         </p>
         <p>
-          Left to mint: <b>{
-            parseInt(collection.info.max_supply as string)
-            - collection.nfts.length
-          }</b>
+          {collection?.info?.max_supply && (
+            <>
+              Left to mint: <b>{
+                parseInt(collection.info.max_supply)
+                - collection.nfts.length
+              }</b>
+            </>
+          )}
         </p>
       </div>
     </div>

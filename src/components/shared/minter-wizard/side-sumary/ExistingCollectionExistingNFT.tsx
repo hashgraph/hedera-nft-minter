@@ -2,8 +2,10 @@ import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
 import renderValue from '@/utils/helpers/renderValue';
 import { Attribute } from '@utils/entity/NFT-Metadata';
-import placeholder from '@assets/images/placeholder.png';
 import { ExistingCollectionExistingNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-existing-nft/steps';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import placeholder from '@assets/images/placeholder.png';
 
 type Props = {
   step: number,

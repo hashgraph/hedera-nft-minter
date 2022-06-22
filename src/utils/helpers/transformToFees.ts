@@ -11,7 +11,7 @@ export default function transformToFees(fees: Fees[]): HederaFee[] {
         return new CustomFixedFee(fee);
       case FEE.FRACTIONAL:
         return new CustomFractionalFee(fee);
-      case FEE.ROYALITY:
+      case FEE.ROYALTY:
         if (fee.fallbackFee) {
           fallbackFee = new CustomFixedFee().setHbarAmount(new Hbar(fee.fallbackFee))
         }

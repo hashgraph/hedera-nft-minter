@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FieldArray, useField } from 'formik';
 import { toast } from 'react-toastify';
 import {
@@ -194,7 +194,7 @@ const MinterWizardFees = () => {
 
   const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
     switch (fee) {
-      case FEE.ROYALITY:
+      case FEE.ROYALTY:
         return renderRoyaltyFeeFormFields(arrayIndex);
       case FEE.FRACTIONAL:
         return renderFractionalFeeFormFields(arrayIndex);
@@ -209,8 +209,13 @@ const MinterWizardFees = () => {
     renderFixedFeeFormFields
   ]);
 
+  const hasAnyValues = useMemo(() =>
+    field.value.length > 0,
+  [field.value])
+
   return (
     <div className='form__group-row form__group-row-mt'>
+
       <FieldArray
         name='fees'
         render={({ push, remove }) => (
@@ -230,6 +235,11 @@ const MinterWizardFees = () => {
                 Add +
               </button>
             </div>
+            {!hasAnyValues && (
+              <div className='form__row'>
+                <p>To add fees click the button above.</p>
+              </div>
+            )}
             <TransitionGroup className='form__group__list'>
               {field.value.map((_, index) => (
                 <CSSTransition
@@ -241,14 +251,14 @@ const MinterWizardFees = () => {
                   <div className='form__row__fees-container'>
                     <div
                       // eslint-disable-next-line react/no-array-index-key
-                      key={`fees_${ index }`}
+                      key={`fees_${ index }_row`}
                       className='form__row__fees-wrapper'
                     >
-                      <div className='form__row__fees-container'>
+                      <div className='form__row__fees__fee-container'>
                         <div className='form__select_row'>
                           <FieldSelect name={`fees.${ index }.type`}>
                             <option value=''>Select a fee type...</option>
-                            <option value={FEE.ROYALITY}>Royalty Fee</option>
+                            <option value={FEE.ROYALTY}>Royalty Fee</option>
                             <option value={FEE.FRACTIONAL}>Fractional Fee</option>
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>

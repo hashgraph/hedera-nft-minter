@@ -204,6 +204,7 @@ header {
 .container {
   margin: 0 auto;
   padding: 12.5%;
+  background: var(--background-color);
 
   @include respond-to('tablet') {
     padding: 6.25% 6.25% calc(6.25% - 35px);
@@ -252,6 +253,16 @@ header {
 
   @include respond-to('mobile') {
     height: 50vh;
+  }
+
+  &--dark-schema {
+    * {
+      color: $vapor;
+    }
+
+    h1 {
+      letter-spacing: 0.02rem;
+    }
   }
 }
 
