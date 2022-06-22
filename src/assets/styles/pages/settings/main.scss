@@ -9,5 +9,20 @@
 
   &__page {
     padding: 0 2rem;
+    max-width: 800px;
+
+    &__title {
+      @include gradient-border("top", 2px);
+
+      p {
+        margin-top: 0;
+      }
+
+      label {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        margin-left: -3px;
+      }
+    }
   }
 }

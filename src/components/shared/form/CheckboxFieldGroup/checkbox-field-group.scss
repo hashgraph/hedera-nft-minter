@@ -1,0 +1,21 @@
+@import "src/assets/styles/base/variables";
+
+.checkbox-field-group {
+  display: flex;
+  flex-direction: column;
+  margin: 2rem 0;
+
+  & > div {
+    border-radius: unset;
+    border-bottom: unset;
+
+    &:first-of-type {
+      border-radius: 6px 6px 0 0;
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 6px 6px;
+      border-bottom: 1px solid $smoke;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+@import "src/assets/styles/base/variables";
+
+.icon-field-wrapper {
+  display: grid;
+  grid-template-columns: minmax(max-content, 100px) 1fr;
+  border: 1px solid $smoke;
+  border-radius: 6px;
+  transition: box-shadow 0.25s ease-in-out 0s, border-color 0.25s ease-in-out 0s;
+
+  &__icon {
+    padding: 0.5rem 1rem;
+    border-right: 1px solid $smoke;
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 30px;
+      height: 30px;
+      margin-right: 0.5rem;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      font-weight: 500;
+
+      span {
+        font-weight: 300;
+        font-size: 0.8rem;
+        margin-top: -10px;
+      }
+    }
+
+  }
+
+  input {
+    width: 100%;
+    max-width: unset;
+    align-self: center;
+    border: unset;
+    text-align: left;
+  }
+
+
+  &.is-focused {
+    border-color: $grey;
+    box-shadow: rgb(0 0 0 / 5%) 0px 2px 10px;
+  }
+}

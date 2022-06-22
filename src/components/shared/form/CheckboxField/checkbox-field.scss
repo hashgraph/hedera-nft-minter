@@ -1,0 +1,29 @@
+@import "src/assets/styles/base/variables";
+
+.checkbox-field {
+  display: grid;
+  grid-template-columns: 10% 90%;
+  column-gap: 1rem;
+  border: 1px solid $smoke;
+  padding: 1rem 2rem;
+  border-radius: 6px;
+
+  &__input {
+    display: grid;
+    place-items: center;
+
+    input[type=checkbox] {
+      transform: scale(2);
+    }
+  }
+
+  &__description {
+    p {
+      margin: 0;
+
+      &:first-of-type {
+        font-weight: 500;
+      }
+    }
+  }
+}
