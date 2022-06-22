@@ -16,7 +16,13 @@ export default function Settings({children} : Props) {
       <div className='settings'>
         <div className='settings-menu'>
           <Link to={'/settings'}>Profile</Link>
+          <Link to={'/settings/featured-items'}>Featured items</Link>
           <Link to={'/settings/notifications'}>Notifications</Link>
+          <Link to={'/settings/offers'}>Offers</Link>
+          <Link to={'/settings/payment'}>Payment</Link>
+          <Link to={'/settings/account-support'}>Account support</Link>
+          <Link to={'/settings/earnings'}>Earnings</Link>
+
         </div>
 
         {children}
