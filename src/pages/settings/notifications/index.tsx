@@ -2,8 +2,10 @@ import React from 'react';
 
 export default function Notifications() {
   return (
-    <h1>
-        Settings {'->'} Notifications
-    </h1>
+    <div className='settings__page settings__page--notifications'>
+      <h2>
+        Notifications
+      </h2>
+    </div>
   )
 }

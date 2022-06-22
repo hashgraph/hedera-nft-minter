@@ -2,8 +2,10 @@ import React from 'react';
 
 export default function Offers() {
   return (
-    <h1>
-        Settings {'->'} Offers
-    </h1>
+    <div className='settings__page settings__page--offers'>
+      <h2>
+        Offers
+      </h2>
+    </div>
   )
 }

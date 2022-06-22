@@ -6,4 +6,8 @@
   @include respond-to('tablet') {
     grid-template-columns: minmax(100px, 300px) 1fr;
   }
+
+  &__page {
+    padding: 0 2rem;
+  }
 }

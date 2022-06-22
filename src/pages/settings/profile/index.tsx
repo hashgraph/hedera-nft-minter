@@ -30,8 +30,8 @@ export default function Profile() {
   }, []);
 
   return (
-    <div className='settings-profile'>
-      <h1>Profile details</h1>
+    <div className='settings__page settings__page--profile'>
+      <h2>Profile details</h2>
       <Formik
         initialValues={initialValues}
         onSubmit={submitForm}
