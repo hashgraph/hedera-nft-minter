@@ -193,7 +193,7 @@ input[type='number'] {
 
       p,
       h1 {
-        color: $vapor;
+        color: var(--main-color);
       }
 
       h1 {

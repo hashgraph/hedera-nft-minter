@@ -3,7 +3,7 @@
 @import "src/assets/styles/base/functions";
 
 .collectionsummary {
-  color: $vapor;
+  color: var(--main-color);
   display: flex;
   padding-bottom: 0.75rem;
   flex-direction: column;

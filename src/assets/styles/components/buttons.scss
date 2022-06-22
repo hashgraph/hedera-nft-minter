@@ -1,6 +1,6 @@
 button,
 .btn {
-  --border-color: #{$black};
+  // --border-color: #{$black};
   font-family: 'Styrene A Web';
   font-weight: 500;
   font-style: normal;
@@ -13,12 +13,24 @@ button,
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  border: 1px solid var(--border-color);
+  border: 1px solid;
+  border-color: var(--border-color, #{$black});
   color: var(--font-color, #{$black});
   font-size: 8px;
   letter-spacing: 1.33px;
   $transitionAttributes: (border-color, background-color, filter, color);
   transition: generateTransitions($transitionAttributes, 400ms);
+
+  &:hover {
+    background: $black;
+    color: $vapor;
+    border: 1px solid $vapor;
+
+  }
+
+  &:focus {
+    border-color: $blue  !important;
+  }
 
   &--big {
     border-radius: 30px !important;
@@ -44,13 +56,13 @@ button,
   }
 
   &--invert {
-    background: $vapor;
-    color: $black;
+    color: var(--main-color);
+    background:  var(--background-color);
 
     &:hover {
-      color: $vapor;
-      background: $black;
-      border-color: $vapor;
+      color: var(--background-color);
+      background: var(--main-color);
+      border-color: var(--background-color);
     }
   }
 
@@ -64,17 +76,6 @@ button,
       background: $vapor;
       border-color: $vapor;
     }
-  }
-
-  &:hover {
-    background: $black;
-    color: $vapor;
-    border: 1px solid $vapor;
-
-  }
-
-  &:focus {
-    border-color: $blue  !important;
   }
 
   &.button-group {

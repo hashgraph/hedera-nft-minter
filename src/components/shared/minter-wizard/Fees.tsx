@@ -209,8 +209,8 @@ const MinterWizardFees = () => {
     renderFixedFeeFormFields
   ]);
 
-  const isNoValues = useMemo(() =>
-    field.value.length === 0,
+  const hasAnyValues = useMemo(() =>
+    field.value.length > 0,
   [field.value])
 
   return (
@@ -235,7 +235,7 @@ const MinterWizardFees = () => {
                 Add +
               </button>
             </div>
-            {isNoValues && (
+            {!hasAnyValues && (
               <div className='form__row'>
                 <p>To add fees click the button above.</p>
               </div>
