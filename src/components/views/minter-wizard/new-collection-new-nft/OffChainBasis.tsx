@@ -3,7 +3,7 @@ import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
 import Error from '@/components/shared/form/Error';
 
-export default function OffChain() {
+export default function OffChainBasis() {
   return (
     <div>
       <div className='form__row__two-columns'>
@@ -21,6 +21,7 @@ export default function OffChain() {
               name='name'
               type='text'
               label='Collection name'
+              placeholder='e.g My Super Collection'
             />
           </div>
           <div>
@@ -29,6 +30,7 @@ export default function OffChain() {
               name='symbol'
               type='text'
               label='Collection symbol'
+              placeholder='e.g MSC'
             />
           </div>
           <div>
@@ -37,6 +39,7 @@ export default function OffChain() {
               name='edition_name'
               type='text'
               label='Edition name'
+              placeholder='e.g Magic edition'
             />
           </div>
           <div>
@@ -46,6 +49,7 @@ export default function OffChain() {
               as='textarea'
               type='text'
               label='Description'
+              placeholder='This is magic NFT...'
             />
           </div>
           <div className='form__row__two-columns'>
@@ -55,6 +59,7 @@ export default function OffChain() {
                 name='creator'
                 type='text'
                 label='Creator'
+                placeholder='e.g John Smith'
               />
             </div>
             <div>
@@ -63,6 +68,7 @@ export default function OffChain() {
                 name='creatorDID'
                 type='text'
                 label='Creator DID'
+                placeholder='DID url'
               />
             </div>
           </div>

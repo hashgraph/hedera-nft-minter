@@ -1,7 +1,7 @@
 import { useField } from 'formik';
 import React, { MouseEventHandler, useCallback, useMemo } from 'react'
-import { JSX } from '@babel/types';
 import classNames from 'classnames';
+import { JSX } from '@babel/types'
 
 type Props = {
   value: string | number | boolean;
@@ -17,7 +17,15 @@ export default function FieldRadioButton({value, label, name, image, className, 
 
   const isActive = useMemo(() => (
     field.value === value
-  ), [field.value, value])
+  ), [field.value, value]);
+
+  const classnames = useMemo(() => classNames(
+    className,
+    {
+      isActive,
+      hasImage: !!image,
+    }
+  ), [className, isActive, image]);
 
   const handleOnClick = useCallback((e) => {
     if(onClick){
@@ -26,14 +34,14 @@ export default function FieldRadioButton({value, label, name, image, className, 
     helpers.setValue(value)
   }, [helpers, value, onClick])
 
-  const classnames = classNames(className, {isActive, hasImage: !!image})
-
   return (
     <button type='button' className={classnames} onClick={handleOnClick}>
       {image && (
         <img src={image} alt='icon' />
       )}
-      {label}
+      <span>
+        {label}
+      </span>
     </button>
   )
 }

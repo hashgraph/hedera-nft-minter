@@ -54,6 +54,13 @@ $transition: opacity 400ms, transform 400ms;
   }
 }
 
+.dark-schema .tooltip {
+  &__button {
+    &:before {
+      filter: invert(0);
+    }
+  }
+}
 
 .tooltip {
   &__container{
@@ -63,7 +70,7 @@ $transition: opacity 400ms, transform 400ms;
   }
 
   &__button {
-    color: $vapor;
+    color: var(--main-color);
     font-weight: 300;
 
     &:before {
@@ -79,6 +86,8 @@ $transition: opacity 400ms, transform 400ms;
       background-position: bottom;
       -webkit-transform: translateY(3px);
       transform: translateY(3px);
+      filter: invert(0.7);
+      transition: 0.2s filter ease-in-out;
     }
 
     &:hover{

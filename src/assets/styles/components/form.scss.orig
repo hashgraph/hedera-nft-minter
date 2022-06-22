@@ -134,7 +134,6 @@ input[type='number'] {
         padding: 1rem 0;
         width: 100%;
         max-width: 544px;
-        margin: 0 auto;
         margin-bottom: 1rem;
         border-top: 1px solid $grey;
 
@@ -154,7 +153,10 @@ input[type='number'] {
         display: flex;
         width: 100%;
         column-gap: $columnGap;
-        border-top: 1px solid $smoke;
+<<<<<<< HEAD
+        padding: 1.5rem 0;
+=======
+>>>>>>> main
         border-top: 1px solid $smoke;
 
         &:first-of-type {
@@ -326,7 +328,7 @@ input[type='number'] {
     column-gap: $columnGap;
 
     &-row {
-      padding-bottom: 2.5rem;
+      padding-bottom: 2rem;
 
       &-mt {
         margin-top: 1.875rem;

@@ -5,7 +5,8 @@ import pick from 'lodash/pick';
 import renderValue from '@/utils/helpers/renderValue';
 import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { WizardValues } from '@/utils/const/minter-wizard';
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 
 export default function SemiNFT({ data }: { data: NFTInfo[] }) {
@@ -14,7 +15,10 @@ export default function SemiNFT({ data }: { data: NFTInfo[] }) {
   const serials = useMemo(() => data.map(d => d.serial_number), [data]);
 
   const isActive = useMemo(() => {
-    if(data[0]?.serial_number === values?.serial_number){
+    if(
+      typeof values?.serial_number !== 'undefined' &&
+      data[0]?.serial_number === parseInt(values.serial_number)
+    ){
       setFieldValue('serial_metadata', data[0]?.meta)
       return true
     }

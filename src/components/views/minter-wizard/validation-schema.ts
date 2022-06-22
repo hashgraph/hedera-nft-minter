@@ -1,16 +1,19 @@
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
+import { MintTypes } from '@/utils/entity/MinterWizard';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
     .oneOf(Object.values(FEE), 'Select a type!')
-    .ensure()
-    .required('Required'),
+    .ensure(),
 
-  feeCollectorAccountId: yup.string().required('Required'),
+  feeCollectorAccountId: yup.string().when(['type'], {
+    is: (type : FEE) => [FEE.ROYALTY, FEE.FRACTIONAL, FEE.FIXED].includes(type),
+    then: yup.string().required('Required'),
+  }),
 
   percent: yup.number().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALITY, FEE.FRACTIONAL].includes(type),
+    is: (type : FEE) => [FEE.ROYALTY, FEE.FRACTIONAL].includes(type),
     then: yup.number().max(100, 'Max 100%!').required('Required'),
   }),
 
@@ -58,27 +61,47 @@ export const ValidationSchema = yup.object().shape({
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
+        .when(['value'], {
+          is: (value : string) => !!value,
+          then: (schema) => schema.required('Required')
+        }),
       value: yup
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
-    })
+        .when(['name'], {
+          is: (name : string) => !!name,
+          then: (schema) => schema.required('Required')
+        }),
+    }, [['name', 'value']])
   ),
+  token_id: yup.string().when(['mintType'], {
+    is: (mintType : MintTypes) => [
+      MintTypes.ExistingCollectionExistingNFT,
+      MintTypes.ExistingCollectionNewNFT,
+     ].includes(mintType),
+    then: yup.string().required('Required'),
+  }),
   attributes: yup.array().of(
     yup.object().shape({
       trait_type: yup
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
+        .when(['value'], {
+          is: (value : string) => !!value,
+          then: (schema) => schema.required('Required')
+        }),
       value: yup
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
-    })
+        .when(['trait_type'], {
+          is: (trait_type : string) => !!trait_type,
+          then: (schema) => schema.required('Required')
+        })
+        ,
+    }, [['trait_type', 'value']])
   ),
   fees: yup.array().of(feeValidator),
   keys: yup.array().of(keyValidator),

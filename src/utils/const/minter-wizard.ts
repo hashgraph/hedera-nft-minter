@@ -2,7 +2,7 @@ import { Fees } from '@utils/entity/Fees';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey } from '@utils/entity/TokenKeys';
 
-export type WizardValues = NFTMetadata & {
+export interface WizardValues extends NFTMetadata {
   mint_type: string;
   symbol?: string;
   token_id?: string;
@@ -14,7 +14,7 @@ export type WizardValues = NFTMetadata & {
   serial_metadata?: string;
   keys: TokenKey[];
   fees: Fees[];
-};
+}
 
 export const initialValues: WizardValues = {
   mint_type: '',
@@ -30,28 +30,11 @@ export const initialValues: WizardValues = {
   type: '',
   image: null,
   files: [],
-  properties: [
-    {
-      name: 'website',
-      value: 'www.mywebsite.com',
-    },
-    {
-      name: 'license',
-      value: 'Creative Common',
-    },
-  ],
-  attributes: [
-    {
-      trait_type: 'hair',
-      value: 'blue',
-    },
-    {
-      trait_type: 'size',
-      value: 'large',
-    },
-  ],
+  properties: [],
+  attributes: [],
   qty: 1,
   maxSupply: 10,
+  token_id: '',
   keys: [
     { type: TOKEN_KEY.TREASURY, value: 'account' },
     { type: TOKEN_KEY.SUPPLY, value: 'account' },

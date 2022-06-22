@@ -8,10 +8,13 @@ export default function Homepage() {
 
   return (
     <div className='minter-wizard'>
-      <Hero title={'Mint your own NFT on Hedera'}>
+      <Hero
+        darkSchema
+        title={'Mint your NFTs on Hedera'}
+      >
         <p>
-          Minting NFTs on Hedera is fast and simple. You can mint new NFTs and
-          Collections without using smart contracts.
+          The fastest and simplest way to mint your NFTs and Collections.
+          No smart contracts are needed.
         </p>
         <a
           href='https://hedera.com/token-service'

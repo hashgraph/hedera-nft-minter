@@ -8,7 +8,7 @@ import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { WizardValues } from '@/utils/const/minter-wizard';
 import Loader from '@/components/shared/loader/Loader';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import SemiNFT from '@/components/shared/minter-wizard/semi-nft';
+import SemiNFT from '@/components/shared/minter-wizard/SemiNFT';
 
 export default function SelectEdition() {
   const [nfts, setNfts] = useState<{ [key: string]: NFTInfo[] }>({});
@@ -48,9 +48,9 @@ export default function SelectEdition() {
               fastField
               name='qty'
               type='number'
-              label='Number of editions you want to mint now'
+              label='Number of editions you want to mint'
               max='10'
-              tooltip='You can mint max 10 tokens at once.'
+              tooltip='You can mint a maximum of 10 tokens at once.'
             />
           </div>
           <hr />

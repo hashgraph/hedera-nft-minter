@@ -2,6 +2,7 @@ import React from 'react'
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
 import SideSummary from '@/components/shared/minter-wizard/side-sumary';
+import { useFormikContext } from 'formik';
 
 type Props = {
   steps: CreatorSteps,
@@ -21,6 +22,8 @@ export default function MinterWizardStepWrapper({
     renderMinterWizardScreen
   } = useMinterWizard(steps)
 
+  const { isSubmitting } = useFormikContext()
+
   return (
     <div className='minter-wizard__creator'>
       <div className='minter-wizard__creator__form'>
@@ -34,7 +37,7 @@ export default function MinterWizardStepWrapper({
               type='button'
               onClick={backToMintTypeSelection}
             >
-                Minting type
+              Back
             </button>
           ) : (
             <button
@@ -42,14 +45,19 @@ export default function MinterWizardStepWrapper({
               disabled={isFirstScreen}
               onClick={handleCreatorPrevButton}
             >
-              Prev
+              Back
             </button>
           )}
         </div>
 
         <div className='next'>
           {isLastScreen ? (
-            <button type='submit'>Mint</button>
+            <button
+              type='submit'
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Finish in wallet' : 'Mint'}
+            </button>
           ) : (
             <button
               type='button'

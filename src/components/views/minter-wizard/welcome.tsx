@@ -25,17 +25,17 @@ export default function Welcome({goToCreator} : Props) {
         name='mint_type'
         options={[
           {
-            label: 'NEW COLLECTION NEW NFT',
+            label: 'New NFT',
             value: MintTypes.NewCollectionNewNFT
           },
           {
-            label: 'EXISTING COLLECTION NEW NFT',
+            label: <>New NFT <span className='flex'>with Existing Collection</span></>,
             value: MintTypes.ExistingCollectionNewNFT
           },
-          {
-            label: 'EXISTING COLLECTION EXISTING NFT',
-            value: MintTypes.ExistingCollectionExistingNFT
-          },
+          // {
+          //   label: 'EXISTING COLLECTION EXISTING NFT',
+          //   value: MintTypes.ExistingCollectionExistingNFT
+          // },
         ]}
       />
       <div className='step-buttons-wrapper first-step'>
@@ -44,7 +44,7 @@ export default function Welcome({goToCreator} : Props) {
           type='button'
           onClick={goToCreator}
         >
-          Go to next step
+          Start minting
         </button>
       </div>
     </div>

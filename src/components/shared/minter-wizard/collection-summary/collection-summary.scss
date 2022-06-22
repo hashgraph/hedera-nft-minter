@@ -3,9 +3,9 @@
 @import "src/assets/styles/base/functions";
 
 .collectionsummary {
-  color: $vapor;
+  color: var(--main-color);
   display: flex;
-  padding: 0.75rem 0;
+  padding-bottom: 0.75rem;
   flex-direction: column;
 
   @include respond-to("mobile") {
@@ -23,6 +23,8 @@
   &__values {
     display: flex;
     align-items: center;
+    @include gradient-border("bottom", 1px);
+
 
     p {
       position: relative;
