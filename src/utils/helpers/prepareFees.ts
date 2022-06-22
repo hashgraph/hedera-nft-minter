@@ -29,7 +29,7 @@ const prepareFees = (customFees: Fees[]) => {
             ])
           }
 
-        case FEE.ROYALITY:
+        case FEE.ROYALTY:
           return {
             numerator: fee.percent,
             denominator: 100,

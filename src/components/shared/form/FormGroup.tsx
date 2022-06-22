@@ -19,7 +19,7 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
   const { setFieldTouched, validateField } = useFormikContext<WizardValues>()
   const [ field ] = useField(name)
 
-  useEffect(()=>{
+  useEffect(() => {
     const newFieldIndex = field.value.length - 1
     each(inputsSchema, (el) => {
       if(newFieldIndex >= 0){
@@ -28,7 +28,7 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
       }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[field.value, validateField, setFieldTouched, name])
+  }, [field.value, validateField, setFieldTouched, name])
 
   return (
     <div className='form__group-row'>

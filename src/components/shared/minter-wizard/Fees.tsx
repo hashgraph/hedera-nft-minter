@@ -194,7 +194,7 @@ const MinterWizardFees = () => {
 
   const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
     switch (fee) {
-      case FEE.ROYALITY:
+      case FEE.ROYALTY:
         return renderRoyaltyFeeFormFields(arrayIndex);
       case FEE.FRACTIONAL:
         return renderFractionalFeeFormFields(arrayIndex);
@@ -258,7 +258,7 @@ const MinterWizardFees = () => {
                         <div className='form__select_row'>
                           <FieldSelect name={`fees.${ index }.type`}>
                             <option value=''>Select a fee type...</option>
-                            <option value={FEE.ROYALITY}>Royalty Fee</option>
+                            <option value={FEE.ROYALTY}>Royalty Fee</option>
                             <option value={FEE.FRACTIONAL}>Fractional Fee</option>
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>

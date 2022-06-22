@@ -1,8 +1,7 @@
 export enum FEE {
-  ROYALITY = 'royality',
+  ROYALTY = 'royalty',
   FRACTIONAL = 'fractional',
   FIXED = 'fixed',
-  NONE = '',
 }
 
 export enum FIXED_FEE_COLLECTING_TYPE {
@@ -11,7 +10,7 @@ export enum FIXED_FEE_COLLECTING_TYPE {
 }
 
 export interface RoyalityFee {
-  type: FEE.ROYALITY,
+  type: FEE.ROYALTY,
   feeCollectorAccountId: string,
   fallbackFee?: number,
   percent?: number,
