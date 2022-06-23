@@ -50,6 +50,8 @@
   /* == TYPES == */
 
   &.avatar {
+    max-width: 150px;
+
     img {
       background: $gradient;
       overflow: visible;
