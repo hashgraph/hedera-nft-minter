@@ -1,9 +1,7 @@
 import Notifications from './notifications';
 import FeaturedItems from './featured-items';
 import { NestedRoute, CommonRoute } from '@/routes/base';
-import Earnings from './earnings';
 import AccountSupport from './account-support';
-import Payment from './payment';
 import Offers from './offers';
 
 const settingsNestedRoutes : Array<NestedRoute | CommonRoute> = [
@@ -23,19 +21,9 @@ const settingsNestedRoutes : Array<NestedRoute | CommonRoute> = [
     title: 'Offers'
   },
   {
-    path: '/settings/payment',
-    component: Payment,
-    title: 'Payment'
-  },
-  {
     path: '/settings/account-support',
     component: AccountSupport,
     title: 'Account support'
-  },
-  {
-    path: '/settings/earnings',
-    component: Earnings,
-    title: 'Earnings'
   },
 ]
 

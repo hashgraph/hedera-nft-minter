@@ -9,8 +9,8 @@ export default function ProfileForm() {
   const { userWalletId } = useHederaWallets();
 
   return (
-    <Form className='form'>
-      <div className='settings-profile__details'>
+    <Form>
+      <div className='settings__page--profile__details'>
         <label htmlFor='wallet_address'>
           Wallet address
         </label>
@@ -40,12 +40,12 @@ export default function ProfileForm() {
 
         <SocialsFormGroup name='social_links' />
 
-        <button type='submit'>
+        <button className='btn--big' type='submit'>
           Save settings
         </button>
 
       </div>
-      <div className='settings-profile__images'>
+      <div className='settings__page--profile__images'>
 
         <label htmlFor='null'>Avatar</label>
         <ImageInput name='avatar' alt='avatar' type={ImageInputTypes.Avatar} />

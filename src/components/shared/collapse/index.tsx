@@ -7,7 +7,7 @@ import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 interface CollapseProps {
   title: string | JSX.Element,
-  children: JSX.Element | JSX.Element[],
+  children: JSX.Element | JSX.Element[] | string,
 }
 
 export default function Collapse({
