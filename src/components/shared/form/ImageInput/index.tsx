@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useFormikContext } from 'formik';
 import classNames from 'classnames';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import blackCutoutPlaceholder from '@assets/images/black-cutout.svg';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import noImagePlaceholder from '@assets/images/no-image.png';
 import './image-input.scss'
 import { toast } from 'react-toastify';

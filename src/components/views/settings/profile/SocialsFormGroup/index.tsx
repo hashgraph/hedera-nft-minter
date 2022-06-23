@@ -5,14 +5,8 @@ import { toast } from 'react-toastify'
 import map from 'lodash/map'
 import SocialSelect from '@/components/shared/form/SocialSelect'
 import './socials-form-group.scss'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import TwitterIcon from '@assets/images/socials/twitter.png'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import FacebookIcon from '@assets/images/socials/facebook.png'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import InstagramIcon from '@assets/images/socials/instagram.png'
 
 interface ISocialsData {

@@ -5,8 +5,6 @@ import pick from 'lodash/pick';
 import renderValue from '@/utils/helpers/renderValue';
 import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { WizardValues } from '@/utils/const/minter-wizard';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 
 export default function SemiNFT({ data }: { data: NFTInfo[] }) {

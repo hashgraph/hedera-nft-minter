@@ -3,8 +3,6 @@ import { FormikValues, useFormikContext } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 import './drag-and-drop-file-input.scss'
 
