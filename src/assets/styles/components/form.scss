@@ -551,4 +551,9 @@ input[type='number'] {
     padding-top: 1rem;
     grid-gap: 1rem;
   }
+
+  &__textarea {
+    width: 100%;
+    max-width: inherit;
+  }
 }
