@@ -61,6 +61,7 @@ module.exports = {
       HEDERA_NETWORK: JSON.stringify(process.env.HEDERA_NETWORK),
       IPFS_KEY: JSON.stringify(process.env.IPFS_KEY),
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
+      API_HOST: JSON.stringify(process.env.API_HOST),
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

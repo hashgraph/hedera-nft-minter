@@ -1,15 +1,19 @@
 import FieldWrapper from '@components/shared/form/FieldWrapper';
 import FieldSelect from '@components/shared/form/FieldSelect';
 import ButtonGroup from '@components/shared/form/button-group';
+import { FormikProps, FormikValues } from 'formik';
 
-export default function SearchBar() {
+export default function SearchBar({
+  submitForm,
+}: FormikProps<FormikValues>) {
   return (
     <>
       <FieldWrapper
         hideError
         type='text'
-        name={'search'}
+        name='search'
         placeholder='Search...'
+        onEnter={submitForm}
       />
       <FieldSelect hideError name='sort'>
         <option value=''>Random</option>

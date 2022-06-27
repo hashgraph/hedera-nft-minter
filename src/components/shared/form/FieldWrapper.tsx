@@ -1,5 +1,5 @@
-import React, { InputHTMLAttributes, useMemo } from 'react';
-import { FastField, FieldAttributes, Field } from 'formik';
+import React, { InputHTMLAttributes, useCallback, useMemo } from 'react';
+import { FastField, FieldAttributes, Field, useField } from 'formik';
 import classNames from 'classnames';
 
 import Error from '@/components/shared/form/Error';
@@ -12,20 +12,26 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   max?: string | number,
   hideError?: boolean,
   inverse?: boolean,
+  isArray?: boolean,
+  onEnter?: () => void,
   tooltip?: string,
 };
 
 const FieldWrapper = ({
   name,
   label,
+  tooltip,
   fastField = false,
   hideError = false,
   inverse = false,
   type = 'text',
-  tooltip,
+  isArray = false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+  onEnter = () => {},
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => Math.random().toString(), []);
+  const [field,, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
   const wrapperClassName = classNames(
     'form__row',
@@ -33,9 +39,26 @@ const FieldWrapper = ({
     { inverse },
   );
 
+  const handleChange = useCallback((e) => {
+    if (isArray) {
+      const value = e.currentTarget.value;
+      const currentValue = field.value || [];
+
+      if (currentValue.includes(value)) {
+        const newValue = field.value.filter((v: any) => v !== value);
+        helpers.setValue(newValue);
+      } else {
+        helpers.setValue([...currentValue, value]);
+      }
+    } else {
+      const value = e.currentTarget.value;
+      helpers.setValue(value);
+    }
+    helpers.setTouched(true);
+  }, [helpers, field, isArray])
+
   return (
     <div className={wrapperClassName}>
-
       {Boolean(label) && (
         <label htmlFor={id}>
           {label}:
@@ -46,7 +69,15 @@ const FieldWrapper = ({
           )}
         </label>
       )}
-      <Component id={id} name={name} type={type} {...props} />
+      <Component
+        id={id}
+        name={name}
+        {...props}
+        type={type}
+        checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
+        onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
+        onChange={['radio', 'checkbox'].includes(type) ? handleChange : field.onChange}
+      />
       {!hideError && (
         <Error name={name} />
       )}

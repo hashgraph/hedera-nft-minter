@@ -8,13 +8,13 @@ import Tabs, { TabItem } from '@components/shared/tabs';
 const profileTabs: TabItem[] = [
   { label: 'Collected', slug: 'collected', component: Collected},
   { label: 'Created', slug: 'created', component: Collected},
-  { label: 'Favorited', slug: 'favorited', component: Collected},
+  { label: 'Favorite', slug: 'favorite', component: Collected},
   { label: 'Hidden', slug: 'hidden', component: Collected},
 ]
 
 export default function Profile() {
   return (
-    <div>
+    <div className='dark-schema'>
       <Hero profile />
 
       <div className='container'>
