@@ -1,0 +1,111 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+
+.collection-minimum-offer-form {
+  &__header {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 400;
+    padding-right: 0.2rem;
+    padding-left: 1.5rem;
+  }
+
+  &__collection {
+    display: grid;
+    padding: 1rem 0;
+    grid-template-columns: 70px 1fr 1fr 70px;
+    grid-template-areas:
+      "avatar info info input"
+      "avatar info info input-label";
+    border-top: 1px solid $smoke;
+
+    @include respond-to('mobile') {
+      grid-template-columns: 160px 1fr 1fr 130px;
+    }
+
+    &__avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-area: avatar;
+      padding-right: 1rem;
+      max-width: calc(50px + 1rem);
+
+      @include respond-to('mobile') {
+        padding-left: 2rem;
+        max-width: calc(113px + 1rem);
+      }
+
+      img {
+        min-height: 50px;
+        min-width: 50px;
+        width: 50px;
+        height: 50px;
+
+        @include respond-to('mobile') {
+          min-height: 113px;
+          min-width: 113px;
+          width: 113px;
+          height: 113px;
+        }
+      }
+
+      .avatar {
+        width: 50px;
+
+        @include respond-to('mobile') {
+          width: 113px;
+        }
+      }
+
+    }
+
+    &__info {
+      grid-area: info;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      span {
+        color: $smoke;
+        font-size: 0.8rem;
+
+        @include respond-to('mobile') {
+          font-size: 1rem;
+        }
+      }
+
+      p {
+        margin: 0;
+        font-weight: 500;
+        line-height: 1;
+
+        font-size: 1rem;
+
+        span {
+          color: var(--main-color);
+          white-space: pre;
+        }
+
+        @include respond-to('mobile') {
+          line-height: 1.8;
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    input {
+      margin-top: auto;
+      margin-left: auto;
+      grid-area: input;
+    }
+
+    &__input-label {
+      text-align: right;
+      grid-area: input-label;
+      white-space: pre;
+    }
+  }
+}

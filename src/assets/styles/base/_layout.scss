@@ -11,6 +11,7 @@ span {
   font-stretch: normal;
   line-height: 1.8;
   letter-spacing: .015rem;
+  color: var(--main-color);
 }
 
 h1,
@@ -45,6 +46,7 @@ textarea {
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
+  max-width: 100%;
 }
 
 hr {
@@ -95,7 +97,7 @@ header {
   }
 
   .logo_link {
-    color: $grey;
+    color: $smoke;
     text-decoration: none;
     height: max-content;
     display: flex;
@@ -364,4 +366,18 @@ header {
     justify-content: center;
     align-items: center;
   }
+
+  &-space-between {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+footer, .footer {
+  padding: 5rem;
+  display: grid;
+  font-size: 2rem;
+  place-items: center;
+  background: $smoke;
+  color: $vapor;
 }

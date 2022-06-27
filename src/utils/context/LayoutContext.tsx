@@ -29,26 +29,35 @@ export default function LayoutProvider({
   });
   const [isMobile, setIsMobile] = useState(true);
 
-  const setDocHeight = useCallback(() => {
+  const setDocDimensions = useCallback(() => {
     if (document && window) {
       document.documentElement.style.setProperty(
         '--vh',
         `${ window.innerHeight }px`
       );
+      document.documentElement.style.setProperty(
+        '--vw',
+        `${ window.innerWidth }px`
+      );
     }
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handler = () => {
       setScrollPosition({ x: window.scrollX, y: window.scrollY });
-      setDocHeight();
+      setDocDimensions();
     };
 
-    handleScroll();
+    handler();
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [setDocHeight]);
+    window.addEventListener('scroll', handler);
+    window.addEventListener('resize', handler);
+    return () => {
+      window.removeEventListener('resize', handler);
+      window.removeEventListener('scroll', handler);
+    }
+  }, [setDocDimensions]);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,12 +75,12 @@ export default function LayoutProvider({
   }, []);
 
   useEffect(() => {
-    setDocHeight();
-    window.addEventListener('orientationchange', () => setDocHeight());
+    setDocDimensions();
+    window.addEventListener('orientationchange', () => setDocDimensions());
 
     return () =>
-      window.removeEventListener('orientationchange', () => setDocHeight());
-  }, [setDocHeight]);
+      window.removeEventListener('orientationchange', () => setDocDimensions());
+  }, [setDocDimensions]);
 
   return (
     <LayoutContext.Provider

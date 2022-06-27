@@ -17,7 +17,7 @@
     color: $lightGrey;
     display: grid;
     place-items: center;
-    padding: 20px 50px;
+    padding: 1.25rem 3.125rem;
     transition: generateTransitions($transitionAttributes, $transitionTime);
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
 
@@ -37,14 +37,21 @@
     }
   }
 
-  &__summary{
+  &__summary {
     display: flex;
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     margin-top: 1rem;
     border-radius: 5px;
     border: $border;
 
-    &__description{
+    img {
+      object-fit: cover;
+      margin-right: 1.625rem;
+      width: 60px;
+      height: 60px;
+    }
+
+    &__description {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -53,12 +60,12 @@
         margin: 0;
       }
     }
+  }
 
-    img{
-      object-fit: cover;
-      margin-right: 25px;
-      width: 60px;
-      height: 60px;
-    }
+  .file-name {
+    overflow: hidden;
+    max-width: 20ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

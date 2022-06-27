@@ -2,7 +2,7 @@ $absoluteHorizontalCenter: translateX(-50%);
 $absoluteCenter: $absoluteHorizontalCenter translateY(-50%);
 $transition: opacity 200ms, transform 700ms;
 @mixin modal {
-  border: 2px solid $grey;
+  border: 2px solid $smoke;
   background: $black;
   width: 80vw;
   max-width: 600px;
@@ -63,7 +63,7 @@ $transition: opacity 200ms, transform 700ms;
     justify-content: flex-end;
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid $grey;
+    border-top: 1px solid $smoke;
     button {
       color: $white;
       background: $red;

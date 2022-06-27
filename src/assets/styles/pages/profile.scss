@@ -1,10 +1,23 @@
 @import "./profile/collected";
 
-.profile {
+.settings__page--profile {
 
   &__details {
     display: flex;
     justify-content: space-between;
+
+    textarea {
+      max-width: calc( var(--vw) - calc( 4rem + 20px) );
+
+      @include respond-to('tablet') {
+        max-width: calc( calc( var(--vw) - calc( 4rem + 20px)) - 300px );
+
+      }
+
+      @include respond-to('desktop') {
+        max-width: 100%;
+      }
+    }
 
     .avatar {
       margin-top: -5rem;

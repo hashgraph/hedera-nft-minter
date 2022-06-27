@@ -1,8 +1,6 @@
 import './avatar.scss';
 
 import React from 'react';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import placeholder from '@assets/images/black-cutout.svg';
 
 interface AvatarProps {

@@ -4,8 +4,6 @@ import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 import renderValue from '@/utils/helpers/renderValue';
 import { ExistingCollectionNewNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-new-nft/steps';
 import { TokenKeys } from '@/components/shared/minter-wizard/Keys';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import placeholder from '@assets/images/placeholder.png';
 
 type Props = {

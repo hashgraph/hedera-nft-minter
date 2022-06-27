@@ -1,28 +1,36 @@
 import React, { Fragment, useMemo } from 'react';
 import { JSX } from '@babel/types';
 import map from 'lodash/map';
-import isArray from 'lodash/isArray';
-import { Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import WithRouter from '@hoc/WithRouter';
+import NestedRoute from '@hoc/NestedRoute';
 
 import { BaseLayout } from '@layout/Base.layout';
 
-import pages, { Route } from '@routes/base';
+import pages, {
+  CommonRoute,
+  NestedRoute as NestedRouteProps,
+  instanceOfNestedRoute
+} from '@routes/base';
 
 interface MapProps {
-  data: Route[];
+  data: Array<CommonRoute | NestedRouteProps>;
 }
 
 const MapRoutes = ({ data }: MapProps): JSX.Element => {
   return (
     <Fragment>
       {map(data, (page, i) => (
-        <Fragment key={`Fragment_${ i + 1 }`}>
-          <WithRouter {...page} />
-          {isArray(page.child) && <MapRoutes data={page.child} />}
-        </Fragment>
-      ))}
+        instanceOfNestedRoute(page) ? (
+          <Route path={page.path}>
+            <NestedRoute {...page as NestedRouteProps}/>
+          </Route>
+        ) : (
+          <Fragment key={`Fragment_${ i + 1 }`}>
+            <WithRouter {...page as CommonRoute} />
+          </Fragment>
+        )))}
     </Fragment>
   );
 };

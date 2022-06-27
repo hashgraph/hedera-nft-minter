@@ -1,0 +1,12 @@
+.settings__page--offers {
+  margin: inherit;
+
+  h2 {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button[type=submit] {
+    margin-left: auto;
+  }
+}

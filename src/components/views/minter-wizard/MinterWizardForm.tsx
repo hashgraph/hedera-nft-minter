@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Form, FormikProps, FormikValues } from 'formik';
 
 import { MintTypes } from '@utils/entity/MinterWizard'
-import Welcome from '@components/views/minter-wizard/welcome';
+import Welcome from '@/components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/wizard-steps';
 import MinterWizardStepWrapper from '@/components/shared/minter-wizard/StepWrapper';
 

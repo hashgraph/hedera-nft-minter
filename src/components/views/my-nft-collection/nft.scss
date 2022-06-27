@@ -141,8 +141,6 @@
         transition: generateTransitions((transform), 400ms);
         position: relative;
         background: $gradient;
-        -webkit-box-shadow: 0px 0px 0px 5px #{$blue} + 60;
-        -moz-box-shadow: 0px 0px 0px 5px #{$blue} + 60;
         box-shadow: 0px 0px 0px 5px #{$blue} + 60;
         margin: 0 auto;
         margin-top: -70px;

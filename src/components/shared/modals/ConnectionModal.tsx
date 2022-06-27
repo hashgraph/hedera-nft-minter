@@ -1,15 +1,17 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import useHederaWallets from '@/utils/hooks/useHederaWallets';
+import { ModalContext } from './../../../utils/context/ModalContext';
 
 export default function ConnectionModal() {
   const { userWalletId, connectedWalletType, connect, disconnect } =
     useHederaWallets();
 
-  const connectToHashpack = useCallback(() => connect('hashpack'), [connect]);
-  const connectToBladewallet = useCallback(
-    () => connect('bladewallet'),
-    [connect]
-  );
+  const {closeModal} = useContext(ModalContext)
+
+  const connectToWallet = useCallback((walletType : 'hashpack' | 'bladewallet') => {
+    connect(walletType)
+    closeModal();
+  }, [closeModal, connect])
 
   return (
     <>
@@ -18,13 +20,13 @@ export default function ConnectionModal() {
       </h2>
       <div className='modal__connection-buttons-wrapper'>
         {connectedWalletType !== 'bladewallet' && (
-          <button onClick={connectToBladewallet}>
+          <button onClick={() => connectToWallet('bladewallet')}>
             {connectedWalletType === 'hashpack' ? 'Switch' : 'Connect'} to
             BladeWallet
           </button>
         )}
         {connectedWalletType !== 'hashpack' && (
-          <button onClick={connectToHashpack}>
+          <button onClick={() => connectToWallet('hashpack')}>
             {connectedWalletType === 'bladewallet' ? 'Switch' : 'Connect'} to
             HashPack
           </button>
