@@ -1,3 +1,5 @@
+import './grid.scss';
+
 import { JSX } from '@babel/types';
 
 interface GridProps {
@@ -8,8 +10,8 @@ export default function Grid({
   children,
 }: GridProps) {
   return (
-    <div>
-      {children}
+    <div className='grid'>
+      { children }
     </div>
   );
 }

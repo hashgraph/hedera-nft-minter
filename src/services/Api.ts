@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 import isError from 'lodash/isError';
 // eslint-disable-next-line import/no-unresolved
-import { BASE_URL, AUTH_BASIC } from '@/../Global.d';
+import { API_HOST } from '../../Global';
 
 type RequestDataType = {[key: string]: any} | string | number | boolean
 
@@ -37,7 +37,7 @@ export default class Api {
 
   constructor() {
     // eslint-disable-next-line no-undef
-    const axiosConfig = { baseURL: BASE_URL };
+    const axiosConfig = { baseURL: API_HOST };
 
     this.axios = axios.create(axiosConfig);
 
@@ -130,7 +130,7 @@ export default class Api {
 
     const headers = {
       Accept: '*',
-      Authorization: `Basic ${ AUTH_BASIC }`,
+      // Authorization: `Basic ${ AUTH_BASIC }`,
     };
 
     const data = new FormData();
@@ -140,7 +140,7 @@ export default class Api {
 
     return api.axios({
       url: api.authorizeUrl,
-      baseURL: BASE_URL,
+      baseURL: API_HOST,
       method: 'post',
       headers,
       data,
@@ -152,12 +152,12 @@ export default class Api {
 
     const headers = {
       'Content-type': 'application/json',
-      Authorization: `Basic ${ AUTH_BASIC }`,
+      // Authorization: `Basic ${ AUTH_BASIC }`,
     };
 
     return api.axios({
       url,
-      baseURL: BASE_URL,
+      baseURL: API_HOST,
       method,
       headers,
       data,
@@ -398,12 +398,6 @@ export default class Api {
   static logout() {
     const api = Api.getInstance();
     // TODO: ADD REST API ENDPOINT;
-    // return Api.getInstance().request({
-    //   method: 'POST',
-    //   url: '/sign-out',
-    // }).then(() => {
-    //   api.logout();
-    // })
     api.logout(); // TODO: REMOVE - TEMP SOLUTION
     window.location.href = '/';
   }

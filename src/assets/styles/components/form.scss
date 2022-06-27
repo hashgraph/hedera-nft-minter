@@ -308,6 +308,7 @@ input[type='number'] {
 
   &__buttons {
     display: flex;
+    flex-direction: row;
 
     &.square {
       flex-direction: column;

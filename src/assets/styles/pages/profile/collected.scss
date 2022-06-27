@@ -5,7 +5,10 @@
   display: grid;
   flex-direction: column;
   grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: auto auto 1fr;
   grid-gap: $columnGap;
+  min-height: calc(var(--vh) - 80px);
+  align-items: start;
 
   &__searchbar {
     grid-column: 1 / 6;
@@ -27,8 +30,8 @@
     .filter__item {
       display: flex;
       align-items: center;
-      @include bg($black);
-      color: #{$vapor};
+      @include bg(var(--main-color));
+      color: var(--background-color);
       padding: math.div($columnGap, 3) math.div($columnGap, 1.2);
       border-radius: 25px;
 
@@ -41,13 +44,13 @@
       }
 
       &.all {
-        @include bg(transparent);
-        color: $black;
+        @include bg(var(--main-color));
+        color: var(--background-color);
       }
     }
   }
 
-  > div:last-of-type {
+  .grid {
     grid-column: 2 / 6;
   }
 

@@ -1,10 +1,9 @@
 import map from 'lodash/map';
 import { CloseCircleOutlined } from '@ant-design/icons';
-
-type Value = string | number | boolean
+import { Filters } from '@utils/hooks/useSearch';
 
 interface FilterItemProps {
-  value: Value,
+  value: Filters,
   fieldKey: string,
   onRemoveFilter: (k: string) => void
 }
@@ -19,9 +18,7 @@ function FilterItem({
   }
 
   return (
-    <div
-      className='filter__item'
-    >
+    <div className='filter__item'>
       { typeof value === 'boolean' ? fieldKey : value}
       <CloseCircleOutlined
         className='arrow'
@@ -32,7 +29,7 @@ function FilterItem({
 }
 
 interface SelectedFiltersProps {
-  filters: { [key: string]: Value },
+  filters: Filters,
   clearAll: () => void,
   onRemoveFilter: (key: string) => void,
 }
@@ -42,10 +39,29 @@ export default function SelectedFilters({
   clearAll,
   onRemoveFilter,
 }: SelectedFiltersProps) {
+
   return (
     <>
       {map(filters, (value, key) => (
-        <FilterItem key={key} fieldKey={key} value={value} onRemoveFilter={onRemoveFilter} />
+        ['price'].includes(key)
+          ? null
+          : (
+            Array.isArray(value) ? map(value, (v) => (
+              <FilterItem
+                key={`${ key }_${ v }`}
+                fieldKey={key}
+                value={v}
+                onRemoveFilter={onRemoveFilter}
+              />
+            )) : (
+              <FilterItem
+                key={key}
+                fieldKey={key}
+                value={value}
+                onRemoveFilter={onRemoveFilter}
+              />
+            )
+          )
       ))}
 
       <button

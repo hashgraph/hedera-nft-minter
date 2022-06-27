@@ -1,0 +1,49 @@
+@import 'src/assets/styles/base/variables';
+@import 'src/assets/styles/base/mixins';
+
+$innerNFTPadding: 2rem;
+
+.nft {
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    display: block;
+    width: calc(100% - #{2 * $innerNFTPadding});
+    height: 2px;
+    margin: 0 auto;
+    background: $gradient;
+  }
+
+  &:hover {
+    --shadow-color: 34, 34, 34;
+    z-index: 2;
+    box-shadow: 0 10px 40px rgba(var(--shadow-color), 0.2);
+    transition: all 0.4s ease;
+
+    .dark-schema & {
+      --shadow-color: 249, 249, 249;
+    }
+
+    &::after {
+      width: 100%;
+      transition: all 0.4s ease;
+    }
+  }
+
+  figure {
+    margin: 0 auto;
+    padding: 1rem #{$innerNFTPadding};
+  }
+
+  &__image {
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}

@@ -1,8 +1,10 @@
-import Collapse from '@components/shared/collapse';
-import FieldWrapper from '@components/shared/form/FieldWrapper';
 import { useEffect } from 'react';
-import { useIsMounted } from '@hooks/useIsMounted';
 import { FormikProps, FormikValues } from 'formik';
+
+import { useIsMounted } from '@hooks/useIsMounted';
+import Collapse from '@components/shared/collapse';
+import FieldPrice from '@components/shared/form/price';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
 
 export default function Filters({
   values,
@@ -22,29 +24,37 @@ export default function Filters({
         <FieldWrapper
           inverse
           hideError
-          name='testa'
+          isArray
+          name='checkbox'
           type='checkbox'
+          value='test1'
           label='Test'
         />
         <FieldWrapper
           inverse
           hideError
-          name='test1'
+          isArray
+          name='checkbox'
           type='checkbox'
+          value='test2'
           label='Test2'
         />
         <FieldWrapper
           inverse
           hideError
-          name='test2'
+          isArray
+          name='checkbox'
           type='checkbox'
+          value='test3'
           label='Test3'
         />
         <FieldWrapper
           inverse
           hideError
-          name='test3'
+          isArray
+          name='checkbox'
           type='checkbox'
+          value='test4'
           label='Test4'
         />
       </Collapse>
@@ -82,6 +92,10 @@ export default function Filters({
           value='test4'
           label='Test4'
         />
+      </Collapse>
+
+      <Collapse title='Price'>
+        <FieldPrice name='price' />
       </Collapse>
     </div>
   );

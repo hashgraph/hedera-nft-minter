@@ -32,6 +32,7 @@ body {
   --main-color: #{$vapor};
   --background-color: #{$black};
   --border-color: #{$border};
+  color: var(--main-color);
 }
 
 a {
