@@ -1,12 +1,10 @@
 import { Formik } from 'formik';
 import React, { useCallback, useMemo } from 'react';
-import useHederaWallets from '@utils/hooks/useHederaWallets';
 import { ValidationSchema } from './validationSchema';
 import ProfileForm from '@/components/views/settings/profile/ProfileForm';
 
 
 export default function Profile() {
-  const { userWalletId } = useHederaWallets();
 
   const initialValues = useMemo(() => ({
     avatar: '',
@@ -20,8 +18,7 @@ export default function Profile() {
         value: '',
       }
     ],
-    wallet_address: userWalletId,
-  }), [userWalletId])
+  }), [])
 
   const submitForm = useCallback((values, actions) => {
     // eslint-disable-next-line no-alert

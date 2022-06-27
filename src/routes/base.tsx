@@ -1,13 +1,11 @@
 import { JSX } from '@babel/types';
-
-
 import {
   Homepage,
   MyWallet,
   Profile,
   Book,
-  SettingsConfig
 } from '@/pages';
+import settingsConfig from '@routes/settings/config';
 
 export type CommonRoute = {
   path: string;
@@ -28,7 +26,7 @@ export type NestedRouteConfig = {
 export type NestedRoute = {
   path: string,
   config: NestedRouteConfig,
-  title: string
+  title?: string
 }
 
 export const instanceOfNestedRouteConfig =
@@ -62,7 +60,7 @@ const routes: Array<CommonRoute | NestedRoute> = [
   },
   {
     path: '/settings',
-    config: SettingsConfig,
+    config: settingsConfig,
     title: 'Profile'
   }
 ];

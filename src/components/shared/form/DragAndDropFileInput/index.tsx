@@ -25,12 +25,11 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   const { values, setValues } = useFormikContext<FormikValues>();
   const [selectedImage, setSelectedImage] = useState<SelectedImage>(values?.image);
 
-  const imageChange = useCallback((files)=>{
+  const imageChange = useCallback((files) => {
     if (files && files.length > 0) {
       setSelectedImage(files[0]);
     }
-  },
-  [setSelectedImage])
+  }, [setSelectedImage])
 
   const onDrop = useCallback(
     (files) => {
@@ -38,9 +37,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
       const temp = values as FormikValues;
       temp.image = files[0];
       setValues(temp);
-    },
-    [setValues, values, imageChange]
-  );
+    }, [setValues, values, imageChange]);
   const onDropRejected = useCallback((files) => {
     if (files.length > 1) {
       return toast.error('❌ Only single image file can be upload!');
@@ -76,11 +73,11 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     'is-drag-rejected': isDragReject,
   });
 
-  const isFileUploaded = useMemo( () =>
+  const isFileUploaded = useMemo(() =>
     acceptedFiles.length > 0,
-  [acceptedFiles]);
+    [acceptedFiles]);
 
-  return (
+ return (
     <div className='drag-and-drop'>
       <div className={dragAndDropClassNames} {...getRootProps()}>
         <input {...props} {...getInputProps()} />
@@ -98,9 +95,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
 
       <div className='drag-and-drop__summary'>
         <img
-          src={
-            selectedImage ? URL.createObjectURL(selectedImage) : placeholder
-          }
+          src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
           alt='Thumb'
         />
         <div className='drag-and-drop__summary__description'>

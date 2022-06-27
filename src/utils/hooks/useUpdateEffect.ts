@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useFirstMountState } from './useFirstMountState';
+import { useIsMounted } from './useIsMounted';
 
 const useUpdateEffect: typeof useEffect = (effect, deps) => {
-  const isFirstMount = useFirstMountState();
+  const isFirstMount = useIsMounted();
 
   useEffect(() => {
     if (!isFirstMount) {

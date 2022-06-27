@@ -6,7 +6,7 @@ type Props = {
   children: React.ReactNode;
 }
 
-export default function Settings({children} : Props) {
+export default function SettingsWrapper({children} : Props) {
 
   return (
     <div>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useFormikContext } from 'formik';
+import { useField } from 'formik';
 import classNames from 'classnames';
 import blackCutoutPlaceholder from '@assets/images/black-cutout.svg';
 import noImagePlaceholder from '@assets/images/no-image.png';
@@ -21,7 +21,7 @@ export default function ImageInput({name, alt, type} : Props) {
 
   const [imageFileBlob, setImageFileBlob] = useState<Blob | undefined>(undefined);
   const [image, setImage] = useState<string | undefined>(undefined);
-  const { setFieldValue } = useFormikContext()
+  const [,,helpers] = useField(name)
 
   const changeHandler = useCallback((e) => {
     const { files } = e.target;
@@ -59,7 +59,7 @@ export default function ImageInput({name, alt, type} : Props) {
       }).then( image => {
         if (!isCancel) {
           setImage(image as string);
-          setFieldValue(name, image)
+          helpers.setValue(image)
         }
       }).catch(reason => {
         toast.error(reason);
@@ -72,7 +72,7 @@ export default function ImageInput({name, alt, type} : Props) {
         fileReader.abort()
       }
     }
-  }, [imageFileBlob, name, setFieldValue]);
+  }, [imageFileBlob, name, helpers]);
 
   const isPlaceholder = useMemo(()=>{
     return typeof image === 'undefined'

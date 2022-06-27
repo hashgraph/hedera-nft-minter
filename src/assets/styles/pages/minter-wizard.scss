@@ -12,6 +12,10 @@
     @include gradient-border("bottom", 1px);
   }
 
+  textarea {
+    resize: vertical;
+  }
+
   &__creator {
     display: flex;
     flex-direction: column;

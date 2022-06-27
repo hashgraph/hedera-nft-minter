@@ -162,6 +162,9 @@ const Header = () => {
           <div className={buttonsWrapperClassnames}>
             <Link to='/'>Mint token</Link>
             <Link to='/my-nft-collection'>My NFT Collection</Link>
+            {connectedWalletType !== 'noconnection' && (
+              <Link to={'/settings'}>Settings</Link>
+            )}
             <button onClick={handleShowModal}>{buttonContent()}</button>
           </div>
         </div>
@@ -174,6 +177,7 @@ const Header = () => {
     buttonsWrapperClassnames,
     handleShowModal,
     buttonContent,
+    connectedWalletType
   ]);
 
   const renderNavbar = useCallback(

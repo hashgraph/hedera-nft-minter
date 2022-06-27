@@ -1,5 +1,3 @@
-import { Field, useField } from 'formik'
-import useUpdateEffect from '@/utils/hooks/useUpdateEffect';
 import './checkbox-field.scss'
 
 export type CheckboxFieldProps = {
@@ -10,16 +8,11 @@ export type CheckboxFieldProps = {
 }
 
 export default function CheckboxField({ name, title, description, onChange }: CheckboxFieldProps) {
-  const [field] = useField(name)
-
-  useUpdateEffect(() =>
-    onChange && onChange()
-  , [field.value]);
 
   return (
     <div className='checkbox-field'>
       <div className='checkbox-field__input'>
-        <Field type='checkbox' name={name} />
+        <input type='checkbox' name={name} onChange={onChange} />
       </div>
       <div className='checkbox-field__description'>
         <p>{title}</p>
