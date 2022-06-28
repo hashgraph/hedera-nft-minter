@@ -37,7 +37,7 @@ export default function MyNFTCollection() {
 
   return (
     <>
-      <Hero title={'My NFT Collection'}>
+      <Hero darkSchema title={'My NFT Collection'}>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed mi in
           purus aliquet imperdiet. Nulla risus felis, porttitor eget lacus vel,

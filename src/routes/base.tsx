@@ -1,11 +1,12 @@
 import { JSX } from '@babel/types';
 import {
+  NotFound,
   Homepage,
   MyWallet,
-  Profile,
-  Book,
+  // Profile,
+  // Book,
 } from '@/pages';
-import settingsConfig from '@routes/settings/config';
+// import settingsConfig from '@routes/settings/config';
 
 export type CommonRoute = {
   path: string;
@@ -50,19 +51,23 @@ const routes: Array<CommonRoute | NestedRoute> = [
     path: '/my-nft-collection',
     component: MyWallet,
   },
+  // {
+  //   path: '/profile',
+  //   component: Profile,
+  // },
+  // {
+  //   path: '/book',
+  //   component: Book,
+  // },
+  // {
+  //   path: '/settings',
+  //   config: settingsConfig,
+  //   title: 'Profile'
+  // },
   {
-    path: '/profile',
-    component: Profile,
+    path: '/404',
+    component: NotFound,
   },
-  {
-    path: '/book',
-    component: Book,
-  },
-  {
-    path: '/settings',
-    config: settingsConfig,
-    title: 'Profile'
-  }
 ];
 
 export default routes;

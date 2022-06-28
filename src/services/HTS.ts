@@ -59,7 +59,7 @@ export default class HTS {
     ...tokenProps
   }: NewTokenType): Promise<TokenCreateTransaction> {
     const accountInfo: AccountInfo = await window.fetch(
-      `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ tokenProps.accountId }`,
+      `https://${ HEDERA_NETWORK == 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/v1/accounts/${ tokenProps.accountId }`,
       { method: 'GET' }
     ).then(res => res.json());
 
