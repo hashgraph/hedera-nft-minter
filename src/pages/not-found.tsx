@@ -1,7 +1,7 @@
 import Hero from '@/components/shared/layout/Hero'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HederaBanner from '@assets/images/hedera-hashgraph-logo-vector.svg';
+import HederaBanner from '@assets/images/Hedera™_Logo_Lockup_BLACK.png'
 
 export default function NotFound() {
   return (
