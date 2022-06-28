@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, FormikValues } from 'formik';
 import { toast } from 'react-toastify';
 import { TokenId } from '@hashgraph/sdk';
 
@@ -12,7 +12,7 @@ import { MintTypes } from '@utils/entity/MinterWizard'
 
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import MinterWizardForm from '@/components/views/minter-wizard/MinterWizardForm';
-import Summary from '@/components/views/minter-wizard/summary';
+import Summary from '@/components/views/minter-wizard/Summary';
 
 export default function MinterWizard() {
   const { userWalletId, sendTransaction } = useHederaWallets();
@@ -56,7 +56,7 @@ export default function MinterWizard() {
   }, [userWalletId, sendTransaction]);
 
   const handleFormSubmit = useCallback(async (values) => {
-    const formValues = values
+    const formValues : FormikValues = {...values}
     const tokenSymbol = formValues.symbol;
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
@@ -133,15 +133,12 @@ export default function MinterWizard() {
       if (typeof e === 'string') {
         toast.error(e);
       } else if (e instanceof Error) {
-        switch (e.message) {
-          case 'illegal buffer':
-            toast.error('User has aborted operation.')
-            break;
-          default:
-            toast.error(e.message);
-            break;
+        if(e.message.includes('illegal buffer')){
+          toast.error('User has aborted operation.')
         }
-
+        if(e.message.includes('INSUFFICIENT_PAYER_BALANCE')){
+          toast.error('No available balance to finish operation.')
+        }
       }
     }
   }, [

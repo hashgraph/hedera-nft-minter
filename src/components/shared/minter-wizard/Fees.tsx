@@ -214,7 +214,7 @@ const MinterWizardFees = () => {
   [field.value])
 
   return (
-    <div className='form__group-row form__group-row-mt'>
+    <div className='form__group-row'>
 
       <FieldArray
         name='fees'

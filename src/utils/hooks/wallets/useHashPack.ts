@@ -13,9 +13,9 @@ import { loadLocalData } from '@/utils/helpers/loadLocalData';
 export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = 'minerPocHashconnectData';
 
 export const HASHCONNECT_INITIAL_APP_CONFIG: HashConnectAppConfigType = {
-  name: 'React dApp Example',
-  description: 'An example hedera dApp',
-  icon: 'https://d2441bdvuxbh7t.cloudfront.net/web/images/grepper_and_logo.jpeg',
+  name: 'Hedera Minter Wizard',
+  description: 'Mint your own NFT.',
+  icon: 'https://svgpnglogo.com/wp-content/uploads/hedera-hashgraph-hbar-logo.png',
 };
 export const HASHCONNECT_INITIAL_DEBUG: HashConnectDebugType = true;
 

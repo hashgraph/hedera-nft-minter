@@ -27,7 +27,7 @@ interface AccountResponse {
 }
 
 export default class MirrorNode {
-  static url = `https://${ HEDERA_NETWORK }.mirrornode.hedera.com/api/v1`
+  static url = `https://${ HEDERA_NETWORK == 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/v1`
   static readonly instance = axios.create({
     baseURL: MirrorNode.url,
   });

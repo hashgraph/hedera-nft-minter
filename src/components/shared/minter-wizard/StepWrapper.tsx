@@ -36,6 +36,7 @@ export default function MinterWizardStepWrapper({
             <button
               type='button'
               onClick={backToMintTypeSelection}
+              className='btn--big'
             >
               Back
             </button>
@@ -44,6 +45,7 @@ export default function MinterWizardStepWrapper({
               type='button'
               disabled={isFirstScreen}
               onClick={handleCreatorPrevButton}
+              className='btn--big'
             >
               Back
             </button>
@@ -54,6 +56,7 @@ export default function MinterWizardStepWrapper({
           {isLastScreen ? (
             <button
               type='submit'
+              className='btn--big'
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Finish in wallet' : 'Mint'}
@@ -61,6 +64,7 @@ export default function MinterWizardStepWrapper({
           ) : (
             <button
               type='button'
+              className='btn--big'
               onClick={handleCreatorNextButton}
             >
               Next
