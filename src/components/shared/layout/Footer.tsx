@@ -1,10 +1,10 @@
 import React from 'react';
-import HederaBanner from '@assets/images/Hedera™_Logo_Lockup_BLACK.png'
+import HederaLogoWide from '@assets/images/hedera-logo-wide.png'
 
 export default function Footer() {
   return (
   <footer className='footer'>
-    <img src={HederaBanner} alt='hedera_banner'/>
+    <img src={HederaLogoWide} alt='hedera_banner'/>
   </footer>
   )
 }
