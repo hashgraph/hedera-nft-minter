@@ -88,9 +88,15 @@
     &__collection-name {
       font-size: 1.5rem;
       font-weight: 500;
+      opacity: 0.7;
 
       span {
-        opacity: 0.6;
+        opacity: 0.7;
+      }
+
+      &--header {
+        margin-top: -5px !important;
+        margin-bottom: -10px !important;
       }
     }
 
@@ -101,16 +107,21 @@
     }
 
     &__multiple, &__row {
-      font-size: 0.75rem;
+      font-size: 1rem;
       padding-bottom: .2rem;
       margin: 0;
       display: flex;
       align-items: center;
       color: rgba(#{var(--main-color, 255, 0, 0)}, 0.5);
-      span {
-        opacity: 0.8;
+
+      span, &--empty {
+        opacity: 0.6;
         color: var(--main-color);
         font-weight: 600;
+        font-family: "Styrene A Web", sans-serif;
+      }
+      &--empty {
+        opacity: 0.4;
       }
     }
 
