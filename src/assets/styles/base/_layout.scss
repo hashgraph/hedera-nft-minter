@@ -41,6 +41,7 @@ button {
 }
 
 label,
+.label,
 input,
 textarea {
   font-weight: 300;
@@ -205,11 +206,32 @@ header {
 
 .container {
   margin: 0 auto;
-  padding: 12.5%;
-  background: var(--background-color);
+  padding: 3rem 1rem;
 
   @include respond-to('tablet') {
-    padding: 6.25% 6.25% calc(6.25% - 35px);
+    padding: 3.25% 6.25% 10.25%;
+  }
+
+  &--padding {
+    padding: 1rem 1rem 5rem;
+
+    @include respond-to('tablet') {
+      padding: 3.25% 6.25% 10.25%;
+    }
+    @include respond-to('desktop') {
+      padding: 3rem 2rem 5rem;
+    }
+  }
+
+  &--max-width {
+    max-width: $containerMaxWidth;
+  }
+}
+
+
+.bg {
+  &--transparent {
+    background: transparent;
   }
 }
 
@@ -372,6 +394,26 @@ header {
     justify-content: space-between;
   }
 }
+
+.m {
+  &c{
+    margin: auto;
+
+    &-h {
+      margin: 0 auto;
+    }
+  }
+  @each $dimension in 'b', 't', 'l', 'r' {
+    &#{$dimension} {
+      @for $i from 1 through 10 {
+        &-#{$i} {
+          margin-bottom: #{$i}rem;
+        }
+      }
+    }
+  }
+}
+
 
 footer, .footer {
   padding: 4rem;
