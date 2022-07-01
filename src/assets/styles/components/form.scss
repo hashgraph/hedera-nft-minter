@@ -8,20 +8,7 @@ select {
 
 label,
 .label {
-  margin-bottom: 0;
-  color: var(--main-color);
-  display: block;
   font-size: 0.95rem;
-  padding-bottom: 0.938rem;
-  padding-left: 3px;
-  letter-spacing: -.4px;
-  margin-top: 1rem;
-
-  @include respond-to("mobile") {
-    white-space: pre;
-  }
-
-
 }
 
 p {
@@ -82,7 +69,7 @@ input[type='number'] {
   justify-content: center;
   align-items: center;
   max-width: 111px;
-  -moz-appearance:textfield;
+  -moz-appearance: textfield;
 }
 
 
@@ -131,7 +118,8 @@ input[type='number'] {
         flex-direction: row;
         column-gap: 20px;
         flex-wrap: wrap;
-        & > div {
+
+        &>div {
           flex: 0 1 calc(50% - 10px);
         }
       }
@@ -200,6 +188,7 @@ input[type='number'] {
       display: grid;
       grid-template-columns: 1fr;
       grid-column-gap: $columnGap;
+
       @include respond-to('tablet') {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -399,6 +388,7 @@ input[type='number'] {
           display: flex;
           order: 2;
           margin: 0 auto;
+
           @include respond-to('mobile') {
             margin-right: unset;
           }
@@ -512,10 +502,10 @@ input[type='number'] {
     min-height: 21.8px;
     padding-right: 1rem;
 
-    &.hover{
+    &.hover {
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         color: $vapor;
       }
     }
@@ -580,7 +570,8 @@ input[type='number'] {
     grid-gap: 1rem;
   }
 
-  &__textarea, textarea {
+  &__textarea,
+  textarea {
     width: 100%;
     max-width: inherit;
     padding: 1rem;

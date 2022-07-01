@@ -221,7 +221,7 @@ const MinterWizardFees = () => {
         render={({ push, remove }) => (
           <div className='form__row__fees'>
             <div className='form__group__label-wrapper'>
-              <label htmlFor='null'>Transfer fees</label>
+              <p className='label'>Transfer fees</p>
               <button
                 onClick={() =>
                   field.value.length < 10 ? push({

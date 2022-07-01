@@ -174,7 +174,7 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
         render={({ push, remove }) => (
           <div className={keysTableClassNames}>
             <div className='form__group__label-wrapper'>
-              <label htmlFor='null'>{label}</label>
+              <p className='label'>{label}</p>
               {tokenKeys.length > 1 && (
                 <button
                   onClick={() =>
@@ -191,11 +191,11 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
             </div>
 
             <div className={keysTableHeaderClassNames}>
-              <label htmlFor='null'>{''}</label>
-              <label htmlFor={'account_0'}>My account</label>
-              <label htmlFor={'custom_0'}>Custom</label>
+               <p className='label'>{''}</p>
+               <p className='label'>My account</p>
+               <p className='label'>Custom</p>
               {tokenKeys.length > 1 && (
-                <label htmlFor='null'>{'Del'}</label>
+                 <p className='label'>{'Del'}</p>
               )}
             </div>
 

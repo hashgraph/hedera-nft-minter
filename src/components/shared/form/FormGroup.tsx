@@ -37,9 +37,9 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
         {({ remove, push, form }) => (
           <>
             <div className='form__group__label-wrapper'>
-              <label htmlFor='null'>
+              <p className='label'>
                 {label}:
-              </label>
+              </p>
               <button
                 type='button'
                 className='btn--big'
