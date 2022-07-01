@@ -50,7 +50,7 @@ export default function SideSummary({ step }: Props) {
 
       <aside className='side_summary'>
         <div className='side_summary__wrapper'>
-          <h4>Your NFT is being created.</h4>
+          <h4>NFT Preview.</h4>
           {isMobile ? (
             <button
               type='button'

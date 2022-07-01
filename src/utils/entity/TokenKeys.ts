@@ -8,25 +8,26 @@ export enum TOKEN_KEY {
   SUPPLY = 'supplyKey'
 }
 
-export interface TresauryKeyAccount {
+export interface TreasuryKeyAccount {
   type: TOKEN_KEY.TREASURY,
   value: 'account',
 }
-export interface TresauryKeyCustom {
+export interface TreasuryKeyCustom {
   type: TOKEN_KEY.TREASURY,
   value: 'custom',
   key: string,
 }
 
 export interface TokenKeyNoOrAccount {
-  type: TOKEN_KEY,
+  type?: TOKEN_KEY,
   value: 'account'
 }
 
 export interface TokenKeyCustom {
-  type: TOKEN_KEY,
+  type?: TOKEN_KEY,
   value: 'custom',
   key: string
 }
 
-export type TokenKey = TresauryKeyAccount | TresauryKeyCustom | TokenKeyNoOrAccount | TokenKeyCustom;
+export type TreasuryKey = TreasuryKeyAccount | TreasuryKeyCustom
+export type TokenKey =  TokenKeyNoOrAccount | TokenKeyCustom;

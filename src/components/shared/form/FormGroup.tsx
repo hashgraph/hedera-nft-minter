@@ -13,9 +13,10 @@ type Input = {
 interface Props {
   inputsSchema: Input[];
   name: string;
+  label: string;
 }
 
-const FormGroup = ({ inputsSchema, name }: Props) => {
+const FormGroup = ({ inputsSchema, name, label }: Props) => {
   const { setFieldTouched, validateField } = useFormikContext<WizardValues>()
   const [ field ] = useField(name)
 
@@ -37,13 +38,14 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
           <>
             <div className='form__group__label-wrapper'>
               <label htmlFor='null'>
-                {name[0].toUpperCase() + name.slice(1, name.length)}:
+                {label}:
               </label>
               <button
                 type='button'
-                onClick={() => push({ ...inputsSchema.map(el => el.name && ({[el.name] : ''})) })}
+                className='btn--big'
+                onClick={() => push({ ...Object.keys(inputsSchema[0]).map(el => el && ({[el] : ''})) })}
               >
-                Add +
+                Add
               </button>
             </div>
             {form.values[name].length <= 0 && (
@@ -74,7 +76,7 @@ const FormGroup = ({ inputsSchema, name }: Props) => {
                     ))}
 
                     <div className='form__group__table__row__remove-button'>
-                      <button type='button' onClick={() => remove(index)}>
+                      <button className='btn--big' type='button' onClick={() => remove(index)}>
                         Del
                       </button>
                     </div>
