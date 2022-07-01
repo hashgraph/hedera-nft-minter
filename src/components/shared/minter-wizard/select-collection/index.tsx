@@ -21,10 +21,10 @@ export default function SelectCollection() {
   const { values, setFieldValue, resetForm } = useFormikContext<WizardValues>()
   const [isLoading, setLoading] = useState(true);
   const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[]>([])
-  const { setNextButtonHidden } = useContext(MinterWizardStepWrapperContext)
+  const { isNextButtonActive } = useContext(MinterWizardStepWrapperContext)
 
   const loadCollections = useCallback(async () => {
-    setNextButtonHidden(true);
+    isNextButtonActive(true);
 
     if (!userWalletId) {
       throw new Error('First connect your wallet!');
@@ -42,9 +42,9 @@ export default function SelectCollection() {
       setFieldValue('token_id', loadedCollections[0]?.info.token_id);
       setFieldValue('maxSupply', loadedCollections[0]?.info.max_supply);
 
-      setNextButtonHidden(false);
+      isNextButtonActive(false);
     }
-  }, [userWalletId, setCollections, setLoading, setFieldValue, setNextButtonHidden])
+  }, [userWalletId, setCollections, setLoading, setFieldValue, isNextButtonActive])
 
   const selectedCollection = useMemo(() => (
     collections.find(collection => collection.info.token_id === values.token_id)

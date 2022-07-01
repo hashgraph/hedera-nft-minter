@@ -49,6 +49,20 @@ textarea {
   max-width: 100%;
 }
 
+label {
+  margin-bottom: 0;
+  color: var(--main-color);
+  display: block;
+  padding-bottom: 0.938rem;
+  padding-left: 3px;
+  letter-spacing: -.4px;
+  margin-top: 1rem;
+
+  @include respond-to("mobile") {
+    white-space: pre;
+  }
+}
+
 hr {
   border: unset;
   height: 1px;
@@ -393,26 +407,6 @@ header {
     justify-content: space-between;
   }
 }
-
-.m {
-  &c{
-    margin: auto;
-
-    &-h {
-      margin: 0 auto;
-    }
-  }
-  @each $dimension in 'b', 't', 'l', 'r' {
-    &#{$dimension} {
-      @for $i from 1 through 10 {
-        &-#{$i} {
-          margin-bottom: #{$i}rem;
-        }
-      }
-    }
-  }
-}
-
 
 footer, .footer {
   padding: 4rem;

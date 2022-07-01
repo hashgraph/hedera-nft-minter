@@ -57,14 +57,14 @@ export default function SemiNFT({ data }: { data: NFTInfo[] }) {
       )}
       <h4>#{serials.sort((a,b) => a-b).join(', ')} edition name: {data[0]?.meta?.name}</h4>
       <div>
-        <label htmlFor='null'>Description</label>
+      <p className='label'>Description</p>
         <p>{renderValue(data[0]?.meta?.description)}</p>
-        <label htmlFor='null'>Creator</label>
+        <p className='label'> Creator</p>
         <p>{renderValue(data[0]?.meta?.creator)}</p>
 
         {data[0]?.meta?.attributes?.length && (
           <>
-            <label htmlFor='null'>Attributes</label>
+            <p className='label'>Attributes</p>
             {data[0]?.meta?.attributes?.map((p, i) =>
               // eslint-disable-next-line react/no-array-index-key
               <p key={`attribute_${ i }`}>{p.trait_type}: <span>{p.value}</span></p>

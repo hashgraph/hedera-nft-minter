@@ -22,8 +22,7 @@ $transition: opacity 400ms, transform 400ms;
   }
 
   @include respond-to('tablet') {
-    max-width: 435px;
-    min-width: 435px;
+    width: 435px;
   }
 
   h1{

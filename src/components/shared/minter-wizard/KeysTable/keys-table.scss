@@ -14,6 +14,7 @@
     }
 
     label,
+    p,
     div {
       justify-content: center;
       text-align: center;
@@ -23,14 +24,14 @@
       white-space: normal;
       font-size: 0.7rem;
 
-      &:last-of-type {
+      &:nth-of-type(4) {
         margin-right: .5rem;
       }
 
       @include respond-to("mobile") {
         font-size: 0.95rem;
 
-        &:last-of-type {
+        &:nth-of-type(4) {
           margin-right: auto;
         }
       }
@@ -59,7 +60,7 @@
     padding-bottom: 1.3rem;
 
     grid-template-areas:
-      "label input input2 remove";
+      "label input-account input-custom remove";
 
     @include respond-to("mobile") {
       grid-template-columns: 190px 1fr 1fr 107px;
@@ -70,17 +71,18 @@
     }
 
     &--input {
-      grid-area: input;
       display: grid;
       place-items: center;
       padding: 21.8px 0;
 
+      .grid {
+        &--account {
+          grid-area: input-account;
+        }
 
-      &-2 {
-        grid-area: input2;
-        display: grid;
-        place-items: center;
-        padding: 21.8px 0;
+        &--custom {
+          grid-area: input-custom;
+        }
       }
     }
 

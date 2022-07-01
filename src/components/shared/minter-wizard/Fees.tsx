@@ -6,6 +6,7 @@ import {
   TransitionGroup,
   SwitchTransition,
 } from 'react-transition-group';
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from '@/components/shared/form/switch/Switch';
@@ -233,7 +234,7 @@ const MinterWizardFees = () => {
                 type='button'
                 className='btn--big'
               >
-                Add
+                <PlusSquareOutlined />
               </button>
             </div>
             {!hasAnyValues && (
@@ -264,7 +265,9 @@ const MinterWizardFees = () => {
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>
                         </div>
-                        <button type='button' onClick={() => remove(index)}>Del</button>
+                        <button type='button' onClick={() => remove(index)}>
+                          <DeleteOutlined />
+                        </button>
                         </div>
                         <SwitchTransition>
                           <CSSTransition

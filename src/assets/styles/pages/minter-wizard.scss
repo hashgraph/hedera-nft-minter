@@ -36,11 +36,11 @@
 
     @include respond-to('desktop') {
       display: grid;
-      grid-template-columns: repeat(3, 1fr) 1.5fr;
+      grid-template-columns: 3fr 1.5fr;
       grid-gap: 2.5rem;
       grid-template-areas:
-        "form form form summary"
-        "nav nav nav summary"
+        "form summary"
+        "nav summary"
       ;
     }
 

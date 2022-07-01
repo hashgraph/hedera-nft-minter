@@ -11,9 +11,9 @@ type Props = {
 }
 
 export const MinterWizardStepWrapperContext = React.createContext<{
-  setNextButtonHidden: React.Dispatch<React.SetStateAction<boolean>>
+  isNextButtonActive: React.Dispatch<React.SetStateAction<boolean>>
 }>({
-  setNextButtonHidden: () => false
+  isNextButtonActive: () => false
 })
 
 export default function MinterWizardStepWrapper({
@@ -31,7 +31,7 @@ export default function MinterWizardStepWrapper({
 
   const { isSubmitting } = useFormikContext()
 
-  const [isNextButtonHidden, setNextButtonHidden] = useState(false)
+  const [isNextButtonHidden, isNextButtonActive] = useState(false)
 
   const nextButtonClassName = classNames('btn--big', {
     'btn--hidden': isNextButtonHidden
@@ -39,12 +39,12 @@ export default function MinterWizardStepWrapper({
 
   useEffect(() => {
     if(isFirstScreen) {
-      setNextButtonHidden(false)
+      isNextButtonActive(false)
     }
-  }, [isFirstScreen, setNextButtonHidden])
+  }, [isFirstScreen, isNextButtonActive])
 
   return (
-    <MinterWizardStepWrapperContext.Provider value={{setNextButtonHidden}}>
+    <MinterWizardStepWrapperContext.Provider value={{isNextButtonActive}}>
       <div className='minter-wizard__creator'>
         <div className='minter-wizard__creator__form'>
           {renderMinterWizardScreen(creatorStep)}

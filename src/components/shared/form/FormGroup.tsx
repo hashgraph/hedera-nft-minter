@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { FieldArray, useField, useFormikContext } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import each from 'lodash/each';
@@ -45,7 +46,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
                 className='btn--big'
                 onClick={() => push({ ...Object.keys(inputsSchema[0]).map(el => el && ({[el] : ''})) })}
               >
-                Add
+                <PlusSquareOutlined />
               </button>
             </div>
             {form.values[name].length <= 0 && (
@@ -77,7 +78,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
 
                     <div className='form__group__table__row__remove-button'>
                       <button className='btn--big' type='button' onClick={() => remove(index)}>
-                        Del
+                        <DeleteOutlined />
                       </button>
                     </div>
                   </div>

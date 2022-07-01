@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { Field, FieldArray, useField } from 'formik';
 import { toast } from 'react-toastify';
 import {
@@ -6,6 +6,8 @@ import {
   TransitionGroup,
   SwitchTransition,
 } from 'react-transition-group';
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import find from 'lodash/find'
 
 import { TokenKey, TOKEN_KEY } from '@utils/entity/TokenKeys';
 import Error from '@components/shared/form/Error';
@@ -38,12 +40,10 @@ export interface MinterWizardKeysProps {
 const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
   const [field] = useField<TokenKey[]>(name);
 
-  const tokenKeys = useMemo<MinterWizardKey[]>(() => data, [data]);
-
-  const checkIfIsTokenKeyRequired = useCallback((index) => !!tokenKeys[index]?.required, [tokenKeys])
+  const checkIfIsTokenKeyRequired = useCallback((index) => !!data[index]?.required, [data])
 
   const renderOptions = useCallback(() => {
-    const keys = tokenKeys.map((key) => {
+    const keys = data.map((key) => {
       // Form rows for required token keys are always rendered and
       // cannot be deleted, so required keys are not shown as select option.
       if (key.required) {
@@ -77,7 +77,7 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
 
     return keys
   },
-    [field, tokenKeys]
+    [field, data]
   );
 
   const renderKey = useCallback((
@@ -87,8 +87,10 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
     const isTokenKeyRequired = checkIfIsTokenKeyRequired(index);
     const baseClassName = 'keys-table__row'
     const className = classNames(baseClassName, {
-      [baseClassName + '_firsts']: isTokenKeyRequired
+      [`${ baseClassName }_firsts`]: isTokenKeyRequired
     })
+
+    const treasuryAccountIdTitle = find(TokenKeys, e => e.value === TOKEN_KEY.TREASURY)?.title
 
     return (
       <div className={className}>
@@ -96,12 +98,12 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
           {isTokenKeyRequired ? (
             <>
               <label htmlFor={`account_${ index }`} className='keys-table__col--label'>
-                {tokenKeys[index].title !== 'Treasury Account ID' ? `${ tokenKeys[index].title } key` : tokenKeys[index].title}
+                {data[index].title !== treasuryAccountIdTitle ? `${ data[index].title } key` : data[index].title}
               </label>
               <Field
                 name={`${ name }.${ index }.type`}
                 type='hidden'
-                value={tokenKeys[index].value}
+                value={data[index].value}
                 checked
               />
             </>
@@ -110,24 +112,24 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
               {renderOptions()}
             </FieldSelect>
           )}
-          <div className='keys-table__col--input'>
+          <div className='keys-table__col--input grid--account'>
             <Field
               name={`${ name }.${ index }.value`}
               type='radio'
               value='account'
             />
           </div>
-          <div className='keys-table__col--input-2'>
+          <div className='keys-table__col--input grid--custom'>
             <Field name={`${ name }.${ index }.value`} type='radio' value='custom' />
           </div>
           <div className='keys-table__col--remove-button'>
             {isTokenKeyRequired ? (
               <button type='button' disabled>
-                Del
+                <DeleteOutlined />
               </button>
             ) : (
               <button type='button' onClick={() => remove(index)}>
-                Del
+                <DeleteOutlined />
               </button>
             )}
           </div>
@@ -146,7 +148,7 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
             <div>
               {field.value[index]?.value === 'custom' && (
                 <div className='mb-1'>
-                  <label htmlFor={`${ name }.${ index }.key`}>Enter custom {tokenKeys[index].title} key:</label>
+                  <label htmlFor={`${ name }.${ index }.key`}>Enter custom {data[index].title} key:</label>
                   <div className='form__group__table__row__custom-key w-100'>
                     <Field name={`${ name }.${ index }.key`} type='text' />
                     <Error name={`${ name }.${ index }.key`} />
@@ -158,13 +160,13 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
         </SwitchTransition>
       </div>
     );
-  }, [field, renderOptions, checkIfIsTokenKeyRequired, tokenKeys, label, name]);
+  }, [field, renderOptions, checkIfIsTokenKeyRequired, data, name]);
 
   const keysTableClassNames = classNames('keys-table', {
-    'keys-table--single': tokenKeys.length <= 1
+    'keys-table--single': data.length <= 1
   })
   const keysTableHeaderClassNames = classNames('keys-table__header', {
-    'keys-table__header--single': tokenKeys.length <= 1
+    'keys-table__header--single': data.length <= 1
   })
 
   return (
@@ -175,17 +177,17 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
           <div className={keysTableClassNames}>
             <div className='form__group__label-wrapper'>
               <p className='label'>{label}</p>
-              {tokenKeys.length > 1 && (
+              {data.length > 1 && (
                 <button
                   onClick={() =>
-                    field.value.length < tokenKeys.length
+                    field.value.length < data.length
                       ? push({ value: 'account', type: '', key: '' })
                       : toast.error('Enough!')
                   }
                   type='button'
                   className='btn--big'
                 >
-                  Add
+                  <PlusSquareOutlined />
                 </button>
               )}
             </div>
@@ -194,7 +196,7 @@ const MinterWizardKeys = ({ data, label, name }: MinterWizardKeysProps) => {
                <p className='label'>{''}</p>
                <p className='label'>My account</p>
                <p className='label'>Custom</p>
-              {tokenKeys.length > 1 && (
+              {data.length > 1 && (
                  <p className='label'>{'Del'}</p>
               )}
             </div>

@@ -157,7 +157,7 @@ export default function MinterWizard() {
     <Summary tokenId={tokenId} />
   ) : (
     <div className='dark-schema'>
-      <div className='mc-h container--padding container--max-width bg--transparent'>
+      <div className='mc--h container--padding container--max-width bg--transparent'>
         <Formik
           initialValues={initialValues}
           onSubmit={handleFormSubmit}
