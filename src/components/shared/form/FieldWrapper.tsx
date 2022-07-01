@@ -14,7 +14,7 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   inverse?: boolean,
   isArray?: boolean,
   onEnter?: () => void,
-  tooltip?: string,
+  tooltip?: string | React.ReactNode,
 };
 
 const FieldWrapper = ({
