@@ -1,0 +1,128 @@
+@import "src/assets/styles/base/mixins";
+
+.keys-table {
+  input[type=radio] {
+    margin: 0;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: 104px 1fr 1fr 50px;
+
+    @include respond-to("mobile") {
+      grid-template-columns: 190px 1fr 1fr 107px;
+    }
+
+    label,
+    div {
+      justify-content: center;
+      text-align: center;
+      font-weight: 400;
+      text-transform: uppercase;
+      margin: 0 auto;
+      white-space: normal;
+      font-size: 0.7rem;
+
+      &:last-of-type {
+        margin-right: .5rem;
+      }
+
+      @include respond-to("mobile") {
+        font-size: 0.95rem;
+
+        &:last-of-type {
+          margin-right: auto;
+        }
+      }
+    }
+
+    &--single {
+      grid-template-columns: 104px 1fr 1fr;
+
+      @include respond-to("mobile") {
+        grid-template-columns: 190px 1fr 1fr;
+      }
+    }
+  }
+
+
+  &__row {
+    padding-bottom: 1rem;
+
+  }
+
+  &__col {
+    display: grid;
+    grid-template-columns: 104px 1fr 1fr 50px;
+    border-top: 1px solid $smoke;
+    padding-top: 1.8rem;
+    padding-bottom: 1.3rem;
+
+    grid-template-areas:
+      "label input input2 remove";
+
+    @include respond-to("mobile") {
+      grid-template-columns: 190px 1fr 1fr 107px;
+    }
+
+    &--label {
+      grid-area: label;
+    }
+
+    &--input {
+      grid-area: input;
+      display: grid;
+      place-items: center;
+      padding: 21.8px 0;
+
+
+      &-2 {
+        grid-area: input2;
+        display: grid;
+        place-items: center;
+        padding: 21.8px 0;
+      }
+    }
+
+    &--remove-button {
+      grid-area: remove;
+      margin-top: 21.8px;
+      padding-bottom: 21.8px;
+      display: grid;
+      place-items: center;
+
+      button {
+        margin-left: auto;
+
+        @include respond-to('mobile') {
+          border-radius: 30px !important;
+          font-size: 0.75rem !important;
+          padding: 1.2rem 2.5rem !important;
+        }
+      }
+    }
+
+    .form__select {
+      margin-top: 21.8px;
+    }
+  }
+
+
+  &--single {
+    grid-template-columns: 104px 1fr 1fr;
+
+    .keys-table__col--remove-button {
+      display: none;
+    }
+
+    .keys-table__row,
+    .keys-table__col {
+      grid-template-columns: 104px 1fr 1fr;
+
+      @include respond-to("mobile") {
+        grid-template-columns: 190px 1fr 1fr;
+
+      }
+    }
+  }
+}
