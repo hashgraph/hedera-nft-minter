@@ -64,7 +64,7 @@ export default function MinterWizard() {
 
     try {
       if (!userWalletId) {
-        throw new Error('First connect your wallet');
+        throw new Error('First connect your wallet!');
       }
 
       if (
@@ -105,7 +105,7 @@ export default function MinterWizard() {
           accountId: userWalletId,
           tokenName: formValues.name,
           amount: formValues.qty,
-          keys: formValues.keys,
+          keys: [...formValues.keys, ...formValues.treasuryAccountId],
           customFees: formValues.fees,
           maxSupply: formValues.maxSupply
         } as NewTokenType);
@@ -134,10 +134,13 @@ export default function MinterWizard() {
         toast.error(e);
       } else if (e instanceof Error) {
         if(e.message.includes('illegal buffer')){
-          toast.error('User has aborted operation.')
+          toast.error('Transaction aborted in wallet.')
         }
         if(e.message.includes('INSUFFICIENT_PAYER_BALANCE')){
           toast.error('No available balance to finish operation.')
+        }
+        else {
+          toast.error(e.message)
         }
       }
     }
@@ -154,7 +157,7 @@ export default function MinterWizard() {
     <Summary tokenId={tokenId} />
   ) : (
     <div className='dark-schema'>
-      <div className='container'>
+      <div className='mc-h container--padding container--max-width bg--transparent'>
         <Formik
           initialValues={initialValues}
           onSubmit={handleFormSubmit}
