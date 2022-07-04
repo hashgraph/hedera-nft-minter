@@ -143,3 +143,22 @@ $fonts_dir: '/src/assets/fonts/';
   font-style: normal;
   font-stretch: normal;
 }
+
+.label {
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  max-width: 100%;
+  margin-bottom: 0;
+  color: var(--main-color);
+  display: block;
+  font-size: 0.95rem;
+  padding-bottom: 0.938rem;
+  padding-left: 3px;
+  letter-spacing: -.4px;
+  margin-top: 1rem;
+
+  @include respond-to("mobile") {
+    white-space: pre;
+  }
+}

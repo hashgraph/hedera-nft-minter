@@ -128,3 +128,23 @@ pre {
     font-weight: bold;
   }
 }
+
+.m {
+  &c{
+    margin: auto;
+
+    &--h {
+      margin: 0 auto;
+    }
+  }
+  @each $dimension in 'b', 't', 'l', 'r' {
+    &#{$dimension} {
+      @for $i from 1 through 10 {
+        &-#{$i} {
+          margin-bottom: #{$i * 0.5}rem;
+        }
+      }
+    }
+  }
+}
+

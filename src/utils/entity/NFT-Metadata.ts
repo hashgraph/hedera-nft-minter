@@ -5,7 +5,7 @@ interface FileMetadata {
 }
 
 export interface Propertie {
-  name: string,
+  label: string,
   value: string,
 }
 export interface Attribute {

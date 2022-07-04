@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes, useCallback, useMemo } from 'react';
 import { FastField, FieldAttributes, Field, useField } from 'formik';
 import classNames from 'classnames';
+import { JSX } from '@babel/types';
 
 import Error from '@/components/shared/form/Error';
 import Tooltip from './Tooltip';
@@ -14,7 +15,7 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   inverse?: boolean,
   isArray?: boolean,
   onEnter?: () => void,
-  tooltip?: string,
+  tooltip?: string | JSX.Element,
 };
 
 const FieldWrapper = ({

@@ -89,7 +89,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
             <p className='file-name'>{acceptedFiles[0].name}</p>
           </p>
         ) : (
-          <p>Drag 'n' drop some files here, or click to select files</p>
+          <p>Drag and drop image file here, or click to select file.</p>
         )}
       </div>
 
@@ -105,7 +105,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
               <p>{formatBytes(values?.image.size)}</p>
             </>
           ) : (
-            <p>File not uploaded yet</p>
+            <p>File not uploaded yet.</p>
           )}
         </div>
       </div>

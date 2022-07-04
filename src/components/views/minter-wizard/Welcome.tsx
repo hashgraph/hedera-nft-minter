@@ -25,11 +25,11 @@ export default function Welcome({goToCreator} : Props) {
         name='mint_type'
         options={[
           {
-            label: 'New NFT',
+            label: <>New NFT <span className='flex'>in New Collection</span></>,
             value: MintTypes.NewCollectionNewNFT
           },
           {
-            label: <>New NFT <span className='flex'>with Existing Collection</span></>,
+            label: <>New NFT <span className='flex'>in Existing Collection</span></>,
             value: MintTypes.ExistingCollectionNewNFT
           },
           // {

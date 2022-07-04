@@ -24,7 +24,7 @@ export default function ExistingCollectionExistingNFTSideSummary({ step }: Props
     </p>
     {step >= ExistingCollectionExistingNFTWizardSteps.SelectEditionScreen && (
       <p className='side_summary__info__row'>
-        Tokens to mint:&nbsp;<span>{renderValue(values?.qty)}</span>
+        NFTs to mint:&nbsp;<span>{renderValue(values?.qty)}</span>
       </p>
     )}
     <p className='side_summary__info__collection-name'>

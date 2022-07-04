@@ -45,6 +45,10 @@ export const ValidationSchema = yup.object().shape({
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
+  edition_name: yup
+    .string()
+    .min(3, 'Too Short!')
+    .max(50, 'Too Long!'),
   symbol: yup
     .string()
     .min(3, 'Too Short!')
@@ -52,12 +56,12 @@ export const ValidationSchema = yup.object().shape({
     .required('Required'),
   creator: yup.string().min(3, 'Too Short!').max(50, 'Too Long!'),
   creatorDID: yup.string().min(3, 'Too Short!').max(50, 'Too Long!'),
-  description: yup.string().min(3, 'Too Short!').max(50, 'Too Long!'),
+  description: yup.string().min(3, 'Too Short!').max(500, 'Too Long!'),
   qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
   maxSupply: yup.number().min(1, 'Min 1!').required('Required'),
   properties: yup.array().of(
     yup.object().shape({
-      name: yup
+      label: yup
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
@@ -69,11 +73,11 @@ export const ValidationSchema = yup.object().shape({
         .string()
         .min(3, 'Too Short!')
         .max(50, 'Too Long!')
-        .when(['name'], {
-          is: (name : string) => !!name,
+        .when(['label'], {
+          is: (label : string) => !!label,
           then: (schema) => schema.required('Required')
         }),
-    }, [['name', 'value']])
+    }, [['label', 'value']])
   ),
   token_id: yup.string().when(['mintType'], {
     is: (mintType : MintTypes) => [
@@ -105,4 +109,5 @@ export const ValidationSchema = yup.object().shape({
   ),
   fees: yup.array().of(feeValidator),
   keys: yup.array().of(keyValidator),
+  treasuryAccountId: yup.array().of(keyValidator),
 });

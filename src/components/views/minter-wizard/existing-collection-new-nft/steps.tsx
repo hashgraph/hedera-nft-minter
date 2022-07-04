@@ -1,7 +1,6 @@
 import SelectCollection from '@/components/shared/minter-wizard/select-collection';
-import OffChainBasis from '@/components/views/minter-wizard/existing-collection-new-nft/OffChainBasis';
-import OffChainPropertiesAndAttributes
- from '@/components/views/minter-wizard/existing-collection-new-nft/OffChainPropertiesAndAttributes';
+import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis'
+import OffChainPropertiesAndAttributes from '@components/shared/minter-wizard/OffChainPropertiesAndAttributes'
 
 export enum ExistingCollectionNewNFTWizardSteps {
   SelectCollectionScreen = 0,

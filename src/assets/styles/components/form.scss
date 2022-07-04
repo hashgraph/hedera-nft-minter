@@ -3,17 +3,16 @@
 // FORM INPUT STYLES
 input:not([type="radio"]):not([type="checkbox"]),
 select {
-  height: 42px;
+  height: 47px;
 }
 
-label {
-  white-space: pre;
-  color: var(--main-color);
-  display: block;
-  font-size: 0.875rem;
-  padding-bottom: 0.938rem;
-  padding-left: 3px;
-  letter-spacing: -1px;
+label,
+.label {
+  font-size: 0.95rem;
+}
+
+p {
+  font-size: 1.15rem;
 }
 
 select {
@@ -37,7 +36,7 @@ input,
 textarea,
 select {
   font-family: 'Styrene A Web', sans-serif;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 300;
   display: block;
   color: var(--main-color);
@@ -45,7 +44,7 @@ select {
   border: 1px solid;
   border-color: var(--border-color);
   padding: 0.5rem 1rem;
-  border-radius: 25px;
+  border-radius: 30px;
   width: 100%;
 
   &::placeholder {
@@ -336,34 +335,36 @@ input[type='number'] {
     &__inputs {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       column-gap: $columnGap;
+      padding-bottom: 1.5rem;
+      margin-bottom: .5rem;
+      border-bottom: 1px solid $smoke;
+
+      &:last-of-type {
+        border-bottom: unset;
+      }
+
+
+      @include respond-to('mobile') {
+        justify-content: center;
+      }
+
 
       &__row {
-        flex: 0 1 calc(50% - 50px);
+        grid-gap: $columnGap;
+        flex: calc(50% - #{$columnGap});
+        display: flex;
+        order: 1;
+
+        @include respond-to('mobile') {
+          flex: 0 1 calc(50% - 80px);
+        }
       }
     }
 
     &__table {
-      &__labels__wrapper {
-        display: flex;
-        flex-wrap: wrap;
-
-        label {
-          justify-content: center;
-          text-align: center;
-          font-weight: 400;
-          text-transform: uppercase;
-          flex: 0 1 26%;
-
-          &:first-of-type {
-            justify-content: flex-start;
-            text-align: left;
-          }
-        }
-      }
-
       &__row {
         display: flex;
         flex-wrap: wrap;
@@ -383,8 +384,11 @@ input[type='number'] {
         }
 
         &__remove-button {
-          button {
-            margin-left: auto;
+          display: flex;
+          order: 2;
+          margin: 0 auto;
+          @include respond-to('mobile') {
+            margin-right: unset;
           }
         }
 
@@ -445,7 +449,7 @@ input[type='number'] {
       margin: 0px 0 0.938rem;
 
       label {
-        font-size: 1.25rem;
+        font-size: 1.35rem;
         font-weight: 300;
         letter-spacing: -1px;
         line-height: 1.2;
@@ -552,8 +556,12 @@ input[type='number'] {
     grid-gap: 1rem;
   }
 
-  &__textarea {
+  &__textarea, textarea {
     width: 100%;
     max-width: inherit;
+    padding: 1rem;
+    min-height: 100px;
   }
 }
+
+

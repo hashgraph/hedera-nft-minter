@@ -1,13 +1,15 @@
 import OnChain from '@components/views/minter-wizard/new-collection-new-nft/OnChain';
-import OffChainBasis from '@/components/views/minter-wizard/new-collection-new-nft/OffChainBasis';
-import OffChainPropertiesAndAttributes from '@/components/views/minter-wizard/new-collection-new-nft/OffChainPropertiesAndAttributes';
-import Advanced from '@components/views/minter-wizard/new-collection-new-nft/Advanced';
+import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis'
+import OffChainPropertiesAndAttributes from '@components/shared/minter-wizard/OffChainPropertiesAndAttributes'
+import AdvancedKeys from '@/components/views/minter-wizard/new-collection-new-nft/AdvancedKeys';
+import AdvancedFees from '@/components/views/minter-wizard/new-collection-new-nft/AdvancedFees';
 
 export enum NewCollectionNewNFTWizardSteps {
   OnChainScreen = 0,
   OffChainBasisScreen = 1,
   OffChainPropertiesAndAttributesScreen = 2,
-  AdvancedScreen = 3,
+  AdvancedFeesScreen = 3,
+  AdvancedKeysScreen = 4,
 }
 
 const Steps = [
@@ -28,9 +30,14 @@ const Steps = [
     optionalFields: ['properties', 'attributes']
   },
   {
-    creatorStep: NewCollectionNewNFTWizardSteps.AdvancedScreen,
-    Component: Advanced,
-    optionalFields: ['keys', 'fees']
+    creatorStep: NewCollectionNewNFTWizardSteps.AdvancedFeesScreen,
+    Component: AdvancedFees,
+    optionalFields: ['fees', 'treasuryAccountId']
+  },
+  {
+    creatorStep: NewCollectionNewNFTWizardSteps.AdvancedKeysScreen,
+    Component: AdvancedKeys,
+    optionalFields: ['keys']
   },
 ]
 

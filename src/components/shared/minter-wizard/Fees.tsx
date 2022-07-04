@@ -6,6 +6,7 @@ import {
   TransitionGroup,
   SwitchTransition,
 } from 'react-transition-group';
+import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import Switch from '@/components/shared/form/switch/Switch';
@@ -221,7 +222,7 @@ const MinterWizardFees = () => {
         render={({ push, remove }) => (
           <div className='form__row__fees'>
             <div className='form__group__label-wrapper'>
-              <label htmlFor='null'>Fees</label>
+              <p className='label'>Transfer fees</p>
               <button
                 onClick={() =>
                   field.value.length < 10 ? push({
@@ -231,8 +232,9 @@ const MinterWizardFees = () => {
                   }) : toast.error('Enough!')
                 }
                 type='button'
+                className='btn--big'
               >
-                Add +
+                <PlusSquareOutlined />
               </button>
             </div>
             {!hasAnyValues && (
@@ -263,7 +265,9 @@ const MinterWizardFees = () => {
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>
                         </div>
-                        <button type='button' onClick={() => remove(index)}>Del</button>
+                        <button type='button' onClick={() => remove(index)}>
+                          <DeleteOutlined />
+                        </button>
                         </div>
                         <SwitchTransition>
                           <CSSTransition

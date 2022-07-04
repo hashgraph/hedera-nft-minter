@@ -1,19 +1,32 @@
 .minter-wizard {
   h2 {
-    font-size: 2rem;
-    padding-bottom: 1rem;
+    font-size: 2.3rem;
+    padding-bottom: 1.3rem;
 
     @include gradient-border("bottom", 2px);
   }
 
   h3 {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
 
     @include gradient-border("bottom", 1px);
   }
 
   textarea {
     resize: vertical;
+  }
+
+  &__basis-header {
+    @include gradient-border('bottom', 1px);
+  }
+
+  &__on-chain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
   &__creator {
@@ -23,11 +36,11 @@
 
     @include respond-to('desktop') {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 3fr 1.5fr;
       grid-gap: 2.5rem;
       grid-template-areas:
-        "form form form summary"
-        "nav nav nav summary"
+        "form summary"
+        "nav summary"
       ;
     }
 
@@ -41,6 +54,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      margin-top: 2rem;
     }
 
     &__summary {
@@ -59,9 +73,6 @@
       justify-content: space-between;
     }
 
-    .offchain-basis-header {
-      @include gradient-border('bottom', 1px);
-    }
   }
 
   &__select-edition {

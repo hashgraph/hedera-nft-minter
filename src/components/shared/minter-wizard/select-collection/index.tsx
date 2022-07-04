@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
+import pick from 'lodash/pick';
 
 import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 import MirrorNode from '@/services/MirrorNode';
@@ -7,21 +8,24 @@ import { NFTInfo } from '@/utils/entity/NFTInfo';
 import { TokenInfo } from '@/utils/entity/TokenInfo';
 
 import useHederaWallets from '@hooks/useHederaWallets';
+import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
 import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
 import './select-collection.scss';
-import pick from 'lodash/pick';
-import FieldWrapper from '../../form/FieldWrapper';
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
   const { values, setFieldValue, resetForm } = useFormikContext<WizardValues>()
   const [isLoading, setLoading] = useState(true);
   const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[]>([])
+  const { isNextButtonActive } = useContext(MinterWizardStepWrapperContext)
 
   const loadCollections = useCallback(async () => {
+    isNextButtonActive(true);
+
     if (!userWalletId) {
       throw new Error('First connect your wallet!');
     }
@@ -31,11 +35,16 @@ export default function SelectCollection() {
 
     setCollections(loadedCollections);
     setLoading(false);
-    setFieldValue('name', loadedCollections[0]?.info.name);
-    setFieldValue('symbol', loadedCollections[0]?.info.symbol);
-    setFieldValue('token_id', loadedCollections[0]?.info.token_id);
-    setFieldValue('maxSupply', loadedCollections[0]?.info.max_supply);
-  }, [userWalletId, setCollections, setLoading, setFieldValue])
+
+    if (loadedCollections.length > 0) {
+      setFieldValue('name', loadedCollections[0]?.info.name);
+      setFieldValue('symbol', loadedCollections[0]?.info.symbol);
+      setFieldValue('token_id', loadedCollections[0]?.info.token_id);
+      setFieldValue('maxSupply', loadedCollections[0]?.info.max_supply);
+
+      isNextButtonActive(false);
+    }
+  }, [userWalletId, setCollections, setLoading, setFieldValue, isNextButtonActive])
 
   const selectedCollection = useMemo(() => (
     collections.find(collection => collection.info.token_id === values.token_id)
@@ -46,7 +55,6 @@ export default function SelectCollection() {
     setFieldValue('symbol', selectedCollection?.info.symbol)
     setFieldValue('maxSupply', selectedCollection?.info.max_supply);
     setFieldValue('token_id', selectedCollection?.info.token_id);
-
   }, [selectedCollection, setFieldValue]);
 
   useEffect(() => {
@@ -95,34 +103,43 @@ export default function SelectCollection() {
           <Loader />
         </div>
       ) : (
-        <div className='select-collection'>
-          <h3>Select a collection where your NFT will be placed</h3>
-          <label htmlFor='token_id'>Selected collection</label>
-          <div className='select-collection__select-wrapper'>
-            <FieldSelect name='token_id'>
-              {collections.map((collection, index) =>
-                <option
-                  key={collection.info.token_id}
-                  value={collection.info.token_id as string}
-                >
-                  {index + 1}. {collection.info.symbol} | {collection.info.name}
-                </option>
+        collections.length > 0 ? (
+          <div className='select-collection'>
+            <h3>Select a collection where your NFT will be placed</h3>
+            <label htmlFor='token_id'>Selected collection</label>
+            <div className='select-collection__select-wrapper'>
+              <FieldSelect name='token_id'>
+                {collections.map((collection, index) => (
+                  <option
+                    key={collection.info.token_id}
+                    value={collection.info.token_id as string}
+                  >
+                    {index + 1}. {collection.info.symbol} | {collection.info.name}
+                  </option>
+                ))}
+              </FieldSelect>
+              {selectedCollection && (
+                <CollectionSummary collection={selectedCollection} />
               )}
-            </FieldSelect>
-            {selectedCollection && (
-              <CollectionSummary collection={selectedCollection} />
-            )}
-          </div>
+            </div>
 
-          <FieldWrapper
-            fastField
-            name='qty'
-            type='number'
-            label='Number of tokens you want to mint into collection'
-            max={maxQtyNumber}
-            min={1}
-          />
-        </div>
+            <FieldWrapper
+              fastField
+              name='qty'
+              type='number'
+              label='This is the number of NFTs you can mint now.'
+              max={maxQtyNumber}
+              min={1}
+            />
+          </div>
+        ) : (
+          <div className='select-collection--not-found'>
+            <h3>Sorry! We cannot find any of your existing collections.</h3>
+            <p>First, you need to create a new collection and then you will be able to
+              add more NFTs to the existing collection.
+            </p>
+          </div>
+        )
       )}
     </div>
   );

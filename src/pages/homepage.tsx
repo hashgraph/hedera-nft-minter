@@ -14,7 +14,7 @@ export default function Homepage() {
       >
         <p>
           The fastest and simplest way to mint your NFTs and Collections.
-          No smart contracts are needed.
+          No smart contracts required.
         </p>
         <a
           href='https://hedera.com/token-service'
