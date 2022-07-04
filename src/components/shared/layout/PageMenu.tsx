@@ -52,7 +52,7 @@ const PageMenu = (
     handleResize();
     return () => handleResize()
 
-  }, [updateScrollingBreakpoint, updateScrolledToTopOfPage]);
+  }, [updateScrollingBreakpoint, updateScrolledToTopOfPage, updatePageMenuPositionY]);
 
   const navClassnames = classNames({
     'page-menu': true,
