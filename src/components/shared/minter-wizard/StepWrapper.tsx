@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext } from 'react'
+import classNames from 'classnames';
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
-import SideSummary from '@/components/shared/minter-wizard/side-sumary';
-import { useFormikContext } from 'formik';
-import classNames from 'classnames';
+import SideSummary from '@/components/shared/minter-wizard/wizard-summary/SideSummary';
+import { MinterWizardContext } from '@/components/shared/minter-wizard/MinterWizardForm'
 
 type Props = {
   steps: CreatorSteps,
   backToMintTypeSelection: () => void;
+  goToSummary: () => void;
 }
 
 export const MinterWizardStepWrapperContext = React.createContext<{
@@ -18,7 +19,8 @@ export const MinterWizardStepWrapperContext = React.createContext<{
 
 export default function MinterWizardStepWrapper({
   steps,
-  backToMintTypeSelection
+  backToMintTypeSelection,
+  goToSummary
 } : Props) {
   const {
     creatorStep,
@@ -27,9 +29,21 @@ export default function MinterWizardStepWrapper({
     handleCreatorNextButton,
     handleCreatorPrevButton,
     renderMinterWizardScreen,
+    setCreatorStep
   } = useMinterWizard(steps)
 
-  const { isSubmitting } = useFormikContext()
+  const { setLastCreatorStep, lastCreatorStep } = useContext(MinterWizardContext)
+
+  const handleSummaryNextButton = useCallback(() => {
+    setLastCreatorStep(creatorStep)
+    goToSummary()
+  }, [goToSummary, setLastCreatorStep, creatorStep])
+
+  useEffect(() => {
+    if(lastCreatorStep !== 0) {
+      setCreatorStep(lastCreatorStep)
+    }
+  }, [lastCreatorStep, setCreatorStep])
 
   const [isNextButtonHidden, isNextButtonActive] = useState(false)
 
@@ -75,11 +89,11 @@ export default function MinterWizardStepWrapper({
           <div className='next'>
             {isLastScreen ? (
               <button
-                type='submit'
+                type='button'
                 className={nextButtonClassName}
-                disabled={isSubmitting}
+                onClick={handleSummaryNextButton}
               >
-                {isSubmitting ? 'Finish in wallet' : 'Mint'}
+                Summary
               </button>
             ) : (
               <button

@@ -2,21 +2,12 @@
 @import "src/assets/styles/base/mixins";
 @import "src/assets/styles/base/functions";
 
-.side_summary {
+.summary {
   position: relative;
   height: 100%;
-  padding-left: 1.5rem;
+
   color: var(--main-color);
 
-  &:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 2px;
-    height: 100%;
-    background: $gradient;
-  }
 
   hr {
     width: 100%;
@@ -51,6 +42,20 @@
     min-height: 113px;
     border-radius: 100%;
     margin-bottom: 20px;
+  }
+
+  &--side {
+    padding-left: 1.5rem;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: $gradient;
+    }
   }
 
   &__wrapper {
@@ -136,5 +141,15 @@
       font-weight: 500;
     }
 
+  }
+
+  &__side-bar {
+    display: none;
+
+    @include respond-to('desktop') {
+      display: block;
+
+      @include gradient-border('left', 2px);
+    }
   }
 }
