@@ -2,10 +2,10 @@ import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
 import { TokenKeys } from '@/components/shared/minter-wizard/KeysTable';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
-import placeholder from '@assets/images/placeholder.png';
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 import SummaryProperties from '@/components/shared/minter-wizard/summary/SummaryProperties';
 import SummaryAttributes from '@/components/shared/minter-wizard/summary/SummaryAttributes';
+import placeholder from '@assets/images/placeholder.png';
 
 type Props = {
   step: number,
