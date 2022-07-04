@@ -1,9 +1,10 @@
 import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
-import renderValue from '@/utils/helpers/renderValue';
 import { Attribute } from '@utils/entity/NFT-Metadata';
 import { ExistingCollectionExistingNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-existing-nft/steps';
 import placeholder from '@assets/images/placeholder.png';
+import SummaryRow from '@/components/shared/minter-wizard/summary/SummaryRow';
+import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 
 type Props = {
   step: number,
@@ -19,35 +20,54 @@ export default function ExistingCollectionExistingNFTSideSummary({ step }: Props
       }
       alt='Thumb'
     />
-    <p className='summary__info__row'>
-      Collection max supply:&nbsp;<span>{renderValue(values?.maxSupply)}</span>
-    </p>
+    <SummaryRow
+      title='Collection max supply:'
+      fieldValue={values?.maxSupply}
+    />
     {step >= ExistingCollectionExistingNFTWizardSteps.SelectEditionScreen && (
-      <p className='summary__info__row'>
-        NFTs to mint:&nbsp;<span>{renderValue(values?.qty)}</span>
-      </p>
+      <SummaryRow
+        title='NFTs to mint:'
+        fieldValue={values?.qty}
+      />
     )}
-    <p className='summary__info__collection-name'>
-      {renderValue(values?.name)}
-    </p>
-    <p className='summary__info__row'>
-      Token symbol:&nbsp;<span>{renderValue(values?.symbol)}</span>
-    </p>
-    <p className='summary__info__row'>
-      Edition name:&nbsp;<span>{renderValue(values?.edition_name)}</span>
-    </p>
+    <SummaryRows
+      data={[
+        {
+          title: 'Collection name:',
+          fieldValue: values?.name,
+          type: 'with-header'
+        },
+        {
+          title: 'Collection symbol:',
+          fieldValue: values?.symbol
+        },
+        {
+          title: 'Edition name:',
+          fieldValue: values?.edition_name
+        },
+      ]}
+    />
+
     {step >= ExistingCollectionExistingNFTWizardSteps.SelectEditionScreen && (
       <>
-        <p className='summary__info__row'>
-          Created by:&nbsp;<span>{renderValue(values?.creator)}</span>
-        </p>
-        <hr />
-        <p className='summary__info__header'>
-          Description:
-        </p>
-        <p className='summary__info__row'>
-          <span>{renderValue(values?.description)}</span>
-        </p>
+        <SummaryRows
+          data={[
+            {
+              title: 'NFT created by:',
+              fieldValue: values?.creator
+            },
+            {
+              title: 'Creator DID:',
+              fieldValue: values?.creatorDID
+            },
+            {
+              title: 'NFT description:',
+              fieldValue: values?.description,
+              type: 'cursive'
+            },
+          ]}
+        />
+
         <hr />
         <p className='summary__info__header'>
           Attributes:

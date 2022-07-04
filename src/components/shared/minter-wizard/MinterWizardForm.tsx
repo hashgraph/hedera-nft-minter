@@ -5,7 +5,7 @@ import { MintTypes } from '@utils/entity/MinterWizard'
 import Welcome from '@/components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/wizard-steps';
 import MinterWizardStepWrapper from '@/components/shared/minter-wizard/StepWrapper';
-import MinterWizardSummary from '@/components/shared/minter-wizard/wizard-summary';
+import MinterWizardSummary from '@/components/shared/minter-wizard/summary';
 
 export enum FormWizardSteps {
   WelcomeScreen = 0,

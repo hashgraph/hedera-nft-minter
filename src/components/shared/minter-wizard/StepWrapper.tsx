@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useContext } from 'react'
 import classNames from 'classnames';
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
-import SideSummary from '@/components/shared/minter-wizard/wizard-summary/SideSummary';
+import SideSummary from '@/components/shared/minter-wizard/summary/SideSummary';
 import { MinterWizardContext } from '@/components/shared/minter-wizard/MinterWizardForm'
 
 type Props = {

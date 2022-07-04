@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 import { useField } from 'formik'
 import { MintTypes } from '@/utils/entity/MinterWizard';
-import NewNftNewCollectionSideSummary from '@/components/shared/minter-wizard/wizard-summary/content/NewNFTNewCollection';
-import ExistingCollectionNewNFTSideSummary from '@/components/shared/minter-wizard/wizard-summary/content/ExistingCollectionNewNFT';
-import ExistingCollectionExistingNFTSideSummary from '@/components/shared/minter-wizard/wizard-summary/content/ExistingCollectionExistingNFT';
+import NewNftNewCollectionSideSummary from '@/components/shared/minter-wizard/summary/content/NewNFTNewCollection';
+import ExistingCollectionNewNFTSideSummary from '@/components/shared/minter-wizard/summary/content/ExistingCollectionNewNFT';
+import ExistingCollectionExistingNFTSideSummary from '@/components/shared/minter-wizard/summary/content/ExistingCollectionExistingNFT';
 
 const useMinterWizardSummary = (step : number) => {
   const [field] = useField('mint_type')
