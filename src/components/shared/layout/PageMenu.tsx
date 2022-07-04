@@ -8,38 +8,51 @@ type Props = {
   className?: string;
 };
 
+const NAVBAR_HEIGHT = 80
+
 const PageMenu = (
   { children }: Props,
   props: React.PropsWithChildren<Props>
 ) => {
-  const navRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-
-  const { setPageMenuPositionY, isNavbarHidden, scrollPosition } = useLayout();
-
-  useEffect(() => {
-    if (navRef) {
-      setPageMenuPositionY(navRef.current.offsetTop);
-    }
-  }, [setPageMenuPositionY]);
+  const wrapperRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   const [scrolledToTopOfPage, setScrolledToTopOfPage] = useState(false);
   const [scrollingBreakpoint, setScrollingBreakpoint] = useState(0);
 
-  useEffect(() => {
-    setScrollingBreakpoint(navRef?.current?.offsetTop - 80 ?? 0);
-  }, [setScrollingBreakpoint]);
+  const { setPageMenuPositionY, isNavbarHidden, scrollPosition } = useLayout();
 
-  useEffect(() => {
-    if (navRef) {
+  const updatePageMenuPositionY = useCallback(() =>
+    setPageMenuPositionY(wrapperRef?.current?.offsetTop ?? 0),
+  [setPageMenuPositionY])
+
+  const updateScrollingBreakpoint = useCallback(() =>
+    setScrollingBreakpoint(wrapperRef?.current?.offsetTop - NAVBAR_HEIGHT ?? 0),
+  [setScrollingBreakpoint])
+
+  const updateScrolledToTopOfPage = useCallback(() => {
+    if (wrapperRef) {
       if (scrolledToTopOfPage) {
         setScrolledToTopOfPage(scrollPosition.y > scrollingBreakpoint);
       } else {
         setScrolledToTopOfPage(
-          scrollPosition.y > navRef.current.offsetTop - 80
+          scrollPosition.y > wrapperRef?.current?.offsetTop - NAVBAR_HEIGHT
         );
       }
     }
-  }, [scrolledToTopOfPage, scrollingBreakpoint, scrollPosition]);
+  }, [scrolledToTopOfPage, scrollingBreakpoint, scrollPosition])
+
+  useEffect(() => {
+    const handleResize = () => {
+      updateScrollingBreakpoint()
+      updateScrolledToTopOfPage()
+      updatePageMenuPositionY()
+    }
+
+    window.addEventListener('resize', handleResize)
+    handleResize();
+    return () => handleResize()
+
+  }, [updateScrollingBreakpoint, updateScrolledToTopOfPage]);
 
   const navClassnames = classNames({
     'page-menu': true,
@@ -48,7 +61,7 @@ const PageMenu = (
     [props?.className as string]: !!props?.className,
   });
 
-  const deviderClassnames = classNames({
+  const dividerClassnames = classNames({
     'page-menu-divider': true,
     'page-menu-divider__visible': scrolledToTopOfPage,
   });
@@ -63,9 +76,11 @@ const PageMenu = (
   );
 
   return (
-    <div className='page-menu-wrapper'>
-      <nav ref={navRef} className={navClassnames}>
-        <div className='nav-links'>{children}</div>
+    <div className='page-menu-wrapper' ref={wrapperRef}>
+      <nav className={navClassnames}>
+        <div className='nav-links'>{children}
+
+        </div>
         <button onClick={scrollToTop}>
           <img
             src={Arrow}
@@ -75,7 +90,7 @@ const PageMenu = (
           />
         </button>
       </nav>
-      <div className={deviderClassnames}></div>
+      <div className={dividerClassnames}></div>
     </div>
   );
 };
