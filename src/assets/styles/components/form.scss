@@ -353,7 +353,8 @@ input[type='number'] {
 
 
       &__row {
-        flex: 0 1 calc(50% - #{math.div($columnGap, 2)});
+        grid-gap: $columnGap;
+        flex: calc(50% - #{$columnGap});
         display: flex;
         order: 1;
 
