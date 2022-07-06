@@ -35,7 +35,7 @@ export default function ExistingCollectionExistingNFTSideSummary({ step }: Props
         {
           title: 'Collection name:',
           fieldValue: values?.name,
-          type: 'with-header'
+          stylingType: SummaryRowStylingTypes.withHeader
         },
         {
           title: 'Collection symbol:',
