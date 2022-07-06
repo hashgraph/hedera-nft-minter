@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useContext } from 'react'
+import React, { useCallback, useEffect, useState, useContext, useMemo } from 'react'
 import classNames from 'classnames';
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
@@ -32,30 +32,41 @@ export default function MinterWizardStepWrapper({
     setCreatorStep
   } = useMinterWizard(steps)
 
-  const { setLastCreatorStep, lastCreatorStep } = useContext(MinterWizardContext)
-
-  const handleSummaryNextButton = useCallback(() => {
-    setLastCreatorStep(creatorStep)
-    goToSummary()
-  }, [goToSummary, setLastCreatorStep, creatorStep])
-
-  useEffect(() => {
-    if(lastCreatorStep !== 0) {
-      setCreatorStep(lastCreatorStep)
-    }
-  }, [lastCreatorStep, setCreatorStep])
+  const {
+    setCreatorStepToBackFromSummary,
+    creatorStepToBackFromSummary
+  } = useContext(MinterWizardContext)
 
   const [isNextButtonHidden, isNextButtonActive] = useState(false)
 
-  const nextButtonClassName = classNames('btn--big', {
-    'btn--hidden': isNextButtonHidden
-  })
+  const handleSummaryNextButton = useCallback(() => {
+    setCreatorStepToBackFromSummary(creatorStep)
+    goToSummary()
+  }, [goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+
+  const wasUserBackFromSummary = useMemo(() =>
+     creatorStepToBackFromSummary !== 0,
+  [creatorStepToBackFromSummary])
+
+  const handleBackFromWizardSummary = useCallback(() => {
+    if(wasUserBackFromSummary) {
+      setCreatorStep(creatorStepToBackFromSummary)
+    }
+  },[creatorStepToBackFromSummary, setCreatorStep, wasUserBackFromSummary])
+
+  useEffect(() => {
+    handleBackFromWizardSummary()
+  }, [handleBackFromWizardSummary])
 
   useEffect(() => {
     if(isFirstScreen) {
       isNextButtonActive(false)
     }
   }, [isFirstScreen, isNextButtonActive])
+
+  const nextButtonClassName = classNames('btn--big', {
+    'btn--hidden': isNextButtonHidden
+  })
 
   return (
     <MinterWizardStepWrapperContext.Provider value={{isNextButtonActive}}>

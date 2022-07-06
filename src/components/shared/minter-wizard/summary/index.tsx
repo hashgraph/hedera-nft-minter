@@ -9,8 +9,8 @@ type Props = {
 }
 
 export default function MinterWizardSummary({ goToCreator }: Props) {
-  const { lastCreatorStep } = useContext(MinterWizardContext)
-  const minterWizardSummary = useMinterWizardSummary(lastCreatorStep)
+  const { creatorStepToBackFromSummary } = useContext(MinterWizardContext)
+  const minterWizardSummary = useMinterWizardSummary(creatorStepToBackFromSummary)
   const { isSubmitting } = useFormikContext()
 
   return (

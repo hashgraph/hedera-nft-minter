@@ -14,45 +14,55 @@ export enum FormWizardSteps {
 }
 
 export const MinterWizardContext = React.createContext<{
-  setLastCreatorStep: React.Dispatch<React.SetStateAction<number>>,
-  lastCreatorStep: number
+  setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
+  setCreatorStepToBackFromSummaryToCurrent: () => void,
+  creatorStepToBackFromSummary: number
 }>({
-  lastCreatorStep: 0,
-  setLastCreatorStep: () => false
+  creatorStepToBackFromSummary: 0,
+  setCreatorStepToBackFromSummary: () => false,
+  setCreatorStepToBackFromSummaryToCurrent: () => false
 })
 
 export default function MinterWizardForm({
   values,
 }: FormikProps<FormikValues>) {
-  const [step, setStep] = useState(FormWizardSteps.WelcomeScreen);
-  const [lastCreatorStep, setLastCreatorStep] = useState(0)
+  const [creatorStep, setCreatorStep] = useState(FormWizardSteps.WelcomeScreen);
+  const [creatorStepToBackFromSummary, setCreatorStepToBackFromSummary] = useState(0)
 
   const minterWizardSteps = useMemo(() => (
     wizardSteps[values.mint_type as MintTypes]
   ), [values.mint_type])
 
   const backToMintTypeSelection = useCallback(() => (
-    setStep(FormWizardSteps.WelcomeScreen)
-  ), [setStep]);
+    setCreatorStep(FormWizardSteps.WelcomeScreen)
+  ), [setCreatorStep]);
 
   const goToCreator = useCallback(() => (
-    setStep(FormWizardSteps.MinterScreen)
-  ), [setStep]);
+    setCreatorStep(FormWizardSteps.MinterScreen)
+  ), [setCreatorStep]);
 
   const goToSummary = useCallback(() => (
-    setStep(FormWizardSteps.SummaryScreen)
-  ), [setStep])
+    setCreatorStep(FormWizardSteps.SummaryScreen)
+  ), [setCreatorStep])
+
+  const setCreatorStepToBackFromSummaryToCurrent = useCallback(() => {
+    if (creatorStepToBackFromSummary !== 0) {
+      setCreatorStep(creatorStepToBackFromSummary)
+    }
+  }, [creatorStepToBackFromSummary, setCreatorStep])
 
   useEffect(() => {
-    if(step === FormWizardSteps.WelcomeScreen) {
-      setLastCreatorStep(0)
+    if (creatorStep === FormWizardSteps.WelcomeScreen) {
+      setCreatorStepToBackFromSummary(0)
     }
-  }, [setLastCreatorStep, step])
+  }, [setCreatorStepToBackFromSummary, creatorStep])
 
-  const renderFormWizard = useCallback((step: FormWizardSteps) => {
-    switch (step) {
+
+
+  const renderFormWizard = useCallback((creatorStep: FormWizardSteps) => {
+    switch (creatorStep) {
       case FormWizardSteps.WelcomeScreen:
-        return <Welcome goToCreator={goToCreator}/>
+        return <Welcome goToCreator={goToCreator} />
 
       case FormWizardSteps.MinterScreen:
         return (
@@ -73,11 +83,17 @@ export default function MinterWizardForm({
   }, [minterWizardSteps, backToMintTypeSelection, goToCreator, goToSummary])
 
   return (
-    <MinterWizardContext.Provider value={{lastCreatorStep, setLastCreatorStep}}>
+    <MinterWizardContext.Provider
+      value={{
+        creatorStepToBackFromSummary,
+        setCreatorStepToBackFromSummary,
+        setCreatorStepToBackFromSummaryToCurrent
+      }}
+    >
       <div className='wizard-form'>
         <Form className='form'>
           <div className='minter-wizard__container'>
-            {renderFormWizard(step)}
+            {renderFormWizard(creatorStep)}
           </div>
         </Form>
       </div>
