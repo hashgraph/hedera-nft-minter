@@ -1,15 +1,20 @@
 
 import renderValue from '@/utils/helpers/renderValue';
 
+export enum SummaryRowStylingTypes {
+  withHeader = 'with-header',
+  cursive = 'cursive'
+}
+
 export type SummaryRowProps = {
-  type?: 'with-header' | 'cursive',
+  stylingType?: SummaryRowStylingTypes,
   fieldValue: string,
   title: string,
 }
 
-export default function SummaryRow({ type, fieldValue, title }: SummaryRowProps) {
+export default function SummaryRow({ stylingType, fieldValue, title }: SummaryRowProps) {
 
-  if (type === 'with-header') {
+  if (stylingType === SummaryRowStylingTypes.withHeader) {
     return (
       <>
         <p className='summary__info__collection-name--header'>{title}</p>
@@ -20,7 +25,7 @@ export default function SummaryRow({ type, fieldValue, title }: SummaryRowProps)
     )
   }
 
-  if (type === 'cursive') {
+  if (stylingType === SummaryRowStylingTypes.cursive) {
     return (
       <>
         <hr />

@@ -3,7 +3,7 @@ import { FormikValues, useFormikContext } from 'formik'
 import { Attribute } from '@utils/entity/NFT-Metadata';
 import { ExistingCollectionExistingNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-existing-nft/steps';
 import placeholder from '@assets/images/placeholder.png';
-import SummaryRow from '@/components/shared/minter-wizard/summary/SummaryRow';
+import SummaryRow, { SummaryRowStylingTypes } from '@/components/shared/minter-wizard/summary/SummaryRow';
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 
 type Props = {
@@ -63,7 +63,7 @@ export default function ExistingCollectionExistingNFTSideSummary({ step }: Props
             {
               title: 'NFT description:',
               fieldValue: values?.description,
-              type: 'cursive'
+              stylingType: SummaryRowStylingTypes.cursive
             },
           ]}
         />

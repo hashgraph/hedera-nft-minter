@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
 import { ExistingCollectionNewNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-new-nft/steps';
+import { SummaryRowStylingTypes } from '@/components/shared/minter-wizard/summary/SummaryRow';
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 import SummaryProperties from '@/components/shared/minter-wizard/summary/SummaryProperties';
 import SummaryAttributes from '@/components/shared/minter-wizard/summary/SummaryAttributes';
@@ -36,7 +37,7 @@ export default function ExistingCollectionNewNFTSideSummary({ step }: Props) {
             {
               title: 'Collection name:',
               fieldValue: values?.name,
-              type: 'with-header'
+              stylingType: SummaryRowStylingTypes.withHeader
             },
             {
               title: 'Collection symbol:',
@@ -66,7 +67,7 @@ export default function ExistingCollectionNewNFTSideSummary({ step }: Props) {
             {
               title: 'NFT description:',
               fieldValue: values?.description,
-              type: 'cursive'
+              stylingType: SummaryRowStylingTypes.cursive
             },
           ]}
         />

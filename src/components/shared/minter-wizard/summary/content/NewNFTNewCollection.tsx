@@ -1,11 +1,12 @@
 import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
-import { TokenKeys } from '@/components/shared/minter-wizard/KeysTable';
 import { NewCollectionNewNFTWizardSteps } from '@/components/views/minter-wizard/new-collection-new-nft/steps';
+import { SummaryRowStylingTypes } from '@/components/shared/minter-wizard/summary/SummaryRow';
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 import SummaryProperties from '@/components/shared/minter-wizard/summary/SummaryProperties';
 import SummaryAttributes from '@/components/shared/minter-wizard/summary/SummaryAttributes';
 import placeholder from '@assets/images/placeholder.png';
+import SummaryAdvanced, { AdvancedTypes } from '../SummaryAdvanced';
 
 type Props = {
   step: number,
@@ -43,7 +44,7 @@ export default function NewNftNewCollectionSideSummary({ step }: Props) {
               {
                 title: 'Collection name:',
                 fieldValue: values?.name,
-                type: 'with-header'
+                stylingType: SummaryRowStylingTypes.withHeader
               },
               {
                 title: 'Collection symbol:',
@@ -64,7 +65,7 @@ export default function NewNftNewCollectionSideSummary({ step }: Props) {
               {
                 title: 'NFT description:',
                 fieldValue: values?.description,
-                type: 'cursive'
+                stylingType: SummaryRowStylingTypes.cursive
               },
             ]}
           />
@@ -80,40 +81,13 @@ export default function NewNftNewCollectionSideSummary({ step }: Props) {
       {step >= NewCollectionNewNFTWizardSteps.AdvancedFeesScreen && (
         <>
           <hr />
-          <p className='summary__info__subheader'>
-            Transfer fees
-          </p>
-          {values?.fees.length > 0 ? (
-            <>
-              <div className='summary__info__multiple'>
-
-                {values?.fees.length > 0 && values?.fees.map(((fee: { type: string }) => (
-                  <p key={fee.type}>
-                    {fee?.type[0]?.toUpperCase() ?? 'Empty'}
-                    {fee?.type?.slice(1, fee.type.length)}
-                    {' '}Fee
-                  </p>
-                )))}
-              </div>
-            </>
-          ) : (
-            <div className='summary__info__row--empty'>(empty)</div>
-          )}
+          <SummaryAdvanced name={AdvancedTypes.fees} />
         </>
       )}
       {step >= NewCollectionNewNFTWizardSteps.AdvancedKeysScreen && (
         <>
           <hr />
-          <p className='summary__info__subheader'>
-            Keys
-          </p>
-          <div className='summary__info__multiple'>
-            {values?.keys.length > 0 && values?.keys.map(((valuesKey: { type: string }) => (
-              <p key={valuesKey.type}>
-                {TokenKeys.find(key => key.value === valuesKey.type)?.title}
-              </p>
-            )))}
-          </div>
+          <SummaryAdvanced name={AdvancedTypes.keys} />
         </>
       )}
     </>
