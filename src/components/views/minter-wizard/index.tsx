@@ -11,7 +11,7 @@ import { initialValues } from '@/utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
 
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
-import MinterWizardForm from '@/components/views/minter-wizard/MinterWizardForm';
+import MinterWizardForm from '@/components/shared/minter-wizard/MinterWizardForm';
 import Summary from '@/components/views/minter-wizard/summary';
 
 export default function MinterWizard() {

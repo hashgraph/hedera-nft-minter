@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useContext, useMemo } from 'react'
+import classNames from 'classnames';
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
-import SideSummary from '@/components/shared/minter-wizard/side-sumary';
-import { useFormikContext } from 'formik';
-import classNames from 'classnames';
+import SideSummary from '@/components/shared/minter-wizard/summary/SideSummary';
+import { MinterWizardContext } from '@/components/shared/minter-wizard/MinterWizardForm'
 
 type Props = {
   steps: CreatorSteps,
   backToMintTypeSelection: () => void;
+  goToSummary: () => void;
 }
 
 export const MinterWizardStepWrapperContext = React.createContext<{
@@ -18,7 +19,8 @@ export const MinterWizardStepWrapperContext = React.createContext<{
 
 export default function MinterWizardStepWrapper({
   steps,
-  backToMintTypeSelection
+  backToMintTypeSelection,
+  goToSummary
 } : Props) {
   const {
     creatorStep,
@@ -27,21 +29,44 @@ export default function MinterWizardStepWrapper({
     handleCreatorNextButton,
     handleCreatorPrevButton,
     renderMinterWizardScreen,
+    setCreatorStep
   } = useMinterWizard(steps)
 
-  const { isSubmitting } = useFormikContext()
+  const {
+    setCreatorStepToBackFromSummary,
+    creatorStepToBackFromSummary
+  } = useContext(MinterWizardContext)
 
   const [isNextButtonHidden, isNextButtonActive] = useState(false)
 
-  const nextButtonClassName = classNames('btn--big', {
-    'btn--hidden': isNextButtonHidden
-  })
+  const handleSummaryNextButton = useCallback(() => {
+    setCreatorStepToBackFromSummary(creatorStep)
+    goToSummary()
+  }, [goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+
+  const wasUserBackFromSummary = useMemo(() =>
+     creatorStepToBackFromSummary !== 0,
+  [creatorStepToBackFromSummary])
+
+  const handleBackFromWizardSummary = useCallback(() => {
+    if(wasUserBackFromSummary) {
+      setCreatorStep(creatorStepToBackFromSummary)
+    }
+  },[creatorStepToBackFromSummary, setCreatorStep, wasUserBackFromSummary])
+
+  useEffect(() => {
+    handleBackFromWizardSummary()
+  }, [handleBackFromWizardSummary])
 
   useEffect(() => {
     if(isFirstScreen) {
       isNextButtonActive(false)
     }
   }, [isFirstScreen, isNextButtonActive])
+
+  const nextButtonClassName = classNames('btn--big', {
+    'btn--hidden': isNextButtonHidden
+  })
 
   return (
     <MinterWizardStepWrapperContext.Provider value={{isNextButtonActive}}>
@@ -75,11 +100,11 @@ export default function MinterWizardStepWrapper({
           <div className='next'>
             {isLastScreen ? (
               <button
-                type='submit'
+                type='button'
                 className={nextButtonClassName}
-                disabled={isSubmitting}
+                onClick={handleSummaryNextButton}
               >
-                {isSubmitting ? 'Finish in wallet' : 'Mint'}
+                Summary
               </button>
             ) : (
               <button

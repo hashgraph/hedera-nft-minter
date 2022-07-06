@@ -31,3 +31,5 @@ export interface TokenKeyCustom {
 
 export type TreasuryKey = TreasuryKeyAccount | TreasuryKeyCustom
 export type TokenKey =  TokenKeyNoOrAccount | TokenKeyCustom;
+
+export type TokenKeys = TreasuryKey[] | TokenKey[]

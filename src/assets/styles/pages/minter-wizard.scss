@@ -198,6 +198,17 @@
     }
   }
 
+  &__final-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: calc(40vh - 62px);
+
+    @include respond-to('desktop') {
+      grid-template-columns: 3fr 1.5fr;
+      column-gap: 2.5rem;
+    }
+  }
+
   .wizard-form {
     border-radius: 4px;
     align-items: center;
