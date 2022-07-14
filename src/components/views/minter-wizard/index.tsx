@@ -80,7 +80,7 @@ export default function MinterWizard() {
             throw new Error('Error when uploading NFT File!');
           }
           filteredValues.type = formValues.image.type;
-          filteredValues.image = imageData.value.cid;
+          filteredValues.image = `ipfs://${ imageData.value.cid }`;
         }
 
         // if new NFT, upload metadata
