@@ -12,8 +12,7 @@ export default function transformToFees(fees: Fees[]): HederaFee[] {
 
         if(
           fee.collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS &&
-          fee?.hbarAmount &&
-          fee?.hbarAmount !== ''
+          fee?.hbarAmount
         ) {
           fixedFee.setHbarAmount(new Hbar(fee.hbarAmount))
         }
