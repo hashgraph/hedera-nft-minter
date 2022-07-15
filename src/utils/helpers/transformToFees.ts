@@ -7,10 +7,19 @@ export default function transformToFees(fees: Fees[]): HederaFee[] {
   return fees.map(fee => {
     let fallbackFee = null;
     switch (fee.type) {
-      case FEE.FIXED:
-        return new CustomFixedFee(fee);
+      case FEE.FIXED: {
+        const fixedFee = new CustomFixedFee(fee);
+
+        if(typeof fee?.hbarAmount !== 'undefined') {
+          fixedFee.setHbarAmount(new Hbar(fee.hbarAmount))
+        }
+
+        return fixedFee;
+      }
+
       case FEE.FRACTIONAL:
         return new CustomFractionalFee(fee);
+
       case FEE.ROYALTY:
         if (fee.fallbackFee) {
           fallbackFee = new CustomFixedFee().setHbarAmount(new Hbar(fee.fallbackFee))
