@@ -10,7 +10,7 @@ export default function transformToFees(fees: Fees[]): HederaFee[] {
       case FEE.FIXED: {
         const fixedFee = new CustomFixedFee(fee);
 
-        if(typeof fee?.hbarAmount !== 'undefined') {
+        if(fee?.hbarAmount && fee?.hbarAmount.toString() !== '') {
           fixedFee.setHbarAmount(new Hbar(fee.hbarAmount))
         }
 
