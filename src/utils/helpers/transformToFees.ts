@@ -1,4 +1,4 @@
-import { FEE, Fees } from '@utils/entity/Fees';
+import { FEE, Fees, FIXED_FEE_COLLECTING_TYPE } from '@utils/entity/Fees';
 import { Hbar, CustomFixedFee, CustomFractionalFee, CustomRoyaltyFee } from '@hashgraph/sdk';
 
 type HederaFee = CustomFixedFee | CustomFractionalFee | CustomRoyaltyFee;
@@ -10,7 +10,11 @@ export default function transformToFees(fees: Fees[]): HederaFee[] {
       case FEE.FIXED: {
         const fixedFee = new CustomFixedFee(fee);
 
-        if(fee?.hbarAmount && fee?.hbarAmount.toString() !== '') {
+        if(
+          fee.collectingFeeType === FIXED_FEE_COLLECTING_TYPE.HBARS &&
+          fee?.hbarAmount &&
+          fee?.hbarAmount !== ''
+        ) {
           fixedFee.setHbarAmount(new Hbar(fee.hbarAmount))
         }
 

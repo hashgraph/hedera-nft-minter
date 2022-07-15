@@ -30,7 +30,7 @@ export interface FixedFee {
   feeCollectorAccountId: string,
   denominatingTokenId?: string,
   amount?: number,
-  hbarAmount?: number,
+  hbarAmount?: string | number,
   collectingFeeType?: FIXED_FEE_COLLECTING_TYPE.TOKEN | FIXED_FEE_COLLECTING_TYPE.HBARS
 }
 
