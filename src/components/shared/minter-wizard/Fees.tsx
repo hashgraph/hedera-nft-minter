@@ -261,7 +261,7 @@ const MinterWizardFees = () => {
                           <FieldSelect name={`fees.${ index }.type`}>
                             <option value=''>Select a fee type...</option>
                             <option value={FEE.ROYALTY}>Royalty Fee</option>
-                            <option value={FEE.FRACTIONAL}>Fractional Fee</option>
+                            {/* <option value={FEE.FRACTIONAL}>Fractional Fee</option> */}
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>
                         </div>
