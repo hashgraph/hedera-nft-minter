@@ -97,7 +97,7 @@ export default class MirrorNode {
           }
 
           if (onlyAllowedToMint && (
-            (t?.admin_key?.key !== key.key && t?.supply_key?.key !== key?.key)
+            t?.supply_key?.key !== key?.key
             || (parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0'))
           )) {
             return null;
