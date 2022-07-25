@@ -98,7 +98,8 @@ export default class MirrorNode {
 
           if (onlyAllowedToMint && (
             t?.supply_key?.key !== key?.key
-            || (parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0'))
+            || parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0')
+            || t.supply_type !== 'INFINITE'
           )) {
             return null;
           }
