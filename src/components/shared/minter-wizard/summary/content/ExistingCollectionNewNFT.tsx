@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormikValues, useFormikContext } from 'formik'
+import { TokenSupplyType } from '@/utils/entity/TokenInfo';
 import { ExistingCollectionNewNFTWizardSteps } from '@components/views/minter-wizard/existing-collection-new-nft/steps';
 import { SummaryRowStylingTypes } from '@/components/shared/minter-wizard/summary/SummaryRow';
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
@@ -28,7 +29,9 @@ export default function ExistingCollectionNewNFTSideSummary({ step }: Props) {
           data={[
             {
               title: 'Collection max supply:',
-              fieldValue: values?.maxSupply
+              fieldValue: values.supplyType === TokenSupplyType.INFINITE
+                ? TokenSupplyType.INFINITE
+                : values?.maxSupply
             },
             {
               title: 'NFT copies to mint:',

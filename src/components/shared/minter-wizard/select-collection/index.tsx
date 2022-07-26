@@ -41,6 +41,7 @@ export default function SelectCollection() {
       setFieldValue('symbol', loadedCollections[0]?.info.symbol);
       setFieldValue('token_id', loadedCollections[0]?.info.token_id);
       setFieldValue('maxSupply', loadedCollections[0]?.info.max_supply);
+      setFieldValue('supplyType', loadedCollections[0]?.info.supply_type)
 
       isNextButtonActive(false);
     }
@@ -54,6 +55,7 @@ export default function SelectCollection() {
     setFieldValue('name', selectedCollection?.info.name)
     setFieldValue('symbol', selectedCollection?.info.symbol)
     setFieldValue('maxSupply', selectedCollection?.info.max_supply);
+    setFieldValue('supplyType', selectedCollection?.info.supply_type)
     setFieldValue('token_id', selectedCollection?.info.token_id);
   }, [selectedCollection, setFieldValue]);
 

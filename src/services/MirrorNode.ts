@@ -1,7 +1,7 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
 import { TokenId } from '@hashgraph/sdk';
-import { TokenInfo } from '@utils/entity/TokenInfo';
+import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 
 interface Token {
@@ -90,28 +90,29 @@ export default class MirrorNode {
       balance.tokens
         .filter(i => i.balance > 0)
         .map(async token => {
-          const t = await this.fetchTokenInfo(token.token_id);
+          const tokenInfo = await this.fetchTokenInfo(token.token_id);
 
-          if (t.type !== 'NON_FUNGIBLE_UNIQUE') {
-            return null;
-          }
-
-          if (onlyAllowedToMint && (
-            t?.supply_key?.key !== key?.key
-            || parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0')
-            || t.supply_type !== 'INFINITE'
-          )) {
+          if (
+            tokenInfo.type !== 'NON_FUNGIBLE_UNIQUE' ||
+            (
+              onlyAllowedToMint &&
+              tokenInfo?.supply_key?.key !== key.key ||
+              (
+                tokenInfo?.supply_type === TokenSupplyType.FINITE &&
+                parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0')
+              )
+            )
+          ) {
             return null;
           }
 
           return this.fetchNFTInfo(token.token_id)
             .then(res => ({
               ...res,
-              info: t,
+              info: tokenInfo,
             }));
         })
-    )
-      .then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
+    ).then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
 
     if (onlyHasNFTs) {
       return collections.filter(collection => collection?.nfts?.length > 0)
