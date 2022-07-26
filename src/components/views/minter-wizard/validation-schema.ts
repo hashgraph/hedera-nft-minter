@@ -42,28 +42,30 @@ export const ValidationSchema = yup.object().shape({
   }),
   name: yup
     .string()
-    .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
   edition_name: yup
     .string()
-    .min(3, 'Too Short!')
     .max(50, 'Too Long!'),
   symbol: yup
     .string()
-    .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  creator: yup.string().min(3, 'Too Short!').max(50, 'Too Long!'),
-  creatorDID: yup.string().min(3, 'Too Short!').max(50, 'Too Long!'),
-  description: yup.string().min(3, 'Too Short!').max(500, 'Too Long!'),
+  creator: yup.string().max(50, 'Too Long!'),
+  creatorDID: yup.string().max(50, 'Too Long!'),
+  description: yup.string().max(500, 'Too Long!'),
   qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
-  maxSupply: yup.number().min(1, 'Min 1!').required('Required'),
+  maxSupply: yup
+    .number()
+    .when(['mint_type'], {
+      is: (mintType : string) => mintType === MintTypes.NewCollectionNewNFT,
+      then: (schema) => schema.min(1, 'Min 1!').required('Required'),
+      otherwise: (schema) => schema
+  }),
   properties: yup.array().of(
     yup.object().shape({
       label: yup
         .string()
-        .min(3, 'Too Short!')
         .max(50, 'Too Long!')
         .when(['value'], {
           is: (value : string) => !!value,
@@ -71,7 +73,6 @@ export const ValidationSchema = yup.object().shape({
         }),
       value: yup
         .string()
-        .min(3, 'Too Short!')
         .max(50, 'Too Long!')
         .when(['label'], {
           is: (label : string) => !!label,
@@ -79,7 +80,7 @@ export const ValidationSchema = yup.object().shape({
         }),
     }, [['label', 'value']])
   ),
-  token_id: yup.string().when(['mintType'], {
+  token_id: yup.string().when(['mint_type'], {
     is: (mintType : MintTypes) => [
       MintTypes.ExistingCollectionExistingNFT,
       MintTypes.ExistingCollectionNewNFT,
@@ -90,7 +91,6 @@ export const ValidationSchema = yup.object().shape({
     yup.object().shape({
       trait_type: yup
         .string()
-        .min(3, 'Too Short!')
         .max(50, 'Too Long!')
         .when(['value'], {
           is: (value : string) => !!value,
@@ -98,7 +98,6 @@ export const ValidationSchema = yup.object().shape({
         }),
       value: yup
         .string()
-        .min(3, 'Too Short!')
         .max(50, 'Too Long!')
         .when(['trait_type'], {
           is: (trait_type : string) => !!trait_type,
