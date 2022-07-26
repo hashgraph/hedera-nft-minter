@@ -1,7 +1,6 @@
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
 import { MintTypes } from '@/utils/entity/MinterWizard';
-import { TokenSupplyType } from '@/utils/entity/TokenInfo';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
@@ -57,11 +56,11 @@ export const ValidationSchema = yup.object().shape({
   description: yup.string().max(500, 'Too Long!'),
   maxSupply: yup
     .number()
-    .when(['supplyType'], {
-      is: (value : string) => value === TokenSupplyType.INFINITE,
-      then: (schema) => schema.required('Required'),
-      otherwise: (schema) => schema.min(1, 'Min 1!').required('Required')
-    }),
+    .when(['mintType'], {
+      is: (mintType : string) => mintType === MintTypes.NewCollectionNewNFT,
+      then: (schema) => schema.min(1, 'Min 1!').required('Required'),
+      otherwise: (schema) => schema
+  }),
   properties: yup.array().of(
     yup.object().shape({
       label: yup
