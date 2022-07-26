@@ -3,7 +3,6 @@ import axios from 'axios';
 import { TokenId } from '@hashgraph/sdk';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import { canIncreaseSupplyForTokenWithKey } from '@/utils/helpers/canIncreaseSupplyForTokenWithKey';
 
 interface Token {
   token_id: string,
@@ -95,10 +94,10 @@ export default class MirrorNode {
           if (
             tokenInfo.type !== 'NON_FUNGIBLE_UNIQUE' ||
             (onlyAllowedToMint &&
-            !canIncreaseSupplyForTokenWithKey(tokenInfo, key) ||
+            (tokenInfo?.supply_key?.key !== key.key) ||
             (tokenInfo?.supply_type === TokenSupplyType.FINITE &&
-            (parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0')))
-          )) {
+            (parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0'))
+          ))) {
             return null;
           }
 
