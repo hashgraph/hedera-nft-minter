@@ -93,11 +93,15 @@ export default class MirrorNode {
 
           if (
             tokenInfo.type !== 'NON_FUNGIBLE_UNIQUE' ||
-            (onlyAllowedToMint &&
-            (tokenInfo?.supply_key?.key !== key.key) ||
-            (tokenInfo?.supply_type === TokenSupplyType.FINITE &&
-            (parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0'))
-          ))) {
+            (
+              onlyAllowedToMint &&
+              tokenInfo?.supply_key?.key !== key.key ||
+              (
+                tokenInfo?.supply_type === TokenSupplyType.FINITE &&
+                parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0')
+              )
+            )
+          ) {
             return null;
           }
 
