@@ -3,7 +3,6 @@ import { FormikValues } from 'formik';
 
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   let filtered = pick(values, [
-    'name',
     'type',
     'creator',
     'creatorDID',
@@ -13,6 +12,8 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     'format',
     'attributes',
   ]) as FormikValues;
+
+  filtered.name = values.edition_name
 
   filtered.format = 'opensea';
 

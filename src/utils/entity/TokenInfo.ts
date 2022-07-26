@@ -25,6 +25,7 @@ export interface TokenInfo {
   deleted: boolean,
   symbol: string | null,
   token_id: string | null,
+  supply_type: string | null,
   total_supply: string | null,
   treasury_account_id: string | null,
   type: 'FUNGIBLE_COMMON' | 'NON_FUNGIBLE_UNIQUE',

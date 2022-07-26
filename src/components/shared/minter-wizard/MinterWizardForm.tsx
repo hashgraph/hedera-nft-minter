@@ -57,8 +57,6 @@ export default function MinterWizardForm({
     }
   }, [setCreatorStepToBackFromSummary, creatorStep])
 
-
-
   const renderFormWizard = useCallback((creatorStep: FormWizardSteps) => {
     switch (creatorStep) {
       case FormWizardSteps.WelcomeScreen:
