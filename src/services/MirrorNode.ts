@@ -1,8 +1,9 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
 import { TokenId } from '@hashgraph/sdk';
-import { TokenInfo } from '@utils/entity/TokenInfo';
+import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
+import { canIncreaseSupplyForTokenWithKey } from '@/utils/helpers/canIncreaseSupplyForTokenWithKey';
 
 interface Token {
   token_id: string,
@@ -75,10 +76,9 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
+  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean } = { onlyAllowedToMint: false }) {
     const {
       onlyAllowedToMint = false,
-      onlyHasNFTs = false,
     } = options;
     const { balance, key } = await this.fetchAccountInfo(accountId);
 
@@ -90,15 +90,14 @@ export default class MirrorNode {
       balance.tokens
         .filter(i => i.balance > 0)
         .map(async token => {
-          const t = await this.fetchTokenInfo(token.token_id);
+          const tokenInfo = await this.fetchTokenInfo(token.token_id);
 
-          if (t.type !== 'NON_FUNGIBLE_UNIQUE') {
-            return null;
-          }
-
-          if (onlyAllowedToMint && (
-            t?.supply_key?.key !== key?.key
-            || (parseInt(t.total_supply as string || '0') >= parseInt(t.max_supply as string || '0'))
+          if (
+            tokenInfo.type !== 'NON_FUNGIBLE_UNIQUE' ||
+            (onlyAllowedToMint &&
+            !canIncreaseSupplyForTokenWithKey(tokenInfo, key) ||
+            (tokenInfo?.supply_type === TokenSupplyType.FINITE &&
+            (parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0')))
           )) {
             return null;
           }
@@ -106,15 +105,10 @@ export default class MirrorNode {
           return this.fetchNFTInfo(token.token_id)
             .then(res => ({
               ...res,
-              info: t,
+              info: tokenInfo,
             }));
         })
-    )
-      .then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
-
-    if (onlyHasNFTs) {
-      return collections.filter(collection => collection?.nfts?.length > 0)
-    }
+    ).then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
 
     return collections;
   }

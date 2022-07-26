@@ -1,5 +1,5 @@
 import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { TokenInfo } from '@/utils/entity/TokenInfo';
+import { TokenInfo, TokenSupplyType } from '@/utils/entity/TokenInfo';
 import classNames from 'classnames';
 import React from 'react'
 import './collection-summary.scss'
@@ -13,16 +13,22 @@ export default function CollectionSummary({ collection }: Props) {
     <div className={classNames('collectionsummary')}>
       <div className='collectionsummary__values'>
         <p>
-          Max supply: <b>{collection?.info.max_supply}</b>
+          Max supply:{' '}
+          <b>
+            {collection?.info.supply_type === TokenSupplyType.INFINITE
+                ? TokenSupplyType.INFINITE
+                : collection?.info?.max_supply
+            }
+          </b>
         </p>
         <p>
           Tokens minted: <b>{collection?.nfts?.length}</b>
         </p>
         <p>
-          {collection?.info?.max_supply && (
+          {collection?.info?.supply_type !== TokenSupplyType.INFINITE && (
             <>
               Left to mint: <b>{
-                parseInt(collection.info.max_supply)
+                parseInt(collection.info.max_supply ?? '0')
                 - collection.nfts.length
               }</b>
             </>
