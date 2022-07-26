@@ -54,9 +54,10 @@ export const ValidationSchema = yup.object().shape({
   creator: yup.string().max(50, 'Too Long!'),
   creatorDID: yup.string().max(50, 'Too Long!'),
   description: yup.string().max(500, 'Too Long!'),
+  qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
   maxSupply: yup
     .number()
-    .when(['mintType'], {
+    .when(['mint_type'], {
       is: (mintType : string) => mintType === MintTypes.NewCollectionNewNFT,
       then: (schema) => schema.min(1, 'Min 1!').required('Required'),
       otherwise: (schema) => schema
@@ -79,7 +80,7 @@ export const ValidationSchema = yup.object().shape({
         }),
     }, [['label', 'value']])
   ),
-  token_id: yup.string().when(['mintType'], {
+  token_id: yup.string().when(['mint_type'], {
     is: (mintType : MintTypes) => [
       MintTypes.ExistingCollectionExistingNFT,
       MintTypes.ExistingCollectionNewNFT,
