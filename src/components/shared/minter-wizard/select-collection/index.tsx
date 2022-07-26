@@ -80,7 +80,7 @@ export default function SelectCollection() {
           'attributes',
           'qty',
           'keys',
-          'fees',
+          'fees'
         ])
       }
     })
