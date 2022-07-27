@@ -67,28 +67,6 @@
       font-size: 0.8rem;
       margin-bottom: -10px;
     }
-
-    &__more {
-      padding: 1rem 0;
-
-      &:after {
-        display: none !important;
-      }
-
-      p {
-        margin: 0;
-        font-size: 1rem;
-
-        &:nth-of-type(3) {
-          font-size: 1.15rem;
-        }
-      }
-
-      .price {
-        font-size: 1.5rem;
-        font-weight: 500;
-      }
-    }
   }
 
   &__action-buttons {
