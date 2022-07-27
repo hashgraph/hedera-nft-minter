@@ -9,7 +9,6 @@ import {
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import Switch from '@/components/shared/form/switch/Switch';
 import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE, FixedFee } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import Tooltip from '@/components/shared/form/Tooltip';
@@ -58,62 +57,6 @@ const MinterWizardFees = () => {
             </div>
           </div>
         </div>
-      </div>
-    </>
-  ),[]);
-
-  const renderFractionalFeeFormFields = useCallback((index: number) => (
-    <>
-      <Tooltip title='Fractional fee' showLabel>
-      A fraction of the transferred units of a token to assess as a fee.
-      The amount assessed will never be less than the given minimum_amount,
-      and never greater than the given maximum_amount. The denomination is always
-      units of the token to which this fractional fee is attached. <br />
-        <a
-          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/fractionalfee'
-          target='_blank'
-        >
-            Link to docs
-        </a>
-      </Tooltip>
-      <div className='form__row__fees__fee'>
-        <FieldWrapper
-          name={`fees.${ index }.feeCollectorAccountId`}
-          type='text'
-          label='Fee collector account ID'
-        />
-        <div className='form__row__number-columns'>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.min`}
-              type='number'
-              label='Min'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.max`}
-              type='number'
-              label='Max'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.percent`}
-              type='number'
-              label='% of royalty'
-            />
-          </div>
-        </div>
-
-        <Switch
-          label='Assessment method'
-          name={`fees.${ index }.assessmentMethod`}
-          options={[
-            { name: 'Inclusive', value: false },
-            { name: 'Exclusive', value: true },
-          ]}
-        />
       </div>
     </>
   ),[]);
@@ -197,8 +140,6 @@ const MinterWizardFees = () => {
     switch (fee) {
       case FEE.ROYALTY:
         return renderRoyaltyFeeFormFields(arrayIndex);
-      case FEE.FRACTIONAL:
-        return renderFractionalFeeFormFields(arrayIndex);
       case FEE.FIXED:
         return renderFixedFeeFormFields(arrayIndex);
       default:
@@ -206,7 +147,6 @@ const MinterWizardFees = () => {
     }
   },[
     renderRoyaltyFeeFormFields,
-    renderFractionalFeeFormFields,
     renderFixedFeeFormFields
   ]);
 
