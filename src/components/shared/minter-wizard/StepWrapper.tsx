@@ -53,7 +53,7 @@ export default function MinterWizardStepWrapper({
       setCreatorStep(creatorStepToBackFromSummary)
       setCreatorStepToBackFromSummary(0)
     }
-  },[creatorStepToBackFromSummary, setCreatorStep, wasUserBackFromSummary, setCreatorStepToBackFromSummary])
+  }, [creatorStepToBackFromSummary, setCreatorStep, wasUserBackFromSummary, setCreatorStepToBackFromSummary])
 
   useEffect(() => {
     handleBackFromWizardSummary()
