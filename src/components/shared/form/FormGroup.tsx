@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { FieldArray, useField, useFormikContext } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
+import each from 'lodash/each';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import each from 'lodash/each';
 import { WizardValues } from '@/utils/const/minter-wizard';
 
 type Input = {
@@ -44,7 +44,11 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
               <button
                 type='button'
                 className='btn--big'
-                onClick={() => push({ ...Object.keys(inputsSchema[0]).map(el => el && ({[el] : ''})) })}
+                onClick={() => push({
+                  ...inputsSchema
+                    .map(el => el.name && ({[el.name]:''}))
+                    .reduce((prev, curr) => ({...prev, ...curr}))
+                })}
               >
                 <PlusSquareOutlined />
               </button>
