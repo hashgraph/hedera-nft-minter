@@ -27,7 +27,14 @@ export default function NFT(props: (NFTInfo & NFTMetadata & { loading?: boolean 
         </div>
       ) : props?.image ? (
         <div className='nft--card__image'>
-          <img src={`https://ipfs.io/ipfs/${ props.image.replace('ipfs://', '') }`} alt='' />
+          <img
+            src={
+              props.image && props.image.includes('https://')
+                ? props.image
+                : `https://ipfs.io/ipfs/${ props.image.replace('ipfs://', '') }`
+              }
+            alt=''
+          />
         </div>
       ) : (
         <div className='nft--card__image'>

@@ -1,5 +1,6 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
+import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
@@ -69,7 +70,14 @@ export default class MirrorNode {
   }
 
   static async fetchNFTMetadata(cid: string) {
-    const url = `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
+    if(/^0*$/.test(Buffer.from(cid).toString('hex'))){
+      return null
+    }
+
+    const url = cid.includes('https://')
+      ? cid
+      :`https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
+
     const { data } = await this.instance.get(url);
 
     return data;
