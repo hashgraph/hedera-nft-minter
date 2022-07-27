@@ -3,14 +3,15 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import MirrorNode from '@/services/MirrorNode';
-import NFT from '@/components/views/my-nft-collection/NFT';
+import Collection from '@/components/views/my-nft-collection/Collection';
 import Loader from '@components/shared/loader/Loader';
 import Hero from '@/components/shared/layout/Hero';
 import PageMenu from '@/components/shared/layout/PageMenu';
+import Grid from '@/components/shared/grid';
 
 export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
-  const [nfts, setNFTs] = useState<
+  const [collections, setCollections] = useState<
     { nfts: NFTInfo[]; info: TokenInfo }[] | null
   >([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,7 @@ export default function MyNFTCollection() {
 
       const nfts = await MirrorNode.fetchUserNFTs(accountId);
 
-      setNFTs(nfts);
+      setCollections(nfts);
       setLoading(false);
     } catch (e) {
       // toast.error(e.message)
@@ -48,7 +49,7 @@ export default function MyNFTCollection() {
       </Hero>
       <PageMenu />
 
-      <div className='container'>
+      <div className='mc--h container--padding container--max-width bg--transparent'>
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
         ) : loading ? (
@@ -57,12 +58,14 @@ export default function MyNFTCollection() {
           </div>
         ) : (
           <div>
-            {nfts?.length ? (
-              <div className='my-nft-collection'>
-                {nfts.map((nft) => (
-                  <NFT key={nft?.nfts[0].token_id} {...nft} />
-                ))}
-              </div>
+            {collections?.length ? (
+              <Grid className='my-nft-collection'>
+                <>
+                  {collections.map((collection) => (
+                    <Collection key={`${ collection.info.token_id }`} {...collection} />
+                  ))}
+                </>
+              </Grid>
             ) : (
               <div>No nfts :(</div>
             )}
