@@ -55,21 +55,20 @@ export default function ShowNFTsModal({nfts, info}: ShowNFTsModalProps) {
       ) : (
         <Grid className='modal--nfts-list'>
           <>
-            {
-              nftsWithMetadata && nftsWithMetadata?.length > 0
-                ? (
-                  map(nftsWithMetadata, nft => (
-                    <NFT
-                      loading={loading}
-                      key={`${ nft.token_id }.${ nft.serial_number }`}
-                      {...nft}
-                    />
-                  ))
-                ) : (
-                  <p>
-                    No NFTs in this collection yet.
-                  </p>
-                )
+            {nftsWithMetadata && nftsWithMetadata?.length > 0
+              ? (
+                map(nftsWithMetadata, nft => (
+                  <NFT
+                    loading={loading}
+                    key={`${ nft.token_id }.${ nft.serial_number }`}
+                    {...nft}
+                  />
+                ))
+              ) : (
+                <p>
+                  No NFTs in this collection yet.
+                </p>
+              )
             }
           </>
         </Grid>
