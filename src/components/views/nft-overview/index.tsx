@@ -13,7 +13,7 @@ export default function NFTOverviewLayout({
   const { isLaptop } = useLayout()
 
   return (
-    <>
+    <div>
       {isLaptop ? (
         <>
           <div className='overview--desktop-side'>
@@ -58,15 +58,13 @@ export default function NFTOverviewLayout({
       )}
 
       {edition?.collection_info?.token_id && (
-        <>
-          <div className='overview--item-activity overview--collapse overview--box'>
-            <TransactionHistory
-              collectionId={edition?.collection_info?.token_id}
-              serialNumber={edition?.serial_number}
-            />
-          </div>
-        </>
+        <div className='overview--item-activity overview--collapse overview--box'>
+          <TransactionHistory
+            collectionId={edition?.collection_info?.token_id}
+            serialNumber={edition?.serial_number}
+          />
+        </div>
       )}
-    </>
+    </div>
   );
 }

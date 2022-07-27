@@ -63,16 +63,18 @@ export default function TransactionHistory({collectionId, serialNumber} : Transa
         editionTransactionHistoryTable
       ) : (
         <p>No item activity yet.</p>
-  )), [hasAnyActivity, editionTransactionHistoryTable])
+      )
+  ), [hasAnyActivity, editionTransactionHistoryTable])
 
 
   const component = useMemo(() => (
     editionTransactionHistoryLoading
-     ? (
-      <Loader />
-     ) : (
-      editionTransactionHistoryComponent
-  )), [editionTransactionHistoryLoading, editionTransactionHistoryComponent]);
+      ? (
+        <Loader />
+      ) : (
+        editionTransactionHistoryComponent
+      )
+  ), [editionTransactionHistoryLoading, editionTransactionHistoryComponent]);
 
 
   useEffect(() => {
