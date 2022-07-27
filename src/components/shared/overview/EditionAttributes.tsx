@@ -19,14 +19,12 @@ export default function EditionAttributes({
   ), [attributes])
 
   const renderAttributesRows = useMemo(() => (
-      <>
-        {map(attributes, (el) => (
-            <p>
-              <span>{renderValue(el.trait_type)}:</span>
-              {renderValue(el.value)}
-            </p>
-        ))}
-      </>
+      map(attributes, (el) => (
+          <p>
+            <span>{renderValue(el.trait_type)}:</span>
+            {renderValue(el.value)}
+          </p>
+      ))
   ), [attributes]);
 
   const renderEditionAttributesComponent = useMemo(() => (
