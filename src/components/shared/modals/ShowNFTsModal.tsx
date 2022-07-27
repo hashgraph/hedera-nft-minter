@@ -13,25 +13,33 @@ interface ShowNFTsModalProps {
   nfts?: NFTInfo[] | undefined;
 }
 
-export default function ShowNFTsModal(props: ShowNFTsModalProps) {
+export default function ShowNFTsModal({nfts, info}: ShowNFTsModalProps) {
   const [loading, setLoading] = useState(true);
-  const [nfts, setNfts] = useState<(NFTInfo & NFTMetadata & {info: TokenInfo})[] | null>(null)
+  const [nftsWithMetadata, setNftsWithMetadata] = useState<(NFTInfo & NFTMetadata & {info: TokenInfo})[]>([])
 
   const loadMetadata = useCallback(async () => {
     try {
-      const nftsWithMetadata = await Promise.all(map(props.nfts, async(nft) => ({
-        ...nft,
-        ...nft.metadata && await MirrorNode.fetchNFTMetadata(atob(nft.metadata)),
-        info: props.info
-      }))) as (NFTInfo & NFTMetadata & {info: TokenInfo})[]
+      const nftsWithCollectionInfoAndMetadata : (NFTInfo & NFTMetadata & {info: TokenInfo})[] = [];
 
-      setNfts(nftsWithMetadata)
+      if(nfts) {
+        for(const nft of nfts) {
+          const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
+
+          nftsWithCollectionInfoAndMetadata.push({
+            ...nft,
+            ...meta,
+            info
+          })
+        }
+      }
+
+      setNftsWithMetadata(nftsWithCollectionInfoAndMetadata)
     } catch (e) {
       // toast.error(e.message)
     } finally {
       setLoading(false);
     }
-  }, [props.info, props.nfts]);
+  }, [info, nfts, setNftsWithMetadata]);
 
   useEffect(() => {
     loadMetadata();
@@ -40,7 +48,7 @@ export default function ShowNFTsModal(props: ShowNFTsModalProps) {
 
   return (
     <div>
-      <h2>Your NFTs from {props.info.token_id}</h2>
+      <h2>Your NFTs from {info.token_id}</h2>
 
       {loading ? (
         <Loader />
@@ -48,10 +56,9 @@ export default function ShowNFTsModal(props: ShowNFTsModalProps) {
         <Grid className='modal--nfts-list'>
           <>
             {
-              nfts &&
-              nfts?.length > 0
+              nftsWithMetadata && nftsWithMetadata?.length > 0
                 ? (
-                  map(nfts, nft => (
+                  map(nftsWithMetadata, nft => (
                     <NFT
                       loading={loading}
                       key={`${ nft.token_id }.${ nft.serial_number }`}
@@ -62,7 +69,7 @@ export default function ShowNFTsModal(props: ShowNFTsModalProps) {
                   <p>
                     No NFTs in this collection yet.
                   </p>
-              )
+                )
             }
           </>
         </Grid>
