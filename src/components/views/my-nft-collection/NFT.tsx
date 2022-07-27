@@ -11,27 +11,34 @@ import Loader from '@components/shared/loader/Loader';
 import placeholder from '@assets/images/placeholder.png';
 import './nft.scss';
 
+type NFTProps = (NFTInfo & NFTMetadata & { loading?: boolean })
 
-export default function NFT(props: (NFTInfo & NFTMetadata & { loading?: boolean })) {
+export default function NFT({
+  loading,
+  token_id,
+  serial_number,
+  image,
+  name,
+}: NFTProps) {
   const { closeModal } = useContext(ModalContext);
 
   return (
     <Link
-      to={`/nft-overview/${ props.token_id }/${ props.serial_number }`}
-      className={classNames('nft nft--card', { nft__loading: props?.loading })}
+      to={`/nft-overview/${ token_id }/${ serial_number }`}
+      className={classNames('nft nft--card', { nft__loading: loading })}
       onClick={closeModal}
     >
-      {props.loading ? (
+      {loading ? (
         <div className='my-nft-collection__loader-wrapper'>
           <Loader />
         </div>
-      ) : props?.image ? (
+      ) : image ? (
         <div className='nft--card__image'>
           <img
             src={
-              props.image && props.image.includes('https://')
-                ? props.image
-                : `https://ipfs.io/ipfs/${ props.image.replace('ipfs://', '') }`
+              image && image.includes('https://')
+                ? image
+                : `https://ipfs.io/ipfs/${ image.replace('ipfs://', '') }`
               }
             alt=''
           />
@@ -43,10 +50,10 @@ export default function NFT(props: (NFTInfo & NFTMetadata & { loading?: boolean 
       )}
       <div className='nft--card__content'>
         <div className='nft--card__serial'>
-          <p>NFT #{props.serial_number}</p>
+          <p>NFT #{serial_number}</p>
         </div>
         <div className='nft--card__name'>
-          <p>{props?.name}</p>
+          <p>{name}</p>
         </div>
 
         <div className='nft--card__buttons'>

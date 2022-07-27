@@ -12,7 +12,7 @@ import Grid from '@/components/shared/grid';
 export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
   const [collections, setCollections] = useState<
-    { nfts: NFTInfo[]; info: TokenInfo }[] | null
+    { nfts: NFTInfo[]; info: TokenInfo }[]
   >([]);
   const [loading, setLoading] = useState(true);
 

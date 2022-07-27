@@ -18,25 +18,24 @@ interface CollectionProps {
   info: TokenInfo;
 }
 
-export default function Collection(props : CollectionProps) {
-  const { nfts, info } = props;
+export default function Collection({ nfts, info } : CollectionProps) {
   const { showModal, setModalContent } = useContext(ModalContext);
 
 
   const handleManageNFT = useCallback(() => {
-    setModalContent(<ManageNFTModal info={props.info} />);
+    setModalContent(<ManageNFTModal info={info} />);
     showModal();
-  }, [setModalContent, showModal, props.info]);
+  }, [setModalContent, showModal, info]);
 
   const handleSendNFT = useCallback(() => {
-    setModalContent(<SendNFTModal {...props} />);
+    setModalContent(<SendNFTModal nfts={nfts} info={info} />);
     showModal();
-  }, [setModalContent, showModal, props]);
+  }, [setModalContent, showModal, nfts, info]);
 
   const handleShowNFTs = useCallback(() => {
-    setModalContent(<ShowNFTsModal {...props} />);
+    setModalContent(<ShowNFTsModal nfts={nfts} info={info} />);
     showModal();
-  }, [setModalContent, showModal, props]);
+  }, [setModalContent, showModal, nfts, info]);
 
   return (
     <div className='collection'>
@@ -54,13 +53,9 @@ export default function Collection(props : CollectionProps) {
           Max supply:{' '}
           <b>
             {info.supply_type === TokenSupplyType.INFINITE ? (
-              <>
-                {TokenSupplyType.INFINITE}
-              </>
+              TokenSupplyType.INFINITE
             ) : (
-              <>
-                {info.max_supply}
-              </>
+              info.max_supply
             )}
           </b>
         </div>
