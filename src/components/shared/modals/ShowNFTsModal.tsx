@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import map from 'lodash/map';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { TokenInfo } from '@utils/entity/TokenInfo';
-import map from 'lodash/map';
-import MirrorNode from '@/services/MirrorNode';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import Loader from '../loader/Loader';
-import Grid from '../grid';
+import MirrorNode from '@/services/MirrorNode';
+import Loader from '@components/shared/loader/Loader';
+import Grid from '@components/shared/grid';
 import NFT from '@/components/views/my-nft-collection/NFT';
 
 interface ShowNFTsModalProps {
