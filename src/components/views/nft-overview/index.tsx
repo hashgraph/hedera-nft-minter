@@ -13,7 +13,7 @@ export default function NFTOverviewLayout({
   const { isLaptop } = useLayout()
 
   return (
-    <div>
+    <>
       {isLaptop ? (
         <>
           <div className='overview--desktop-side'>
@@ -65,6 +65,6 @@ export default function NFTOverviewLayout({
           />
         </div>
       )}
-    </div>
+    </>
   );
 }
