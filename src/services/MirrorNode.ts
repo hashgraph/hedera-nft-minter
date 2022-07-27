@@ -79,8 +79,15 @@ export default class MirrorNode {
       : `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
 
     try {
-      const { data } = await this.instance.get(url);
-      return data;
+      const res = await this.instance.get(url, {
+        timeout: 4000
+      }).catch(() => null);
+
+      if(!res?.data) {
+        return
+      }
+
+      return res.data;
     } catch(e) {
       return null
     }
