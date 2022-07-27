@@ -8,16 +8,17 @@ type AvatarProps = {
 export default function Avatar({ image }: AvatarProps) {
   return (
     <div className='overview__avatar overview--box'>
-      {image ? (
-        <img
-          src={image && image.includes('https://')
-            ? image
-            : `https://ipfs.io/ipfs/${ image.replace('ipfs://', '') }`
-          }
-          alt='edition_image'
-        />
-      ) : (
-        <img src={placeholder} alt='edition_image' />
+      {image
+        ? (
+          <img
+            src={image && image.includes('https://')
+              ? image
+              : `https://ipfs.io/ipfs/${ image.replace('ipfs://', '') }`
+            }
+            alt='edition_image'
+          />
+        ) : (
+          <img src={placeholder} alt='edition_image' />
       )}
     </div>
   );

@@ -53,11 +53,11 @@ export default function NFTOverview() {
       ) : (
         <>
           <div className='overview overview--nft mc--h container--padding container--max-width bg--transparent'>
-              <NFTOverviewView
-                collectionId={collectionId}
-                edition={edition}
-                collectionNFTs={collectionNFTs}
-              />
+            <NFTOverviewView
+              collectionId={collectionId}
+              edition={edition}
+              collectionNFTs={collectionNFTs}
+            />
           </div>
         </>
       )}
