@@ -1,5 +1,6 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
+import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
@@ -96,10 +97,20 @@ export default class MirrorNode {
   }
 
   static async fetchNFTMetadata(cid: string) {
-    const url = `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
-    const { data } = await this.instance.get(url);
+    if(/^0*$/.test(Buffer.from(cid).toString('hex'))){
+      return null
+    }
 
-    return data;
+    const url = cid.includes('https://')
+      ? cid
+      : `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
+
+    try {
+      const { data } = await this.instance.get(url);
+      return data;
+    } catch(e) {
+      return null
+    }
   }
 
   static async fetchEditionTransactionHistory(tokenId: string | TokenId, serialNumber: string | number): Promise<NFTTransactionHistory> {
