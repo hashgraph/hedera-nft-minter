@@ -89,19 +89,6 @@
       box-shadow: 0px 0px 0px 5px #{$blue} + 60;
     }
 
-    button {
-      position: absolute !important;
-      height: calc(100% - .5rem);
-
-      &:hover {
-        background: transparent;
-
-        &[aria-label="Zoom image"] {
-          background: #00000040;
-        }
-      }
-    }
-
     &__favorites {
       display: flex;
       justify-content: flex-end;
