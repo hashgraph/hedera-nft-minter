@@ -8,11 +8,13 @@ export const LayoutContext = React.createContext<{
   setPageMenuPositionY: React.Dispatch<React.SetStateAction<number | null>>;
   scrollPosition: Position;
   isMobile: boolean;
+  isLaptop: boolean,
 }>({
   pageMenuPositionY: null,
   setPageMenuPositionY: () => null,
   scrollPosition: { x: 0, y: 0 },
   isMobile: true,
+  isLaptop: true,
 });
 
 export default function LayoutProvider({
@@ -28,6 +30,7 @@ export default function LayoutProvider({
     y: 0,
   });
   const [isMobile, setIsMobile] = useState(true);
+  const [isLaptop, setIsLaptop] = useState(true);
 
   const setDocDimensions = useCallback(() => {
     if (document && window) {
@@ -61,6 +64,8 @@ export default function LayoutProvider({
 
   useEffect(() => {
     const handleResize = () => {
+      setIsLaptop(window.matchMedia('(min-width: 992px)').matches)
+
       if (window.matchMedia('(max-width: 599px)').matches) {
         setIsMobile(true);
       } else {
@@ -89,6 +94,7 @@ export default function LayoutProvider({
         setPageMenuPositionY,
         scrollPosition,
         isMobile,
+        isLaptop
       }}
     >
       {children}
