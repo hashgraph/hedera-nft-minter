@@ -9,21 +9,6 @@
   @include respond-to('laptop') {
     grid-template-columns: 1fr 2fr;
     column-gap: 2.5rem;
-
-    & > div {
-      &:after {
-        display: none;
-      }
-    }
-  }
-
-  &--nft {
-    .more-collections {
-      .grid {
-        grid-column-gap: 1rem;
-        padding: 1rem;
-      }
-    }
   }
 
   &--desktop-side {
@@ -234,10 +219,6 @@
       p {
         margin: 0;
       }
-    }
-
-    &__expiry {
-      padding: 0.5rem 1rem;
     }
 
     .collapse__header {
