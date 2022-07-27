@@ -46,17 +46,19 @@ export default function NFTOverview() {
   return (
     <>
       <Hero title={'NFT overview'} />
-      {isCollectionsLoading ? (
-        <div className='my-nft-collection__loader-wrapper'>
-          <Loader />
-        </div>
-      ) : (
-        <NFTOverviewView
-          collectionId={collectionId}
-          edition={edition}
-          collectionNFTs={collectionNFTs}
-        />
-      )}
+      {isCollectionsLoading
+        ? (
+          <div className='my-nft-collection__loader-wrapper'>
+            <Loader />
+          </div>
+        ) : (
+          <NFTOverviewView
+            collectionId={collectionId}
+            edition={edition}
+            collectionNFTs={collectionNFTs}
+          />
+        )
+      }
     </>
   );
 }
