@@ -9,6 +9,7 @@ import { TokenInfo } from '@/utils/entity/TokenInfo';
 
 import useHederaWallets from '@hooks/useHederaWallets';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
+import { MinterWizardContext } from '@components/shared/minter-wizard/MinterWizardForm';
 
 import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
@@ -22,6 +23,11 @@ export default function SelectCollection() {
   const [isLoading, setLoading] = useState(true);
   const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[]>([])
   const { isNextButtonActive } = useContext(MinterWizardStepWrapperContext)
+  const { creatorStepToBackFromSummary } = useContext(MinterWizardContext)
+
+  const wasNotBackFromSummary = useMemo(() => (
+    creatorStepToBackFromSummary <= 0
+  ), [creatorStepToBackFromSummary])
 
   const loadCollections = useCallback(async () => {
     isNextButtonActive(true);
@@ -52,28 +58,32 @@ export default function SelectCollection() {
   ), [values.token_id, collections]);
 
   useEffect(() => {
-    setFieldValue('name', selectedCollection?.info.name)
-    setFieldValue('symbol', selectedCollection?.info.symbol)
-    setFieldValue('maxSupply', selectedCollection?.info.max_supply);
-    setFieldValue('supplyType', selectedCollection?.info.supply_type)
-    setFieldValue('token_id', selectedCollection?.info.token_id);
-  }, [selectedCollection, setFieldValue]);
+    if(wasNotBackFromSummary) {
+      setFieldValue('name', selectedCollection?.info.name)
+      setFieldValue('symbol', selectedCollection?.info.symbol)
+      setFieldValue('maxSupply', selectedCollection?.info.max_supply);
+      setFieldValue('supplyType', selectedCollection?.info.supply_type)
+      setFieldValue('token_id', selectedCollection?.info.token_id);
+    }
+  }, [selectedCollection, setFieldValue, wasNotBackFromSummary]);
 
   useEffect(() => {
-    if (userWalletId) {
+    if (userWalletId && wasNotBackFromSummary) {
       loadCollections()
     }
-  }, [loadCollections, userWalletId]);
+  }, [loadCollections, userWalletId, wasNotBackFromSummary]);
 
   useEffect(() => {
-    resetForm({
-      values: {
+    if(wasNotBackFromSummary) {
+      resetForm({
+        values: {
         ...values,
         ...pick(initialValues, [
           'edition_name',
           'serial_metadata',
           'creator',
           'creatorDID',
+          'description',
           'image',
           'files',
           'properties',
@@ -82,10 +92,10 @@ export default function SelectCollection() {
           'keys',
           'fees'
         ])
-      }
-    })
+      }})
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetForm])
+  }, [resetForm, wasNotBackFromSummary])
 
   const maxQtyNumber = useMemo(() => {
     const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
