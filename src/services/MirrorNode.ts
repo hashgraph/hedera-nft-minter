@@ -76,11 +76,15 @@ export default class MirrorNode {
 
     const url = cid.includes('https://')
       ? cid
-      :`https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
+      : `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
 
-    const { data } = await this.instance.get(url);
+    try {
+      const { data } = await this.instance.get(url);
+      return data;
+    } catch(e) {
+      return null
+    }
 
-    return data;
   }
 
   static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
