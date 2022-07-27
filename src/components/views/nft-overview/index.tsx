@@ -17,7 +17,7 @@ export default function NFTOverviewLayout({
       {isLaptop ? (
         <>
           <div className='overview--desktop-side'>
-            <Avatar image={edition?.meta?.image?.replace('ipfs://', '')} />
+            <Avatar image={edition?.meta?.image} />
             <Description
               creator={edition?.meta?.creator}
               description={edition?.meta?.description}
@@ -33,7 +33,6 @@ export default function NFTOverviewLayout({
               editionName={edition?.meta?.name}
               account_id={edition?.account_id}
             />
-
           </div>
         </>
       ) : (
@@ -48,7 +47,7 @@ export default function NFTOverviewLayout({
             />
           </div>
 
-          <Avatar image={edition?.meta?.image?.replace('ipfs://', '')} />
+          <Avatar image={edition?.meta?.image} />
 
           <Description
             creator={edition?.meta?.creator}
