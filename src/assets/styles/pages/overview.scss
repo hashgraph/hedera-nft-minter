@@ -1,6 +1,10 @@
 .overview {
   display: grid;
   row-gap: 1rem;
+  grid-template-areas:
+    "info"
+    "description"
+    "item-activity";
 
   a {
     color: var(--main-color);
@@ -9,15 +13,38 @@
   @include respond-to('laptop') {
     grid-template-columns: 1fr 2fr;
     column-gap: 2.5rem;
+    grid-template-areas:
+    "description info"
+    "item-activity item-activity";
   }
 
-  &--desktop-side {
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
+  &__section {
+    &--info {
+      grid-area: info;
+    }
 
-    & > div {
-      @include opacity-after-bg(var(--background-color), 0.06, false);
+    &--description {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      grid-area: description;
+
+      & > div {
+        @include opacity-after-bg(var(--background-color), 0.06, false);
+      }
+    }
+
+    &--item-activity {
+      grid-area: item-activity;
+
+      @include respond-to('laptop') {
+        grid-column: 1/3;
+      }
+
+      .collapse-list > div div:nth-of-type(2) {
+        padding: unset;
+        border-top: unset;
+      }
     }
   }
 
@@ -41,16 +68,7 @@
     }
   }
 
-  &--item-activity {
-    @include respond-to('laptop') {
-      grid-column: 1/3;
-    }
 
-    .collapse-list > div div:nth-of-type(2) {
-      padding: unset;
-      border-top: unset;
-    }
-  }
 
   &__info {
     position: relative;

@@ -17,24 +17,22 @@ export default function Info({
   account_id,
 }: InfoProps) {
   return (
-    <div className='overview--desktop-side'>
-      <div className='overview__info'>
-        <p className='symbol'>
-          {symbol}
-        </p>
-        <p className='collection_name'>
-          <a href={`https://hashscan.io/#/testnet/token/${ collectionId }`}>
-            {collectionName}
-          </a>
-        </p>
-        <h1>{editionName}</h1>
-        {account_id && (
-          <a href={`https://hashscan.io/#/testnet/account/${ account_id }`}>
-            Author {account_id}
-            <VerifiedOutlined />
-          </a>
-        )}
-      </div>
+    <div className='overview__info'>
+      <p className='symbol'>
+        {symbol}
+      </p>
+      <p className='collection_name'>
+        <a href={`https://hashscan.io/#/testnet/token/${ collectionId }`}>
+          {collectionName}
+        </a>
+      </p>
+      <h1>{editionName}</h1>
+      {account_id && (
+        <a href={`https://hashscan.io/#/testnet/account/${ account_id }`}>
+          Author {account_id}
+          <VerifiedOutlined />
+        </a>
+      )}
     </div>
   );
 }
