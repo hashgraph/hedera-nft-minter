@@ -15,7 +15,7 @@ import SendNFTModal from '@components/shared/modals/SendNFTModal';
 import ShowNFTsModal from '@components/shared/modals/ShowNFTsModal';
 import Loader from '@/components/shared/loader/Loader';
 
-import placeholder from '@assets/images/black-cutout.svg';
+import placeholder from '@assets/images/placeholder.png';
 import './collection.scss';
 
 interface CollectionProps {
