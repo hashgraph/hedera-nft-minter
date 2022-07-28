@@ -6,7 +6,7 @@ import './collapse-list.scss'
 
 type Props = {
   data: {
-    component: JSX.Element | string,
+    component: JSX.Element | JSX.Element[],
     tab_title: string
   }[]
 }

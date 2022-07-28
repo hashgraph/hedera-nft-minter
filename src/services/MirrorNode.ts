@@ -2,8 +2,10 @@ import { HEDERA_NETWORK } from '@/../Global.d';
 import axios from 'axios';
 import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
-import { NFTInfo } from '@utils/entity/NFTInfo';
+import { NFTInfo, NFTInfoWithMetadata, NFTTransactionHistory } from '@utils/entity/NFTInfo';
 
 interface Token {
   token_id: string,
@@ -69,6 +71,31 @@ export default class MirrorNode {
     return data;
   }
 
+  static async fetchNFTsInfoWithMetadata(tokenId: string | TokenId) : Promise<NFTInfoWithMetadata[]> {
+    const loadedNfts = await this.fetchNFTInfo(tokenId)
+    const collectionInfo = await this.fetchTokenInfo(tokenId.toString());
+
+    const promises = map(loadedNfts.nfts, async (nft) => {
+      if (nft?.metadata) {
+        const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
+        return { ...nft, meta, collection_info: collectionInfo }
+      }
+      return { ...nft, collection_info: collectionInfo };
+    }).filter(async (el) => {
+      const elRes = await el;
+      return elRes !== undefined;
+    });
+
+    const collections = await Promise.all(promises);
+
+    const nftsWithMetadata = filter(
+      collections,
+      (el) => el && typeof el !== 'undefined'
+    );
+
+    return nftsWithMetadata
+  }
+
   static async fetchNFTMetadata(cid: string) {
     if(/^0*$/.test(Buffer.from(cid).toString('hex'))){
       return null
@@ -91,7 +118,12 @@ export default class MirrorNode {
     } catch(e) {
       return null
     }
+  }
 
+  static async fetchEditionTransactionHistory(tokenId: string | TokenId, serialNumber: string | number): Promise<NFTTransactionHistory> {
+    const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts/${ serialNumber }/transactions`);
+
+    return data
   }
 
   static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
