@@ -56,8 +56,8 @@ export default function SendNFTModal({ info, nfts }: SendNFTModalProps) {
   }, [nfts, userWalletId, sendTransaction]);
 
   return (
-    <div>
-      <h2>Manage Your NFT - {info.token_id}</h2>
+    <div className='dark-schema'>
+      <h2>Send Your NFT - {info.token_id}</h2>
       <Formik
         initialValues={{ accountId: '' }}
         onSubmit={handleSendForm}
