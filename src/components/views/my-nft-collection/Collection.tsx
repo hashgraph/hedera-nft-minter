@@ -44,7 +44,7 @@ export default function Collection({ nfts, info } : CollectionProps) {
     showModal();
   }, [setModalContent, showModal, nfts, info]);
 
-  const getFirstAvaibleNftImage = useCallback(async() => {
+  const getFirstAvailableNftImage = useCallback(async() => {
     if(nfts){
       for(const nft of nfts) {
         if(nft.metadata) {
@@ -66,8 +66,8 @@ export default function Collection({ nfts, info } : CollectionProps) {
   }, [nfts, setImageLoading, setPreviewImageSrc])
 
   useEffect(() => {
-    getFirstAvaibleNftImage()
-  } ,[getFirstAvaibleNftImage])
+    getFirstAvailableNftImage()
+  }, [getFirstAvailableNftImage])
 
   return (
     <div className='collection'>
