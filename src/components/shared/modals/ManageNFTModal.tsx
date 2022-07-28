@@ -9,7 +9,7 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 
 const ModalForm = () => (
-  <Form className='form'>
+  <Form className='form dark-schema'>
     <div className='form__row'>
       <label htmlFor='name'>Token name:</label>
       <Field name='name' type='text' />
