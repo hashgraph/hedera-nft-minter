@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form, FormikProps, FormikState, FormikValues } from 'formik';
 
+import { NFTInfo } from '@/utils/entity/NFTInfo';
+import { TokenInfo } from '@/utils/entity/TokenInfo';
+import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
 import Welcome from '@/components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/wizard-steps';
 import MinterWizardStepWrapper from '@/components/shared/minter-wizard/StepWrapper';
 import MinterWizardSummary from '@/components/shared/minter-wizard/summary';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { TokenInfo } from '@/utils/entity/TokenInfo';
-import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 
 export enum FormWizardSteps {
   WelcomeScreen = 0,
