@@ -2,7 +2,7 @@
   grid-column-gap: 1rem;
   padding-top: 3rem;
 
-  @include respond-to('mobile') {
+  @include respond-to('tablet') {
     grid-template-columns: repeat(3, 1fr) !important;
   }
 
