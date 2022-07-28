@@ -1,7 +1,5 @@
-import { useEffect } from 'react'
-import { FormikState, useField, useFormikContext } from 'formik'
+import { useField } from 'formik'
 import { MintTypes } from '@utils/entity/MinterWizard'
-import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 import ButtonGroup from '@/components/shared/form/button-group'
 
 type Props = {
@@ -10,11 +8,6 @@ type Props = {
 
 export default function Welcome({goToCreator} : Props) {
   const [{ value }] = useField('mint_type')
-  const { resetForm } = useFormikContext<WizardValues>()
-
-  useEffect(() => {
-    resetForm({values: {...initialValues, mint_type: value}} as Partial<FormikState<WizardValues>>)
-  },[resetForm, value])
 
   return (
     <div className='minter-wizard__step__creator'>
