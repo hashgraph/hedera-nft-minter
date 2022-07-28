@@ -19,21 +19,23 @@ export default function ShowNFTsModal({nfts, info}: ShowNFTsModalProps) {
 
   const loadMetadata = useCallback(async () => {
     try {
-      const nftsWithCollectionInfoAndMetadata : (NFTInfo & NFTMetadata & {info: TokenInfo})[] = [];
-
       if(nfts) {
-        for(const nft of nfts) {
+        const nftsMetadata = await Promise.all(map(nfts, async (nft) => {
           const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
+          return meta
+        }))
 
-          nftsWithCollectionInfoAndMetadata.push({
+        const nftsWithCollectionInfoAndMetadata = map(nfts, (nft, i) => {
+          return {
             ...nft,
-            ...meta,
+            ...nftsMetadata[i],
             info
-          })
-        }
-      }
+          }
+        })
 
-      setNftsWithMetadata(nftsWithCollectionInfoAndMetadata)
+
+        setNftsWithMetadata(nftsWithCollectionInfoAndMetadata)
+      }
     } catch (e) {
       // toast.error(e.message)
     } finally {
