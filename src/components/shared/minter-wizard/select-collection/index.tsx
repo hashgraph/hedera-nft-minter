@@ -1,14 +1,12 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
-import pick from 'lodash/pick';
 
-import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
+import { WizardValues } from '@/utils/const/minter-wizard';
 import MirrorNode from '@/services/MirrorNode';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { TokenInfo } from '@/utils/entity/TokenInfo';
 
 import useHederaWallets from '@hooks/useHederaWallets';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
+import { MinterWizardContext } from '@components/shared/minter-wizard/MinterWizardForm';
 
 import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
@@ -18,13 +16,21 @@ import './select-collection.scss';
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
-  const { values, setFieldValue, resetForm } = useFormikContext<WizardValues>()
+  const { values, setFieldValue } = useFormikContext<WizardValues>()
   const [isLoading, setLoading] = useState(true);
-  const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[]>([])
   const { isNextButtonActive } = useContext(MinterWizardStepWrapperContext)
 
-  const loadCollections = useCallback(async () => {
-    isNextButtonActive(true);
+  const {
+    collections,
+    setCollections,
+    creatorStepToBackFromSummary
+   } = useContext(MinterWizardContext)
+
+  const wasNotBackFromSummary = useMemo(() => (
+    creatorStepToBackFromSummary <= 0
+  ), [creatorStepToBackFromSummary])
+
+  const fetchCollections = useCallback(async () => {
 
     if (!userWalletId) {
       throw new Error('First connect your wallet!');
@@ -33,59 +39,52 @@ export default function SelectCollection() {
       onlyAllowedToMint: true,
     });
 
-    setCollections(loadedCollections);
-    setLoading(false);
+    return loadedCollections
+  }, [userWalletId])
 
-    if (loadedCollections.length > 0) {
-      setFieldValue('name', loadedCollections[0]?.info.name);
-      setFieldValue('symbol', loadedCollections[0]?.info.symbol);
-      setFieldValue('token_id', loadedCollections[0]?.info.token_id);
-      setFieldValue('maxSupply', loadedCollections[0]?.info.max_supply);
-      setFieldValue('supplyType', loadedCollections[0]?.info.supply_type)
+  const loadCollections = useCallback(async () => {
+    isNextButtonActive(true);
+
+    if(!collections) {
+      const loadedCollections = await fetchCollections()
+      setCollections(loadedCollections)
+    }
+
+    if (collections && collections?.length > 0) {
+      if(!values.token_id) {
+        setFieldValue('name', collections[0]?.info.name);
+        setFieldValue('symbol', collections[0]?.info.symbol);
+        setFieldValue('token_id', collections[0]?.info.token_id);
+        setFieldValue('maxSupply', collections[0]?.info.max_supply);
+        setFieldValue('supplyType', collections[0]?.info.supply_type)
+        setFieldValue('qty', 1);
+      }
 
       isNextButtonActive(false);
     }
-  }, [userWalletId, setCollections, setLoading, setFieldValue, isNextButtonActive])
+
+    setLoading(false);
+  }, [isNextButtonActive, collections, values.token_id, fetchCollections, setCollections, setFieldValue])
 
   const selectedCollection = useMemo(() => (
-    collections.find(collection => collection.info.token_id === values.token_id)
+    collections && collections.find(collection => collection.info.token_id === values.token_id)
   ), [values.token_id, collections]);
 
   useEffect(() => {
-    setFieldValue('name', selectedCollection?.info.name)
-    setFieldValue('symbol', selectedCollection?.info.symbol)
-    setFieldValue('maxSupply', selectedCollection?.info.max_supply);
-    setFieldValue('supplyType', selectedCollection?.info.supply_type)
-    setFieldValue('token_id', selectedCollection?.info.token_id);
-  }, [selectedCollection, setFieldValue]);
+    if(wasNotBackFromSummary) {
+      setFieldValue('name', selectedCollection?.info.name)
+      setFieldValue('symbol', selectedCollection?.info.symbol)
+      setFieldValue('maxSupply', selectedCollection?.info.max_supply);
+      setFieldValue('supplyType', selectedCollection?.info.supply_type)
+      setFieldValue('token_id', selectedCollection?.info.token_id);
+    }
+  }, [selectedCollection, setFieldValue, wasNotBackFromSummary]);
 
   useEffect(() => {
-    if (userWalletId) {
+    if (userWalletId && wasNotBackFromSummary) {
       loadCollections()
     }
-  }, [loadCollections, userWalletId]);
-
-  useEffect(() => {
-    resetForm({
-      values: {
-        ...values,
-        ...pick(initialValues, [
-          'edition_name',
-          'serial_metadata',
-          'creator',
-          'creatorDID',
-          'image',
-          'files',
-          'properties',
-          'attributes',
-          'qty',
-          'keys',
-          'fees'
-        ])
-      }
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetForm])
+  }, [loadCollections, userWalletId, wasNotBackFromSummary]);
 
   const maxQtyNumber = useMemo(() => {
     const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
@@ -94,10 +93,6 @@ export default function SelectCollection() {
     return maxQty >= 10 ? 10 : maxQty
   }, [selectedCollection])
 
-  useEffect(() => {
-    setFieldValue('qty', 1);
-  }, [selectedCollection, setFieldValue])
-
   return (
     <div>
       {isLoading ? (
@@ -105,7 +100,7 @@ export default function SelectCollection() {
           <Loader />
         </div>
       ) : (
-        collections.length > 0 ? (
+        collections && collections.length > 0 ? (
           <div className='select-collection'>
             <h3>Select a collection where your NFT will be placed</h3>
             <label htmlFor='token_id'>Selected collection</label>

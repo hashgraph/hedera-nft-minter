@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Form, FormikProps, FormikValues } from 'formik';
+import { Form, FormikProps, FormikState, FormikValues } from 'formik';
 
+import { NFTInfo } from '@/utils/entity/NFTInfo';
+import { TokenInfo } from '@/utils/entity/TokenInfo';
+import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
 import Welcome from '@/components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/wizard-steps';
@@ -16,18 +19,24 @@ export enum FormWizardSteps {
 export const MinterWizardContext = React.createContext<{
   setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
   setCreatorStepToBackFromSummaryToCurrent: () => void,
-  creatorStepToBackFromSummary: number
+  setCollections:  React.Dispatch<React.SetStateAction<{ nfts: NFTInfo[]; info: TokenInfo; }[] | null>>,
+  creatorStepToBackFromSummary: number,
+  collections: { nfts: NFTInfo[]; info: TokenInfo; }[] | null,
 }>({
   creatorStepToBackFromSummary: 0,
+  collections: [],
   setCreatorStepToBackFromSummary: () => false,
-  setCreatorStepToBackFromSummaryToCurrent: () => false
+  setCreatorStepToBackFromSummaryToCurrent: () => false,
+  setCollections: () => null,
 })
 
 export default function MinterWizardForm({
   values,
+  resetForm
 }: FormikProps<FormikValues>) {
   const [creatorStep, setCreatorStep] = useState(FormWizardSteps.WelcomeScreen);
   const [creatorStepToBackFromSummary, setCreatorStepToBackFromSummary] = useState(0)
+  const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[] | null>(null)
 
   const minterWizardSteps = useMemo(() => (
     wizardSteps[values.mint_type as MintTypes]
@@ -53,9 +62,10 @@ export default function MinterWizardForm({
 
   useEffect(() => {
     if (creatorStep === FormWizardSteps.WelcomeScreen) {
-      setCreatorStepToBackFromSummary(0)
+      resetForm({values: {...initialValues, mint_type: values.mint_type}} as Partial<FormikState<WizardValues>>)
+      setCollections(null)
     }
-  }, [setCreatorStepToBackFromSummary, creatorStep])
+  }, [creatorStepToBackFromSummary, creatorStep, resetForm, values.mint_type])
 
   const renderFormWizard = useCallback((creatorStep: FormWizardSteps) => {
     switch (creatorStep) {
@@ -85,7 +95,9 @@ export default function MinterWizardForm({
       value={{
         creatorStepToBackFromSummary,
         setCreatorStepToBackFromSummary,
-        setCreatorStepToBackFromSummaryToCurrent
+        setCreatorStepToBackFromSummaryToCurrent,
+        collections,
+        setCollections
       }}
     >
       <div className='wizard-form'>
