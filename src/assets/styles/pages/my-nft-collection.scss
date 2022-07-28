@@ -1,13 +1,11 @@
 .my-nft-collection {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding-top: 50px;
+  grid-column-gap: 1rem;
+  padding-top: 3rem;
+
+  @include respond-to('mobile') {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
 
   &__loader-wrapper {
     display: grid;

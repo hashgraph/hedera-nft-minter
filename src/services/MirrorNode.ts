@@ -106,8 +106,15 @@ export default class MirrorNode {
       : `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
 
     try {
-      const { data } = await this.instance.get(url);
-      return data;
+      const res = await this.instance.get(url, {
+        timeout: 4000
+      }).catch(() => null);
+
+      if(!res?.data) {
+        return
+      }
+
+      return res.data;
     } catch(e) {
       return null
     }
@@ -116,7 +123,7 @@ export default class MirrorNode {
   static async fetchEditionTransactionHistory(tokenId: string | TokenId, serialNumber: string | number): Promise<NFTTransactionHistory> {
     const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts/${ serialNumber }/transactions`);
 
-    return data;
+    return data
   }
 
   static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {

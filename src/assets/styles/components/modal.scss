@@ -5,7 +5,7 @@ $transition: opacity 200ms, transform 700ms;
   border: 2px solid $smoke;
   background: $black;
   width: 80vw;
-  max-width: 600px;
+  max-width: 1000px;
   height: max-content;
   padding: 30px 50px;
   position: fixed;
@@ -27,6 +27,18 @@ $transition: opacity 200ms, transform 700ms;
 }
 
 .modal {
+  &--nfts-list {
+    overflow-y: scroll;
+    max-height: 60vh;
+    max-width: 70vw;
+    grid-gap: 1rem;
+    padding: 1rem 0.5rem 0 1rem;
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+
   &__connection-buttons-wrapper {
     display: flex;
     column-gap: $columnGap;
