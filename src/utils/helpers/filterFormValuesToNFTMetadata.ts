@@ -11,6 +11,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     'files',
     'format',
     'attributes',
+    'properties',
   ]) as FormikValues;
 
   filtered.name = values.edition_name
@@ -30,6 +31,14 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     },
     {}
   );
+
+  if (filtered.properties.length) {
+    filtered.properties = filtered.properties.reduce((res, { label, value }) => {
+      res[label] = value;
+
+      return res;
+    }, {});
+  }
 
   return filtered
 }
