@@ -9,7 +9,7 @@ import {
 import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import { Fees, FEE, FIXED_FEE_COLLECTING_TYPE, FixedFee } from '@utils/entity/Fees';
+import { Fees, FEE } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import Tooltip from '@/components/shared/form/Tooltip';
 
@@ -61,43 +61,6 @@ const MinterWizardFees = () => {
     </>
   ),[]);
 
-  const renderFixedFeeCollectingFormFields = useCallback((index) => {
-    switch((field.value[index] as FixedFee).collectingFeeType){
-      case FIXED_FEE_COLLECTING_TYPE.TOKEN:
-        return (
-          <div className='form__row__fees__fee-fixed'>
-            <div>
-              <FieldWrapper
-                name={`fees.${ index }.denominatingTokenId`}
-                type='text'
-                label='Denominating token ID'
-              />
-            </div>
-            <div>
-              <FieldWrapper
-                name={`fees.${ index }.amount`}
-                type='number'
-                label='# amount'
-              />
-            </div>
-          </div>
-        )
-
-      case FIXED_FEE_COLLECTING_TYPE.HBARS:
-        return (
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.hbarAmount`}
-              type='number'
-              label='ℏ amount'
-            />
-          </div>
-        )
-      default:
-        return null;
-    }
-  },[field]);
-
   const renderFixedFeeFormFields = useCallback((index: number) => (
     <>
       <Tooltip title='Fixed fee' showLabel>
@@ -112,29 +75,14 @@ const MinterWizardFees = () => {
         </a>
       </Tooltip>
       <div className='form__row__fees__fee'>
-        <div className='form__row__two-columns-flex'>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.feeCollectorAccountId`}
-              type='text'
-              label='Fee collector account ID'
-            />
-          </div>
-          <div>
-            <label htmlFor={`fees.${ index }.collectingFeeType`}>
-            What to collect
-            </label>
-            <FieldSelect name={`fees.${ index }.collectingFeeType`}>
-              <option value=''>Select...</option>
-              <option value={FIXED_FEE_COLLECTING_TYPE.TOKEN}>Token</option>
-              <option value={FIXED_FEE_COLLECTING_TYPE.HBARS}>HBars</option>
-            </FieldSelect>
-          </div>
-        </div>
-        { renderFixedFeeCollectingFormFields(index) }
+        <FieldWrapper
+          name={`fees.${ index }.amount`}
+          type='number'
+          label='# amount ℏ'
+        />
       </div>
     </>
-  ), [renderFixedFeeCollectingFormFields]);
+  ), []);
 
   const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
     switch (fee) {

@@ -32,7 +32,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     {}
   );
 
-  if (filtered.properties.length) {
+  if (filtered?.properties?.length) {
     filtered.properties = filtered.properties.reduce((res, { label, value }) => {
       res[label] = value;
 
