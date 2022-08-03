@@ -1,12 +1,6 @@
 export enum FEE {
   ROYALTY = 'royalty',
-  FRACTIONAL = 'fractional',
   FIXED = 'fixed',
-}
-
-export enum FIXED_FEE_COLLECTING_TYPE {
-  TOKEN = 'token',
-  HBARS = 'hbars'
 }
 
 export interface RoyalityFee {
@@ -16,22 +10,10 @@ export interface RoyalityFee {
   percent?: number,
 }
 
-export interface FractionalFee {
-  type: FEE.FRACTIONAL,
-  feeCollectorAccountId: string,
-  percent?: number,
-  min?: number,
-  max?: number,
-  assessmentMethod?: boolean,
-}
-
 export interface FixedFee {
+  amount: number,
   type: FEE.FIXED,
-  feeCollectorAccountId: string,
-  denominatingTokenId?: string,
-  amount?: number,
-  hbarAmount?: string | number,
-  collectingFeeType?: FIXED_FEE_COLLECTING_TYPE.TOKEN | FIXED_FEE_COLLECTING_TYPE.HBARS
+  accountId: string,
 }
 
-export type Fees = RoyalityFee | FractionalFee | FixedFee ;
+export type Fees = RoyalityFee | FixedFee ;

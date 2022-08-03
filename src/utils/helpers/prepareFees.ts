@@ -2,31 +2,17 @@ import transformToFees from '@helpers/transformToFees';
 import { FEE, Fees } from '@utils/entity/Fees';
 import pick from 'lodash/pick';
 
-const prepareFees = (customFees: Fees[]) => {
+const prepareFees = (customFees: Fees[], accountId: string) => {
   const filteredFees = customFees
     .map(fee => {
       switch (fee.type) {
         case FEE.FIXED:
-          return pick(fee, [
-            'collectingFeeType',
-            'hbarAmount',
-            'amount',
-            'denominatingTokenId',
-            'feeCollectorAccountId',
-            'type'
-          ])
-
-        case FEE.FRACTIONAL:
           return {
-            numerator: fee.percent,
-            denominator: 100,
             ...pick(fee, [
-              'min',
-              'max',
-              'feeCollectorAccountId',
-              'assessmentMethod',
-              'type'
-            ])
+              'amount',
+              'type',
+            ]),
+            accountId,
           }
 
         case FEE.ROYALTY:

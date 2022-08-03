@@ -75,7 +75,7 @@ export default class HTS {
       decimals: 0,
       expirationTime,
       ...tokenProps,
-      customFees: tokenProps.customFees && tokenProps.customFees.length ? prepareFees(tokenProps.customFees) : undefined,
+      customFees: tokenProps.customFees && tokenProps.customFees.length ? prepareFees(tokenProps.customFees, tokenProps.accountId) : undefined,
       ...(tokenProps.keys ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key) : {})
     });
 
