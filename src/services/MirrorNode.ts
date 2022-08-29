@@ -139,7 +139,6 @@ export default class MirrorNode {
 
     const collections = await Promise.all(
       balance.tokens
-        .filter(i => i.balance > 0)
         .map(async token => {
           const tokenInfo = await this.fetchTokenInfo(token.token_id);
 
