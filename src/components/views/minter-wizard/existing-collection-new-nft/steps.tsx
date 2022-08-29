@@ -17,7 +17,7 @@ const Steps = [
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainScreen,
     Component: OffChainBasis,
-    optionalFields: ['edition_name', 'description', 'creator', 'creatorDID']
+    optionalFields: ['edition_name', 'description', 'creator']
   },
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,

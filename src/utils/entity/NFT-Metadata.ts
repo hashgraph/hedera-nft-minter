@@ -21,7 +21,6 @@ interface Localization {
 export interface NFTMetadata {
   name: string,
   creator?: string,
-  creatorDID?: string,
   description?: string,
   image?: string | null,
   type?: string,

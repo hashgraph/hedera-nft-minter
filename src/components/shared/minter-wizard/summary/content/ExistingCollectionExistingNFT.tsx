@@ -57,10 +57,6 @@ export default function ExistingCollectionExistingNFTSideSummary({ step }: Props
               fieldValue: values?.creator
             },
             {
-              title: 'Creator DID:',
-              fieldValue: values?.creatorDID
-            },
-            {
               title: 'NFT description:',
               fieldValue: values?.description,
               stylingType: SummaryRowStylingTypes.cursive

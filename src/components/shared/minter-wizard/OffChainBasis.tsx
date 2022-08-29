@@ -72,15 +72,6 @@ export default function OffChainBasis() {
                 placeholder='e.g John Smith'
               />
             </div>
-            <div>
-              <FieldWrapper
-                fastField
-                name='creatorDID'
-                type='text'
-                label='NFT creator DID'
-                placeholder='DID url'
-              />
-            </div>
           </div>
         </div>
       </div>

@@ -26,7 +26,6 @@ export const initialValues: WizardValues = {
   serial_metadata: '',
   symbol: '',
   creator: '',
-  creatorDID: '',
   description: '',
   type: '',
   image: null,
