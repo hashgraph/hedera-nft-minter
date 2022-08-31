@@ -6,12 +6,14 @@ import {
   TransitionGroup,
   SwitchTransition,
 } from 'react-transition-group';
-import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import { Fees, FEE } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import Tooltip from '@/components/shared/form/Tooltip';
+
+import thrashIcon from '@assets/images/icons/thrash.svg'
+import plusIcon from '@assets/images/icons/plus.svg'
 
 const MinterWizardFees = () => {
   const [field] = useField<Fees[]>('fees');
@@ -32,31 +34,30 @@ const MinterWizardFees = () => {
         </a>
       </Tooltip>
       <div className='form__row__fees__fee'>
-        <div className='form__row__two-columns-flex'>
           <div>
             <FieldWrapper
               name={`fees.${ index }.feeCollectorAccountId`}
               type='text'
+              placeholder='e.g. 0.0.1'
               label='Fee collector account ID'
             />
           </div>
-          <div className='form__row__two-columns-flex'>
-          <div >
+          <div>
             <FieldWrapper
               name={`fees.${ index }.fallbackFee`}
               type='number'
               label='Fallback fee'
+              placeholder='e.g. 5'
             />
           </div>
-            <div>
-              <FieldWrapper
-                name={`fees.${ index }.percent`}
-                type='number'
-                label='% of royalty'
-              />
-            </div>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.percent`}
+              type='number'
+              label='% of royalty'
+              placeholder='e.g. 10'
+            />
           </div>
-        </div>
       </div>
     </>
   ),[]);
@@ -78,6 +79,7 @@ const MinterWizardFees = () => {
         <FieldWrapper
           name={`fees.${ index }.amount`}
           type='number'
+          placeholder='e.g. 15'
           label='# amount ℏ'
         />
       </div>
@@ -104,13 +106,12 @@ const MinterWizardFees = () => {
 
   return (
     <div className='form__group-row'>
-
       <FieldArray
         name='fees'
         render={({ push, remove }) => (
           <div className='form__row__fees'>
             <div className='form__group__label-wrapper'>
-              <p className='label'>Transfer fees</p>
+              <p className='title title--medium title--strong'>Transfer fees:</p>
               <button
                 onClick={() =>
                   field.value.length < 10 ? push({
@@ -122,7 +123,7 @@ const MinterWizardFees = () => {
                 type='button'
                 className='btn--big'
               >
-                <PlusSquareOutlined />
+                <img width={15} height={15} src={plusIcon} alt='plus_icon' />
               </button>
             </div>
             {!hasAnyValues && (
@@ -153,7 +154,7 @@ const MinterWizardFees = () => {
                           </FieldSelect>
                         </div>
                         <button type='button' onClick={() => remove(index)}>
-                          <DeleteOutlined />
+                          <img width={13} height={16} src={thrashIcon} alt='thrash' />
                         </button>
                         </div>
                         <SwitchTransition>

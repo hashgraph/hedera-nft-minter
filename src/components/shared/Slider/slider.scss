@@ -1,0 +1,175 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+
+$transitionTime: 0.5s;
+
+.slider {
+
+  &__tabs {
+    @include respond-to('mobile') {
+        width: 100%;
+    }
+
+    &__tab {
+        height: 100%;
+        min-width: 100%;
+        margin: 0;
+        position: relative;
+        transition: $transitionTime ease-in-out;
+        transition-property: width, padding, opacity;
+
+        user-select: none;
+        opacity: 0;
+
+
+
+        // &[tabIndex="0"] {
+        //   padding-right: 0;
+        // }
+        @include respond-to('mobile') {
+          // min-width: calc(50vw - calc(4.375rem));
+          min-width: auto;
+
+        }
+
+        &:first-of-type {
+          .minter-wizard__tab {
+            padding-left: 0;
+          }
+        }
+
+        & > div > div {
+          transition: 0.5s ease-in-out;
+          transition-property: padding, width;
+          width: 100%;
+          height: calc(calc(var(--vh) - calc(#{$headerHeight}) - #{$headerHeight}));
+          overflow-y: auto;
+          overflow-x: hidden;
+
+          @include respond-to('mobile') {
+            width: calc(60vw - 4.375rem);
+
+            &.ScrollbarsCustom-Track {
+              right: -30px !important;
+            }
+          }
+
+          .minter-wizard__tab {
+            transition: 0.5s ease-in-out;
+            transition-property: padding, width;
+
+          }
+        }
+
+        &.w40 {
+          & > div > div {
+            @include respond-to('mobile') {
+              width: calc(40vw - 4.375rem);
+            }
+          }
+        }
+
+
+
+        &--visible {
+          user-select: auto;
+          opacity: 1;
+
+
+          &.second {
+            &:not(.veryFirst) {
+              & > div > div {
+                &:not(.ScrollbarsCustom-Track) {
+                  @include respond-to('mobile') {
+                    .minter-wizard__tab {
+                      border-left: 1px solid #ffffff50;
+                    }
+                  }
+                }
+              }
+            }
+
+            & > div > div {
+              &:not(.ScrollbarsCustom-Track) {
+                @include respond-to('mobile') {
+                  width:  calc(60vw - 4.375rem);
+
+                  .minter-wizard__tab {
+                    padding-left: 4.375rem;
+                  }
+                }
+              }
+            }
+          }
+
+          &.first {
+            & > div > div {
+              &:not(.ScrollbarsCustom-Track) {
+                @include respond-to('mobile') {
+                  width: calc(40vw - 4.375rem);
+
+                  .minter-wizard__tab {
+                    padding-right: 4.375rem;
+                  }
+                }
+              }
+            }
+          }
+
+          &.veryFirst {
+            & > div > div {
+              &:not(.ScrollbarsCustom-Track) {
+                @include respond-to('mobile') {
+                  .minter-wizard__tab {
+                    padding-left: 0;
+
+                  }
+                }
+              }
+              // width: 100%;
+            }
+          }
+
+
+          // &:nth-of-type(1) {
+          //   & > div > div {
+          //     padding-right: 4.375rem;
+          //   }
+          // }
+
+          // &:nth-of-type(2) {
+          //   & > div > div {
+          //     padding-left: 4.375rem;
+          //   }
+          // }
+        }
+    }
+  }
+
+  &__wrapper {
+
+      // width: 50%;
+      // overflow: hidden;
+  }
+
+  &__container {
+      // grid-gap: 4.375rem;
+        // grid-gap: 5px;
+      transition: transform $transitionTime ease-in-out;
+      position: relative;
+      transform: translateX(var(--translateDimension));
+      display: flex;
+      // overflow-x: auto;
+      // width: ;
+      flex-wrap: nowrap;
+      // display: flex;
+      flex-direction: row;
+      grid-template-columns: repeat(auto-fill, 1fr);
+      // grid-template-columns: repeat(2, minmax(0.5fr, 1fr))
+      max-height: 90vh;
+
+      @include respond-to('tablet') {
+        max-height: 100%;
+      }
+  }
+}

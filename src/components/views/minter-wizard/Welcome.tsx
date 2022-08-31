@@ -1,46 +1,62 @@
-import { useField } from 'formik'
 import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@/components/shared/form/button-group'
+import {
+  CSSTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+import { useEffect } from 'react';
+import BuildOnHederaLogo from '@assets/images/build_on_hedera.svg';
 
 type Props = {
-  goToCreator: () => void
+  goToCreator: () => void,
+  isActive: boolean
 }
 
-export default function Welcome({goToCreator} : Props) {
-  const [{ value }] = useField('mint_type')
-
+export default function Welcome({goToCreator, isActive} : Props) {
   return (
-    <div className='minter-wizard__step__creator'>
-      <h2>What do you want to mint?</h2>
-      <ButtonGroup
-        size='big'
-        square
-        name='mint_type'
-        options={[
-          {
-            label: <>New NFT <span className='flex'>in New Collection</span></>,
-            value: MintTypes.NewCollectionNewNFT
-          },
-          {
-            label: <>New NFT <span className='flex'>in Existing Collection</span></>,
-            value: MintTypes.ExistingCollectionNewNFT
-          },
-          // {
-          //   label: 'EXISTING COLLECTION EXISTING NFT',
-          //   value: MintTypes.ExistingCollectionExistingNFT
-          // },
-        ]}
-      />
-      <div className='step-buttons-wrapper first-step'>
-        <button
-          disabled={!value}
-          type='button'
-          onClick={goToCreator}
-        >
-          Start minting
-        </button>
-      </div>
-    </div>
+    // <CSSTransition
+    //   in={isActive}
+    //   timeout={500}
+    //   classNames='fade'
+    // >
+      <div className='minter-wizard__step minter-wizard__screen--welcome minter-wizard__animation-container container--padding'>
+        <div className='minter-wizard__step__wrapper minter-wizard__screen--welcome'>
+          <h1 className='title title--welcome'>
+            Start minting <br />
+            your NFT here:
+          </h1>
+          <ButtonGroup
+            direction='column'
+            name='mint_type'
+            options={[
+              {
+                label: <>New Collection</>,
+                value: MintTypes.NewCollectionNewNFT,
+                onClick: goToCreator,
+                renderArrow: true
+              },
+              {
+                label: <>Existing Collection</>,
+                value: MintTypes.ExistingCollectionNewNFT,
+                tooltip: <>Some tooltip information</>,
+                onClick: goToCreator,
+                renderArrow: true
+              },
+            ]}
+          />
+          <div className='minter-wizard__slogan'>
+            <h2>
+              fastest. <br />
+              easiest. <br />
+              most sustainable.
+            </h2>
+            <a href='http://hedera.com' target='_blank'>
+              <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' height={76} width={170} />{' '}
+            </a>
 
+          </div>
+        </div>
+      </div>
+    // </CSSTransition>
   )
 }

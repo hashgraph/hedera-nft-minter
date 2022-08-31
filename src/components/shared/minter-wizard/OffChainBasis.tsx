@@ -13,10 +13,10 @@ export default function OffChainBasis() {
   [field.value])
 
   return (
-    <div>
-      <div className='form__row__two-columns'>
+    <div className='minter-wizard__off-chain'>
+      <p className='title--medium title--strong'>General information:</p>
+      <div className='minter-wizard__off-chain__form'>
         <div className='form__row'>
-          <label htmlFor='image'>NFT image:</label>
           <DragAndDropFileInput name='image' />
           <div className='form__error_wrapper'>
             <Error name='image' />
@@ -28,8 +28,7 @@ export default function OffChainBasis() {
               fastField
               name='name'
               type='text'
-              label='Collection name'
-              placeholder='e.g HBAR to the Moon'
+              placeholder='Collection name'
               disabled={disabledCollectionInfo}
             />
           </div>
@@ -38,18 +37,16 @@ export default function OffChainBasis() {
               fastField
               name='symbol'
               type='text'
-              label='Collection symbol'
-              placeholder='e.g MOON'
+              placeholder='Collection symbol'
               disabled={disabledCollectionInfo}
             />
           </div>
-          <div>
+          <div className='mb-1'>
             <FieldWrapper
               fastField
               name='edition_name'
               type='text'
-              label='NFT name'
-              placeholder='e.g Blood Moon HBAR'
+              placeholder='NFT name'
             />
           </div>
           <div>
@@ -58,27 +55,16 @@ export default function OffChainBasis() {
               name='description'
               as='textarea'
               type='text'
-              label='NFT description'
-              placeholder='Blood Moon HBAR NFT is the first in the collection...'
+              placeholder='NFT description'
             />
           </div>
-          <div className='form__row__two-columns'>
+          <div className='form__row'>
             <div>
               <FieldWrapper
                 fastField
                 name='creator'
                 type='text'
-                label='NFT creator'
-                placeholder='e.g John Smith'
-              />
-            </div>
-            <div>
-              <FieldWrapper
-                fastField
-                name='creatorDID'
-                type='text'
-                label='NFT creator DID'
-                placeholder='DID url'
+                placeholder='NFT creator'
               />
             </div>
           </div>

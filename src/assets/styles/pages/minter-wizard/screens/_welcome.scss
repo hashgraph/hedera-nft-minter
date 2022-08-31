@@ -1,0 +1,32 @@
+.minter-wizard{
+  &__screen {
+    &--welcome {
+      @media only screen and (max-height: 900px) {
+        overflow-y: auto;
+
+        @include respond-to('mobile') {
+          min-height: 200px;
+          max-height: calc(var(--vh) - 150px);
+        }
+      }
+
+      .title {
+        &--welcome {
+          padding-top: 1rem;
+          margin-top: 0;
+          font-size: 2.313rem;
+        }
+      }
+      .minter-wizard {
+        &__step {
+          &__wrapper {
+            @include respond-to('mobile') {
+              padding-right: 1rem;
+              max-width: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

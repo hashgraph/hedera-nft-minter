@@ -4,7 +4,7 @@
 $transition: opacity 400ms, transform 400ms;
 
 @mixin wrapper {
-  position: absolute;
+  position: fixed;
   max-width: 235px;
   width: 100%;
   padding: 1rem 1rem 1.188rem;
@@ -17,7 +17,7 @@ $transition: opacity 400ms, transform 400ms;
 
   @include respond-to('mobile') {
     left: unset;
-    top: -500%;
+    // top: -500%;
     min-width: 300px;
   }
 
@@ -74,6 +74,9 @@ $transition: opacity 400ms, transform 400ms;
   &__button {
     color: var(--main-color);
     font-weight: 300;
+    font-size: 1rem;
+    margin-top: -1rem;
+    margin-left: 0.1rem;
 
     &:before {
       content: "";

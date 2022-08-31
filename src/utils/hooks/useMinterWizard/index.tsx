@@ -7,6 +7,7 @@ import {
   checkIfMandatoryFieldsAreValidated,
   checkIfOptionalFieldsAreValidated
 } from './helpers'
+import Slider from '@/components/shared/Slider';
 
 export default function useMinterWizard(
   steps: CreatorSteps
@@ -21,6 +22,10 @@ export default function useMinterWizard(
 
   const isLastScreen = useMemo(() => (
     steps && creatorStep === steps[steps?.length - 1]?.creatorStep
+  ), [creatorStep, steps])
+
+  const aboveLastScreen = useMemo(() => (
+    steps && creatorStep > steps[steps?.length - 1]?.creatorStep
   ), [creatorStep, steps])
 
 
@@ -38,20 +43,21 @@ export default function useMinterWizard(
     );
     const areOptionalFieldsValidated = checkIfOptionalFieldsAreValidated(allOptionalFields, errors)
 
-    if (!isLastScreen && areMandatoryFieldsValidated && areOptionalFieldsValidated) {
+    if (!aboveLastScreen && areMandatoryFieldsValidated && areOptionalFieldsValidated && creatorStep + 1 < steps?.length) {
       setCreatorStep(prev => prev + 1)
     } else {
       toast.error('Fix creator errors!')
     }
   }, [
+    aboveLastScreen,
     setCreatorStep,
-    isLastScreen,
     errors,
     values,
     validateField,
     setFieldTouched,
     mintType,
     creatorStep,
+    steps
   ])
 
   const handleCreatorPrevButton = useCallback(() => (
@@ -59,12 +65,25 @@ export default function useMinterWizard(
   ), [setCreatorStep, isFirstScreen])
 
   const renderMinterWizardScreen = useCallback((creatorStep: number) => {
-    const Component = steps[creatorStep]?.Component;
-    if (Component !== undefined) {
-      return <Component />;
-    }
+    // const Component = steps[creatorStep]?.Component;
+    // const Component2 = steps[creatorStep+1]?.Component;
+    // if (Component !== undefined) {
+    //   return <>
+    //     <Component />
+    //     <Component2 />
+    //   </>
+    // }
 
-    return null
+    // return null
+    return (
+      <Slider
+        activeIndex={creatorStep}
+        data={steps.map(step => ({
+          title: step.creatorStep.toString(),
+          content: step.Component,
+        }))}
+      />
+    )
   }, [steps])
 
 

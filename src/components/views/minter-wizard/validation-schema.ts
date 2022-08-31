@@ -52,7 +52,6 @@ export const ValidationSchema = yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   creator: yup.string().max(50, 'Too Long!'),
-  creatorDID: yup.string().max(50, 'Too Long!'),
   description: yup.string().max(500, 'Too Long!'),
   qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
   maxSupply: yup
@@ -107,6 +106,6 @@ export const ValidationSchema = yup.object().shape({
     }, [['trait_type', 'value']])
   ),
   fees: yup.array().of(feeValidator),
-  keys: yup.array().of(keyValidator),
+  // keys: yup.array().of(keyValidator),
   treasuryAccountId: yup.array().of(keyValidator),
 });

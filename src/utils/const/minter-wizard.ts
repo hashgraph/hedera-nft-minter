@@ -1,4 +1,4 @@
-import { Fees } from '@utils/entity/Fees';
+import { FEE, Fees } from '@utils/entity/Fees';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import { TOKEN_KEY, TokenKey, TreasuryKey } from '@utils/entity/TokenKeys';
 
@@ -26,7 +26,6 @@ export const initialValues: WizardValues = {
   serial_metadata: '',
   symbol: '',
   creator: '',
-  creatorDID: '',
   description: '',
   type: '',
   image: null,
@@ -49,8 +48,6 @@ export const initialValues: WizardValues = {
   treasuryAccountId: [
     { type: TOKEN_KEY.TREASURY, value: 'account' },
   ],
-  keys: [
-    { type: TOKEN_KEY.SUPPLY, value: 'account' },
-  ],
+  keys: [TOKEN_KEY.SUPPLY],
   fees: [],
 };

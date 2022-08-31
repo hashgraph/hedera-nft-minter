@@ -5,7 +5,6 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   let filtered = pick(values, [
     'type',
     'creator',
-    'creatorDID',
     'description',
     'image',
     'files',

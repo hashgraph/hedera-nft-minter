@@ -12,6 +12,12 @@
   border-radius: $radius;
 }
 
+@mixin border-opacity($border) {
+  border: $border;
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
 @mixin bg($color) {
   background: $color;
   background-color: $color;

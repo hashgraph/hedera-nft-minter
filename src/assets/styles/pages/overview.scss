@@ -61,7 +61,7 @@
 
   &--collapse {
     .collapse__header {
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 400;
 
       @include opacity-after-bg(var(--main-color), 0.2, true);
@@ -193,7 +193,7 @@
       display: flex;
       padding: 0.5rem 1rem;
       align-items: flex-end;
-      font-size: 1.25rem;
+      font-size: 1rem;
       font-weight: 400;
       column-gap: 0.25rem;
 

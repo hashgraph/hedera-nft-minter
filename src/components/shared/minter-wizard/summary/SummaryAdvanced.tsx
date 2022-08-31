@@ -3,6 +3,7 @@ import { useField } from 'formik';
 import { Fees } from '@utils/entity/Fees';
 import { TokenKeys as TokenKeysType } from '@utils/entity/TokenKeys'
 import { TokenKeys } from '@/components/shared/minter-wizard/KeysTable';
+import checkmarkIcon from '@/assets/images/icons/checkmark.svg'
 
 export enum AdvancedTypes {
   fees = 'fees',
@@ -16,57 +17,47 @@ type SummaryAdvancedProps = {
 export default function SummaryAdvanced({ name }: SummaryAdvancedProps) {
   const [field] = useField<Fees[] | TokenKeysType>(name);
 
-  const subHeader = useMemo(() => {
-    switch (name) {
-      case AdvancedTypes.fees:
-        return 'Transfer fees'
-
-      case AdvancedTypes.keys:
-        return 'Keys'
-    }
-  }, [name])
-
   return (
     <>
-      <p className='summary__info__subheader'>
-        {subHeader}
-      </p>
-      {field.value.length > 0 ? (
+      {field.value.length > 0 && (
         <>
           <div className='summary__info__multiple'>
             {field.value?.length > 0 && field.value.map(((element, i) => {
               switch (name) {
                 case AdvancedTypes.fees:
                   return (
-                    <p key={element.type ?? `summary-fee-without-type-${ i }`}>
+                    <React.Fragment key={element.type ?? `summary-fee-without-type-${ i }`}>
                       {element.type && element?.type?.length > 0 ? (
-                        <>
-                          {element?.type[0]?.toUpperCase()}
-                          {element?.type?.slice(1, element.type.length)}
-                        </>
+                        <p className='minter-wizard__summary__info-row'>
+                          {element?.type[0]?.toUpperCase() + element?.type?.slice(1, element.type.length) + ' fee'}
+                          <span>
+                            {element.type === 'fixed' && `Amount: ${ element.amount }`}
+                            {element.type === 'royalty' && `Amount: ${ element.fallbackFee } | %: ${ element.percent }`}
+                          </span>
+                        </p>
                       ) : (
                         <>
-                          Empty
+                          Empty fee
                         </>
                       )}
-                      {' '}Fee
-                    </p>
+                    </React.Fragment>
                   )
 
                 case AdvancedTypes.keys:
                   return (
-                    <>
-                      <p key={element.type ?? `summary-key-without-type-${ i }`}>
-                        {TokenKeys.find(key => key.value === element.type)?.title}
+                    // <>
+                      <p className='minter-wizard__summary__info-row' key={element.type ?? `summary-key-without-type-${ i }`}>
+                        {TokenKeys.find(key => key.value === element)?.title} key
+                        <span>
+                          <img src={checkmarkIcon} width={16} height={16} alt='checked' />
+                        </span>
                       </p>
-                    </>
+                    // </>
                   )
               }
             }))}
           </div>
         </>
-      ) : (
-        <div className='summary__info__row--empty'>(empty)</div>
       )}
     </>
   )

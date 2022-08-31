@@ -13,11 +13,12 @@ import { MintTypes } from '@utils/entity/MinterWizard'
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import MinterWizardForm from '@/components/shared/minter-wizard/MinterWizardForm';
 import Summary from '@/components/views/minter-wizard/summary';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 export default function MinterWizard() {
   const { userWalletId, sendTransaction } = useHederaWallets();
   const [tokenCreated, setTokenCreated] = useState(false);
-  const [tokenId, setTokenId] = useState('');
+  const [newNFTdata, setNewNFTdata] = useState<FormikValues | null>(null);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
@@ -57,6 +58,7 @@ export default function MinterWizard() {
 
   const handleFormSubmit = useCallback(async (values) => {
     const formValues : FormikValues = {...values}
+    console.log({formValues})
     const tokenSymbol = formValues.symbol;
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
@@ -72,6 +74,7 @@ export default function MinterWizard() {
         || formValues.mint_type === MintTypes.ExistingCollectionNewNFT
       ) {
         const filteredValues = filterFormValuesToNFTMetadata(formValues);
+        console.log({filteredValues})
 
         //upload image
         if (formValues.image) {
@@ -82,6 +85,7 @@ export default function MinterWizard() {
           filteredValues.type = formValues.image.type;
           filteredValues.image = `ipfs://${ imageData.value.cid }`;
         }
+        console.log({filteredValuesWithNFTImage: filteredValues})
 
         // if new NFT, upload metadata
         metaCIDs = await Promise.all(
@@ -98,6 +102,7 @@ export default function MinterWizard() {
           )
         );
       }
+      console.log({metaCIDs})
 
       if (!formTokenId) {
         formTokenId = await createToken({
@@ -109,6 +114,7 @@ export default function MinterWizard() {
           customFees: formValues.fees,
           maxSupply: formValues.maxSupply
         } as NewTokenType);
+        console.log({formTokenId})
       }
 
       if (!formTokenId) {
@@ -117,7 +123,7 @@ export default function MinterWizard() {
 
       //check if is string
       const tokenIdToMint = formTokenId.toString();
-      setTokenId(tokenIdToMint);
+      // setTokenId(tokenIdToMint);
 
       // mint
       const mintRes = await mint(
@@ -128,6 +134,7 @@ export default function MinterWizard() {
       // eslint-disable-next-line no-console
       console.log({ mintRes });
 
+      setNewNFTdata({...formValues, tokenId: tokenIdToMint})
       setTokenCreated(true);
     } catch (e) {
       if (typeof e === 'string') {
@@ -153,17 +160,27 @@ export default function MinterWizard() {
   ]);
 
 
-  return tokenCreated ? (
-    <Summary tokenId={tokenId} />
-  ) : (
+  return (
     <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-width bg--transparent'>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleFormSubmit}
-          component={MinterWizardForm}
-          validationSchema={ValidationSchema}
-        />
+      <div className='mc--h container--padding container--max-height bg--transparent'>
+        <SwitchTransition>
+          <CSSTransition
+            key={tokenCreated ? 'created' : 'creating'}
+            addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+            classNames='fade'
+          >
+            {tokenCreated ? (
+                <Summary newNFTdata={newNFTdata} />
+              ) : (
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={handleFormSubmit}
+                  component={MinterWizardForm}
+                  validationSchema={ValidationSchema}
+                />
+            )}
+          </CSSTransition>
+        </SwitchTransition>
       </div>
     </div>
   )

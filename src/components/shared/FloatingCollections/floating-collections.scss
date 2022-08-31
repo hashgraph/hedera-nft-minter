@@ -1,0 +1,112 @@
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+
+.floating-collections {
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 1rem;
+  position: fixed;
+  right: 0;
+  top: -0.75rem;
+  height: 100%;
+  width: 50%;
+  padding-right: $horizontalPadding;
+
+  @include respond-to('mobile') {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+  }
+
+  @include respond-to('tablet') {
+    padding-right: 4.25%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+
+  }
+
+  @include respond-to('desktop') {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+  }
+
+  @include respond-to('desktop') {
+    padding-right: $horizontalPaddingDesktop;
+  }
+
+  &__card {
+    transition: 1s ease-in;
+    transition-property: transform, opacity;
+    transition: 0.4s ease-in-out;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+
+    &:nth-child(even) {
+      transform: translateY(-100vh);
+    }
+
+    &:nth-child(odd) {
+      transform: translateY(100vh);
+    }
+
+    @include respond-to('tablet') {
+      &:nth-child(1n+3), &:nth-child(1) {
+        transform: translateY(-100vh);
+      }
+
+      &:nth-child(2n+3) {
+        transform: translateY(-100vh);
+      }
+
+      &:nth-child(3n+2) {
+        transform: translateY(100vh);
+      }
+    }
+
+    @include respond-to('desktop') {
+      &:nth-child(even) {
+        transform: translateY(-100vh);
+      }
+
+      &:nth-child(odd) {
+        transform: translateY(100vh);
+      }
+    }
+
+
+
+    &--is-visible {
+      opacity: 1;
+      transition-timing-function: ease-out;
+      transform: translateY(0) !important;
+    }
+
+    &__image {
+      width: 100%;
+      height: 100%;
+
+      img {
+        width: 100%;
+        border-radius: .75rem;
+        height: calc(calc(var(--vh) / 5));
+        object-fit: cover;
+      }
+    }
+
+
+    // &:hover {
+    //   transform: scale(0.95) translateY(0) !important;
+    // }
+  }
+
+  &--fade {
+    &-exit {
+      &-done {
+        z-index: -1;
+        user-select: none;
+      }
+    }
+  }
+}
