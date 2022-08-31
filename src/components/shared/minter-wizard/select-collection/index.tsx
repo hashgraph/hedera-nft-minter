@@ -8,7 +8,8 @@ import useHederaWallets from '@hooks/useHederaWallets';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 import { MinterWizardContext } from '@components/shared/minter-wizard/MinterWizardForm';
 
-import Loader from '@/components/shared/loader/Loader';
+import loadingHammer from '@assets/images/loading_hammer.svg'
+// import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
 import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
 import FieldWrapper from '@components/shared/form/FieldWrapper';
@@ -97,13 +98,18 @@ export default function SelectCollection() {
     <div>
       {isLoading ? (
         <div className='my-nft-collection__loader-wrapper'>
-          <Loader />
+          <div className='minter-wizard__summary__loader'>
+            <img src={loadingHammer} alt='loader_hammer' />
+            <p className='title title--small title--strong'>
+              Fetching <br />
+              your collections...
+            </p>
+          </div>
         </div>
       ) : (
         collections && collections.length > 0 ? (
           <div className='select-collection'>
-            <h3>Select a collection where your NFT will be placed</h3>
-            <label htmlFor='token_id'>Selected collection</label>
+            <p className='title'><span className='title--strong'>Select a collection</span> where your NFT will be placed</p>
             <div className='select-collection__select-wrapper'>
               <FieldSelect name='token_id'>
                 {collections.map((collection, index) => (
@@ -119,15 +125,21 @@ export default function SelectCollection() {
                 <CollectionSummary collection={selectedCollection} />
               )}
             </div>
-
-            <FieldWrapper
-              fastField
-              name='qty'
-              type='number'
-              label='This is the number of NFTs you can mint now.'
-              max={maxQtyNumber}
-              min={1}
-            />
+            <div className='minter-wizard__on-chain__input-row'>
+              <label htmlFor='maxSupply' className='title--strong title--medium'>
+                # of <br />
+                NFTs to <br />
+                mint now:
+              </label>
+              <FieldWrapper
+                fastField
+                name='qty'
+                className='big-circle'
+                type='number'
+                max={maxQtyNumber}
+                min={1}
+              />
+            </div>
           </div>
         ) : (
           <div className='select-collection--not-found'>

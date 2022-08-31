@@ -8,11 +8,15 @@ export const LayoutContext = React.createContext<{
   setPageMenuPositionY: React.Dispatch<React.SetStateAction<number | null>>;
   scrollPosition: Position;
   isMobile: boolean;
+  isMinterWizardWelcomeScreen: boolean;
+  setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
   pageMenuPositionY: null,
   setPageMenuPositionY: () => null,
   scrollPosition: { x: 0, y: 0 },
   isMobile: true,
+  isMinterWizardWelcomeScreen: false,
+  setIsMinterWizardWelcomeScreen: () => false,
 });
 
 export default function LayoutProvider({
@@ -28,6 +32,8 @@ export default function LayoutProvider({
     y: 0,
   });
   const [isMobile, setIsMobile] = useState(true);
+  const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
+  const [wasWizardSummaryScreen, setWasWizardSummaryScreen] = useState(false)
 
   const setDocDimensions = useCallback(() => {
     if (document && window) {
@@ -89,6 +95,10 @@ export default function LayoutProvider({
         setPageMenuPositionY,
         scrollPosition,
         isMobile,
+        isMinterWizardWelcomeScreen,
+        setIsMinterWizardWelcomeScreen,
+        wasWizardSummaryScreen,
+        setWasWizardSummaryScreen
       }}
     >
       {children}

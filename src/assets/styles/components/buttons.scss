@@ -5,10 +5,10 @@ button,
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
-  padding: 0.35rem 0.75rem;
+  padding: 0 0.35rem;
   cursor: pointer;
+  height: 50px;
   border-radius: 15px;
-  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,88 +21,72 @@ button,
   $transitionAttributes: (border-color, background-color, filter, color);
   transition: generateTransitions($transitionAttributes, 400ms);
 
-  &:hover {
-    background: $black;
-    color: $vapor;
-    border: 1px solid $vapor;
+  @include respond-to('mobile') {
+    padding: 0.35rem 0.75rem;
 
   }
 
-  &:focus {
-    border-color: $blue  !important;
+  &:hover, &:active, &:focus {
+    // background: $black;
+    color: #33FF00;
+    border: 1px solid #33FF00;
   }
 
-  &--big {
-    border-radius: 30px !important;
-    font-size: 0.75rem !important;
-    padding: 1.2rem 2.5rem !important;
-  }
-
-  &--grey {
-    --color: #{$smoke};
-    --font-color: $vapor;
-  }
-
-  &--icon {
-    border-radius: 50%;
-    font-size: 1.2rem;
-    width: 40px;
-    height: 40px;
-  }
-
-  &--md {
-    padding: 1rem 2rem;
-    border-radius: 25px;
-  }
-
-  &--invert {
-    color: var(--main-color);
-    background:  var(--background-color);
-
+  &:disabled {
     &:hover {
-      color: var(--background-color);
-      background: var(--main-color);
-      border-color: var(--background-color);
-    }
-  }
-
-  &--transparent-white {
-    background: transparent;
-    color: $vapor;
-    border-color: $vapor;
-
-    &:hover {
+      background: $smoke;
       color: $black;
-      background: $vapor;
-      border-color: $vapor;
+      border: 1px solid $black;
+      filter: unset;
+      cursor: not-allowed;
     }
   }
 
   &.button-group {
     border-radius: 0;
     text-align: center;
+    position: relative;
+    margin-left: -1.5rem;
     margin-right: -1px;
-    height: 42px;
-    font-size: 1rem;
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
     font-weight: 300;
     color: var(--main-color);
     background: var(--background-color);
     row-gap: 20px;
+    width: 100%;
+    border-radius: 40px;
 
-    &:first-of-type {
-      border-radius: 25px 0 0 25px;
-      padding-left: 1rem;
+    .button-group--icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background-image: url(../images/icons/button_group--icon.svg);
+        background-repeat: no-repeat;
+        width: 40px;
+        height: 40px;
+        background-size: contain;
+        transition: filter 0.2s ease-in-out;
     }
 
-    &:last-of-type {
-      border-radius: 0 25px 25px 0;
-      margin-right: 0;
-      padding-right: 1rem;
+    @include respond-to('mobile') {
+      font-size: clamp(1rem, 3.3vw, 1.8rem);
+      height: 3.875rem;
+
+    }
+
+
+    span {
+      letter-spacing: -0.1rem;
     }
 
     &.isActive {
       background: var(--main-color);
       border: 1px solid var(--main-color);
+
+      &:after {
+        filter: invert(1);
+      }
 
       span {
         color: var(--background-color);
@@ -114,108 +98,50 @@ button,
     }
   }
 
-  &.big {
-    width: 150px;
-    height: 150px;
-
-    span {
-      font-size: 1.8rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-
-      span {
-        font-size: 1rem;
-      }
-    }
-
-    @include respond-to("tablet") {
-      width: 230px;
-      height: 230px;
-    }
-
-    @include respond-to("desktop") {
-      width: 300px;
-      height: 300px;
-    }
-  }
-
-  &.medium {
-    width: 150px;
-    height: 150px;
-
-    @include respond-to("tablet") {
-      width: 230px;
-      height: 230px;
-    }
-  }
-
-  &.square {
-    width: 100%;
-    filter: brightness(1.1);
+  &--arrow {
+    background: transparent;
     border: unset;
-    position: relative;
+    color: $vapor;
+    font-size: 1.938rem;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
 
-    border: 1px solid $grey;
-
-    &:not(.isActive):hover {
-      border: 1px solid $smoke;
-      filter: brightness(1.4);
+    &:hover, &:active, &:focus {
+      border: unset;
     }
 
-    &:first-of-type {
-      border-radius: unset;
-      margin-bottom: 1.25rem;
+    &:before {
+      margin-right: 0.5rem;
+      content: '';
+      background-image: url(../images/icons/arrow_right.svg);
+      position: relative;
+      display: inline-flex;
+      width: 53px;
+      height: 53px;
+      background-repeat: no-repeat;
+      background-size: 19px 32px;
+      background-position: center;
+      border: 1px solid $vapor;
+      border-radius: 100%;
     }
 
-    &:last-of-type {
-      margin-top: 1.25rem;
-      border-radius: unset;
-    }
+    &-green {
+      @extend .btn--arrow;
 
-    @include respond-to("mobile") {
-      &:first-of-type {
-        border-radius: unset;
-        margin-bottom: unset;
-        margin-right: 0.625rem;
-      }
-
-      &:last-of-type {
-        margin-top: unset;
-        margin-left: 0.625rem;
-        border-radius: unset;
-      }
-    }
-
-    @include respond-to("tablet") {
-      &:first-of-type {
-        margin-right: 1.25rem;
-      }
-
-      &:last-of-type {
-        margin-left: 1.25rem;
+      &:before {
+        background-image: url(../images/icons/arrow_right--green.svg);
+        border-color: #33FF00;
       }
     }
-  }
 
-  &.hasImage {
-    min-height: 266px;
-    flex-direction: column;
+    &-left {
+      @extend .btn--arrow;
 
-    img {
-      max-width: 100px;
-      max-height: 100px;
-    }
-  }
-
-  &:disabled {
-    &:hover {
-      background: $smoke;
-      color: $black;
-      border: 1px solid $black;
-      filter: unset;
-      cursor: not-allowed;
+      &:before {
+        transform: rotate(180deg);
+      }
     }
   }
 }

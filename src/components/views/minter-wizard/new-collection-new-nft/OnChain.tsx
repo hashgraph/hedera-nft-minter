@@ -2,19 +2,27 @@ import React from 'react';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 
 export default function OnChain() {
+
   return (
-    <>
+    <div className='minter-wizard__on-chain'>
       <div>
-        <h3 className='minter-wizard__basis-header'>
-          How many NFTs do you want to mint in your new collection.
-        </h3>
+        <p className='title title--small'>
+          How many NFTs do you want
+          to mint in your new collection?
+        </p>
       </div>
-      <div className='minter-wizard__on-chain'>
+      <div className='minter-wizard__on-chain__wrapper'>
+        <div className='minter-wizard__on-chain__input-row'>
+          <label htmlFor='maxSupply' className='title--strong title--medium'>
+            # of <br />
+            NFTs to <br />
+            mint now:
+          </label>
           <FieldWrapper
+            className='big-circle'
             fastField
-            name='maxSupply'
+            name='qty'
             type='number'
-            label='Max supply'
             tooltip={
               <>
                 This is the maximum number of NFTs which can be minted into the collection.
@@ -23,11 +31,17 @@ export default function OnChain() {
             }
             min='0'
           />
+        </div>
+        <div className='minter-wizard__on-chain__input-row'>
+          <label htmlFor='qty' className='title--strong title--medium'>
+            Maximum <br />
+            Total Supply:
+          </label>
           <FieldWrapper
+            className='big-circle'
             fastField
-            name='qty'
+            name='maxSupply'
             type='number'
-            label='Quantity of NFTs'
             tooltip='This is the number of NFTs to mint right now.
                      You can mint 10 at a time until you reach the
                      maximum number of NFTs. All NFTs created will
@@ -35,7 +49,9 @@ export default function OnChain() {
             max='10'
             min='0'
           />
+        </div>
+
       </div>
-    </>
+    </div>
   );
 }

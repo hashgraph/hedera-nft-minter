@@ -4,6 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import placeholder from '@assets/images/placeholder.png';
+import uploadArrow from '@assets/images/icons/upload-arrow.svg';
 import './drag-and-drop-file-input.scss'
 
 // https://stackoverflow.com/a/18650828
@@ -84,30 +85,19 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
         {isDragActive ? (
           <p>Drop the files here ...</p>
         ) : isFileUploaded ? (
-          <p>
-            Uploaded file:
-            <p className='file-name'>{acceptedFiles[0].name}</p>
-          </p>
+          values?.image && (
+            <img
+              className='selected-image'
+              src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
+              alt='Thumb'
+            />
+          )
         ) : (
-          <p>Drag and drop image file here, or click to select file.</p>
+          <>
+            <img src={uploadArrow} className='drag-and-drop__upload-arrow' alt='upload-arrow' />
+            <p>Upload your NFT image</p>
+          </>
         )}
-      </div>
-
-      <div className='drag-and-drop__summary'>
-        <img
-          src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
-          alt='Thumb'
-        />
-        <div className='drag-and-drop__summary__description'>
-          {values?.image ? (
-            <>
-              <p className='file-name'>{values?.image.path}</p>
-              <p>{formatBytes(values?.image.size)}</p>
-            </>
-          ) : (
-            <p>File not uploaded yet.</p>
-          )}
-        </div>
       </div>
     </div>
   );

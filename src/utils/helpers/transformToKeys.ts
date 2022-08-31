@@ -6,13 +6,13 @@ interface Keys {
 }
 
 export default function transformToKeys(keys: TokenKey[], accountId: string, accountKey: string) {
-  return keys.reduce<Keys>((keysObject, key) => {
-    if (key.type === TOKEN_KEY.TREASURY) {
-      keysObject[key.type] = AccountId.fromString(key.value === 'account' ? accountId: key.key);
-      return keysObject;
-    }
+  const newKeys = keys.reduce<Keys[]>((keysObject, key) => {
+    keysObject[key] = PublicKey.fromString(accountKey)
 
-    keysObject[key.type] = PublicKey.fromString(key.value === 'account' ? accountKey : key.key);
     return keysObject;
-  }, {});
+  }, [])
+
+  newKeys[TOKEN_KEY.TREASURY] = AccountId.fromString(accountId)
+
+  return newKeys
 }

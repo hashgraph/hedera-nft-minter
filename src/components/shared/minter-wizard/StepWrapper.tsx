@@ -3,24 +3,35 @@ import classNames from 'classnames';
 import useMinterWizard from '@/utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@/utils/entity/MinterWizard';
 import SideSummary from '@/components/shared/minter-wizard/summary/SideSummary';
-import { MinterWizardContext } from '@/components/shared/minter-wizard/MinterWizardForm'
+import { FormWizardSteps, MinterWizardContext } from '@/components/shared/minter-wizard/MinterWizardForm'
+import {
+  CSSTransition,
+  SwitchTransition,
+  TransitionGroup,
+} from 'react-transition-group';
+
+import generateMultipleTransitionGroupClassNames from '@/utils/helpers/generateMultipleTransitionGroupClassNames';
+import useLayout from "@utils/hooks/useLayout";
 
 type Props = {
   steps: CreatorSteps,
   backToMintTypeSelection: () => void;
   goToSummary: () => void;
+  isActive: boolean
 }
 
 export const MinterWizardStepWrapperContext = React.createContext<{
-  isNextButtonActive: React.Dispatch<React.SetStateAction<boolean>>
+  isNextButtonActive: React.Dispatch<React.SetStateAction<boolean>>,
+  isFirstScreen: boolean;
 }>({
-  isNextButtonActive: () => false
+  isNextButtonActive: () => false,
+  isFirstScreen: false
 })
 
 export default function MinterWizardStepWrapper({
   steps,
   backToMintTypeSelection,
-  goToSummary
+  goToSummary,
 } : Props) {
   const {
     creatorStep,
@@ -40,8 +51,10 @@ export default function MinterWizardStepWrapper({
   const [isNextButtonHidden, isNextButtonActive] = useState(false)
 
   const handleSummaryNextButton = useCallback(() => {
-    setCreatorStepToBackFromSummary(creatorStep)
-    goToSummary()
+    if(creatorStep > 0) {
+      setCreatorStepToBackFromSummary(creatorStep)
+      goToSummary()
+    }
   }, [goToSummary, setCreatorStepToBackFromSummary, creatorStep])
 
   const wasUserBackFromSummary = useMemo(() =>
@@ -49,11 +62,12 @@ export default function MinterWizardStepWrapper({
   [creatorStepToBackFromSummary])
 
   const handleBackFromWizardSummary = useCallback(() => {
-    if(wasUserBackFromSummary) {
+    if(wasUserBackFromSummary && creatorStep === 0) {
       setCreatorStep(creatorStepToBackFromSummary)
+
       setCreatorStepToBackFromSummary(0)
     }
-  }, [creatorStepToBackFromSummary, setCreatorStep, wasUserBackFromSummary, setCreatorStepToBackFromSummary])
+  }, [wasUserBackFromSummary, creatorStepToBackFromSummary, setCreatorStep, creatorStep, setCreatorStepToBackFromSummary])
 
   useEffect(() => {
     handleBackFromWizardSummary()
@@ -65,24 +79,30 @@ export default function MinterWizardStepWrapper({
     }
   }, [isFirstScreen, isNextButtonActive])
 
-  const nextButtonClassName = classNames('btn--big', {
-    'btn--hidden': isNextButtonHidden
+
+  const nextButtonClassName = classNames('btn--arrow', {
+    'btn--hidden': isNextButtonHidden,
+    'minter-wizard__creator__btn--last-screen': isLastScreen,
+  })
+
+  const navClassName = classNames('minter-wizard__creator__nav', {
+    'minter-wizard__creator__nav--first-screen': isFirstScreen
   })
 
   return (
     <MinterWizardStepWrapperContext.Provider value={{isNextButtonActive}}>
-      <div className='minter-wizard__creator'>
+      <div className='minter-wizard__creator minter-wizard__animation-container container--padding'>
         <div className='minter-wizard__creator__form'>
           {renderMinterWizardScreen(creatorStep)}
         </div>
 
-        <div className='minter-wizard__creator__nav'>
+        <div className={navClassName}>
           <div className='prev'>
             {isFirstScreen ? (
               <button
                 type='button'
                 onClick={backToMintTypeSelection}
-                className='btn--big'
+                className='btn--arrow-left'
               >
                 Back
               </button>
@@ -91,7 +111,7 @@ export default function MinterWizardStepWrapper({
                 type='button'
                 disabled={isFirstScreen}
                 onClick={handleCreatorPrevButton}
-                className='btn--big'
+                className='btn--arrow-left'
               >
                 Back
               </button>
@@ -99,7 +119,44 @@ export default function MinterWizardStepWrapper({
           </div>
 
           <div className='next'>
-            {isLastScreen ? (
+            {/* <button
+              type='button'
+              className={nextButtonClassName}
+              disabled={isNextButtonHidden}
+              onClick={isLastScreen ? handleSummaryNextButton : handleCreatorNextButton}
+            > */}
+              <SwitchTransition>
+                <CSSTransition
+                  key={isLastScreen ? 'Mint it!' : 'Next'}
+                  addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                  classNames='fade'
+                >
+                  <span>
+                    {isLastScreen ? (
+                      <button
+                        type='button'
+                        className={nextButtonClassName}
+                        onClick={isLastScreen && handleSummaryNextButton}
+                        disabled={isNextButtonHidden}
+                      >
+                        Mint it!
+                      </button>
+                    ) : (
+                      <button
+                        type='button'
+                        className={nextButtonClassName}
+                        onClick={!isLastScreen && handleCreatorNextButton}
+                        disabled={isLastScreen}
+                      >
+                        Next
+                      </button>
+                    )}
+                  </span>
+                </CSSTransition>
+              </SwitchTransition>
+
+            {/* </button> */}
+            {/* {isLastScreen ? (
               <button
                 type='button'
                 className={nextButtonClassName}
@@ -108,21 +165,13 @@ export default function MinterWizardStepWrapper({
                 Summary
               </button>
             ) : (
-              <button
-                type='button'
-                className={nextButtonClassName}
-                disabled={isNextButtonHidden}
-                onClick={handleCreatorNextButton}
-              >
-                Next
-              </button>
-            )}
+            )} */}
           </div>
         </div>
-
+{/*
         <div className='minter-wizard__creator__summary'>
           <SideSummary step={creatorStep} />
-        </div>
+        </div> */}
       </div>
     </MinterWizardStepWrapperContext.Provider>
   )

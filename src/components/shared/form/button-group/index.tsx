@@ -6,6 +6,8 @@ import FieldRadioButton from '../FieldRadioButton';
 
 interface Option {
   label: string | JSX.Element,
+  tooltip?: string | JSX.Element,
+  renderArrow?: boolean;
   value: string | number,
   image?: string,
   onClick?: MouseEventHandler<HTMLButtonElement> ;
@@ -16,6 +18,7 @@ type ButtonGroupProps = FieldAttributes<ButtonHTMLAttributes<HTMLButtonElement>>
   options: Option[],
   size?: 'big' | 'md';
   square?: boolean;
+  direction?: 'row' | 'column'
 }
 
 export default function ButtonGroup({
@@ -23,15 +26,19 @@ export default function ButtonGroup({
   options,
   size = undefined,
   square = false,
+  direction = 'row'
 }: ButtonGroupProps) {
 
   return (
     <div
-      className={classNames('form__row form__buttons', { square })}
+      className={classNames('form__row form__buttons', {
+        square,
+        [`form__buttons--${ direction }`]: !!direction
+      })}
     >
       {options.map(({ label, value, image, onClick }: Option) => (
         <FieldRadioButton
-          className={classNames('button-group', {
+          className={classNames('button-group', 'button-group', {
             big: size === 'big',
             medium: size === 'md',
             square

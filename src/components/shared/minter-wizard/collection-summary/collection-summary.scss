@@ -22,19 +22,12 @@
 
   &__values {
     display: flex;
-    align-items: center;
-    @include gradient-border("bottom", 1px);
+    flex-direction: column;
 
 
     p {
       position: relative;
-      font-size: 0.75rem;
-      @include gradient-border("right", 1px);
-      padding: 0 .5rem;
-
-      &:first-of-type {
-        padding-left: 0;
-      }
+      margin: 0.25rem 0;
 
       &:last-of-type {
         &:after {

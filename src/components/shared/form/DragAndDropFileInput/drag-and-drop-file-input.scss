@@ -3,27 +3,56 @@
 @import "src/assets/styles/base/functions";
 
 .drag-and-drop {
+  &__upload-arrow {
+    width: 53px;
+    height: 53px;
+    filter: grayscale(1);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
   &__container {
     cursor: pointer;
     $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
     $transitionTime: 0.4s;
     $transitionAttributes: (border-color, box-shadow);
-    width: 100%;
-    border-radius: 5px;
-    border: $border;
-    border-color: var(--border-color);
-    border-style: dashed;
-    margin-top: -5px;
+    width: 266px;
+    height: 266px;
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: pre;
+    border-radius: 30px;
+    @include border-opacity($border);
+    background-color: $inputColor;
     color: $lightGrey;
-    display: grid;
-    place-items: center;
-    padding: 1.25rem 3.125rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 1rem;
     transition: generateTransitions($transitionAttributes, $transitionTime);
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
+
+    img {
+      &.selected-image {
+        width: 100%;
+        border-radius: 30px;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
 
     &.is-focused {
       border-color: $ultraviolet;
       box-shadow: $boxShadow;
+
+      .drag-and-drop__upload-arrow {
+        filter: unset;
+      }
     }
 
     &.is-drag-accepted {
@@ -42,7 +71,7 @@
     padding: 0.625rem 1.25rem;
     margin-top: 1rem;
     border-radius: 5px;
-    border: $border;
+    @include border-opacity($border);
 
     img {
       object-fit: cover;

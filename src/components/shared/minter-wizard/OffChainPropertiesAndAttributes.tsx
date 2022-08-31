@@ -5,10 +5,9 @@ export default function OffChainPropertiesAndAttributes() {
   return (
     <div>
       <div className='form__row'>
-        <p className='label'>This attributes describe the NFT in often used to identify rarity</p>
         <FormGroup
           name='attributes'
-          label='NFT attributes'
+          label='Attributes'
           inputsSchema={[
             {
               name: 'trait_type',
@@ -28,7 +27,7 @@ export default function OffChainPropertiesAndAttributes() {
       <div className='form__row'>
         <FormGroup
           name='properties'
-          label='General properties'
+          label='Properties'
           inputsSchema={[
             {
               name: 'label',

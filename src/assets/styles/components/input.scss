@@ -1,0 +1,82 @@
+input:not([type="radio"]):not([type="checkbox"]),
+// select {
+//   height: 51px;
+// }
+
+
+select {
+  padding: 0.5rem 1rem;
+  appearance: none;
+
+  option {
+    color: $black;
+
+    &:disabled {
+      background: $smoke;
+    }
+  }
+
+  &:active, &:focus {
+    border-color: #33FF00;
+  }
+}
+
+input,
+textarea,
+select {
+  font-weight: 300;
+  display: block;
+  color: var(--main-color);
+  background-color: $inputColor;
+
+  border: 1px solid rgba(255, 255, 255, .69);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+
+  @include border-opacity($border);
+
+  position: relative;
+  font-size: 1rem;
+  padding: 0.875rem 1.188rem;
+  border-radius: 30px;
+  font-family: museo-sans-rounded;
+  width: 100%;
+
+  &::placeholder {
+    font-weight: 100;
+    font-family: museo-sans-rounded;
+    filter: brightness(1.4);
+  }
+
+  &:active, &:focus {
+    border-color: #33FF00;
+  }
+
+  &.big-circle {
+    width: 105px !important;
+    height: 105px !important;
+    border-radius: 100%;
+    font-size: 2.875rem;
+    padding: 0;
+  }
+
+}
+
+select {
+  padding-right: 2.5rem;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 111px;
+  -moz-appearance:textfield;
+}

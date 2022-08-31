@@ -1,154 +1,59 @@
 $fonts_dir: '/src/assets/fonts/';
+@import url('https://use.typekit.net/feu4bcz.css');
 
 @font-face {
   font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-BlackItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-BlackItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-BlackItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-BlackItalic-Web.woff') format('woff');
-  font-weight: 900;
-  font-style: italic;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Black-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Black-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Black-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Black-Web.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-BoldItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-BoldItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-BoldItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-BoldItalic-Web.woff') format('woff');
-  font-weight: 700;
-  font-style: italic;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Bold-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Bold-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Bold-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Bold-Web.woff') format('woff');
+  src: url($fonts_dir + 'StyreneA-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-stretch: normal;
 }
 
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-MediumItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-MediumItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-MediumItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-MediumItalic-Web.woff') format('woff');
-  font-weight: 500;
-  font-style: italic;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Medium-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Medium-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Medium-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Medium-Web.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-RegularItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-RegularItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-RegularItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-RegularItalic-Web.woff') format('woff');
-  font-weight: 400;
-  font-style: italic;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Regular-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Regular-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Regular-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Regular-Web.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-LightItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-LightItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-LightItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-LightItalic-Web.woff') format('woff');
-  font-weight: 300;
-  font-style: italic;
-  font-stretch: normal;
-}
-
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Light-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Light-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Light-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Light-Web.woff') format('woff');
+html, body {
+  font-family: museo-sans-rounded;
   font-weight: 300;
   font-style: normal;
   font-stretch: normal;
+  line-height: 1.215rem;
+  letter-spacing: .015rem;
+  font-size: 1.205rem;
 }
 
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-ThinItalic-Web.eot');
-  src: url($fonts_dir + 'StyreneA-ThinItalic-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-ThinItalic-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-ThinItalic-Web.woff') format('woff');
-  font-weight: 100;
-  font-style: italic;
-  font-stretch: normal;
+.title, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-size: 2.5rem;
+  line-height: 2.5rem;
 }
 
-@font-face {
-  font-family: 'Styrene A Web';
-  src: url($fonts_dir + 'StyreneA-Thin-Web.eot');
-  src: url($fonts_dir + 'StyreneA-Thin-Web.eot?#iefix')
-      format('embedded-opentype'),
-    url($fonts_dir + 'StyreneA-Thin-Web.woff2') format('woff2'),
-    url($fonts_dir + 'StyreneA-Thin-Web.woff') format('woff');
-  font-weight: 100;
-  font-style: normal;
-  font-stretch: normal;
+.title {
+  &--strong {
+    font-weight: 700;
+  }
+
+  &--medium {
+    line-height: 2rem;
+    font-size: 1.938rem;
+  }
+
+  &--small {
+    line-height: 1.875rem;
+    font-size: 1.875rem;
+  }
 }
 
-.label {
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  max-width: 100%;
+label, .label {
+  margin-bottom: 0;
+  color: var(--main-color);
+  display: block;
+  padding-bottom: 0.938rem;
+  padding-left: 3px;
+  letter-spacing: -.4px;
+  margin-top: 1rem;
+
+  @include respond-to("mobile") {
+    white-space: pre;
+  }
+}
+.label, label {
   margin-bottom: 0;
   color: var(--main-color);
   display: block;
@@ -161,4 +66,13 @@ $fonts_dir: '/src/assets/fonts/';
   @include respond-to("mobile") {
     white-space: pre;
   }
+}
+
+label,
+input,
+textarea {
+  max-width: 100%;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
 }

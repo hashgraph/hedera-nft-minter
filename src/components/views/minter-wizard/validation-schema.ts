@@ -106,6 +106,6 @@ export const ValidationSchema = yup.object().shape({
     }, [['trait_type', 'value']])
   ),
   fees: yup.array().of(feeValidator),
-  keys: yup.array().of(keyValidator),
+  // keys: yup.array().of(keyValidator),
   treasuryAccountId: yup.array().of(keyValidator),
 });

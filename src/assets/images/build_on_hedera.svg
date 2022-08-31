@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Warstwa_2" data-name="Warstwa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169.12 76.86">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 19.48px;
+        letter-spacing: -.09em;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-3 {
+        font-family: StyreneA-Bold, 'Styrene A';
+      }
+
+      .cls-4 {
+        letter-spacing: -.22em;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-5 {
+        letter-spacing: -.09em;
+      }
+
+      .cls-3 {
+        font-size: 16.97px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g>
+      <text class="cls-3" transform="translate(83.66 37.2)"><tspan class="cls-5" x="0" y="0">BUI</tspan><tspan class="cls-4" x="29.45" y="0">L</tspan><tspan class="cls-5" x="37.73" y="0">T ON</tspan></text>
+      <g>
+        <path class="cls-2" d="M38.43,0c21.23,0,38.44,17.2,38.44,38.43s-17.2,38.43-38.44,38.43S0,59.66,0,38.43,17.2,0,38.43,0m-10.51,40.79h21.49v-5.35H27.92v5.35Zm26.13,14.26h-4.88v-10.37H27.69v10.37h-4.88V21.41h4.88v10.13h21.49v-10.13h4.88V55.05Z"/>
+        <text class="cls-1" transform="translate(83.66 53.54)"><tspan x="0" y="0">HEDERA</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,17 +1,56 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
+import { FormikValues } from 'formik';
+import { Link } from 'react-router-dom';
+import placeholder from '@assets/images/placeholder.png';
+import externalIcon from '@assets/images/icons/external.svg';
+import nftIcon from '@assets/images/icons/nft_icon.svg';
+import map from 'lodash/map';
+import pick from 'lodash/pick';
 
-export default function Summary({ tokenId }: { tokenId: string }) {
+export default function Summary({ newNFTdata }: { newNFTdata: FormikValues }) {
+  const values = newNFTdata;
   return (
-    <div className='container'>
-      <div className='homepage__token-created__container'>
-        <h1>Token Created successfully</h1>
-        <p>Your new NFT Token ID: <b>{tokenId}</b></p>
+    <div className='minter-wizard__summary--done minter-wizard__animation-container container--padding'>
+      <div className='minter-wizard__summary__image'>
+        <img
+          src={values?.image
+            ? URL.createObjectURL(values?.image)
+            : placeholder
+          }
+          alt='Thumb'
+        />
+      </div>
+      <div className='minter-wizard__summary__column'>
+        <div>
+          <p className='title title--strong'>Congratulations!</p>
+          <p className='title title--small'>Your NFT has been minted!</p>
+        </div>
+        <ul className='minter-wizard__summary__item-list'>
+          {map(pick(values, ['name', 'symbol', 'edition_name', 'creator', 'description']), value => (
+            value && <li>{value}</li>
+          ))}
+          <li className='green'>MINTED</li>
+        </ul>
+
+        <div className='minter-wizard__summary__token-id'>
+          <img src={nftIcon} alt='nft_icon' />
+          {values.tokenId}
+        </div>
+
         <a
-          href={`https://${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }.dragonglass.me/hedera/tokens/${ tokenId }`}
+          href={`https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ values.tokenId }`}
           target='_blank'
+          className='minter-wizard__summary__hashscan'
         >
-          Link to your token in <i>app.dragonglass.me</i>
+          <img src={externalIcon} alt='external_icon' />
+          <p>
+            View token in <span>Hashscan.io</span>
+          </p>
         </a>
+
+        <Link to='/my-nft-collection' className='minter-wizard__summary__collection btn btn--arrow'>
+          View your collection
+        </Link>
       </div>
     </div>
   )

@@ -13,17 +13,21 @@ body {
 
   height: 100%;
   min-height: 100%;
-  font-family: 'Styrene A Web', Arial, sans-serif;
-  font-weight: 300;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.8;
-  letter-spacing: .015rem;
-
 
   --main-color: #{$black};
   --background-color: #{$vapor};
   --border-color: #{$black};
+
+  --horizontal-padding: #{$horizontalPadding};
+
+  @include respond-to('tablet') {
+    --horizontal-padding: #{$horizontalPaddingTablet};
+  }
+
+  @include respond-to('desktop') {
+    --horizontal-padding: #{$horizontalPaddingDesktop};
+
+  }
   color: var(--main-color);
 }
 
@@ -33,6 +37,10 @@ body {
   --background-color: #{$black};
   --border-color: #{$border};
   color: var(--main-color);
+  background-image: url('../images/background.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 a {

@@ -1,0 +1,44 @@
+.minter-wizard{
+  &__creator {
+    &__nav {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      position: absolute;
+      bottom: 2rem;
+      left: 0;
+
+      @include respond-to('mobile') {
+        bottom: 0;
+        transition: width 500ms ease-out;
+        position: relative;
+      }
+
+      &--first-screen {
+        @include respond-to('mobile') {
+          width: 90%;
+        }
+      }
+
+      &--summary {
+        @extend .minter-wizard__creator__nav;
+        margin-top: auto;
+      }
+    }
+  }
+}
+
+
+.gone {
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.showing {
+  position: absolute;
+  transform: translateX(-100%);
+}
+
+.form__row {
+  transition: all 0.5s ease-in-out;
+}

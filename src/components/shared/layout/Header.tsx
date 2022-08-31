@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useOnClickAway } from 'use-on-click-away';
 
 import useHederaWallets from '@hooks/useHederaWallets';
@@ -18,14 +18,17 @@ import useLayout from '@utils/hooks/useLayout';
 
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
 
-import LogoBlack from '@assets/images/black-cutout.svg';
-import LogoWhite from '@assets/images/reversed-cutout.svg';
+import Logo from '@assets/images/logo.svg';
+import ConnectIcon from '@assets/images/icons/connect.svg'
+import ProfileIcon from '@assets/images/icons/profile.svg'
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Header = () => {
-  const { connectedWalletType, userWalletId } = useHederaWallets();
+  const { connectedWalletType } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { scrollPosition, isNavbarHidden, isMobile } = useLayout();
-  const headerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
+  const { isNavbarHidden, isMobile, isMinterWizardWelcomeScreen } = useLayout();
+  const location = useLocation();
+  const headerRef = useRef<HTMLDivElement>();
   const expandedMenuRef = useRef(null);
   const [isMobileNavbarMenuExpanded, setIsMobileNavbarMenuExpanded] =
     useState(false);
@@ -35,51 +38,17 @@ const Header = () => {
     showModal();
   }, [setModalContent, showModal]);
 
-  const buttonContent = useCallback(
-    () =>
-      connectedWalletType === 'noconnection' ? (
-        <>
-          Connect <LoginOutlined />
-        </>
-      ) : (
-        <>
-          {userWalletId} <DisconnectOutlined />
-        </>
-      ),
-    [connectedWalletType, userWalletId]
-  );
 
-  const isScrolledAboveHeader = useMemo(
-    () => headerRef && scrollPosition.y > headerRef?.current?.offsetHeight,
-    [scrollPosition, headerRef]
-  );
-
-  const isMobileNavbarMenuToogled = useMemo(
-    () => isMobile && isMobileNavbarMenuExpanded,
-    [isMobile, isMobileNavbarMenuExpanded]
-  );
-
-  const hederaLogo = useMemo(
-    () =>
-      !isMobileNavbarMenuToogled && isScrolledAboveHeader
-        ? LogoBlack
-        : LogoWhite,
-    [isScrolledAboveHeader, isMobileNavbarMenuToogled]
-  );
+  const isMobileNavbarMenuToogled = useMemo(() => (
+    isMobile && isMobileNavbarMenuExpanded
+  ), [isMobile, isMobileNavbarMenuExpanded]);
 
   const headerClassnames = classNames('header', {
-    'is-white': isMobile
-      ? isScrolledAboveHeader && !isMobileNavbarMenuToogled
-      : isScrolledAboveHeader,
+    'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
     'is-hide': isNavbarHidden,
     'is-mobile': isMobile,
   });
-  const logoLinkClassnames = classNames('logo_link', {
-    'logo_link__is-white': !isScrolledAboveHeader,
-  });
-  const buttonsWrapperClassnames = classNames('header__buttons-wrapper', {
-    'header__buttons-wrapper__is-white': !isScrolledAboveHeader,
-  });
+
   const mobileNavbarExpandedMenuClassnames = classNames(
     'header__mobile-menu__wrapper',
     {
@@ -87,43 +56,76 @@ const Header = () => {
     }
   );
 
-  const openNavbar = useCallback(() => {
-    setIsMobileNavbarMenuExpanded(true);
-    disableBodyScroll(headerRef);
-  }, [setIsMobileNavbarMenuExpanded]);
+  const connectIconClassName = classNames('icon__connect', {
+    'icon--active': connectedWalletType !== 'noconnection'
+  })
 
   const closeNavbar = useCallback(() => {
     enableBodyScroll(headerRef);
     setIsMobileNavbarMenuExpanded(false);
   }, [setIsMobileNavbarMenuExpanded]);
 
-  const onNavbarToogle = useCallback(
-    (toogled) => (toogled ? openNavbar() : closeNavbar()),
-    [openNavbar, closeNavbar]
-  );
 
-  const mobileNavbar = useCallback(
-    () => (
-      <>
-        <header className={headerClassnames} ref={headerRef}>
-          <div className={'header-container'}>
-            <Link className={logoLinkClassnames} to='/'>
-              <img src={hederaLogo} alt='hedera_logo' height={43} width={43} />{' '}
+  useOnClickAway(expandedMenuRef, () => {
+    closeNavbar();
+  });
+
+  return (
+    <header className={headerClassnames} ref={headerRef}>
+      <div className={classNames('header-container', 'container--padding')}>
+        <Link className='header__logo' to='/'>
+          <img src={Logo} alt='hedera_logo' height={66} width={110} />{' '}
+        </Link>
+        {isMobile ? (
+          <Hamburger
+            label='Show menu'
+            rounded
+            color='#464646'
+            size={27}
+            toggled={isMobileNavbarMenuToogled}
+            toggle={setIsMobileNavbarMenuExpanded}
+          />
+        ) : (
+          <div className='header__buttons-wrapper'>
+            <Link to='/my-nft-collection' className='icon__profile'>
+              <img src={ProfileIcon} alt='profile_icon' />
+              <p>
+                My NFT <br />
+                Collection
+              </p>
             </Link>
-            <button onClick={handleShowModal}>{buttonContent()}</button>
 
-            <Hamburger
-              label='Show menu'
-              rounded
-              color='#464646'
-              size={27}
-              toggled={isMobileNavbarMenuToogled}
-              toggle={setIsMobileNavbarMenuExpanded}
-              onToggle={onNavbarToogle}
-            />
+            <button onClick={handleShowModal} className={connectIconClassName}>
+              <img src={ConnectIcon} alt='wallet_connect_icon' />
+              <p>
+              <SwitchTransition>
+                <CSSTransition
+                  key={connectedWalletType}
+                  addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                  classNames='fade'
+                >
+                  <p>
+                    {connectedWalletType === 'noconnection' ? (
+                      <>
+                        Connect <br />
+                        Wallet
+                      </>
+                    ) : (
+                      <>
+                        Wallet <br />
+                        Connected
+                      </>
+                    )}
+                  </p>
+                </CSSTransition>
+              </SwitchTransition>
+
+              </p>
+            </button>
           </div>
-        </header>
-
+        )}
+      </div>
+      {isMobile && (
         <div
           className={mobileNavbarExpandedMenuClassnames}
           ref={expandedMenuRef}
@@ -134,59 +136,25 @@ const Header = () => {
           <Link onClick={closeNavbar} to='/my-nft-collection'>
             My NFT Collection
           </Link>
+          <button onClick={handleShowModal}>
+            <p>
+              {connectedWalletType === 'noconnection' ? (
+                <>
+                  Connect <br />
+                  Wallet
+                </>
+              ) : (
+                <>
+                  Wallet <br />
+                  Connected
+                </>
+              )}
+            </p>
+          </button>
         </div>
-      </>
-    ),
-    [
-      onNavbarToogle,
-      mobileNavbarExpandedMenuClassnames,
-      isMobileNavbarMenuToogled,
-      hederaLogo,
-      headerClassnames,
-      closeNavbar,
-      logoLinkClassnames,
-      handleShowModal,
-      buttonContent,
-      setIsMobileNavbarMenuExpanded,
-    ]
+      )}
+    </header>
   );
-
-  const desktopNavbar = useCallback(() => {
-    return (
-      <header className={headerClassnames} ref={headerRef}>
-        <div className={'header-container'}>
-          <Link className={logoLinkClassnames} to='/'>
-            <img src={hederaLogo} alt='hedera_logo' height={43} width={43} />{' '}
-            Hedera
-          </Link>
-          <div className={buttonsWrapperClassnames}>
-            <Link to='/'>Mint token</Link>
-            <Link to='/my-nft-collection'>My NFT Collection</Link>
-            <button onClick={handleShowModal}>{buttonContent()}</button>
-          </div>
-        </div>
-      </header>
-    );
-  }, [
-    hederaLogo,
-    headerClassnames,
-    logoLinkClassnames,
-    buttonsWrapperClassnames,
-    handleShowModal,
-    buttonContent,
-    connectedWalletType
-  ]);
-
-  const renderNavbar = useCallback(
-    () => (isMobile ? mobileNavbar() : desktopNavbar()),
-    [isMobile, mobileNavbar, desktopNavbar]
-  );
-
-  useOnClickAway(expandedMenuRef, () => {
-    closeNavbar();
-  });
-
-  return renderNavbar();
 };
 
 export default Header;

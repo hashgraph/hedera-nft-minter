@@ -1,11 +1,5 @@
 @use 'sass:math';
 
-// FORM INPUT STYLES
-input:not([type="radio"]):not([type="checkbox"]),
-select {
-  height: 47px;
-}
-
 label,
 .label {
   font-size: 0.95rem;
@@ -14,64 +8,6 @@ label,
 p {
   font-size: 1.15rem;
 }
-
-select {
-  padding: 0.5rem 1rem;
-  appearance: none;
-
-  option {
-    color: $black;
-
-    &:disabled {
-      background: $smoke;
-    }
-  }
-
-  &:active {
-    border-color: $blue;
-  }
-}
-
-input,
-textarea,
-select {
-  font-family: 'Styrene A Web', sans-serif;
-  font-size: 1.15rem;
-  font-weight: 300;
-  display: block;
-  color: var(--main-color);
-  background-color: transparent;
-  border: 1px solid;
-  border-color: var(--border-color);
-  padding: 0.5rem 1rem;
-  border-radius: 30px;
-  width: 100%;
-
-  &::placeholder {
-    font-weight: 200;
-    filter: brightness(1.4);
-  }
-}
-
-select {
-  padding-right: 2.5rem;
-}
-
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type='number'] {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 111px;
-  -moz-appearance:textfield;
-}
-
 
 .select__component {
   position: relative;
@@ -130,22 +66,24 @@ input[type='number'] {
       width: 100%;
 
       &__fee {
-        padding: 1rem 0;
         width: 100%;
         max-width: 544px;
-        margin: 0 auto;
-        margin-bottom: 1rem;
-        border-top: 1px solid $grey;
+        display: flex;
+        column-gap: $columnGap;
 
         &-fixed {
           display: flex;
-          column-gap: $columnGap;
         }
 
         &-container {
-          display: flex;
+          display: grid;
+          grid-template-columns: auto 27px;
           width: 100%;
           column-gap: $columnGap;
+
+          .select__component {
+            max-width: 60%;
+          }
         }
       }
 
@@ -153,7 +91,11 @@ input[type='number'] {
         display: flex;
         width: 100%;
         column-gap: $columnGap;
-        border-top: 1px solid $smoke;
+        align-items: center;
+
+        button {
+          margin-top: .5rem;
+        }
 
         &:first-of-type {
           border-top: unset;
@@ -164,7 +106,6 @@ input[type='number'] {
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding-top: 2rem;
       }
     }
 
@@ -194,19 +135,6 @@ input[type='number'] {
       p,
       h1 {
         color: var(--main-color);
-      }
-
-      h1 {
-        font-family: 'Styrene A Web';
-        font-style: normal;
-        font-stretch: normal;
-        font-size: 1.625rem;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        line-height: 1.2;
-        letter-spacing: -1px;
-        font-weight: 500;
       }
 
       &-flex {
@@ -308,13 +236,29 @@ input[type='number'] {
 
   &__buttons {
     display: flex;
-    flex-direction: row;
 
     &.square {
       flex-direction: column;
 
       @include respond-to("mobile") {
         flex-direction: row;
+      }
+    }
+
+    &--row {
+      flex-direction: row;
+    }
+
+    &--column {
+      width: 100%;
+      flex-direction: column;
+      row-gap: 1.25rem;
+      max-width: 452px;
+
+      button {
+        justify-content: flex-start;
+        padding-left: 1.375rem;
+        padding-right: 1rem;
       }
     }
   }
@@ -327,26 +271,31 @@ input[type='number'] {
     &-row {
       padding-bottom: 2.5rem;
 
+      button {
+        background-color: transparent;
+        width: 27px;
+        height: 27px;
+        border-color: $vapor;
+        padding: 0 !important;
+        color: $vapor;
+        display: grid;
+        place-items: center;
+        border-radius: 100%;
+      }
+
       &-mt {
         margin-top: 1.875rem;
       }
     }
 
-    $removeButtonWidth: 96px;
+    $removeButtonWidth: 27px;
     &__inputs {
       display: grid;
       grid-template-columns: 1fr 1fr;
 
       justify-content: flex-start;
       align-items: center;
-      column-gap: $columnGap;
-      padding-bottom: 1.5rem;
-      margin-bottom: .5rem;
-      border-bottom: 1px solid $smoke;
-
-      &:last-of-type {
-        border-bottom: unset;
-      }
+      column-gap: 2rem;
 
 
       @include respond-to('mobile') {
@@ -357,12 +306,24 @@ input[type='number'] {
 
       &__row {
         grid-gap: $columnGap;
-        flex: calc(50% - #{$columnGap});
         display: flex;
         order: 1;
+        align-items: center;
 
-        @include respond-to('mobile') {
-          flex: 0 1 calc(50% - 80px);
+        &:first-of-type {
+          .label {
+            width: 132px;
+          }
+        }
+
+        .label {
+          font-size: 1rem;
+          margin: 0;
+          opacity: 52%;
+        }
+
+        div {
+          width: 100%;
         }
       }
     }
@@ -390,6 +351,8 @@ input[type='number'] {
           grid-column: 1/3;
           grid-row: 2/3;
           margin: 0 auto;
+          margin-top: -#{$errorHeight};
+
 
           @include respond-to('mobile') {
             margin-right: unset;
@@ -451,16 +414,10 @@ input[type='number'] {
       display: flex;
       width: 100%;
       justify-content: space-between;
-      @include gradient-border("bottom", 1px);
-      padding: 0 0 0.688rem;
-      margin: 0px 0 0.938rem;
+      align-items: center;
 
-      label {
-        font-size: 1.35rem;
-        font-weight: 300;
-        letter-spacing: -1px;
-        line-height: 1.2;
-        text-align: left;
+      .title {
+        margin-bottom: 2rem;
       }
     }
 

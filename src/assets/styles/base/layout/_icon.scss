@@ -1,0 +1,54 @@
+.icon {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  border: unset;
+  color: $vapor;
+  background-color: transparent;
+  text-decoration: unset;
+  padding: 0;
+
+  img {
+    transition-property: opacity, filter;
+    transition: 0.2s ease-in-out;
+    opacity: 0.5;
+    filter: grayscale(1);
+    margin-right: 0.625rem;
+  }
+
+  &:hover {
+    border: unset;
+    background-color: transparent;
+
+    img {
+      opacity: 1;
+    }
+  }
+
+  &__profile {
+    @extend .icon;
+
+    img {
+      width: 1.688rem;
+      height: 2.5rem;
+    }
+  }
+
+  &__connect {
+    @extend .icon;
+
+    img {
+      width: 2.5rem;
+      height: 2.4rem;
+    }
+  }
+
+  &--active {
+    img {
+      filter: unset;
+    }
+  }
+}

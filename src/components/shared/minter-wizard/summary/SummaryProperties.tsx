@@ -7,25 +7,23 @@ export default function SummaryProperties() {
   const [field] = useField('properties')
 
   return (
-    <>
-      <p className='summary__info__header'>
-          General properties:
-        </p>
+    <div>
         {field.value
           .filter((property: Propertie) => (property.label || property.value))
-          .length > 0 ? (
+          .length > 0 && (
           <>
-            <div className='summary__info__multiple'>
+            <p className='summary__info__header'>
+              General properties:
+            </p>
+            <div>
               {field.value.map(((property: Propertie) => (property.label && property.value) && (
-                <p key={property.label}>
+                <p key={property.label} className='minter-wizard__summary__info-row'>
                   {renderValue(property.label)}: <span>{renderValue(property.value)}</span>
                 </p>
               )))}
             </div>
           </>
-        ) : (
-          <div className='summary__info__row--empty'>(empty)</div>
         )}
-    </>
+    </div>
   )
 }

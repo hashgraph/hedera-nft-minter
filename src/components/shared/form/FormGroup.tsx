@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import { FieldArray, useField, useFormikContext } from 'formik';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { DeleteOutlined, PlusSquareOutlined } from '@ant-design/icons';
 import each from 'lodash/each';
+import omit from 'lodash/omit';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import { WizardValues } from '@/utils/const/minter-wizard';
+
+import thrashIcon from '@assets/images/icons/thrash.svg'
+import plusIcon from '@assets/images/icons/plus.svg'
 
 type Input = {
   label: string;
@@ -38,9 +41,11 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
         {({ remove, push, form }) => (
           <>
             <div className='form__group__label-wrapper'>
-              <p className='label'>
-                {label}:
-              </p>
+              {label && (
+                <p className='title title--medium title--strong'>
+                  {label}:
+                </p>
+              )}
               <button
                 type='button'
                 className='btn--big'
@@ -50,7 +55,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
                     .reduce((prev, curr) => ({...prev, ...curr}))
                 })}
               >
-                <PlusSquareOutlined />
+                <img width={15} height={15} src={plusIcon} alt='plus_icon' />
               </button>
             </div>
             {form.values[name].length <= 0 && (
@@ -73,8 +78,9 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
                         // eslint-disable-next-line react/no-array-index-key
                         key={`form__group__inputs_row_${ index }.${ pairIndex }_${ name }.${ input.name }`}
                       >
+                        <p className='label'>{ input.label }:</p>
                         <FieldWrapper
-                          {...input}
+                          {...omit(input, ['label'])}
                           name={`${ name }.${ index }.${ input.name }`}
                         />
                       </div>
@@ -82,7 +88,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
 
                     <div className='form__group__table__row__remove-button'>
                       <button className='btn--big' type='button' onClick={() => remove(index)}>
-                        <DeleteOutlined />
+                        <img width={13} height={16} src={thrashIcon} alt='thrash' />
                       </button>
                     </div>
                   </div>
