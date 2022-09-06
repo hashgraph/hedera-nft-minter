@@ -1,12 +1,17 @@
 .minter-wizard {
+
   &__summary {
-    display: grid;
-    grid-template-columns: 300px 1fr 1fr;
-    // height: calc(calc(var(--vh) - calc(#{$headerHeight} / 2) - #{$headerHeight}));
-    height: calc(calc(var(--vh) - calc(#{$headerHeight}) - #{$headerHeight}));
+    position: relative;
+    height: 100%;
 
     img {
       object-fit: cover;
+    }
+
+    &__content {
+      display: grid;
+      grid-template-columns: 300px 1fr 1fr;
+      height: calc(calc(var(--vh) - calc(#{$headerHeight}) - #{$headerHeight}));
     }
 
     &__image {
@@ -25,23 +30,33 @@
     }
 
     &__column {
-      margin-left: 120px;
       display: flex;
       flex-direction: column;
-      row-gap: 1.75rem;
+      row-gap: 0.75rem;
 
       .title {
         margin: 0.5rem 0 0;
       }
 
-      &--gutter-top {
-        @extend .minter-wizard__summary__column;
+      &--gutter {
+        @extend .minter-wizard__summary__column--gutter-left;
+        @extend .minter-wizard__summary__column--gutter-top;
 
-        margin-top: 3.5rem;
+        &-left {
+          @extend .minter-wizard__summary__column;
+
+          margin-left: 7.5rem;
+        }
+
+        &-top {
+          @extend .minter-wizard__summary__column;
+
+          margin-top: 3.5rem;
+        }
       }
     }
 
-    &__info-row {
+    &__row {
       display: grid;
       grid-template-columns: 0.8fr 1.2fr;
       color: #{$vapor}85;
@@ -58,7 +73,11 @@
       border: 1px solid #821011;
       background-color: $inputColor;
       border-bottom-right-radius: 100%;
-      height: fit-content;
+      height: min-content;
+
+      p {
+        margin: 0;
+      }
 
       &:after {
         position: absolute;
@@ -84,7 +103,7 @@
         &.green {
           font-size: 1.35rem;
           font-weight: 700;
-          color: #33FF00;
+          color: $green;
         }
       }
 
@@ -121,7 +140,7 @@
       color: $vapor;
 
       span {
-        color: #33FF00;
+        color: $green;
       }
     }
     &__hashscan {
@@ -133,7 +152,6 @@
     }
 
     &__token-id {
-
       img {
         width: 37px;
         height: 32px;
