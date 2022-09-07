@@ -1,6 +1,5 @@
 button,
 .btn {
-  // --border-color: #{$black};
   font-family: 'Styrene A Web';
   font-weight: 500;
   font-style: normal;
@@ -18,7 +17,7 @@ button,
   color: var(--font-color, #{$black});
   font-size: 8px;
   letter-spacing: 1.33px;
-  $transitionAttributes: (border-color, background-color, filter, color);
+  $transitionAttributes: (border-color, background-color, filter, color, transform);
   transition: generateTransitions($transitionAttributes, 400ms);
 
   @include respond-to('mobile') {
@@ -27,9 +26,8 @@ button,
   }
 
   &:hover, &:active, &:focus {
-    // background: $black;
-    color: #33FF00;
-    border: 1px solid #33FF00;
+    color: $green;
+    border: 1px solid $green;
   }
 
   &:disabled {
@@ -102,11 +100,18 @@ button,
     background: transparent;
     border: unset;
     color: $vapor;
+    padding: 0;
     font-size: 1.938rem;
     letter-spacing: 0;
     display: flex;
     align-items: center;
     font-weight: 500;
+
+    &--disabled {
+      transform:  scale(0.8);
+      filter: contrast(0);
+      opacity: 0.8;
+    }
 
     &:hover, &:active, &:focus {
       border: unset;
@@ -132,7 +137,7 @@ button,
 
       &:before {
         background-image: url(../images/icons/arrow_right--green.svg);
-        border-color: #33FF00;
+        border-color: $green;
       }
     }
 
