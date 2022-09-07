@@ -7,14 +7,13 @@ import nftIcon from '@assets/images/icons/nft_icon.svg';
 import map from 'lodash/map';
 import pick from 'lodash/pick';
 
-export default function Summary({ newNFTdata }: { newNFTdata: FormikValues }) {
-  const values = newNFTdata;
+export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues }) {
   return (
     <div className='minter-wizard__summary--done minter-wizard__animation-container container--padding'>
       <div className='minter-wizard__summary__image'>
         <img
-          src={values?.image
-            ? URL.createObjectURL(values?.image)
+          src={mintedNFTData?.image
+            ? URL.createObjectURL(mintedNFTData?.image)
             : placeholder
           }
           alt='Thumb'
@@ -26,7 +25,7 @@ export default function Summary({ newNFTdata }: { newNFTdata: FormikValues }) {
           <p className='title title--small'>Your NFT has been minted!</p>
         </div>
         <ul className='minter-wizard__summary__item-list'>
-          {map(pick(values, ['name', 'symbol', 'edition_name', 'creator', 'description']), value => (
+          {map(pick(mintedNFTData, ['name', 'symbol', 'edition_name', 'creator', 'description']), value => (
             value && <li>{value}</li>
           ))}
           <li className='green'>MINTED</li>
@@ -34,11 +33,11 @@ export default function Summary({ newNFTdata }: { newNFTdata: FormikValues }) {
 
         <div className='minter-wizard__summary__token-id'>
           <img src={nftIcon} alt='nft_icon' />
-          {values.tokenId}
+          {mintedNFTData.tokenId}
         </div>
 
         <a
-          href={`https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ values.tokenId }`}
+          href={`https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ mintedNFTData.tokenId }`}
           target='_blank'
           className='minter-wizard__summary__hashscan'
         >
