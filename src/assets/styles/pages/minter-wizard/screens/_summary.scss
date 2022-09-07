@@ -11,7 +11,7 @@
     &__content {
       display: grid;
       grid-template-columns: 300px 1fr 1fr;
-      height: calc(calc(var(--vh) - calc(#{$headerHeight}) - #{$headerHeight}));
+      height: $contentContainerHeight;
     }
 
     &__image {
