@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 type Position = { x: number; y: number };
@@ -8,6 +8,8 @@ export const LayoutContext = React.createContext<{
   setPageMenuPositionY: React.Dispatch<React.SetStateAction<number | null>>;
   scrollPosition: Position;
   isMobile: boolean;
+  isDesktop: boolean;
+  isTablet: boolean;
   isMinterWizardWelcomeScreen: boolean;
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
@@ -15,6 +17,8 @@ export const LayoutContext = React.createContext<{
   setPageMenuPositionY: () => null,
   scrollPosition: { x: 0, y: 0 },
   isMobile: true,
+  isDesktop: true,
+  isTablet: true,
   isMinterWizardWelcomeScreen: false,
   setIsMinterWizardWelcomeScreen: () => false,
 });
@@ -27,13 +31,19 @@ export default function LayoutProvider({
   const [pageMenuPositionY, setPageMenuPositionY] = useState<number | null>(
     null
   );
+
   const [scrollPosition, setScrollPosition] = useState<Position>({
     x: 0,
     y: 0,
   });
-  const [isMobile, setIsMobile] = useState(true);
   const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
-  const [wasWizardSummaryScreen, setWasWizardSummaryScreen] = useState(false)
+
+  const [isMobile, setIsMobile] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  const isTablet = useMemo(() => (
+    !isMobile && !isDesktop
+  ), [isMobile, isDesktop])
 
   const setDocDimensions = useCallback(() => {
     if (document && window) {
@@ -73,6 +83,13 @@ export default function LayoutProvider({
         clearAllBodyScrollLocks();
         setIsMobile(false);
       }
+
+      if (window.matchMedia('(min-width: 1200px)').matches) {
+        setIsDesktop(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsDesktop(false);
+      }
     };
     handleResize();
 
@@ -94,11 +111,11 @@ export default function LayoutProvider({
         pageMenuPositionY,
         setPageMenuPositionY,
         scrollPosition,
+        isDesktop,
         isMobile,
+        isTablet,
         isMinterWizardWelcomeScreen,
         setIsMinterWizardWelcomeScreen,
-        wasWizardSummaryScreen,
-        setWasWizardSummaryScreen
       }}
     >
       {children}

@@ -1,16 +1,19 @@
-import React, { CSSProperties, useContext, useRef, useState, useEffect, useCallback } from 'react';
+import React, { CSSProperties, useRef, useState, useEffect, useCallback } from 'react';
+import { JSX } from '@babel/types'
 import map from 'lodash/map';
 import filter from 'lodash/filter';
+import sum from 'lodash/sum';
 
-import './slider.scss';
-import { sum } from 'lodash';
 import useLayout from '@utils/hooks/useLayout';
-import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
-import Tab from './Tab';
+import Tab from '@components/shared/minter-wizard/Slider/Tab';
+
+const HORIZONTAL_PADDING_DESKTOP = 70
+const SLIDE_HORIZONTAL_PADDING_DESKTOP = HORIZONTAL_PADDING_DESKTOP / 2
+const SLIDE_HORIZONTAL_PADDING_OF_ONE_SIDE_DESKTOP = SLIDE_HORIZONTAL_PADDING_DESKTOP / 2
 
 export type SliderTabData =  {
-    title: string;
-    content: string | React.ReactNode
+    key: string;
+    content: string | (() => JSX.Element);
 }
 
 type SliderProps = {
@@ -18,88 +21,75 @@ type SliderProps = {
     activeIndex: number
 }
 
+
 export default function Slider({ data, activeIndex }: SliderProps) {
-
-    const ref = useRef<HTMLDivElement>(null);
-    const [transitionWidth, setTransitionWidth] = useState(0);
-    const { isMobile, wasWizardSummaryScreen } = useLayout()
-    const { isFirstScreen } = useContext(MinterWizardStepWrapperContext)
+  const [transitionWidth, setTransitionWidth] = useState(0);
+  const { isDesktop } = useLayout()
+  const ref = useRef<HTMLDivElement>(null);
 
 
-    const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-    const getTransitionWidth = useCallback(() => {
-      if(containerRef.current) {
-        if(isMobile) {
-          return (
-            activeIndex < 1
-              ? 0
-              : sum(map(containerRef.current?.childNodes, (child : HTMLDivElement) => (
-                  child.clientWidth
-                ))?.slice(0, activeIndex === 0 ? 1 : activeIndex))
-          )
-        }
-
+  const getTransitionWidth = useCallback(() => {
+    if(containerRef.current) {
+      if(!isDesktop) {
         return (
           activeIndex < 1
             ? 0
             : sum(map(containerRef.current?.childNodes, (child : HTMLDivElement) => (
                 child.clientWidth
-            ))?.slice(0, isFirstScreen ? activeIndex : activeIndex - 1))
+              ))?.slice(0, activeIndex === 0 ? 1 : activeIndex))
         )
       }
 
-      return 0
+      return (
+        activeIndex <= 1
+          ? 0
+          : sum(map(containerRef.current?.childNodes, (_, index: number) => (
+            index === activeIndex
+              ? (containerRef.current?.clientWidth ?? 0) * .6
+              : ((containerRef.current?.clientWidth ?? 0) * .4) - SLIDE_HORIZONTAL_PADDING_OF_ONE_SIDE_DESKTOP
+          ))?.slice(0, activeIndex - 1))
+      )
+    }
 
-    }, [activeIndex, isMobile, isFirstScreen])
+    return 0
 
-
-    useEffect(() => {
-      const handler = () => {
-        setTransitionWidth(getTransitionWidth() )
-
-        // console.log({wasWizardSummaryScreen, xd: getTransitionWidth() * (wasWizardSummaryScreen ? 0.64 : 1)})
-        // if(wasWizardSummaryScreen) {
-        //     setWasWizardSummaryScreen(false)
-        //     // if(getTransitionWidth() > 0)
-        //     return
-
-        //   }
-
-        // setTransitionWidth(getTransitionWidth() * (wasWizardSummaryScreen ? 1 : 0.64))
-        // if(wasWizardSummaryScreen) {
-        //   setWasWizardSummaryScreen(false)
-        // }
-      }
-      handler()
-
-      window.addEventListener('resize', handler)
-
-      return () => window.removeEventListener('resize', handler)
-    }, [getTransitionWidth, setTransitionWidth, wasWizardSummaryScreen])
+  }, [activeIndex, isDesktop])
 
 
-    return (
-        <div className='slider__tabs' ref={ref}>
-            {data && data.length > 0 &&  (
-                <div
-                  className='slider__container'
-                  ref={containerRef}
-                  style={{'--translateDimension': `calc(${ -transitionWidth }px )` } as CSSProperties}
+  useEffect(() => {
+    const handler = () => {
+      setTransitionWidth(getTransitionWidth() )
+    }
+    handler()
 
-                >
-                    {filter(map(data, (el, index) => ( el &&
-                        <Tab
-                          key={el.title}
-                          el={{
-                            index,
-                            ...el
-                          }}
-                          activeIndex={activeIndex}
-                        />
-                    )), Boolean)}
-                </div>
-            )}
+    window.addEventListener('resize', handler)
+
+    return () => window.removeEventListener('resize', handler)
+  }, [getTransitionWidth, setTransitionWidth])
+
+
+  return (
+    <div className='minter-wizard__slider__tabs' ref={ref}>
+      {data && data.length > 0 &&  (
+        <div
+          className='minter-wizard__slider__container'
+          ref={containerRef}
+          style={{'--translateDimension': `calc(${ -transitionWidth }px )` } as CSSProperties}
+        >
+          {filter(map(data, (el, index) => ( el &&
+            <Tab
+              key={el.key}
+              el={{
+                index,
+                ...el
+              }}
+              activeIndex={activeIndex}
+            />
+          )), Boolean)}
         </div>
-    );
+      )}
+    </div>
+  );
 }
