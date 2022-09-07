@@ -1,7 +1,7 @@
 import Hero from '@/components/shared/layout/Hero'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import HederaLogoWide from '@assets/images/logo.png'
+import HederaLogoWide from '@assets/images/logo.svg'
 
 export default function NotFound() {
   return (
