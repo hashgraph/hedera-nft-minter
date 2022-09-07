@@ -71,7 +71,6 @@ export default function MinterWizard() {
 
       if (
         formValues.mint_type === MintTypes.NewCollectionNewNFT
-        || formValues.mint_type === MintTypes.ExistingCollectionNewNFT
       ) {
         const filteredValues = filterFormValuesToNFTMetadata(formValues);
         console.log({filteredValues})

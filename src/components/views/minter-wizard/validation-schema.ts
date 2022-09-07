@@ -81,7 +81,6 @@ export const ValidationSchema = yup.object().shape({
   ),
   token_id: yup.string().when(['mint_type'], {
     is: (mintType : MintTypes) => [
-      MintTypes.ExistingCollectionExistingNFT,
       MintTypes.ExistingCollectionNewNFT,
      ].includes(mintType),
     then: yup.string().required('Required'),
