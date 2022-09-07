@@ -1,0 +1,108 @@
+$transitionTime: 0.5s;
+
+.minter-wizard__slider {
+  &__container {
+    transition: transform $transitionTime ease-in-out;
+    position: relative;
+    transform: translateX(var(--translateDimension));
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    max-height: 90vh;
+
+    @include respond-to('desktop') {
+      max-height: 100%;
+    }
+  }
+
+  &__tabs {
+    @include respond-to('desktop') {
+      width: 100%;
+    }
+  }
+
+  &__tab {
+    height: 100%;
+    min-width: 100%;
+    margin: 0;
+    position: relative;
+    transition: $transitionTime ease-in-out;
+    transition-property: width, padding, opacity;
+
+    user-select: none;
+    opacity: 0;
+
+    @include respond-to('desktop') {
+      min-width: auto;
+    }
+
+    &-content {
+      transition: 0.5s ease-in-out;
+      transition-property: padding, width;
+      width: 100%;
+      height: calc(calc(var(--vh) - calc(#{$headerHeight}) - #{$headerHeight}));
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: 0.5s ease-in-out;
+      transition-property: padding, width;
+
+      @include respond-to('desktop') {
+        width: calc(60vw - #{$horizontalPaddingDesktop});
+      }
+    }
+
+    &.w40 {
+      .minter-wizard__slider__tab-content {
+        @include respond-to('desktop') {
+          width: calc(40vw - 4.375rem);
+        }
+      }
+    }
+
+    &--visible {
+      user-select: auto;
+      opacity: 1;
+
+      .minter-wizard__slider__tab-content {
+        &:not(.ScrollbarsCustom-Track) {
+          @include respond-to('desktop') {
+            width: calc(60vw - #{$horizontalPaddingDesktop});
+            padding-left: $horizontalPaddingDesktop;
+          }
+        }
+      }
+
+      &.veryFirst {
+        .minter-wizard__slider__tab-content {
+          &:not(.ScrollbarsCustom-Track) {
+            @include respond-to('desktop') {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+
+      &.second {
+        .minter-wizard__slider__tab-content {
+          @include respond-to('desktop') {
+            border-left: 1px solid #ffffff50;
+            padding-left: $horizontalPaddingDesktop;
+          }
+        }
+      }
+
+      &.first {
+        .minter-wizard__slider__tab-content {
+          padding-left: 0;
+
+          @include respond-to('desktop') {
+            &:not(.ScrollbarsCustom-Track) {
+              width: calc(40vw - #{$horizontalPaddingDesktop});
+              padding-right: $horizontalPaddingDesktop;
+            }
+          }
+        }
+      }
+    }
+  }
+}
