@@ -11,11 +11,10 @@ const useLayout = () => {
     setPageMenuPositionY,
     scrollPosition,
     isMobile,
+    isDesktop,
+    isTablet,
     isMinterWizardWelcomeScreen,
     setIsMinterWizardWelcomeScreen,
-    setWasWizardSummaryScreen,
-    wasWizardSummaryScreen,
-
   } = useContext(LayoutContext);
 
   const scrollDirection = useScrollDirection();
@@ -37,6 +36,7 @@ const useLayout = () => {
     [isPageMenu, pageMenuPositionY, scrollDirection, scrollPosition.y]
   );
 
+
   return {
     pageMenuPositionY,
     setPageMenuPositionY,
@@ -44,10 +44,10 @@ const useLayout = () => {
     scrollPosition,
     isNavbarHidden,
     isMobile,
+    isDesktop,
+    isTablet,
     isMinterWizardWelcomeScreen,
     setIsMinterWizardWelcomeScreen,
-    setWasWizardSummaryScreen,
-    wasWizardSummaryScreen,
   };
 };
 
