@@ -18,7 +18,7 @@ export default function MinterWizardSummary(props: MinterWizardSummaryProps) {
 
   return (
     <>
-      <div className='minter-wizard__summary minter-wizard__animation-container container--padding'>
+      <div className='minter-wizard__summary minter-wizard__animation-container'>
         <SwitchTransition>
           <CSSTransition
             key={isSubmitting ? 'submitting' : 'waiting'}
