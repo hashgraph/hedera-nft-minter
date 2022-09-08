@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useField } from 'formik';
 import classNames from 'classnames';
-import blackCutoutPlaceholder from '@assets/images/black-cutout.svg';
-import noImagePlaceholder from '@assets/images/no-image.png';
+import placeholderSrc from '@assets/images/placeholder.png';
+import noImagePlaceholderSrc from '@assets/images/no-image.png';
 import './image-input.scss'
 import { toast } from 'react-toastify';
 
@@ -85,10 +85,10 @@ export default function ImageInput({name, alt, type} : Props) {
   const placeholder = useMemo(() => {
     switch(type as ImageInputTypes) {
       case 'avatar':
-        return blackCutoutPlaceholder
+        return placeholderSrc
 
       case 'banner':
-        return noImagePlaceholder
+        return noImagePlaceholderSrc
     }
   }, [type])
 

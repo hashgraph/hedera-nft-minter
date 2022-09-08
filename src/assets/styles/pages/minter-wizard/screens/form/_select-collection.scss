@@ -1,0 +1,49 @@
+.minter-wizard {
+  &__select-collection {
+    .form__number {
+      max-width: unset;
+    }
+
+    &__select-wrapper {
+      width: 100%;
+
+      @include respond-to('mobile') {
+        max-width: 50%;
+        min-width: 400px;
+      }
+    }
+
+    &__summary {
+      color: var(--main-color);
+      display: flex;
+      padding-bottom: 0.75rem;
+      flex-direction: column;
+
+      @include respond-to('mobile') {
+        max-width: 50%;
+        min-width: 400px;
+      }
+
+      &__title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .values {
+        display: flex;
+        flex-direction: column;
+
+        p {
+          position: relative;
+          margin: 0.25rem 0;
+
+          &:last-of-type {
+            &:after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

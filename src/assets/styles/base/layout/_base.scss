@@ -231,7 +231,7 @@ main {
 
 footer, .footer {
   position: fixed;
-  bottom: 1rem;
+  bottom: 2rem;
   right: var(--horizontal-padding);
 
   img {
@@ -243,50 +243,18 @@ footer, .footer {
 }
 
 
+.ScrollbarsCustom {
+  &-Scroller {
+    width: 100%;
+  }
 
+  &-TrackY {
+    margin-right: 0.5rem;
+    width: 0.5rem !important;
+  }
 
-// .fade {
-//   &-enter {
-//     opacity: 0;
-//     transform: translateX(-100%);
+  &.trackYVisible {
+    padding-right: 1.5rem;
+  }
 
-//     &-active {
-//       opacity: 1;
-//       transition: opacity 500ms ease-out, transform 500ms ease-in;
-//       transform: translateX(0%);
-//     }
-//   }
-
-//   &-exit {
-//     opacity: 1;
-//     transform: translateX(0%);
-
-//     &-active {
-//       opacity: 0;
-//       transition: opacity 500ms ease-out, transform 500ms ease-in;
-//       transform: translateX(-100%);
-//     }
-//   }
-// }
-
-
-.fade-enter {
-  opacity: 0;
-  // transform: translateX(-100%);
-}
-.fade-enter-active {
-  opacity: 1 ;
-  // transform: translateX(0%);
-}
-.fade-exit {
-  opacity: 1 ;
-  // transform: translateX(0%);
-}
-.fade-exit-active {
-  opacity: 0;
-  // transform: translateX(100%);
-}
-.fade-enter-active,
-.fade-exit-active {
-  transition: opacity 500ms ease-in-out;
 }

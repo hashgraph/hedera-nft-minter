@@ -1,0 +1,29 @@
+.fade {
+  &-transition {
+    transition: opacity 500ms ease-in-out;
+  }
+
+  &-enter {
+    opacity: 0;
+
+    &-active {
+      @extend .fade-transition;
+      opacity: 1;
+    }
+
+    &-done {
+      @extend .fade-enter-active;
+    }
+  }
+
+  &-exit {
+    &-active {
+      @extend .fade-transition;
+      opacity: 0;
+    }
+
+    &-done {
+      @extend .fade-exit-active;
+    }
+  }
+}
