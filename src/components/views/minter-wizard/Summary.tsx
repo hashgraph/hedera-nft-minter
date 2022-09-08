@@ -24,7 +24,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
   ), [mintedNFTData.tokenId])
 
   return (
-    <div className='minter-wizard__summary--done minter-wizard__animation-container container--padding'>
+    <div className='minter-wizard__summary__content minter-wizard__animation-container container--padding'>
       <div className='minter-wizard__summary__image'>
         <img
           src={mintedNFTData?.image
@@ -34,7 +34,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
           alt='Thumb'
         />
       </div>
-      <div className='minter-wizard__summary__column'>
+      <div className='minter-wizard__summary__column minter-wizard__summary__column--gutter-left'>
         <div>
           <p className='title title--strong'>Congratulations!</p>
           <p className='title title--small'>Your NFT has been minted!</p>
