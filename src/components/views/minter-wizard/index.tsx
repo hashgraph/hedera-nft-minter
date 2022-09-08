@@ -58,7 +58,6 @@ export default function MinterWizard() {
 
   const handleFormSubmit = useCallback(async (values) => {
     const formValues : FormikValues = {...values}
-    console.log({formValues})
     const tokenSymbol = formValues.symbol;
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
@@ -73,7 +72,6 @@ export default function MinterWizard() {
         formValues.mint_type === MintTypes.NewCollectionNewNFT
       ) {
         const filteredValues = filterFormValuesToNFTMetadata(formValues);
-        console.log({filteredValues})
 
         //upload image
         if (formValues.image) {
@@ -84,7 +82,6 @@ export default function MinterWizard() {
           filteredValues.type = formValues.image.type;
           filteredValues.image = `ipfs://${ imageData.value.cid }`;
         }
-        console.log({filteredValuesWithNFTImage: filteredValues})
 
         // if new NFT, upload metadata
         metaCIDs = await Promise.all(
@@ -101,7 +98,6 @@ export default function MinterWizard() {
           )
         );
       }
-      console.log({metaCIDs})
 
       if (!formTokenId) {
         formTokenId = await createToken({
@@ -113,7 +109,6 @@ export default function MinterWizard() {
           customFees: formValues.fees,
           maxSupply: formValues.maxSupply
         } as NewTokenType);
-        console.log({formTokenId})
       }
 
       if (!formTokenId) {
