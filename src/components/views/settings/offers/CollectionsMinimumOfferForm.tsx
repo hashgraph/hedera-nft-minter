@@ -3,7 +3,7 @@ import { Field, FieldArray, Form, useFormikContext, FormikValues } from 'formik'
 import map from 'lodash/map'
 import Tooltip from '@/components/shared/form/Tooltip'
 import Avatar from '@/components/shared/avatar'
-import placeholder from '@assets/images/black-cutout.svg';
+import placeholder from '@assets/images/placeholder.png';
 import './collections-minimum-offer-form.scss'
 
 export default function ProfileForm() {

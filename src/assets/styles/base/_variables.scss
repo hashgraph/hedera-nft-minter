@@ -1,13 +1,10 @@
 
 $dividerHeight: 62px;
-
-$containerMaxWidth: 1140px;
-$containerMinHeightMobile: calc(calc(var(--vh) * .4) - #{$dividerHeight});
-$containerMinHeightDesktop: calc(calc(var(--vh) * .5) - #{$dividerHeight});
-
 $headerHeightMobile: 100px;
 $headerHeight: 200px;
 
+$containerMaxWidth: 1140px;
+$contentContainerHeight: calc(var(--vh) - #{$headerHeight * 2});
 
 $horizontalPadding: 1rem;
 $horizontalPaddingTablet: 1rem;
