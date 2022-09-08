@@ -1,13 +1,28 @@
-import { HEDERA_NETWORK } from '@/../Global.d';
+import { useCallback, useMemo } from 'react';
+import map from 'lodash/map';
+import pick from 'lodash/pick';
 import { FormikValues } from 'formik';
 import { Link } from 'react-router-dom';
+import { HEDERA_NETWORK } from '@/../Global.d';
 import placeholder from '@assets/images/placeholder.png';
 import externalIcon from '@assets/images/icons/external.svg';
 import nftIcon from '@assets/images/icons/nft_icon.svg';
-import map from 'lodash/map';
-import pick from 'lodash/pick';
 
 export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues }) {
+  const summaryValues = useMemo(() => (
+    map(pick(mintedNFTData, ['name', 'symbol', 'edition_name', 'creator', 'description']))
+  ), [mintedNFTData])
+
+  const renderSummaryValuesList = useCallback(() => (
+    map(summaryValues, value => (
+      value && <li>{value}</li>
+    ))
+  ), [summaryValues])
+
+  const hashScanLink = useMemo(() => (
+    `https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ mintedNFTData.tokenId }`
+  ), [mintedNFTData.tokenId])
+
   return (
     <div className='minter-wizard__summary--done minter-wizard__animation-container container--padding'>
       <div className='minter-wizard__summary__image'>
@@ -25,9 +40,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
           <p className='title title--small'>Your NFT has been minted!</p>
         </div>
         <ul className='minter-wizard__summary__item-list'>
-          {map(pick(mintedNFTData, ['name', 'symbol', 'edition_name', 'creator', 'description']), value => (
-            value && <li>{value}</li>
-          ))}
+          {renderSummaryValuesList()}
           <li className='green'>MINTED</li>
         </ul>
 
@@ -37,7 +50,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
         </div>
 
         <a
-          href={`https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ mintedNFTData.tokenId }`}
+          href={hashScanLink}
           target='_blank'
           className='minter-wizard__summary__hashscan'
         >
