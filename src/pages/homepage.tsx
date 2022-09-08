@@ -118,7 +118,6 @@ export default function MinterWizard() {
 
       //check if is string
       const tokenIdToMint = formTokenId.toString();
-      // setTokenId(tokenIdToMint);
 
       // mint
       const mintRes = await mint(
