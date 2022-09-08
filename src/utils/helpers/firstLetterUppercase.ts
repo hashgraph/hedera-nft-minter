@@ -1,5 +1,5 @@
-export default function firstLetterUppercase(string: string) {
+export default function firstLetterUppercase(text: string) {
   return (
-    string[0]?.toUpperCase() + string.slice(1, string.length)
+    text[0]?.toUpperCase() + text.slice(1, text.length)
   )
 }
