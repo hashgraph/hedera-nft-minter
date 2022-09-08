@@ -1,7 +1,7 @@
 import './avatar.scss';
 
 import React from 'react';
-import placeholder from '@assets/images/black-cutout.svg';
+import placeholder from '@assets/images/placeholder.png';
 
 interface AvatarProps {
   url?: string
