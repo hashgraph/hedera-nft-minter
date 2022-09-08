@@ -3,7 +3,6 @@ import { useField } from 'formik'
 import { MintTypes } from '@/utils/entity/MinterWizard';
 import NewNftNewCollectionSideSummary from '@/components/shared/minter-wizard/summary/content/NewNFTNewCollection';
 import ExistingCollectionNewNFTSideSummary from '@/components/shared/minter-wizard/summary/content/ExistingCollectionNewNFT';
-import ExistingCollectionExistingNFTSideSummary from '@/components/shared/minter-wizard/summary/content/ExistingCollectionExistingNFT';
 
 const useMinterWizardSummary = (step : number) => {
   const [field] = useField('mint_type')
@@ -15,8 +14,6 @@ const useMinterWizardSummary = (step : number) => {
           return <NewNftNewCollectionSideSummary step={step} />
         case MintTypes.ExistingCollectionNewNFT:
           return <ExistingCollectionNewNFTSideSummary step={step} />
-        case MintTypes.ExistingCollectionExistingNFT:
-          return <ExistingCollectionExistingNFTSideSummary step={step} />
       }
     }
     return null
