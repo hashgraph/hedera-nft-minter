@@ -5,7 +5,7 @@ import filter from 'lodash/filter';
 import sum from 'lodash/sum';
 
 import useLayout from '@utils/hooks/useLayout';
-import Tab from '@components/shared/Slider/Tab';
+import Tab from '@components/shared/minter-wizard/Slider/Tab';
 
 const HORIZONTAL_PADDING_DESKTOP = 70
 const SLIDE_HORIZONTAL_PADDING_DESKTOP = HORIZONTAL_PADDING_DESKTOP / 2

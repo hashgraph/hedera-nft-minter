@@ -1,8 +1,8 @@
-import OnChain from '@components/views/minter-wizard/new-collection-new-nft/OnChain';
+import OnChain from '@components/shared/minter-wizard/OnChain';
 import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis'
 import OffChainPropertiesAndAttributes from '@components/shared/minter-wizard/OffChainPropertiesAndAttributes'
-import AdvancedKeys from '@/components/views/minter-wizard/new-collection-new-nft/AdvancedKeys';
-import AdvancedFees from '@/components/views/minter-wizard/new-collection-new-nft/AdvancedFees';
+import AdvancedKeys from '@components/shared/minter-wizard/AdvancedKeys';
+import AdvancedFees from '@components/shared/minter-wizard/AdvancedFees';
 
 export enum NewCollectionNewNFTWizardSteps {
   OnChainScreen = 0,

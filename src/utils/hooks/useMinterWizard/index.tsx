@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { FormikValues, useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
@@ -7,7 +7,6 @@ import {
   checkIfMandatoryFieldsAreValidated,
   checkIfOptionalFieldsAreValidated
 } from './helpers'
-import Slider from '@/components/shared/Slider';
 
 export default function useMinterWizard(
   steps: CreatorSteps
@@ -64,29 +63,6 @@ export default function useMinterWizard(
     !isFirstScreen && setCreatorStep(prev => prev - 1)
   ), [setCreatorStep, isFirstScreen])
 
-  const renderMinterWizardScreen = useCallback((creatorStep: number) => {
-    // const Component = steps[creatorStep]?.Component;
-    // const Component2 = steps[creatorStep+1]?.Component;
-    // if (Component !== undefined) {
-    //   return <>
-    //     <Component />
-    //     <Component2 />
-    //   </>
-    // }
-
-    // return null
-    return (
-      <Slider
-        activeIndex={creatorStep}
-        data={steps.map(step => ({
-          title: step.creatorStep.toString(),
-          content: step.Component,
-        }))}
-      />
-    )
-  }, [steps])
-
-
   return {
     creatorStep,
     setCreatorStep,
@@ -94,7 +70,6 @@ export default function useMinterWizard(
     isLastScreen,
     handleCreatorNextButton,
     handleCreatorPrevButton,
-    renderMinterWizardScreen,
     mintType
   }
 }

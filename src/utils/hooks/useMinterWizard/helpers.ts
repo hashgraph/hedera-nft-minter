@@ -4,7 +4,7 @@ import isArray from 'lodash/isArray';
 import every from 'lodash/every';
 import each from 'lodash/each';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
-import wizardSteps from '@/components/views/minter-wizard/wizard-steps';
+import wizardSteps from '@/components/views/minter-wizard/steps';
 
 
 export const getCurrentStepFieldsNames = (

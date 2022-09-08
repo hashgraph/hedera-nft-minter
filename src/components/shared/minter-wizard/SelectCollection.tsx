@@ -6,20 +6,19 @@ import MirrorNode from '@/services/MirrorNode';
 
 import useHederaWallets from '@hooks/useHederaWallets';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
-import { MinterWizardContext } from '@components/shared/minter-wizard/MinterWizardForm';
+import { MinterWizardContext } from '@/components/views/minter-wizard';
+import { TokenSupplyType } from '@/utils/entity/TokenInfo';
 
 import loadingHammer from '@assets/images/loading_hammer.svg'
-// import Loader from '@/components/shared/loader/Loader';
 import FieldSelect from '@/components/shared/form/FieldSelect';
-import CollectionSummary from '@/components/shared/minter-wizard/collection-summary';
 import FieldWrapper from '@components/shared/form/FieldWrapper';
-import './select-collection.scss';
+
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
   const { values, setFieldValue } = useFormikContext<WizardValues>()
   const [isLoading, setLoading] = useState(true);
-  const { isNextButtonActive } = useContext(MinterWizardStepWrapperContext)
+  const { setNextButtonHidden } = useContext(MinterWizardStepWrapperContext)
 
   const {
     collections,
@@ -44,7 +43,7 @@ export default function SelectCollection() {
   }, [userWalletId])
 
   const loadCollections = useCallback(async () => {
-    isNextButtonActive(true);
+    setNextButtonHidden(true);
 
     if(!collections) {
       const loadedCollections = await fetchCollections()
@@ -61,15 +60,19 @@ export default function SelectCollection() {
         setFieldValue('qty', 1);
       }
 
-      isNextButtonActive(false);
+      setNextButtonHidden(false);
     }
 
     setLoading(false);
-  }, [isNextButtonActive, collections, values.token_id, fetchCollections, setCollections, setFieldValue])
+  }, [setNextButtonHidden, collections, values.token_id, fetchCollections, setCollections, setFieldValue])
 
   const selectedCollection = useMemo(() => (
     collections && collections.find(collection => collection.info.token_id === values.token_id)
   ), [values.token_id, collections]);
+
+  useEffect(() => {
+    setNextButtonHidden(true)
+  }, [setNextButtonHidden])
 
   useEffect(() => {
     if(wasNotBackFromSummary) {
@@ -97,20 +100,18 @@ export default function SelectCollection() {
   return (
     <div>
       {isLoading ? (
-        <div className='my-nft-collection__loader-wrapper'>
-          <div className='minter-wizard__summary__loader'>
-            <img src={loadingHammer} alt='loader_hammer' />
-            <p className='title title--small title--strong'>
-              Fetching <br />
-              your collections...
-            </p>
-          </div>
+        <div className='minter-wizard__summary__loader'>
+          <img src={loadingHammer} alt='loader_hammer' />
+          <p className='title title--small title--strong'>
+            Fetching <br />
+            your collections...
+          </p>
         </div>
       ) : (
         collections && collections.length > 0 ? (
-          <div className='select-collection'>
+          <div className='minter-wizard__select-collection'>
             <p className='title'><span className='title--strong'>Select a collection</span> where your NFT will be placed</p>
-            <div className='select-collection__select-wrapper'>
+            <div className='minter-wizard__select-collection__select-wrapper'>
               <FieldSelect name='token_id'>
                 {collections.map((collection, index) => (
                   <option
@@ -122,7 +123,32 @@ export default function SelectCollection() {
                 ))}
               </FieldSelect>
               {selectedCollection && (
-                <CollectionSummary collection={selectedCollection} />
+                <div className='minter-wizard__select-collection__summary'>
+                  <div className='values'>
+                    <p>
+                      Max supply:{' '}
+                      <b>
+                        {selectedCollection?.info.supply_type === TokenSupplyType.INFINITE
+                           ? TokenSupplyType.INFINITE
+                           : selectedCollection?.info?.max_supply
+                        }
+                      </b>
+                    </p>
+                    <p>
+                      Tokens minted: <b>{selectedCollection?.nfts?.length}</b>
+                    </p>
+                    <p>
+                      {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
+                        <>
+                          Left to mint: <b>{
+                            parseInt(selectedCollection.info.max_supply ?? '0')
+                            - selectedCollection.nfts.length
+                          }</b>
+                        </>
+                      )}
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
             <div className='minter-wizard__on-chain__input-row'>
@@ -142,7 +168,7 @@ export default function SelectCollection() {
             </div>
           </div>
         ) : (
-          <div className='select-collection--not-found'>
+          <div className='minter-wizard__select-collection--not-found'>
             <h3>Sorry! We cannot find any of your existing collections.</h3>
             <p>First, you need to create a new collection and then you will be able to
               add more NFTs to the existing collection.

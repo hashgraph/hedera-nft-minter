@@ -50,7 +50,6 @@ export default function OnChain() {
             min='0'
           />
         </div>
-
       </div>
     </div>
   );

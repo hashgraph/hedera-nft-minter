@@ -1,25 +1,14 @@
 import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@/components/shared/form/button-group'
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
-import { useEffect } from 'react';
 import BuildOnHederaLogo from '@assets/images/build_on_hedera.svg';
 
 type Props = {
   goToCreator: () => void,
-  isActive: boolean
 }
 
-export default function Welcome({goToCreator, isActive} : Props) {
+export default function Welcome({ goToCreator } : Props) {
   return (
-    // <CSSTransition
-    //   in={isActive}
-    //   timeout={500}
-    //   classNames='fade'
-    // >
-      <div className='minter-wizard__step minter-wizard__screen--welcome minter-wizard__animation-container container--padding'>
+      <div className='minter-wizard__step minter-wizard__screen--welcome minter-wizard__animation-container'>
         <div className='minter-wizard__step__wrapper minter-wizard__screen--welcome'>
           <h1 className='title title--welcome'>
             Start minting <br />
@@ -53,10 +42,8 @@ export default function Welcome({goToCreator, isActive} : Props) {
             <a href='http://hedera.com' target='_blank'>
               <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' height={76} width={170} />{' '}
             </a>
-
           </div>
         </div>
       </div>
-    // </CSSTransition>
   )
 }
