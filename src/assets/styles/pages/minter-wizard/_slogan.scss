@@ -2,10 +2,9 @@
   &__slogan {
     img {
       @include respond-to('mobile') {
-        // margin-top: 5rem;
-        position: fixed;
-        left: var(--horizontal-padding);
-        bottom: 2rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
       }
     }
 

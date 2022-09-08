@@ -4,18 +4,20 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
+      padding: 0 var(--horizontal-padding);
       position: absolute;
-      bottom: 2rem;
+      bottom: 7rem;
       left: 0;
 
-      @include respond-to('mobile') {
+      @include respond-to('desktop') {
+        padding: 0;
         bottom: 0;
         transition: width 500ms ease-out;
         position: relative;
       }
 
       &--first-screen {
-        @include respond-to('mobile') {
+        @include respond-to('desktop') {
           width: 90%;
         }
       }
@@ -26,19 +28,4 @@
       }
     }
   }
-}
-
-
-.gone {
-  position: absolute;
-  transform: translateX(-100%);
-}
-
-.showing {
-  position: absolute;
-  transform: translateX(-100%);
-}
-
-.form__row {
-  transition: all 0.5s ease-in-out;
 }

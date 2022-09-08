@@ -1,16 +1,11 @@
 .minter-wizard {
   &__on-chain {
+    display: flex;
+    flex-direction: column;
 
     .title {
       max-width: 510px;
     }
-    // width: calc(40vw - 4.375rem);
-    // padding-right: 4.375rem;
-
-    // width: 100%;
-
-    display: flex;
-    flex-direction: column;
 
     &__wrapper {
       display: grid;

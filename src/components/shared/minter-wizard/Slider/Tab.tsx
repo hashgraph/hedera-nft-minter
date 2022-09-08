@@ -5,7 +5,7 @@ import inRange from 'lodash/inRange';
 import classNames from 'classnames';
 
 import useLayout from '@utils/hooks/useLayout';
-import { SliderTabData } from '@components/shared/Slider';
+import { SliderTabData } from '@components/shared/minter-wizard/Slider';
 
 type SliderTab = SliderTabData & { index: number}
 type SliderTabProps = {

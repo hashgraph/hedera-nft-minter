@@ -7,7 +7,7 @@ $containerMaxWidth: 1140px;
 $contentContainerHeight: calc(var(--vh) - #{$headerHeight * 2});
 
 $horizontalPadding: 1rem;
-$horizontalPaddingTablet: 4.25%;
+$horizontalPaddingTablet: 1rem;
 $horizontalPaddingDesktop: 4.375rem;
 
 $columnGap: 1.25rem;
@@ -26,7 +26,7 @@ $vapor: #F9F9F9;
 
 //HEDERA SECONDARY COLORS
 $ultraviolet: #8259EF;
-$green: #07E78E;
+$green: #33FF00;
 $blue: #2D84EB;
 $orange: #FF4200;
 
@@ -48,3 +48,4 @@ $breakpoints: (
   'desktop': 1200px,
   'desktop-wide': 1600px,
 );
+
