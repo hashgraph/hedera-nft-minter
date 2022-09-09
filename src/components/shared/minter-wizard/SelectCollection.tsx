@@ -160,7 +160,6 @@ export default function SelectCollection() {
               <FieldWrapper
                 fastField
                 name='qty'
-                className='big-circle'
                 type='number'
                 max={maxQtyNumber}
                 min={1}
