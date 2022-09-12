@@ -1,0 +1,55 @@
+@import 'base';
+
+.connection-modal {
+  @include modal;
+  padding: 0;
+  border: unset;
+  border-radius: 1rem;
+  display: grid;
+
+
+  &__buttons-wrapper {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  &__button {
+    flex-direction: column;
+    padding: 2rem;
+    background: transparent;
+    height: 100%;
+    width: 100%;
+    border: unset;
+    color: $vapor;
+    border-top: 1px solid $smoke;
+
+    img {
+      width: 200px;
+      height: 70px;
+    }
+
+    &:first-of-type {
+      border-radius: 1rem 1rem 0 0;
+      border-top: 1px solid transparent;
+
+      &:hover, &:active, &:focus {
+        border-top: 1px solid transparent;
+      }
+    }
+
+    &:last-of-type {
+      border-radius: 0 0 1rem 1rem;
+    }
+
+    &:hover, &:active, &:focus {
+      border: unset;
+      background: $grey;
+      border-top: 1px solid transparent;
+      color: $vapor;
+    }
+
+    &:active, &:focus {
+      background: $lightGrey;
+    }
+  }
+}
