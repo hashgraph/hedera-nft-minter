@@ -156,7 +156,7 @@ export default function MinterWizard() {
 
   return (
     <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-height bg--transparent'>
+      <div className='mc--h container--max-width container--padding container--max-height bg--transparent'>
         <SwitchTransition>
           <CSSTransition
             key={tokenCreated ? 'created' : 'creating'}

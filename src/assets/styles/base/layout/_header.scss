@@ -1,7 +1,8 @@
 
 header, .header {
   top: 0;
-  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
   position: fixed;
   background-color: transparent;
   width: 100%;
@@ -14,7 +15,7 @@ header, .header {
   }
 
   &__logo {
-    @include respond-to('laptop') {
+    @include respond-to('mobile') {
       img {
         height: 128px;
         width: 200px;
@@ -56,15 +57,16 @@ header, .header {
   }
 
   &--shade {
-    .header__buttons-wrapper {
-      &:before {
-        opacity: 1;
+    .header {
+      &__buttons-wrapper {
+        &:before {
+          opacity: 1;
+        }
       }
     }
   }
 
   .hamburger-react {
-    // transform: scale(0.65);
     border-radius: 100%;
     position: absolute !important;
     z-index: 5;
@@ -96,15 +98,13 @@ header, .header {
   .logo_link {
     height: max-content;
   }
-
-
 }
 
 .header__mobile-menu {
   &__wrapper {
     z-index: 3;
     position: fixed;
-    top: -10vh;
+    top: 0;
     left: 0;
     width: 100%;
     padding: calc(80px + 2rem) 4rem;
@@ -143,6 +143,6 @@ header, .header {
   }
 
   &__is-hide {
-    transform: translateY(-50vh);
+    transform: translateY(-100%);
   }
 }

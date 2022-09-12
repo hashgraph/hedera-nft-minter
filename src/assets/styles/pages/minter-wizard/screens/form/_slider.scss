@@ -44,7 +44,11 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
         transition: 0.5s ease-in-out;
         transition-property: padding, width;
         width: 100%;
-        height: $contentContainerHeight;
+        height: $contentContainerHeightMobile;
+
+        @include respond-to('desktop') {
+          height: $contentContainerHeightDesktop;
+        }
         overflow-y: auto;
         overflow-x: hidden;
         transition: 0.5s ease-in-out;

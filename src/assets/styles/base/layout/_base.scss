@@ -228,33 +228,3 @@ main {
     justify-content: space-between;
   }
 }
-
-footer, .footer {
-  position: fixed;
-  bottom: 2rem;
-  right: var(--horizontal-padding);
-
-  img {
-    width: 140px;
-    height: 63px;
-    object-fit: contain;
-    max-height: 100px;
-  }
-}
-
-
-.ScrollbarsCustom {
-  &-Scroller {
-    width: 100%;
-  }
-
-  &-TrackY {
-    margin-right: 0.5rem;
-    width: 0.5rem !important;
-  }
-
-  &.trackYVisible {
-    padding-right: 1.5rem;
-  }
-
-}

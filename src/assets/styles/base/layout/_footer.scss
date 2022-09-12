@@ -1,0 +1,47 @@
+footer,
+.footer {
+  min-height: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  position: fixed;
+
+  &__logo {
+    position: absolute;
+    bottom: 0.5rem;
+    right: var(--horizontal-padding);
+
+    @include respond-to('mobile') {
+      bottom: 1rem;
+    }
+
+    img {
+      width: 100px;
+      height: 43px;
+      object-fit: contain;
+
+      @include respond-to('mobile') {
+        width: 140px;
+        height: 63px;
+      }
+    }
+
+    &--left {
+      @extend .footer__logo;
+
+      left: var(--horizontal-padding);
+      bottom: 0rem;
+      right: unset;
+
+      img {
+        width: 130px;
+        height: 56px;
+
+        @include respond-to('mobile') {
+          width: 170px;
+          height: 76px;
+        }
+      }
+    }
+  }
+}

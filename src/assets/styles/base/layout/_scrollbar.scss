@@ -1,0 +1,24 @@
+.scrollbar {
+  &__scroller {
+    width: 100%;
+  }
+
+  &__track {
+    &-y {
+      background-color: #66666669 !important;
+      width: 0.5rem !important;
+
+      div {
+        background-color: #CBCBCB !important;
+      }
+    }
+  }
+
+  &.trackYVisible {
+    .scrollbar {
+      &__scroller {
+        padding-right: var(--horizontal-padding) !important;
+      }
+    }
+  }
+}

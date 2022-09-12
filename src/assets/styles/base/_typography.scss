@@ -20,23 +20,38 @@ html, body {
 }
 
 .title, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-size: 2.5rem;
-  line-height: 2.5rem;
+  font-size: 1.47rem;
+  line-height: 1.5rem;
+
+  @include respond-to('mobile') {
+    font-size: 1.87rem;
+    line-height: 2.1rem;
+  }
 }
 
 .title {
   &--strong {
-    font-weight: 700;
+    font-weight: 900;
   }
 
   &--medium {
-    line-height: 2rem;
-    font-size: 1.938rem;
+    line-height: 1.1rem;
+    font-size: 1.3rem;
+
+    @include respond-to('mobile') {
+      line-height: 1.5rem;
+      font-size: 1.7rem;
+    }
   }
 
   &--small {
-    line-height: 1.875rem;
-    font-size: 1.875rem;
+    line-height: 1.075rem;
+    font-size: 0.975rem;
+
+    @include respond-to('mobile') {
+      line-height: 1.475rem;
+      font-size: 1.375rem;
+    }
   }
 }
 

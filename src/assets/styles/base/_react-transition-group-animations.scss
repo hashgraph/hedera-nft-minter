@@ -1,29 +1,118 @@
-.fade {
-  &-transition {
-    transition: opacity 500ms ease-in-out;
+@mixin default-transition {
+  &-exit {
+    &-active {
+      transition: 0.5s ease-in-out;
+    }
   }
+
+  &-enter {
+    &-active {
+      transition: 0.5s ease-in-out;
+    }
+  }
+}
+
+@mixin transition-property($properties) {
+  &-enter {
+    &-active, &-enter, &-done {
+      transition-property: $properties;
+    }
+
+  }
+
+  &-exit {
+    &-active {
+      transition-property: $properties;
+    }
+  }
+}
+
+@mixin fade {
+  $this: &;
+
+  @include default-transition;
+  @include transition-property(opacity);
 
   &-enter {
     opacity: 0;
 
     &-active {
-      @extend .fade-transition;
       opacity: 1;
     }
 
     &-done {
-      @extend .fade-enter-active;
+      @extend #{$this}-enter-active;
     }
   }
 
   &-exit {
+    opacity: 1;
+
     &-active {
-      @extend .fade-transition;
       opacity: 0;
     }
 
     &-done {
-      @extend .fade-exit-active;
+      @extend #{$this}-exit-active;
     }
+  }
+}
+
+@mixin slide($transformPosition) {
+  $this: &;
+
+  @include default-transition;
+  @include transition-property(transform);
+
+  &-enter {
+    transform: translate($transformPosition);
+
+    &-active {
+      transform: translate(0, 0);
+    }
+
+    &-done {
+      @extend #{$this}-enter-active;
+    }
+  }
+
+  &-exit {
+    transform: translate(0, 0);
+
+    &-active {
+      transform: translate($transformPosition);
+    }
+
+    &-done {
+      @extend #{$this}-exit-active;
+    }
+  }
+}
+
+.fade {
+  @include fade;
+}
+
+.slide {
+  &-left {
+    @include slide((-100%, 0));
+  }
+
+  &-right {
+    @include slide((100%, 0));
+  }
+}
+
+.fadeslide {
+  &-left {
+    @include fade;
+    @include slide((-100%, 0));
+    @include transition-property((opacity, transform));
+  }
+
+  &-right {
+    @include fade;
+    @include slide((100%, 0));
+    @include transition-property((opacity, transform));
   }
 }
