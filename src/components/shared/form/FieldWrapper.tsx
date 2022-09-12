@@ -43,12 +43,12 @@ const FieldWrapper = ({
   );
 
   const handleChange = useCallback((e) => {
-      if (isArray) {
+    if (isArray) {
       const value = e.currentTarget.value;
       const currentValue = field.value || [];
 
       if (currentValue.includes(value)) {
-        const newValue = field.value.filter((v: any) => v !== value);
+        const newValue = field.value.filter((v: string) => v !== value);
         helpers.setValue(newValue);
       } else {
         helpers.setValue([...currentValue, value]);
