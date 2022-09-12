@@ -38,7 +38,7 @@ export default function ButtonGroup({
     >
       {options.map(({ label, value, image, onClick }: Option) => (
         <FieldRadioButton
-          className={classNames('button-group', 'button-group', {
+          className={classNames('btn__group', {
             big: size === 'big',
             medium: size === 'md',
             square

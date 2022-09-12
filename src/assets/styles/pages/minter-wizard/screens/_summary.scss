@@ -11,7 +11,11 @@
     &__content {
       display: grid;
       grid-template-columns: 300px 1fr 1fr;
-      height: $contentContainerHeight;
+      height: $contentContainerHeightMobile;
+
+      @include respond-to('desktop') {
+        height: $contentContainerHeightDesktop;
+      }
     }
 
     &__image {

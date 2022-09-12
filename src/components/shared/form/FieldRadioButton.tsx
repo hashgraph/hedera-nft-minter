@@ -22,7 +22,7 @@ export default function FieldRadioButton({value, label, name, image, className, 
   const classnames = useMemo(() => classNames(
     className,
     {
-      isActive,
+      'btn__group--active': isActive,
       hasImage: !!image,
     }
   ), [className, isActive, image]);
@@ -42,9 +42,7 @@ export default function FieldRadioButton({value, label, name, image, className, 
       <span>
         {label}
       </span>
-      <span className='button-group--icon'>
-
-      </span>
+      <span className='btn__group--icon' />
     </button>
   )
 }
