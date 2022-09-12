@@ -1,5 +1,4 @@
-import { DisconnectOutlined, LoginOutlined } from '@ant-design/icons';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import {  enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
 import { Divide as Hamburger } from 'hamburger-react';
 import React, {
@@ -24,7 +23,7 @@ import ProfileIcon from '@assets/images/icons/profile.svg'
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Header = () => {
-  const { connectedWalletType } = useHederaWallets();
+  const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
   const { isNavbarHidden, isMobile, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
@@ -43,7 +42,7 @@ const Header = () => {
     isMobile && isMobileNavbarMenuExpanded
   ), [isMobile, isMobileNavbarMenuExpanded]);
 
-  const headerClassnames = classNames('header', {
+  const headerClassnames = classNames('header', 'container--max-width', {
     'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
     'is-hide': isNavbarHidden,
     'is-mobile': isMobile,
@@ -61,8 +60,10 @@ const Header = () => {
   })
 
   const closeNavbar = useCallback(() => {
-    enableBodyScroll(headerRef);
-    setIsMobileNavbarMenuExpanded(false);
+    if(headerRef?.current) {
+      enableBodyScroll(headerRef);
+      setIsMobileNavbarMenuExpanded(false);
+    }
   }, [setIsMobileNavbarMenuExpanded]);
 
 
@@ -76,53 +77,54 @@ const Header = () => {
         <Link className='header__logo' to='/'>
           <img src={Logo} alt='hedera_logo' height={66} width={110} />{' '}
         </Link>
-        {isMobile ? (
-          <Hamburger
-            label='Show menu'
-            rounded
-            color='#464646'
-            size={27}
-            toggled={isMobileNavbarMenuToogled}
-            toggle={setIsMobileNavbarMenuExpanded}
-          />
-        ) : (
-          <div className='header__buttons-wrapper'>
-            <Link to='/my-nft-collection' className='icon__profile'>
-              <img src={ProfileIcon} alt='profile_icon' />
-              <p>
-                My NFT <br />
-                Collection
-              </p>
-            </Link>
+        {isMobile
+          ? (
+            <Hamburger
+              label='Show menu'
+              rounded
+              color='#464646'
+              size={27}
+              toggled={isMobileNavbarMenuToogled}
+              toggle={setIsMobileNavbarMenuExpanded}
+            />
+          ) : (
+            <div className='header__buttons-wrapper'>
+              <Link to='/my-nft-collection' className='icon__profile'>
+                <img src={ProfileIcon} alt='profile_icon' />
+                <p>
+                  My NFT <br />
+                  Collection
+                </p>
+              </Link>
 
-            <button onClick={handleShowModal} className={connectIconClassName}>
-              <img src={ConnectIcon} alt='wallet_connect_icon' />
-              <p>
-              <SwitchTransition>
-                <CSSTransition
-                  key={connectedWalletType}
-                  addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-                  classNames='fade'
-                >
-                  <p>
-                    {connectedWalletType === 'noconnection' ? (
-                      <>
-                        Connect <br />
-                        Wallet
-                      </>
-                    ) : (
-                      <>
-                        Wallet <br />
-                        Connected
-                      </>
-                    )}
-                  </p>
-                </CSSTransition>
-              </SwitchTransition>
+              <button onClick={handleShowModal} className={connectIconClassName}>
+                <img src={ConnectIcon} alt='wallet_connect_icon' />
+                <p>
+                <SwitchTransition>
+                  <CSSTransition
+                    key={connectedWalletType}
+                    addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                    classNames='fade'
+                  >
+                    <div>
+                      {connectedWalletType === 'noconnection' ? (
+                        <>
+                          Connect <br />
+                          Wallet
+                        </>
+                      ) : (
+                        <>
+                          Connected <br />
+                          {userWalletId}
+                        </>
+                      )}
+                    </div>
+                  </CSSTransition>
+                </SwitchTransition>
 
-              </p>
-            </button>
-          </div>
+                </p>
+              </button>
+            </div>
         )}
       </div>
       {isMobile && (

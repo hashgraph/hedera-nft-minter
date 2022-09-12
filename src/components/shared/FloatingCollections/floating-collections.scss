@@ -2,37 +2,45 @@
 @import "src/assets/styles/base/mixins";
 
 .floating-collections {
-  display: none;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-gap: 1rem;
   position: fixed;
-  right: 0;
-  top: -0.75rem;
-  height: 100%;
-  width: 50%;
-  padding-right: $horizontalPadding;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  width: 100%;
 
-  @include respond-to('mobile') {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-  }
-
-  @include respond-to('tablet') {
-    padding-right: 4.25%;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-
-  }
-
-  @include respond-to('desktop') {
+  &__container {
+    position: absolute;
+    right: 0;
+    top: -0.75rem;
+    display: none;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
-  }
+    grid-gap: 1rem;
+    height: 100%;
+    width: 50%;
+    padding-right: $horizontalPadding;
 
-  @include respond-to('desktop') {
-    padding-right: $horizontalPaddingDesktop;
+    @include respond-to('mobile') {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+    }
+
+    @include respond-to('tablet') {
+      padding-right: 4.25%;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+
+    }
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+    }
+
+    @include respond-to('desktop') {
+      padding-right: $horizontalPaddingDesktop;
+    }
   }
 
   &__card {
@@ -75,8 +83,6 @@
       }
     }
 
-
-
     &--is-visible {
       opacity: 1;
       transition-timing-function: ease-out;
@@ -94,11 +100,6 @@
         object-fit: cover;
       }
     }
-
-
-    // &:hover {
-    //   transform: scale(0.95) translateY(0) !important;
-    // }
   }
 
   &--fade {

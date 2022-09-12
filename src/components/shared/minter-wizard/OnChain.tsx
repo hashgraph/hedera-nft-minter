@@ -6,7 +6,7 @@ export default function OnChain() {
   return (
     <div className='minter-wizard__on-chain'>
       <div>
-        <p className='title'>
+        <p className='title title--small'>
           How many NFTs do you want
           to mint in your new collection?
         </p>
@@ -27,6 +27,8 @@ export default function OnChain() {
               maximum number of NFTs. All NFTs created will
               share the same image and metadata properties.'
             min='0'
+            maxLength={6}
+            max='10'
           />
         </div>
         <div className='minter-wizard__on-chain__input-row'>
@@ -44,7 +46,6 @@ export default function OnChain() {
                 <span className='flex'>This amount CANNOT be changed in the future</span>
               </>
             }
-            max='10'
             min='0'
           />
         </div>
