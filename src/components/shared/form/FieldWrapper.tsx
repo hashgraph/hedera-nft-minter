@@ -43,7 +43,7 @@ const FieldWrapper = ({
   );
 
   const handleChange = useCallback((e) => {
-      if (isArray) {
+    if (isArray) {
       const value = e.currentTarget.value;
       const currentValue = field.value || [];
 
@@ -84,6 +84,12 @@ const FieldWrapper = ({
         onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
         onChange={['radio', 'checkbox', 'number'].includes(type) ? handleChange : field.onChange}
       />
+
+      {props.maxLength && (
+        <span className='max-length'>{field.value.length}/{props.maxLength}</span>
+      )}
+
+
       {!hideError && (
         <Error name={name} />
       )}

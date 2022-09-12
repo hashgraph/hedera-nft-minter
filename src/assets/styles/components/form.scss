@@ -40,10 +40,19 @@ p {
     display: flex;
     flex-direction: column;
     color: var(--main-color);
+    position: relative;
 
     label {
       display: flex;
       column-gap: 8px;
+    }
+
+    .max-length {
+      position: absolute;
+      right: 1rem;
+      bottom: $errorHeight;
+      font-size: 0.675rem;
+      opacity: 0.4;
     }
 
     &__groups {
