@@ -191,7 +191,7 @@ p {
   }
 
   &__number {
-    max-width: 111px;
+    max-width: 131px;
 
     input {
       text-align: center;
@@ -252,192 +252,13 @@ p {
     &--column {
       width: 100%;
       flex-direction: column;
-      row-gap: 1.25rem;
+      row-gap: 1rem;
       max-width: 452px;
 
       button {
         justify-content: flex-start;
         padding-left: 1.375rem;
         padding-right: 1rem;
-      }
-    }
-  }
-
-  &__group {
-    display: flex;
-    align-items: center;
-    column-gap: $columnGap;
-
-    &-row {
-      padding-bottom: 2.5rem;
-
-      button {
-        background-color: transparent;
-        width: 27px;
-        height: 27px;
-        border-color: $vapor;
-        padding: 0 !important;
-        color: $vapor;
-        display: grid;
-        place-items: center;
-        border-radius: 100%;
-      }
-
-      &-mt {
-        margin-top: 1.875rem;
-      }
-    }
-
-    $removeButtonWidth: 27px;
-    &__inputs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-
-      justify-content: flex-start;
-      align-items: center;
-      column-gap: 2rem;
-
-
-      @include respond-to('mobile') {
-        justify-content: center;
-        grid-template-columns: 1fr 1fr #{$removeButtonWidth};
-      }
-
-
-      &__row {
-        grid-gap: $columnGap;
-        display: flex;
-        order: 1;
-        align-items: center;
-
-        &:first-of-type {
-          .label {
-            width: 132px;
-          }
-        }
-
-        .label {
-          font-size: 1rem;
-          margin: 0;
-          opacity: 52%;
-        }
-
-        div {
-          width: 100%;
-        }
-      }
-    }
-
-    &__table {
-      &__row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-
-        label {
-          padding-bottom: 0;
-        }
-
-        label,
-        div {
-          flex: 0 1 26%;
-        }
-
-        div:nth-of-type(4) {
-          flex: 0 1 22%;
-        }
-
-        &__remove-button {
-          grid-column: 1/3;
-          grid-row: 2/3;
-          margin: 0 auto;
-          margin-top: -#{$errorHeight};
-
-
-          @include respond-to('mobile') {
-            margin-right: unset;
-            grid-row: 1/2;
-            grid-column: 3/4;
-            min-width: $removeButtonWidth;
-          }
-        }
-
-        &-disabled-button {
-          flex: 0 1 22% !important;
-
-          button {
-            background: $smoke;
-            color: $vapor;
-            margin-left: auto;
-            margin-bottom: $errorHeight;
-            border: unset;
-            border: 1px solid $smoke;
-
-            &:hover {
-              cursor: not-allowed;
-              border: 1px solid $smoke;
-            }
-          }
-        }
-
-        &-container {
-          padding: 1.5rem 0;
-          border-top: 1px solid $smoke;
-
-          &_firsts {
-            margin-top: 10px;
-          }
-
-          &__disabled-button {
-            button {
-              background: $smoke;
-              color: $vapor;
-              margin-left: auto;
-            }
-          }
-        }
-
-        &__custom-key {
-          padding-top: 0.7rem;
-          margin-bottom: 1rem;
-          flex: 0 1 74% !important;
-          height: 48px;
-        }
-      }
-    }
-
-    &__remove_button_row {
-      padding-top: 1rem;
-    }
-
-    &__label-wrapper {
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-
-      .title {
-        margin-bottom: 2rem;
-      }
-    }
-
-    &__item {
-      &-enter {
-        opacity: 0;
-      }
-
-      &-enter-active {
-        opacity: 1;
-        transition: opacity 500ms ease-in;
-      }
-
-      &-exit {
-        opacity: 1;
-      }
-
-      &-exit-active {
-        opacity: 0;
-        transition: opacity 500ms ease-in;
       }
     }
   }
@@ -449,7 +270,7 @@ p {
     color: $orange;
     padding-top: 2px;
     font-size: 0.6875rem;
-    min-height: 21.8px;
+    height: $errorHeight;
     padding-right: 1rem;
 
     &.hover{

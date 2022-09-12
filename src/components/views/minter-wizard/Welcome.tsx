@@ -1,26 +1,16 @@
 import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@/components/shared/form/button-group'
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group';
-import { useEffect } from 'react';
-import BuildOnHederaLogo from '@assets/images/build_on_hedera.svg';
+import Scrollbar from '@components/shared/layout/Scrollbar'
 
 type Props = {
   goToCreator: () => void,
-  isActive: boolean
 }
 
-export default function Welcome({goToCreator, isActive} : Props) {
+export default function Welcome({ goToCreator }: Props) {
   return (
-    // <CSSTransition
-    //   in={isActive}
-    //   timeout={500}
-    //   classNames='fade'
-    // >
-      <div className='minter-wizard__step minter-wizard__screen--welcome minter-wizard__animation-container container--padding'>
-        <div className='minter-wizard__step__wrapper minter-wizard__screen--welcome'>
+    <div className='minter-wizard__step minter-wizard__welcome minter-wizard__animation-container'>
+      <Scrollbar>
+        <div className='minter-wizard__step__wrapper minter-wizard__welcome__container'>
           <h1 className='title title--welcome'>
             Start minting <br />
             your NFT here:
@@ -50,13 +40,9 @@ export default function Welcome({goToCreator, isActive} : Props) {
               easiest. <br />
               most sustainable.
             </h2>
-            <a href='http://hedera.com' target='_blank'>
-              <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' height={76} width={170} />{' '}
-            </a>
-
           </div>
         </div>
-      </div>
-    // </CSSTransition>
+      </Scrollbar>
+    </div>
   )
 }
