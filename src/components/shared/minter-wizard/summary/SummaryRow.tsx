@@ -9,8 +9,8 @@ export type SummaryRowProps = {
 export default function SummaryRow({ fieldValue, title }: SummaryRowProps) {
 
   return (
-    <p className='minter-wizard__summary__info-row'>
-      {title}&nbsp;<span>{renderValue(fieldValue)}</span>
+    <p className='minter-wizard__summary__row'>
+      {renderValue(title)}&nbsp;<span>{renderValue(fieldValue)}</span>
     </p>
   )
 }

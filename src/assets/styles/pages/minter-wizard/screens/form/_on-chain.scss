@@ -1,0 +1,26 @@
+.minter-wizard {
+  &__on-chain {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      max-width: 510px;
+    }
+
+    &__wrapper {
+      display: grid;
+      grid-template-rows: repeat(2, 1fr);
+    }
+
+    &__input-row {
+      display: grid;
+      grid-template-columns: 235px 105px;
+      align-items: center;
+      column-gap: 2.5rem;
+
+      input {
+        margin-top: $errorHeight;
+      }
+    }
+  }
+}

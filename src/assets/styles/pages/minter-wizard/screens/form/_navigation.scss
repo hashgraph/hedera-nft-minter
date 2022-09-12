@@ -1,0 +1,31 @@
+.minter-wizard{
+  &__creator {
+    &__nav {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 var(--horizontal-padding);
+      position: absolute;
+      bottom: 7rem;
+      left: 0;
+
+      @include respond-to('desktop') {
+        padding: 0;
+        bottom: 0;
+        transition: width 500ms ease-out;
+        position: relative;
+      }
+
+      &--first-screen {
+        @include respond-to('desktop') {
+          width: 90%;
+        }
+      }
+
+      &--summary {
+        @extend .minter-wizard__creator__nav;
+        margin-top: auto;
+      }
+    }
+  }
+}
