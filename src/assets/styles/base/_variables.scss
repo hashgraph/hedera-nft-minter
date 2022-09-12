@@ -2,8 +2,6 @@
 $dividerHeight: 62px;
 $headerHeightMobile: 125px;
 $containerMaxWidth: 1140px;
-$containerMinHeightMobile: calc(calc(var(--vh) * .4) - #{$dividerHeight});
-$containerMinHeightDesktop: calc(calc(var(--vh) * .5) - #{$dividerHeight});
 
 $headerHeight: 200px;
 
