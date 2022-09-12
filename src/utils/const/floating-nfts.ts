@@ -1,5 +1,5 @@
 import first from '@assets/images/nfts/1.jpeg'
-import second from '@assets/images/nfts/2.jpg'
+import second from '@assets/images/nfts/2.png'
 import third from '@assets/images/nfts/3.jpeg'
 import fourth from '@assets/images/nfts/4.jpeg'
 import fifth from '@assets/images/nfts/5.png'
