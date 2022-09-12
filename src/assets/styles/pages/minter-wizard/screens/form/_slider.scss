@@ -117,7 +117,7 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
           }
 
           @include respond-to('desktop-extra-wide') {
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: min-content auto;
           }
 
           .drag-and-drop__container {
