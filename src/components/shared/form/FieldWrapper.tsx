@@ -6,6 +6,8 @@ import { JSX } from '@babel/types';
 import Error from '@/components/shared/form/Error';
 import Tooltip from './Tooltip';
 
+const MAX_NUMBER_INPUT_LENGTH = 6
+
 type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> & {
   name: string,
   label?: string,
@@ -46,17 +48,17 @@ const FieldWrapper = ({
       const currentValue = field.value || [];
 
       if (currentValue.includes(value)) {
-        const newValue = field.value.filter((v: any) => v !== value);
+        const newValue = field.value.filter((v: string) => v !== value);
         helpers.setValue(newValue);
       } else {
         helpers.setValue([...currentValue, value]);
       }
     } else {
       const value = e.currentTarget.value;
-      helpers.setValue(value);
+      helpers.setValue(value.slice(0, type === 'number' ? MAX_NUMBER_INPUT_LENGTH : value.length));
     }
     helpers.setTouched(true);
-  }, [helpers, field, isArray])
+  }, [isArray, helpers, field.value, type])
 
   return (
     <div className={wrapperClassName}>
@@ -77,7 +79,7 @@ const FieldWrapper = ({
         type={type}
         checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
         onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
-        onChange={['radio', 'checkbox'].includes(type) ? handleChange : field.onChange}
+        onChange={['radio', 'checkbox', 'number'].includes(type) ? handleChange : field.onChange}
       />
       {!hideError && (
         <Error name={name} />
