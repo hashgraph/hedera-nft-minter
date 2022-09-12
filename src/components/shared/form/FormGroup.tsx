@@ -36,7 +36,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
   }, [field.value, validateField, setFieldTouched, name])
 
   return (
-    <div className='form__group-row'>
+    <div className='form__group__row'>
       <FieldArray name={name}>
         {({ remove, push, form }) => (
           <>
@@ -86,7 +86,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
                       </div>
                     ))}
 
-                    <div className='form__group__table__row__remove-button'>
+                    <div className='form__group__remove-button'>
                       <button className='btn--big' type='button' onClick={() => remove(index)}>
                         <img width={13} height={16} src={thrashIcon} alt='thrash' />
                       </button>

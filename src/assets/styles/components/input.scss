@@ -1,11 +1,5 @@
 input:not([type="radio"]):not([type="checkbox"]),
-// select {
-//   height: 51px;
-// }
-
-
 select {
-  padding: 0.5rem 1rem;
   appearance: none;
 
   option {
@@ -37,10 +31,14 @@ select {
 
   position: relative;
   font-size: 1rem;
-  padding: 0.875rem 1.188rem;
+  padding: 0.675rem 0.988rem;
   border-radius: 30px;
   font-family: museo-sans-rounded;
   width: 100%;
+
+  @include respond-to('mobile') {
+    padding: 0.875rem 1.188rem;
+  }
 
   &::placeholder {
     font-weight: 100;
@@ -51,15 +49,6 @@ select {
   &:active, &:focus {
     border-color: $green;
   }
-
-  &.big-circle {
-    width: 105px !important;
-    height: 105px !important;
-    border-radius: 100%;
-    font-size: 2.875rem;
-    padding: 0;
-  }
-
 }
 
 select {
@@ -77,6 +66,6 @@ input[type='number'] {
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 111px;
+  max-width: 131px;
   -moz-appearance:textfield;
 }

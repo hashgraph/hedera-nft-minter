@@ -111,7 +111,7 @@ export default function SelectCollection() {
         collections && collections.length > 0 ? (
           <div className='minter-wizard__select-collection'>
             <p className='title'><span className='title--strong'>Select a collection</span> where your NFT will be placed</p>
-            <div className='minter-wizard__select-collection__select-wrapper'>
+            <div className='minter-wizard__select-collection__wrapper'>
               <FieldSelect name='token_id'>
                 {collections.map((collection, index) => (
                   <option
@@ -160,7 +160,6 @@ export default function SelectCollection() {
               <FieldWrapper
                 fastField
                 name='qty'
-                className='big-circle'
                 type='number'
                 max={maxQtyNumber}
                 min={1}

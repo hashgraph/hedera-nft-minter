@@ -19,7 +19,6 @@
     $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
     $transitionTime: 0.4s;
     $transitionAttributes: (border-color, box-shadow);
-    width: 266px;
     height: 266px;
     font-size: 1rem;
     font-weight: 700;
@@ -36,6 +35,10 @@
     padding: 1rem 1rem;
     transition: generateTransitions($transitionAttributes, $transitionTime);
     box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
+
+    @include respond-to('mobile') {
+     width: 266px;
+    }
 
     img {
       &.selected-image {

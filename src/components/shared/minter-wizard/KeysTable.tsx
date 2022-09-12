@@ -38,7 +38,7 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
       <div role='group' aria-labelledby='checkbox-group-keys' className='minter-wizard__keys'>
         {map(data, (el) => (
           <div className='minter-wizard__keys__checkbox'>
-            <p className='title title--small'>
+            <p className='title'>
               {el.title}
               <Tooltip >
                 Here is key tooltip.

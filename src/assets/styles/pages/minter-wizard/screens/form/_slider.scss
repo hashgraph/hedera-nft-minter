@@ -44,11 +44,15 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
         transition: 0.5s ease-in-out;
         transition-property: padding, width;
         width: 100%;
-        height: $contentContainerHeight;
+        height: $contentContainerHeightMobile;
         overflow-y: auto;
         overflow-x: hidden;
         transition: 0.5s ease-in-out;
         transition-property: padding, width;
+
+        @include respond-to('mobile') {
+          height: $contentContainerHeightDesktop;
+        }
 
         @include respond-to('desktop') {
           width: $bigColumnWidth;
@@ -97,10 +101,30 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
         .minter-wizard__slider__tab-content {
           &:not(.ScrollbarsCustom-Track) {
             padding-left: 0;
-            width: $smallColumnWidth;
 
             @include respond-to('desktop') {
+              width: $smallColumnWidth;
               padding-right: $horizontalPaddingDesktop;
+            }
+          }
+        }
+
+        .minter-wizard__off-chain__form {
+          display: grid;
+
+          @include respond-to('desktop') {
+            grid-template-columns: 1fr;
+          }
+
+          @include respond-to('desktop-extra-wide') {
+            grid-template-columns: 1fr 1fr;
+          }
+
+          .drag-and-drop__container {
+            width: unset;
+
+            @include respond-to('desktop-extra-wide') {
+              width: 266px;
             }
           }
         }

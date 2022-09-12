@@ -14,9 +14,17 @@ import Tooltip from '@/components/shared/form/Tooltip';
 
 import thrashIcon from '@assets/images/icons/thrash.svg'
 import plusIcon from '@assets/images/icons/plus.svg'
+import useHederaWallets from '@/utils/hooks/useHederaWallets';
 
 const MinterWizardFees = () => {
   const [field] = useField<Fees[]>('fees');
+  const { userWalletId } = useHederaWallets()
+
+  const collectingAccountId = useMemo(() => (
+    userWalletId
+      ? userWalletId?.toString()
+      : 'Connect your wallet!'
+  ), [userWalletId])
 
   const renderRoyaltyFeeFormFields = useCallback((index: number) => (
     <>
@@ -35,18 +43,21 @@ const MinterWizardFees = () => {
       </Tooltip>
       <div className='form__row__fees__fee'>
           <div>
-            <FieldWrapper
+            <label htmlFor='null'>
+              Fee collector account ID:
+            </label>
+            <input
               name={`fees.${ index }.feeCollectorAccountId`}
               type='text'
-              placeholder='e.g. 0.0.1'
-              label='Fee collector account ID'
+              value={collectingAccountId}
+              disabled
             />
           </div>
           <div>
             <FieldWrapper
               name={`fees.${ index }.fallbackFee`}
               type='number'
-              label='Fallback fee'
+              label='Fallback fee (ℏ)'
               placeholder='e.g. 5'
             />
           </div>
@@ -54,7 +65,7 @@ const MinterWizardFees = () => {
             <FieldWrapper
               name={`fees.${ index }.percent`}
               type='number'
-              label='% of royalty'
+              label='Royalty %'
               placeholder='e.g. 10'
             />
           </div>
@@ -105,7 +116,7 @@ const MinterWizardFees = () => {
   [field.value])
 
   return (
-    <div className='form__group-row'>
+    <div className='form__group__row'>
       <FieldArray
         name='fees'
         render={({ push, remove }) => (

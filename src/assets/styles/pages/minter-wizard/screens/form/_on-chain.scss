@@ -10,13 +10,18 @@
     &__wrapper {
       display: grid;
       grid-template-rows: repeat(2, 1fr);
+      grid-row-gap: 0.75rem;
     }
 
     &__input-row {
       display: grid;
-      grid-template-columns: 235px 105px;
+      grid-template-columns: 1.2fr 0.8fr;
       align-items: center;
-      column-gap: 2.5rem;
+      column-gap: .5rem;
+
+      @include respond-to('mobile') {
+        grid-template-columns: 235px 121px;
+      }
 
       input {
         margin-top: $errorHeight;
