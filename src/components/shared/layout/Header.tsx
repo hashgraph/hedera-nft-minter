@@ -23,7 +23,7 @@ import ProfileIcon from '@assets/images/icons/profile.svg'
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Header = () => {
-  const { connectedWalletType } = useHederaWallets();
+  const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
   const { isNavbarHidden, isMobile, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
@@ -114,8 +114,8 @@ const Header = () => {
                         </>
                       ) : (
                         <>
-                          Wallet <br />
-                          Connected
+                          Connected <br />
+                          {userWalletId}
                         </>
                       )}
                     </div>
