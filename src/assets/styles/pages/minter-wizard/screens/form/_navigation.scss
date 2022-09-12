@@ -4,16 +4,11 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
-      padding: 0 var(--horizontal-padding);
-      position: absolute;
-      bottom: 7rem;
-      left: 0;
+      padding-top: 0.5rem;
 
       @include respond-to('desktop') {
-        padding: 0;
-        bottom: 0;
+        padding-top: 1rem;
         transition: width 500ms ease-out;
-        position: relative;
       }
 
       &--first-screen {

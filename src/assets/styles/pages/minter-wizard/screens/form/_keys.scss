@@ -1,5 +1,8 @@
 .minter-wizard {
   &__keys {
+    display: grid;
+    grid-row-gap: 0.25rem;
+
     &__checkbox {
       display: flex;
       align-items: center;
@@ -13,18 +16,26 @@
         position: absolute;
       }
 
-      &:hover, &:active, &:focus {
-        .minter-wizard__keys__pseudo-checkbox {
-          &:not(.required) {
-            cursor: pointer;
-            border-color: $green;
-          }
-        }
-
+      label {
+        margin: 0.1rem 0;
       }
 
       .title {
         display: flex;
+        margin: 0;
+      }
+
+      &:hover, &:active, &:focus {
+        .minter-wizard {
+          &__keys {
+            &__pseudo-checkbox {
+              &:not(.required) {
+                cursor: pointer;
+                border-color: $green;
+              }
+            }
+          }
+        }
       }
     }
 
@@ -40,20 +51,19 @@
 
       &.required {
         border-color: $lightGrey;
-        transform: scale(1.2);
+        transform: scale(1.1);
       }
+
       &:after {
         content: '';
         width: 21px;
         height: 19px;
-
         position: absolute;
         bottom: 0.35rem;
         left: 0.30rem;
         background-image: url(../images/icons/checkmark.svg);
         background-size: cover;
         background-repeat: no-repeat;
-
         transition: opacity 0.2s ease-in-out,  filter 0.25s ease-in-out;
         opacity: 0;
         filter: brightness(0) invert(1);

@@ -4,12 +4,11 @@
       max-width: unset;
     }
 
-    &__select-wrapper {
+    &__wrapper {
       width: 100%;
 
       @include respond-to('mobile') {
-        max-width: 50%;
-        min-width: 400px;
+        max-width: 400px;
       }
     }
 

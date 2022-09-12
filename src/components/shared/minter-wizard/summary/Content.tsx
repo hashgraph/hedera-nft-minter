@@ -2,10 +2,10 @@ import React, { useContext } from 'react';
 import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
-import { Scrollbar } from 'react-scrollbars-custom';
 
 import { MinterWizardContext } from '@/components/views/minter-wizard';
 
+import Scrollbar from '@components/shared/layout/Scrollbar'
 import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
 import SummaryProperties from '@/components/shared/minter-wizard/summary/Properties';
 import SummaryAttributes from '@/components/shared/minter-wizard/summary/Attributes';

@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
-import { Scrollbar } from 'react-scrollbars-custom';
-import omit from 'lodash/omit';
 import inRange from 'lodash/inRange';
 import classNames from 'classnames';
 
 import useLayout from '@utils/hooks/useLayout';
+import Scrollbar from '@components/shared/layout/Scrollbar'
 import { SliderTabData } from '@components/shared/minter-wizard/Slider';
 
 type SliderTab = SliderTabData & { index: number}
@@ -41,13 +40,7 @@ export default function Tab({ activeIndex, el} : SliderTabProps) {
       className={tabClassNames}
     >
       <div className='minter-wizard__slider__tab-content'>
-        <Scrollbar
-          wrapperProps={{
-            renderer: ({ elementRef, ...restProps }) => (
-              <div {...omit(restProps, ['style'])} ref={elementRef}  />
-            ),
-          }}
-        >
+        <Scrollbar>
           <el.content />
         </Scrollbar>
       </div>

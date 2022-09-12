@@ -31,10 +31,14 @@ select {
 
   position: relative;
   font-size: 1rem;
-  padding: 0.875rem 1.188rem;
+  padding: 0.675rem 0.988rem;
   border-radius: 30px;
   font-family: museo-sans-rounded;
   width: 100%;
+
+  @include respond-to('mobile') {
+    padding: 0.875rem 1.188rem;
+  }
 
   &::placeholder {
     font-weight: 100;

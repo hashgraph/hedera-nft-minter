@@ -46,8 +46,6 @@ export default function OnChain() {
                 <span className='flex'>This amount CANNOT be changed in the future</span>
               </>
             }
-            max='999999'
-            maxLength={6}
             min='0'
           />
         </div>

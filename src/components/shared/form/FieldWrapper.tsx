@@ -43,7 +43,7 @@ const FieldWrapper = ({
   );
 
   const handleChange = useCallback((e) => {
-    if (isArray) {
+      if (isArray) {
       const value = e.currentTarget.value;
       const currentValue = field.value || [];
 
@@ -55,7 +55,10 @@ const FieldWrapper = ({
       }
     } else {
       const value = e.currentTarget.value;
-      helpers.setValue(value.slice(0, type === 'number' ? MAX_NUMBER_INPUT_LENGTH : value.length));
+      helpers.setValue(value.slice(0, type === 'number'
+        ? MAX_NUMBER_INPUT_LENGTH
+        : value.length
+      ));
     }
     helpers.setTouched(true);
   }, [isArray, helpers, field.value, type])
