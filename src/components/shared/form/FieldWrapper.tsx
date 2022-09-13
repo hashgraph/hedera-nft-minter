@@ -89,7 +89,6 @@ const FieldWrapper = ({
         <span className='max-length'>{field.value.length}/{props.maxLength}</span>
       )}
 
-
       {!hideError && (
         <Error name={name} />
       )}
