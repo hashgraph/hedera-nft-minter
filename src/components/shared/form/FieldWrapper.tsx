@@ -93,7 +93,7 @@ const FieldWrapper = ({
 
           <div className='form__error'>
             {field.value.length === props.maxLength && (
-              `Max character length is ${ props.maxLength }!`
+              'Max length reached!'
             )}
           </div>
         </>
