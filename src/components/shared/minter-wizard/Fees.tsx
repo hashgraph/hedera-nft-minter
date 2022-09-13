@@ -29,49 +29,49 @@ const MinterWizardFees = () => {
   const renderRoyaltyFeeFormFields = useCallback((index: number) => (
     <>
       <Tooltip title='Royalty fee' showLabel>
-      A fee to assess during a CryptoTransfer that changes ownership of an NFT.
-      Defines the fraction of the fungible value exchanged for an NFT that the
-      ledger should collect as a royalty. ("Fungible value" includes both ℏ and units of
-      fungible HTS tokens.) When the NFT sender does not receive any fungible value, the
-      ledger will assess the fallback fee, if present, to the new NFT owner. <br />
+        A fee to assess during a CryptoTransfer that changes ownership of an NFT.
+        Defines the fraction of the fungible value exchanged for an NFT that the
+        ledger should collect as a royalty. ("Fungible value" includes both ℏ and units of
+        fungible HTS tokens.) When the NFT sender does not receive any fungible value, the
+        ledger will assess the fallback fee, if present, to the new NFT owner. <br />
         <a
           href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/royaltyfee'
           target='_blank'
         >
-            Link to docs
+          Link to docs
         </a>
       </Tooltip>
       <div className='form__row__fees__fee'>
-          <div>
-            <label htmlFor='null'>
-              Fee collector account ID:
-            </label>
-            <input
-              name={`fees.${ index }.feeCollectorAccountId`}
-              type='text'
-              value={collectingAccountId}
-              disabled
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.fallbackFee`}
-              type='number'
-              label='Fallback fee (ℏ)'
-              placeholder='e.g. 5'
-            />
-          </div>
-          <div>
-            <FieldWrapper
-              name={`fees.${ index }.percent`}
-              type='number'
-              label='Royalty %'
-              placeholder='e.g. 10'
-            />
-          </div>
+        <div>
+          <label htmlFor='null'>
+            Fee collector account ID:
+          </label>
+          <input
+            name={`fees.${ index }.feeCollectorAccountId`}
+            type='text'
+            value={collectingAccountId}
+            disabled
+          />
+        </div>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.fallbackFee`}
+            type='number'
+            label='Fallback fee (ℏ)'
+            placeholder='e.g. 5'
+          />
+        </div>
+        <div>
+          <FieldWrapper
+            name={`fees.${ index }.percent`}
+            type='number'
+            label='Royalty %'
+            placeholder='e.g. 10'
+          />
+        </div>
       </div>
     </>
-  ),[]);
+  ), [collectingAccountId]);
 
   const renderFixedFeeFormFields = useCallback((index: number) => (
     <>
