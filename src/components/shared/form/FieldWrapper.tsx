@@ -86,10 +86,20 @@ const FieldWrapper = ({
       />
 
       {props.maxLength && (
-        <span className='max-length'>{field.value.length}/{props.maxLength}</span>
+        <>
+          <span className='max-length'>
+            {field.value.length}/{props.maxLength}
+          </span>
+
+          <div className='form__error'>
+            {field.value.length === props.maxLength && (
+              `Max character length is ${ props.maxLength }!`
+            )}
+          </div>
+        </>
       )}
 
-      {!hideError && (
+      {!hideError && !props.maxLength && (
         <Error name={name} />
       )}
     </div>
