@@ -31,12 +31,32 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     {}
   );
 
-  if (filtered?.properties?.length) {
-    filtered.properties = filtered.properties.reduce((res, { label, value }) => {
-      res[label] = value;
+  if (filtered?.attributes?.length) {
+    filtered.attributes = filtered.attributes.reduce((res, { label, value }) => {
+      if (value) {
+        res[label] = value;
+      }
 
       return res;
     }, {});
+  }
+
+  if (!filtered.attributes.length) {
+    delete filtered.attributes;
+  }
+
+  if (filtered?.properties?.length) {
+    filtered.properties = filtered.properties.reduce((res, { label, value }) => {
+      if (value) {
+        res[label] = value;
+      }
+
+      return res;
+    }, {});
+  }
+
+  if (!filtered.properties.length) {
+    delete filtered.properties;
   }
 
   return filtered

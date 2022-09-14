@@ -26,7 +26,7 @@ export default function Processing() {
 
   const renderSummaryItemList = useCallback(() => (
     map(summaryItemsToRender, (value) => (
-      <li>{value}</li>
+      <li key={value}>{value}</li>
     ))
   ), [summaryItemsToRender])
 
