@@ -153,7 +153,6 @@ export default function MinterWizard() {
     userWalletId,
   ]);
 
-
   return (
     <div className='dark-schema'>
       <div className='mc--h container--max-width container--padding container--max-height bg--transparent'>
