@@ -81,6 +81,7 @@ const FieldWrapper = ({
           id={id}
           name={name}
           {...props}
+          maxLength={maxLength}
           type={type}
           checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
           onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
