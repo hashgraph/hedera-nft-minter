@@ -17,11 +17,13 @@ select {
 
 input,
 textarea,
-select {
+select,
+.input {
   font-weight: 300;
   display: block;
   color: var(--main-color);
   background-color: $inputColor;
+  margin: 0;
 
   border: 1px solid rgba(255, 255, 255, .69);
   -webkit-background-clip: padding-box; /* for Safari */
