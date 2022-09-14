@@ -2,6 +2,8 @@ import React, { useCallback, useContext } from 'react'
 import classNames from 'classnames';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
+import { useFormikContext } from 'formik';
+import { toast } from 'react-toastify';
 
 import { MinterWizardContext } from '@/components/views/minter-wizard'
 import { MinterWizardStepWrapperContext } from '@/components/shared/minter-wizard/StepWrapper';
@@ -35,12 +37,18 @@ export default function Navigation({
     isNextButtonHidden,
   } = useContext(MinterWizardStepWrapperContext)
 
+  const { errors } = useFormikContext()
+
   const handleGoToSummary = useCallback(() => {
-    if(creatorStep > 0) {
-      setCreatorStepToBackFromSummary(creatorStep)
-      goToSummary()
+    if(Object.keys(errors).length > 0) {
+      toast.error('Fix creator errors!')
+    } else {
+      if(creatorStep > 0) {
+        setCreatorStepToBackFromSummary(creatorStep)
+        goToSummary()
+      }
     }
-  }, [goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+  }, [errors, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
 
 
   const nextButtonClassName = classNames('btn--arrow', {
