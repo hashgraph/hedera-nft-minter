@@ -7,109 +7,27 @@ import {
   SwitchTransition,
 } from 'react-transition-group';
 
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
 import { Fees, FEE } from '@utils/entity/Fees';
 import FieldSelect from '@/components/shared/form/FieldSelect';
-import Tooltip from '@/components/shared/form/Tooltip';
+import RoyaltyFee from '@components/shared/minter-wizard/Fees/Royalty';
+import FixedFee from '@components/shared/minter-wizard/Fees/Fixed';
 
 import thrashIcon from '@assets/images/icons/thrash.svg'
 import plusIcon from '@assets/images/icons/plus.svg'
-import useHederaWallets from '@/utils/hooks/useHederaWallets';
 
 const MinterWizardFees = () => {
   const [field] = useField<Fees[]>('fees');
-  const { userWalletId } = useHederaWallets()
-
-  const collectingAccountId = useMemo(() => (
-    userWalletId
-      ? userWalletId?.toString()
-      : 'Connect your wallet!'
-  ), [userWalletId])
-
-  const renderRoyaltyFeeFormFields = useCallback((index: number) => (
-    <>
-      <Tooltip title='Royalty fee' showLabel>
-        A fee to assess during a CryptoTransfer that changes ownership of an NFT.
-        Defines the fraction of the fungible value exchanged for an NFT that the
-        ledger should collect as a royalty. ("Fungible value" includes both ℏ and units of
-        fungible HTS tokens.) When the NFT sender does not receive any fungible value, the
-        ledger will assess the fallback fee, if present, to the new NFT owner. <br />
-        <a
-          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/royaltyfee'
-          target='_blank'
-        >
-          Link to docs
-        </a>
-      </Tooltip>
-      <div className='form__row__fees__fee'>
-        <div>
-          <label htmlFor='null'>
-            Fee collector account ID:
-          </label>
-          <input
-            name={`fees.${ index }.feeCollectorAccountId`}
-            type='text'
-            value={collectingAccountId}
-            disabled
-          />
-        </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.fallbackFee`}
-            type='number'
-            label='Fallback fee (ℏ)'
-            placeholder='e.g. 5'
-          />
-        </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.percent`}
-            type='number'
-            label='Royalty %'
-            placeholder='e.g. 10'
-          />
-        </div>
-      </div>
-    </>
-  ), [collectingAccountId]);
-
-  const renderFixedFeeFormFields = useCallback((index: number) => (
-    <>
-      <Tooltip title='Fixed fee' showLabel>
-        A fixed number of units (hbar or token) to ssess as a
-        fee during a CryptoTransfer that transfers units of
-        the token to which this fixed fee is attached. <br />
-        <a
-          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/fixedfee'
-          target='_blank'
-        >
-            Link to docs
-        </a>
-      </Tooltip>
-      <div className='form__row__fees__fee'>
-        <FieldWrapper
-          name={`fees.${ index }.amount`}
-          type='number'
-          placeholder='e.g. 15'
-          label='# amount ℏ'
-        />
-      </div>
-    </>
-  ), []);
 
   const renderFeeFieldset = useCallback((fee: FEE, arrayIndex: number) => {
     switch (fee) {
       case FEE.ROYALTY:
-        return renderRoyaltyFeeFormFields(arrayIndex);
+        return <RoyaltyFee index={arrayIndex} />;
       case FEE.FIXED:
-        return renderFixedFeeFormFields(arrayIndex);
+        return <FixedFee index={arrayIndex} />;
       default:
         return;
     }
-  },[
-    renderRoyaltyFeeFormFields,
-    renderFixedFeeFormFields
-  ]);
+  }, []);
 
   const hasAnyValues = useMemo(() =>
     field.value.length > 0,
