@@ -29,6 +29,7 @@ export default function OffChainBasis() {
               name='name'
               type='text'
               placeholder='Collection name'
+              maxLength={100}
               disabled={disabledCollectionInfo}
             />
           </div>
@@ -38,6 +39,7 @@ export default function OffChainBasis() {
               name='symbol'
               type='text'
               placeholder='Collection symbol'
+              maxLength={100}
               disabled={disabledCollectionInfo}
             />
           </div>
@@ -47,6 +49,7 @@ export default function OffChainBasis() {
               name='edition_name'
               type='text'
               placeholder='NFT name'
+              maxLength={100}
             />
           </div>
           <div>
@@ -56,6 +59,7 @@ export default function OffChainBasis() {
               as='textarea'
               type='text'
               placeholder='NFT description'
+              maxLength={100}
             />
           </div>
           <div className='form__row'>
@@ -65,6 +69,7 @@ export default function OffChainBasis() {
                 name='creator'
                 type='text'
                 placeholder='NFT creator'
+                maxLength={100}
               />
             </div>
           </div>

@@ -36,10 +36,25 @@ p {
     }
   }
 
+  &__field {
+    &__container {
+      position: relative;
+
+      .max-length {
+        position: absolute;
+        right: 1rem;
+        bottom: 0;
+        font-size: 0.675rem;
+        opacity: 0.4;
+      }
+    }
+  }
+
   &__row {
     display: flex;
     flex-direction: column;
     color: var(--main-color);
+    position: relative;
 
     label {
       display: flex;
@@ -263,7 +278,11 @@ p {
     }
   }
 
-  &__error {
+  &__errors {
+    min-height: $errorHeight;
+  }
+
+  &__error, &__warning {
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -284,6 +303,10 @@ p {
     &.image_error {
       padding-right: 50px;
     }
+  }
+
+  &__warning {
+    color: $yellow;
   }
 
   &__step-wrapper {

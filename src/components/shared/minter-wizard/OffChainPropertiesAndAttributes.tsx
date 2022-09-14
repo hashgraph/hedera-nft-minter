@@ -13,13 +13,15 @@ export default function OffChainPropertiesAndAttributes() {
               name: 'trait_type',
               type: 'text',
               label: 'Trait type',
-              placeholder: 'e.g color'
+              placeholder: 'e.g color',
+              maxLength: 100
             },
             {
               name: 'value',
               type: 'text',
               label: 'Value',
-              placeholder: 'e.g blue'
+              placeholder: 'e.g blue',
+              maxLength: 100
             },
           ]}
         />
@@ -33,13 +35,15 @@ export default function OffChainPropertiesAndAttributes() {
               name: 'label',
               type: 'text',
               label: 'Label',
-              placeholder: 'e.g website'
+              placeholder: 'e.g website',
+              maxLength: 100
             },
             {
               name: 'value',
               type: 'text',
               label: 'Value',
-              placeholder: 'e.g www.mysite.com'
+              placeholder: 'e.g www.mysite.com',
+              maxLength: 100
             },
           ]}
         />

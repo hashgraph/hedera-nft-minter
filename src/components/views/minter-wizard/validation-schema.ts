@@ -16,7 +16,6 @@ const feeValidator = yup.object().shape({
     is: (type : FEE) => [FEE.ROYALTY].includes(type),
     then: yup.number().max(100, 'Max 100%!').required('Required'),
   }),
-
 });
 
 const keyValidator = yup.object().shape({
@@ -42,17 +41,17 @@ export const ValidationSchema = yup.object().shape({
   }),
   name: yup
     .string()
-    .max(50, 'Too Long!')
+    .max(100, 'Too Long!')
     .required('Required'),
   edition_name: yup
     .string()
-    .max(50, 'Too Long!'),
+    .max(100, 'Too Long!'),
   symbol: yup
     .string()
-    .max(50, 'Too Long!')
+    .max(100, 'Too Long!')
     .required('Required'),
-  creator: yup.string().max(50, 'Too Long!'),
-  description: yup.string().max(500, 'Too Long!'),
+  creator: yup.string().max(100, 'Too Long!'),
+  description: yup.string().max(100, 'Too Long!'),
   qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
   maxSupply: yup
     .number()
@@ -65,14 +64,14 @@ export const ValidationSchema = yup.object().shape({
     yup.object().shape({
       label: yup
         .string()
-        .max(50, 'Too Long!')
+        .max(100, 'Too Long!')
         .when(['value'], {
           is: (value : string) => !!value,
           then: (schema) => schema.required('Required')
         }),
       value: yup
         .string()
-        .max(50, 'Too Long!')
+        .max(100, 'Too Long!')
         .when(['label'], {
           is: (label : string) => !!label,
           then: (schema) => schema.required('Required')
@@ -89,14 +88,14 @@ export const ValidationSchema = yup.object().shape({
     yup.object().shape({
       trait_type: yup
         .string()
-        .max(50, 'Too Long!')
+        .max(100, 'Too Long!')
         .when(['value'], {
           is: (value : string) => !!value,
           then: (schema) => schema.required('Required')
         }),
       value: yup
         .string()
-        .max(50, 'Too Long!')
+        .max(100, 'Too Long!')
         .when(['trait_type'], {
           is: (trait_type : string) => !!trait_type,
           then: (schema) => schema.required('Required')

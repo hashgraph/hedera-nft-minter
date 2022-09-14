@@ -27,7 +27,6 @@ export default function OnChain() {
               maximum number of NFTs. All NFTs created will
               share the same image and metadata properties.'
             min='0'
-            maxLength={6}
             max='10'
           />
         </div>
