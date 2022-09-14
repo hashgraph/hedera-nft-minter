@@ -36,6 +36,20 @@ p {
     }
   }
 
+  &__field {
+    &__container {
+      position: relative;
+
+      .max-length {
+        position: absolute;
+        right: 1rem;
+        bottom: 0;
+        font-size: 0.675rem;
+        opacity: 0.4;
+      }
+    }
+  }
+
   &__row {
     display: flex;
     flex-direction: column;
@@ -45,14 +59,6 @@ p {
     label {
       display: flex;
       column-gap: 8px;
-    }
-
-    .max-length {
-      position: absolute;
-      right: 1rem;
-      bottom: $errorHeight;
-      font-size: 0.675rem;
-      opacity: 0.4;
     }
 
     &__groups {
@@ -272,7 +278,11 @@ p {
     }
   }
 
-  &__error {
+  &__errors {
+    min-height: $errorHeight;
+  }
+
+  &__error, &__warning {
     width: 100%;
     display: flex;
     justify-content: flex-end;
@@ -293,6 +303,10 @@ p {
     &.image_error {
       padding-right: 50px;
     }
+  }
+
+  &__warning {
+    color: $yellow;
   }
 
   &__step-wrapper {

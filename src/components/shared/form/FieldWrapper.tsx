@@ -29,12 +29,13 @@ const FieldWrapper = ({
   inverse = false,
   type = 'text',
   isArray = false,
+  maxLength,
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
   onEnter = () => {},
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => Math.random().toString(), []);
-  const [field,, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
   const wrapperClassName = classNames(
     'form__row',
@@ -75,33 +76,34 @@ const FieldWrapper = ({
           )}
         </label>
       )}
-      <Component
-        id={id}
-        name={name}
-        {...props}
-        type={type}
-        checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
-        onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
-        onChange={['radio', 'checkbox', 'number'].includes(type) ? handleChange : field.onChange}
-      />
+      <div className='form__field__container'>
+        <Component
+          id={id}
+          name={name}
+          {...props}
+          type={type}
+          checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
+          onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
+          onChange={['radio', 'checkbox', 'number'].includes(type) ? handleChange : field.onChange}
+        />
 
-      {props.maxLength && (
-        <>
+        {maxLength && (
           <span className='max-length'>
-            {field.value.length}/{props.maxLength}
+            {field.value.length}/{maxLength}
           </span>
-
-          <div className='form__error'>
-            {field.value.length === props.maxLength && (
-              'Max length reached!'
-            )}
+        )}
+      </div>
+      <div className='form__errors'>
+        {maxLength && field.value.length === maxLength && (
+          <div className='form__warning'>
+              Max length reached!
           </div>
-        </>
-      )}
+        )}
 
-      {!hideError && !props.maxLength && (
-        <Error name={name} />
-      )}
+        {!hideError && meta.error && (
+          <Error name={name} />
+        )}
+      </div>
     </div>
   );
 };
