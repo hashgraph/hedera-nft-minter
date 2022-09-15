@@ -1,77 +1,144 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import useHederaWallets from '@hooks/useHederaWallets';
-import { NFTInfo } from '@utils/entity/NFTInfo';
-import { TokenInfo } from '@utils/entity/TokenInfo';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import filter from 'lodash/filter';
+import flatMap from 'lodash/flatMap';
+import map from 'lodash/map';
+import property from 'lodash/property';
+import values from 'lodash/values';
+import find from 'lodash/find';
+import groupBy from 'lodash/groupBy';
+
 import MirrorNode from '@/services/MirrorNode';
-import Collection from '@/components/views/my-nft-collection/Collection';
+import { NFTInfo } from '@/utils/entity/NFTInfo';
+import { TokenInfo } from '@utils/entity/TokenInfo';
+import useHederaWallets from '@hooks/useHederaWallets';
+
+import Scrollbar from '@/components/shared/layout/Scrollbar';
 import Loader from '@components/shared/loader/Loader';
-import Hero from '@/components/shared/layout/Hero';
-import PageMenu from '@/components/shared/layout/PageMenu';
-import Grid from '@/components/shared/grid';
+import NFT from '@/components/views/my-nft-collection/NFT';
+import CollectionList from '@/components/views/my-nft-collection/CollectionList';
+
+export type CollectionRowProps = {
+  collection_id: string;
+  nfts: NFTInfo[];
+  collection_info: TokenInfo;
+}
 
 export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
-  const [collections, setCollections] = useState<
-    { nfts: NFTInfo[]; info: TokenInfo }[]
-  >([]);
+  const [collections, setCollections] = useState<CollectionRowProps[] | null>(null);
+
   const [loading, setLoading] = useState(true);
+  const [selectedCollectionsId, setSelectedCollectionsId] = useState<string[]>([]);
 
   const load = useCallback(async () => {
     try {
       const accountId = userWalletId ?? null;
+
       if (!accountId) {
         throw new Error('No account ID');
       }
 
-      const nfts = await MirrorNode.fetchUserNFTs(accountId);
+      const fetchedNfts = await MirrorNode.fetchAllNFTs(accountId)
+      const groupedFetchedNfts = groupBy(fetchedNfts, 'token_id');
+      const groupedCollections = await MirrorNode.fetchCollectionInfoForGroupedNFTs(groupedFetchedNfts);
 
-      setCollections(nfts);
+      setCollections(groupedCollections);
       setLoading(false);
     } catch (e) {
       // toast.error(e.message)
     }
   }, [userWalletId]);
 
+  const selectedCollections = useMemo(() => (
+    selectedCollectionsId.length > 0 ? (
+      filter(collections, (collection) => (
+        selectedCollectionsId.includes(collection.collection_id)
+      ))
+    ) : (
+      values(collections)
+    )
+  ), [collections, selectedCollectionsId])
+
+  const selectedCollectionsNFTs = useMemo<NFTInfo[]>(() => (
+    collections ? (
+      flatMap(selectedCollections, property('nfts'))
+    ) : (
+      []
+    )
+  ), [collections, selectedCollections]);
+
+  const renderSelectedNFTs = useCallback(() => (
+    map(selectedCollectionsNFTs, (nft) => {
+      const collectionInfo = find(
+        collections,
+        (collection) => collection.collection_id === nft.token_id
+      )?.collection_info;
+
+      return (
+        <NFT
+          key={`nft_${ nft.token_id }.${ nft.serial_number }-card`}
+          {...nft}
+          collectionInfo={collectionInfo}
+        />
+      );
+    }
+  )), [collections, selectedCollectionsNFTs]);
+
+  const renderNFTs = useCallback(() => (
+    selectedCollectionsNFTs && selectedCollectionsNFTs.length <= 0 ? (
+      !selectedCollectionsId
+        ? (
+          <p>First mint some NFTs!</p>
+        ) : (
+          <p>You don't have any NFTs in this collection!</p>
+        )
+      ) : (
+        <Scrollbar renderOn={{mobileSmall: false, mobile: false}}>
+          <div className='my-nft-collection__nfts__grid'>
+            {renderSelectedNFTs()}
+          </div>
+        </Scrollbar>
+      )
+  ), [renderSelectedNFTs, selectedCollectionsId, selectedCollectionsNFTs])
+
   useEffect(() => {
     load();
   }, [load]);
 
   return (
-    <>
-      <Hero darkSchema title={'My NFT Collection'}>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed mi in
-          purus aliquet imperdiet. Nulla risus felis, porttitor eget lacus vel,
-          egestas molestie nibh. Duis commodo, nulla eu mollis dictum, mauris
-          arcu consectetur risus, in vulputate turpis risus sed est. Sed sed
-          odio et nunc tempor malesuada.
-        </p>
-      </Hero>
-      <PageMenu />
-
-      <div className='mc--h container--padding container--max-width bg--transparent'>
+    <div className='dark-schema'>
+      <div className='mc--h container--max-width container--padding container--max-height bg--transparent'>
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
-        ) : loading ? (
-          <div className='my-nft-collection__loader-wrapper'>
-            <Loader />
-          </div>
         ) : (
-          <div>
-            {collections?.length ? (
-              <Grid className='my-nft-collection'>
-                <>
-                  {collections.map((collection) => (
-                    <Collection key={`${ collection.info.token_id }`} {...collection} />
-                  ))}
-                </>
-              </Grid>
-            ) : (
-              <div>No nfts :(</div>
-            )}
-          </div>
-        )}
+          loading ? (
+            <div className='my-nft-collection__loader-wrapper'>
+              <Loader />
+            </div>
+          ) : (
+            <Scrollbar
+              renderOn={{
+                tablet: false,
+                laptop: false,
+                desktop: false,
+                desktopWide: false,
+                desktopExtraWide: false
+              }}
+            >
+              <div className='my-nft-collection'>
+                <CollectionList
+                  setSelectedCollectionsId={setSelectedCollectionsId}
+                  selectedCollectionsId={selectedCollectionsId}
+                  collections={collections}
+                />
+
+                <div className='my-nft-collection__nfts'>
+                  {renderNFTs()}
+                </div>
+              </div>
+            </Scrollbar>
+          ))}
       </div>
-    </>
+    </div>
   );
 }

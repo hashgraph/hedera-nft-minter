@@ -1,11 +1,21 @@
-import { HEDERA_NETWORK } from '@/../Global.d';
+import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@/../Global.d';
 import axios from 'axios';
 import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
+import concat from 'lodash/concat';
+import entries from 'lodash/entries';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo, NFTInfoWithMetadata, NFTTransactionHistory } from '@utils/entity/NFTInfo';
+
+type GroupedNFTs = {
+  [index: string]: NFTInfo[]
+}
+
+interface ResponseLinks {
+  next: null | string
+}
 
 interface Token {
   token_id: string,
@@ -29,8 +39,13 @@ interface AccountResponse {
   key: {_type: string; key: string}
 }
 
+interface FetchAllNFTsResponse {
+  nfts: NFTInfo[];
+  links: ResponseLinks;
+}
+
 export default class MirrorNode {
-  static url = `https://${ HEDERA_NETWORK === 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/v1`
+  static url = `https://${ HEDERA_NETWORK === 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/${ HEDERA_MIRROR_NODE_API_VERSION }`
   static readonly instance = axios.create({
     baseURL: MirrorNode.url,
   });
@@ -169,5 +184,41 @@ export default class MirrorNode {
     }
 
     return collections;
+  }
+
+  static async fetchAllNFTs(idOrAliasOrEvmAddress: string, nextLink?: string) {
+      const { data } = await this.instance.get<FetchAllNFTsResponse>(
+        nextLink
+          ? nextLink.split(`api/${ HEDERA_MIRROR_NODE_API_VERSION }/`)[1]
+          : `/accounts/${ idOrAliasOrEvmAddress }/nfts`
+      );
+
+      nextLink = undefined;
+
+      let nfts : NFTInfo[] = data.nfts
+
+      if(data.links.next) {
+        nextLink = data.links.next
+      }
+
+      if(nextLink) {
+        const nextLinkNfts = await this.fetchAllNFTs(idOrAliasOrEvmAddress, nextLink);
+
+        nfts = concat(nfts, nextLinkNfts)
+      }
+
+      return nfts
+  }
+
+  static async fetchCollectionInfoForGroupedNFTs(groupedNfts: GroupedNFTs) {
+    const groupedNFTsByCollectionIdWithInfo = await Promise.all(
+      map(entries(groupedNfts), async ([collectionId, nfts]) => ({
+        collection_id: collectionId,
+        nfts,
+        collection_info: await this.fetchTokenInfo(collectionId)
+      }))
+    )
+
+    return groupedNFTsByCollectionIdWithInfo
   }
 }
