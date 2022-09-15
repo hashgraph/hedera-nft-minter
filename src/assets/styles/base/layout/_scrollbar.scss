@@ -17,7 +17,7 @@
   &.trackYVisible {
     .scrollbar {
       &__scroller {
-        padding-right: var(--horizontal-padding) !important;
+        padding-right: var(--horizontal-padding);
       }
     }
   }

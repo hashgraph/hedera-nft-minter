@@ -1,11 +1,125 @@
 .my-nft-collection {
-  grid-column-gap: 1rem;
-  padding-top: 3rem;
+  grid-column-gap: 3.25rem;
+  grid-template-columns: auto;
+  display: grid;
+  grid-template-rows: 160px auto;
+  grid-row-gap: 2rem;
 
-  @include respond-to('tablet') {
-    grid-template-columns: repeat(3, 1fr) !important;
+  @include respond-to('mobile') {
+    grid-template-rows: 180px auto;
   }
 
+  @include respond-to('tablet') {
+    padding-top: 2.25rem;
+    grid-template-columns: 285px auto;
+    grid-template-rows: auto;
+    height: 100%;
+  }
+
+  @include respond-to('desktop-wide') {
+    grid-column-gap: 7.5rem;
+  }
+
+  &__collections-list {
+    ul {
+      margin: 0;
+      width: 100%;
+      padding: 0.5rem 0;
+    }
+
+    li {
+      width: 100%;
+      list-style: none;
+      margin-top: 0.4rem;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+
+      &.active {
+        label {
+          &:before {
+            background-color: $green;
+          }
+        }
+      }
+
+      label {
+        background: transparent;
+        display: grid;
+        text-align: left;
+        border: unset;
+        cursor: pointer;
+        color: $vapor;
+        margin: 0;
+        padding: 0;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        white-space: normal;
+        display: grid;
+        grid-column-gap: .5rem;
+        grid-template-columns: 25px auto;
+
+        &:focus-within {
+          color: $green;
+        }
+
+        span {
+          display: block;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          justify-content: flex-start;
+          text-overflow: ellipsis;
+        }
+
+        input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        &:before {
+          content: '';
+          width: 25px;
+          height: 25px;
+          border: 1px solid;
+          border-color: $green;
+          background-color: transparent;
+          position: relative;
+          display: flex;
+          align-self: center;
+          border-radius: 100%;
+          transition: 0.3s ease-in-out;
+          transition-property: background-color, opacity;
+        }
+      }
+    }
+
+    .title {
+      margin-top: 0;
+    }
+
+    .scrollbar__scroller {
+      padding-right: 0.3rem !important ;
+    }
+
+    &__box {
+      height: 100%;
+      padding: 1rem;
+      background: $inputColor;
+      border: 1px solid $vapor;
+      border-radius: 1rem;
+      max-height: 125px;
+
+      @include respond-to('tablet') {
+        max-height: 325px;
+      }
+    }
+  }
 
   &__loader-wrapper {
     display: grid;
@@ -17,13 +131,39 @@
       object-fit: contain;
     }
 
-    // p {
-    //   font-size: 1rem;
-    //   color: $vapor;
-    // }
-
     @include respond-to('mobile') {
       min-height: calc(50vh - 62px);
+    }
+  }
+
+  &__nfts {
+    max-width: 1020px;
+
+    .scrollbar__scroller {
+      padding-right: 1.5rem !important;
+    }
+
+    &__grid {
+      display: grid;
+      grid-gap: 1.625rem;
+
+      @include respond-to('mobile') {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include respond-to('laptop') {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @include respond-to('desktop') {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      @include respond-to('desktop-wide') {
+        grid-template-columns: repeat(5, 170px);
+      }
     }
   }
 }

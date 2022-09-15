@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 
 type Position = { x: number; y: number };
@@ -7,8 +7,12 @@ export const LayoutContext = React.createContext<{
   pageMenuPositionY: null | number;
   setPageMenuPositionY: React.Dispatch<React.SetStateAction<number | null>>;
   scrollPosition: Position;
+  isMobileSmall: boolean;
   isMobile: boolean;
   isDesktop: boolean;
+  isLaptop: boolean;
+  isDesktopWide: boolean;
+  isDesktopExtraWide: boolean;
   isTablet: boolean;
   isMinterWizardWelcomeScreen: boolean;
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,8 +20,12 @@ export const LayoutContext = React.createContext<{
   pageMenuPositionY: null,
   setPageMenuPositionY: () => null,
   scrollPosition: { x: 0, y: 0 },
+  isMobileSmall: true,
   isMobile: true,
+  isLaptop: true,
   isDesktop: true,
+  isDesktopWide: true,
+  isDesktopExtraWide: true,
   isTablet: true,
   isMinterWizardWelcomeScreen: false,
   setIsMinterWizardWelcomeScreen: () => false,
@@ -38,12 +46,13 @@ export default function LayoutProvider({
   });
   const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
 
+  const [isMobileSmall, setIsMobileSmall] = useState(true);
   const [isMobile, setIsMobile] = useState(true);
+  const [isTablet, setIsTablet] = useState(false);
+  const [isLaptop, setIsLaptop] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
-
-  const isTablet = useMemo(() => (
-    !isMobile && !isDesktop
-  ), [isMobile, isDesktop])
+  const [isDesktopWide, setIsDesktopWide] = useState(false);
+  const [isDesktopExtraWide, setIsDesktopExtraWide] = useState(false);
 
   const setDocDimensions = useCallback(() => {
     if (document && window) {
@@ -78,10 +87,31 @@ export default function LayoutProvider({
   useEffect(() => {
     const handleResize = () => {
       if (window.matchMedia('(max-width: 599px)').matches) {
+        setIsMobileSmall(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsMobileSmall(false);
+      }
+
+      if (window.matchMedia('(min-width: 600px)').matches) {
         setIsMobile(true);
       } else {
         clearAllBodyScrollLocks();
         setIsMobile(false);
+      }
+
+      if (window.matchMedia('(min-width: 768px)').matches) {
+        setIsTablet(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsTablet(false);
+      }
+
+      if (window.matchMedia('(min-width: 992px)').matches) {
+        setIsLaptop(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsLaptop(false);
       }
 
       if (window.matchMedia('(min-width: 1200px)').matches) {
@@ -89,6 +119,20 @@ export default function LayoutProvider({
       } else {
         clearAllBodyScrollLocks();
         setIsDesktop(false);
+      }
+
+      if (window.matchMedia('(min-width: 1600px)').matches) {
+        setIsDesktopWide(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsDesktopWide(false);
+      }
+
+      if (window.matchMedia('(min-width: 1920px)').matches) {
+        setIsDesktopExtraWide(true);
+      } else {
+        clearAllBodyScrollLocks();
+        setIsDesktopExtraWide(false);
       }
     };
     handleResize();
@@ -111,8 +155,12 @@ export default function LayoutProvider({
         pageMenuPositionY,
         setPageMenuPositionY,
         scrollPosition,
+        isDesktopExtraWide,
+        isDesktopWide,
         isDesktop,
+        isLaptop,
         isMobile,
+        isMobileSmall,
         isTablet,
         isMinterWizardWelcomeScreen,
         setIsMinterWizardWelcomeScreen,
