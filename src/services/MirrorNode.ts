@@ -1,4 +1,4 @@
-import { HEDERA_NETWORK } from '@/../Global.d';
+import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@/../Global.d';
 import axios from 'axios';
 import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
@@ -54,7 +54,7 @@ export interface FetchAllNFTsResponseRow {
 }
 
 export default class MirrorNode {
-  static url = `https://${ HEDERA_NETWORK === 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/v1`
+  static url = `https://${ HEDERA_NETWORK === 'mainnet' ? 'mainnet-public' : HEDERA_NETWORK }.mirrornode.hedera.com/api/${ HEDERA_MIRROR_NODE_API_VERSION }`
   static readonly instance = axios.create({
     baseURL: MirrorNode.url,
   });
@@ -198,7 +198,7 @@ export default class MirrorNode {
   static async fetchAllNFTs(idOrAliasOrEvmAddress: string, nextLink?: string) {
       const { data } = await this.instance.get<FetchAllNFTsResponse>(
         nextLink
-          ? nextLink.split('api/v1/')[1]
+          ? nextLink.split(`api/${ HEDERA_MIRROR_NODE_API_VERSION }/`)[1]
           : `/accounts/${ idOrAliasOrEvmAddress }/nfts`
       );
 
