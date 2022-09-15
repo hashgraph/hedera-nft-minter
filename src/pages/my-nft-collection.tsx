@@ -50,18 +50,23 @@ export default function MyNFTCollection() {
     }
   }, [userWalletId]);
 
-  const selectedCollectionsNFTs = useMemo<FetchAllNFTsResponseRow[]>(() => {
-    return collections
-      ? selectedCollectionsId.length > 0
-        ? flatMap(
-            filter(collections, (collection) =>
-              selectedCollectionsId.includes(collection.collection_id)
-            ),
-            property('nfts')
-          )
-        : flatMap(values(collections), property('nfts'))
-      : [];
-  }, [collections, selectedCollectionsId]);
+  const selectedCollections = useMemo(() => (
+    selectedCollectionsId.length > 0 ? (
+      filter(collections, (collection) => (
+        selectedCollectionsId.includes(collection.collection_id)
+      ))
+    ) : (
+      values(collections)
+    )
+  ), [collections, selectedCollectionsId])
+
+  const selectedCollectionsNFTs = useMemo<FetchAllNFTsResponseRow[]>(() => (
+    collections ? (
+      flatMap(selectedCollections, property('nfts'))
+    ) : (
+      []
+    )
+  ), [collections, selectedCollections]);
 
   const renderCollectionsList = useCallback(() => collections && (
     <>
