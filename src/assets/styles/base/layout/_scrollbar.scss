@@ -1,6 +1,11 @@
 .scrollbar {
   &__scroller {
     width: 100%;
+    position: absolute;
+    inset: 0px;
+    overflow: hidden scroll;
+    padding-right: 20px;
+    margin-right: -20px;
   }
 
   &__track {

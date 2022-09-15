@@ -10,6 +10,7 @@ export interface NFTInfo {
   serial_number: number,
   token_id: string,
   meta?: NFTMetadata
+  spender: null | string;
 }
 
 export interface NFTInfoWithMetadata extends NFTInfo {

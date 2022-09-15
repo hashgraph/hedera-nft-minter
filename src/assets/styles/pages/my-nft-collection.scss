@@ -103,8 +103,10 @@
       margin-top: 0;
     }
 
-    .scrollbar__scroller {
-      padding-right: 0.3rem !important ;
+    .scrollbar {
+      &__scroller {
+        padding-right: 0.3rem !important ;
+      }
     }
 
     &__box {
@@ -139,8 +141,10 @@
   &__nfts {
     max-width: 1020px;
 
-    .scrollbar__scroller {
-      padding-right: 1.5rem !important;
+    .scrollbar {
+        &__scroller {
+        padding-right: 1.5rem !important;
+      }
     }
 
     &__grid {

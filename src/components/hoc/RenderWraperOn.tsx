@@ -12,11 +12,17 @@ export type RenderOnProps = {
   desktopExtraWide?: boolean;
 }
 
-export default function useRenderWrapperOn(
+type RenderWraperOnProps = {
   renderOnBreakpoints: RenderOnProps,
   wrapper: JSX.Element,
   children: JSX.Element
-) {
+}
+
+export default function RenderWrapperOn({
+  renderOnBreakpoints,
+  wrapper,
+  children
+} : RenderWraperOnProps) {
   const {
     isDesktopExtraWide,
     isDesktopWide,

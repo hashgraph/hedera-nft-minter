@@ -10,26 +10,14 @@ export default function Footer() {
   const location = useLocation();
   const { isMinterWizardWelcomeScreen } = useLayout();
 
-  const isHomeScreenLogoLeft = useMemo(() => (
-    location.pathname === '/' && !isMinterWizardWelcomeScreen
+  const showLogoOnLeft = useMemo(() => (
+    location.pathname === '/my-nft-collection' ??
+      (location.pathname === '/' && !isMinterWizardWelcomeScreen)
   ), [location.pathname, isMinterWizardWelcomeScreen])
 
-  const isMyNFTCollectionScreen = useMemo(() => (
-    location.pathname === '/my-nft-collection'
-  ), [location.pathname])
-
-  const showLogoOnLeft = useMemo(() => (
-    isMyNFTCollectionScreen ? (
-      isMyNFTCollectionScreen
-    ) : (
-      isHomeScreenLogoLeft
-    )
-  ), [isHomeScreenLogoLeft, isMyNFTCollectionScreen])
-
-  const footerLogoAnimationClassnames = useMemo(() => classNames( {
-    'fadeslide-left': !showLogoOnLeft,
-    'fadeslide-right': showLogoOnLeft
-  }), [showLogoOnLeft])
+  const footerLogoAnimationClassnames = useMemo(() => (
+    classNames(`fadeslide${ showLogoOnLeft ? '-left' : '-right' }`)
+  ), [showLogoOnLeft])
 
   return (
     <footer className='footer container--max-width'>

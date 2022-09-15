@@ -2,16 +2,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import MirrorNode, { FetchAllNFTsResponseRow } from '@/services/MirrorNode';
+import MirrorNode from '@/services/MirrorNode';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import renderValue from '@/utils/helpers/renderValue';
+import { NFTInfo } from '@/utils/entity/NFTInfo';
 
 import Loader from '@components/shared/loader/Loader';
 
 import placeholder from '@assets/images/placeholder.png';
 import './nft.scss';
+import formatToIPFSImageLink from '@/utils/helpers/formatToIPFSImageLink';
 
-type NFTProps = FetchAllNFTsResponseRow & {
+type NFTProps = NFTInfo & {
   collectionInfo?: TokenInfo
 }
 
@@ -25,28 +27,21 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
     setIsLoading(false);
   }, [metadata, setLoadedMetadata]);
 
-  const showPlaceholder = useMemo(() => (
-    loadedMetadata?.image
-  ), [loadedMetadata?.image])
-
   const previewImageSrc = useMemo(() => (
-    (showPlaceholder && loadedMetadata?.image)
-      ? (
-        loadedMetadata.image.includes('https://')
-        ? loadedMetadata.image
-        : `https://ipfs.io/ipfs/${ loadedMetadata.image.replace('ipfs://', '') }`
-      ) : (
-        placeholder
-      )
-  ), [loadedMetadata?.image, showPlaceholder])
+    loadedMetadata?.image ? (
+      formatToIPFSImageLink(loadedMetadata.image)
+    ) : (
+      placeholder
+    )
+  ), [loadedMetadata?.image])
 
   const nftCardClassnames = useMemo(() => (
     classNames('nft-card', { nft__isLoading: isLoading })
   ), [isLoading])
 
   const nftCardImageClassnames = useMemo(() => (
-    classNames({placeholder: !showPlaceholder})
-  ), [showPlaceholder])
+    classNames({placeholder: !loadedMetadata?.image})
+  ), [loadedMetadata?.image])
 
   useEffect(() => {
     loadMetadata();

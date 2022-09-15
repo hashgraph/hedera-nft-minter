@@ -41,23 +41,11 @@
       font-weight: 700;
     }
 
-    &__serial , &__token-id{
+    &__serial {
       font-size: 0.5rem;
       line-height: 0.7rem;
       font-weight: 300;
       opacity: 0.6;
-    }
-
-    &__token-id {
-      margin-top: -1rem !important;
-    }
-
-    &__collection-symbol {
-      font-size: 0.7rem;
-      line-height: 0.7rem;
-      font-weight: 300;
-      opacity: 0.6;
-      margin: 0;
     }
 
     &__collection-name {
@@ -75,11 +63,6 @@
       }
     }
 
-    &__serial {
-      p {
-        font-size: 0.8rem;
-      }
-    }
 
     &__buttons {
       .hashscan {

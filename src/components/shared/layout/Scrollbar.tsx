@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react'
+import { JSX } from '@babel/types';
 import { Scrollbar as ScrollbarCustom } from 'react-scrollbars-custom';
 import omit from 'lodash/omit';
-import { JSX } from '@babel/types'
-import useRenderWrapperOn, { RenderOnProps } from '@utils/hooks/useRenderWrapperOn'
+import RenderWrapperOn, { RenderOnProps } from '@/components/hoc/RenderWraperOn';
 
 type ScrollerProps = {
   children: JSX.Element;
@@ -19,6 +19,13 @@ const INITIAL_SCROLLER_RENDER_ON_PROPS : RenderOnProps = {
   desktopExtraWide: true,
 }
 
+type ScrollbarProps = {
+  [key: string]: {
+    elementRef?: React.Ref<HTMLElement>,
+    renderer?: React.ReactElement<HTMLElement>,
+  }
+} | {className: string}
+
 export default function Scrollbar({children, renderOn} : ScrollerProps) {
 
   const renderOnBreakpoints = useMemo(() => ({
@@ -26,10 +33,7 @@ export default function Scrollbar({children, renderOn} : ScrollerProps) {
     ...renderOn,
   }), [renderOn])
 
-  const scrollbarProps = useMemo<{[key: string]: {
-    elementRef?: React.Ref<HTMLElement>,
-    renderer?: React.ReactElement<HTMLElement>,
-  }} | {className: string}>(() => ({
+  const scrollbarProps = useMemo<ScrollbarProps>(() => ({
     className: 'scrollbar',
     children,
     scrollerProps: {
@@ -58,9 +62,13 @@ export default function Scrollbar({children, renderOn} : ScrollerProps) {
     },
   }), [children])
 
-  return useRenderWrapperOn(
-    renderOnBreakpoints,
-    <ScrollbarCustom {...scrollbarProps} />,
-    children
+  return (
+    <RenderWrapperOn
+      renderOnBreakpoints={renderOnBreakpoints}
+      wrapper={<ScrollbarCustom {...scrollbarProps} />}
+      {...scrollbarProps}
+    >
+      {children}
+    </RenderWrapperOn>
   )
 }

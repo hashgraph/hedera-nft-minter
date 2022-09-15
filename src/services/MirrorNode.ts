@@ -6,9 +6,16 @@ import map from 'lodash/map';
 import filter from 'lodash/filter';
 import concat from 'lodash/concat';
 import entries from 'lodash/entries';
-import groupBy from 'lodash/groupBy';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo, NFTInfoWithMetadata, NFTTransactionHistory } from '@utils/entity/NFTInfo';
+
+type GroupedNFTs = {
+  [index: string]: NFTInfo[]
+}
+
+interface ResponseLinks {
+  next: null | string
+}
 
 interface Token {
   token_id: string,
@@ -32,25 +39,9 @@ interface AccountResponse {
   key: {_type: string; key: string}
 }
 
-interface ResponseLinks {
-  next: null | string
-}
-
-export interface FetchAllNFTsResponse {
-  nfts: FetchAllNFTsResponseRow[];
+interface FetchAllNFTsResponse {
+  nfts: NFTInfo[];
   links: ResponseLinks;
-}
-
-export interface FetchAllNFTsResponseRow {
-  account_id: string;
-  created_timestamp: string;
-  delegating_spender: null | string;
-  deleted: boolean;
-  metadata: string;
-  modified_timestamp: string;
-  serial_number: number;
-  spender: null | string;
-  token_id: string;
 }
 
 export default class MirrorNode {
@@ -204,7 +195,7 @@ export default class MirrorNode {
 
       nextLink = undefined;
 
-      let nfts : FetchAllNFTsResponseRow[] = data.nfts
+      let nfts : NFTInfo[] = data.nfts
 
       if(data.links.next) {
         nextLink = data.links.next
@@ -219,18 +210,9 @@ export default class MirrorNode {
       return nfts
   }
 
-  static async fetchAllNFTsGroupedByCollection(idOrAliasOrEvmAddress: string) {
-    const allNFTs = await this.fetchAllNFTs(idOrAliasOrEvmAddress);
-    const groupedNFTsByCollectionId = groupBy(allNFTs, 'token_id');
-
-    return groupedNFTsByCollectionId;
-  }
-
-  static async fetchAllNFTsGroupedByCollectionWithInfo(idOrAliasOrEvmAddress: string) {
-    const groupedNFTsByCollectionId = await this.fetchAllNFTsGroupedByCollection(idOrAliasOrEvmAddress);
-
+  static async fetchCollectionInfoForGroupedNFTs(groupedNfts: GroupedNFTs) {
     const groupedNFTsByCollectionIdWithInfo = await Promise.all(
-      map(entries(groupedNFTsByCollectionId), async ([collectionId, nfts]) => ({
+      map(entries(groupedNfts), async ([collectionId, nfts]) => ({
         collection_id: collectionId,
         nfts,
         collection_info: await this.fetchTokenInfo(collectionId)
