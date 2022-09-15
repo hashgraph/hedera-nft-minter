@@ -25,7 +25,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { isNavbarHidden, isMobile, isMinterWizardWelcomeScreen } = useLayout();
+  const { isNavbarHidden, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
   const headerRef = useRef<HTMLDivElement>();
   const expandedMenuRef = useRef(null);
@@ -39,13 +39,13 @@ const Header = () => {
 
 
   const isMobileNavbarMenuToogled = useMemo(() => (
-    isMobile && isMobileNavbarMenuExpanded
-  ), [isMobile, isMobileNavbarMenuExpanded]);
+    isMobileSmall && isMobileNavbarMenuExpanded
+  ), [isMobileSmall, isMobileNavbarMenuExpanded]);
 
   const headerClassnames = classNames('header', 'container--max-width', {
     'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
     'is-hide': isNavbarHidden,
-    'is-mobile': isMobile,
+    'is-mobile': isMobileSmall,
   });
 
   const mobileNavbarExpandedMenuClassnames = classNames(
@@ -77,17 +77,7 @@ const Header = () => {
         <Link className='header__logo' to='/'>
           <img src={Logo} alt='hedera_logo' height={66} width={110} />{' '}
         </Link>
-        {isMobile
-          ? (
-            <Hamburger
-              label='Show menu'
-              rounded
-              color='#464646'
-              size={27}
-              toggled={isMobileNavbarMenuToogled}
-              toggle={setIsMobileNavbarMenuExpanded}
-            />
-          ) : (
+        {!isMobileSmall ? (
             <div className='header__buttons-wrapper'>
               <Link to='/my-nft-collection' className='icon__profile'>
                 <img src={ProfileIcon} alt='profile_icon' />
@@ -125,9 +115,19 @@ const Header = () => {
                 </p>
               </button>
             </div>
-        )}
+          ) : (
+            <Hamburger
+              label='Show menu'
+              rounded
+              color='#464646'
+              size={27}
+              toggled={isMobileNavbarMenuToogled}
+              toggle={setIsMobileNavbarMenuExpanded}
+            />
+          )
+        }
       </div>
-      {isMobile && (
+      {isMobileSmall && (
         <div
           className={mobileNavbarExpandedMenuClassnames}
           ref={expandedMenuRef}
