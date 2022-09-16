@@ -2,10 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 const dotenv = require('dotenv');
 
 const common = require('./webpack.common');
+const CopyPlugin = require('copy-webpack-plugin');
 
 dotenv.config();
 
@@ -85,6 +88,10 @@ module.exports = {
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
       API_HOST: JSON.stringify(process.env.API_HOST),
     }),
-
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/assets/images/logo.svg', to: './' }
+      ]
+    })
   ],
 };

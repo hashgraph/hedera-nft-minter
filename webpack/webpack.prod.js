@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const dotenv = require('dotenv');
 
 const common = require('./webpack.common');
@@ -86,6 +87,11 @@ module.exports = {
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
     }),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/assets/images/logo.svg', to: './' }
+      ]
+    })
   ],
   optimization: {
     runtimeChunk: true,
