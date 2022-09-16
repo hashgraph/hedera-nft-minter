@@ -8,7 +8,6 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const dotenv = require('dotenv');
 
 const common = require('./webpack.common');
-const CopyPlugin = require('copy-webpack-plugin');
 
 dotenv.config();
 
