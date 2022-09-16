@@ -129,7 +129,7 @@ const FieldWrapper = ({
         )}
 
         {!hideError && meta?.error && (
-            <Error name={name} />
+          <Error name={name} />
         )}
       </div>
     </div>
