@@ -90,12 +90,12 @@ const FieldWrapper = ({
 
         {maxLength && (
           <span className='max-length'>
-            {field.value.length}/{maxLength}
+            {field.value?.length || 0}/{maxLength}
           </span>
         )}
       </div>
       <div className='form__errors'>
-        {maxLength && field.value.length === maxLength && (
+        {maxLength && field.value?.length === maxLength && (
           <div className='form__warning'>
               Max length reached!
           </div>
