@@ -59,7 +59,7 @@ export default function OffChainBasis() {
               as='textarea'
               type='text'
               placeholder='NFT description'
-              maxLength={100}
+              maxLength={1000}
             />
           </div>
           <div className='form__row'>

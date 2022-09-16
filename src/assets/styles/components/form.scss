@@ -47,6 +47,26 @@ p {
         font-size: 0.675rem;
         opacity: 0.4;
       }
+
+      &--textarea {
+        padding: 0.5rem 0;
+        height: auto;
+        width: 100%;
+        resize: vertical;
+
+        &:focus-within {
+          border-color: $green;
+        }
+
+        textarea {
+          padding: 0;
+          resize: vertical;
+          width: 100%;
+          border-radius: 0;
+          background: transparent;
+          border: unset;
+        }
+      }
     }
   }
 
@@ -290,7 +310,7 @@ p {
     padding-top: 2px;
     font-size: 0.6875rem;
     height: $errorHeight;
-    padding-right: 1rem;
+    padding-right: .25rem;
 
     &.hover{
       cursor: pointer;

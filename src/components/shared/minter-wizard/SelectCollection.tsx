@@ -81,6 +81,7 @@ export default function SelectCollection() {
       setFieldValue('maxSupply', selectedCollection?.info.max_supply);
       setFieldValue('supplyType', selectedCollection?.info.supply_type)
       setFieldValue('token_id', selectedCollection?.info.token_id);
+      setFieldValue('qty', 1);
     }
   }, [selectedCollection, setFieldValue, wasNotBackFromSummary]);
 
@@ -94,7 +95,7 @@ export default function SelectCollection() {
     const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
       - (selectedCollection?.nfts?.length ?? 0)
 
-    return maxQty >= 10 ? 10 : maxQty
+    return (maxQty >= 10 || maxQty < 0) ? 10 : maxQty
   }, [selectedCollection])
 
   return (
@@ -161,6 +162,7 @@ export default function SelectCollection() {
                 fastField
                 name='qty'
                 type='number'
+                maxLength={2}
                 max={maxQtyNumber}
                 min={1}
               />

@@ -4,7 +4,7 @@ import { MintTypes } from '@/utils/entity/MinterWizard';
 
 const feeValidator = yup.object().shape({
   type: yup.string()
-    .oneOf(Object.values(FEE), 'Select a type!')
+    .oneOf(Object.values(FEE), 'Select a type')
     .ensure(),
 
   feeCollectorAccountId: yup.string().when(['type'], {
@@ -14,7 +14,7 @@ const feeValidator = yup.object().shape({
 
   percent: yup.number().when(['type'], {
     is: (type : FEE) => [FEE.ROYALTY].includes(type),
-    then: yup.number().max(100, 'Max 100%!').required('Required'),
+    then: yup.number().max(100, 'Max 100%').required('Required'),
   }),
 });
 
@@ -31,7 +31,7 @@ const keyValidator = yup.object().shape({
 })
 
 export const ValidationSchema = yup.object().shape({
-  image: yup.mixed().test('type', 'Only image files are accepted!', (value) => {
+  image: yup.mixed().test('type', 'Only image files are accepted', (value) => {
     switch(typeof value){
       case 'object':
         return value ? value?.type?.includes('image/') : true;
@@ -41,37 +41,37 @@ export const ValidationSchema = yup.object().shape({
   }),
   name: yup
     .string()
-    .max(100, 'Too Long!')
+    .max(100, 'Too Long')
     .required('Required'),
   edition_name: yup
     .string()
-    .max(100, 'Too Long!'),
+    .max(100, 'Too Long'),
   symbol: yup
     .string()
-    .max(100, 'Too Long!')
+    .max(100, 'Too Long')
     .required('Required'),
-  creator: yup.string().max(100, 'Too Long!'),
-  description: yup.string().max(100, 'Too Long!'),
-  qty: yup.number().min(1, 'Min 1!').max(10, 'Max 10!').required('Required'),
+  creator: yup.string().max(100, 'Too Long'),
+  description: yup.string().max(1000, 'Too Long'),
+  qty: yup.number().min(1, 'Min 1').required('Required'),
   maxSupply: yup
     .number()
     .when(['mint_type'], {
       is: (mintType : string) => mintType === MintTypes.NewCollectionNewNFT,
-      then: (schema) => schema.min(1, 'Min 1!').required('Required'),
+      then: (schema) => schema.min(1, 'Min 1').required('Required'),
       otherwise: (schema) => schema
   }),
   properties: yup.array().of(
     yup.object().shape({
       label: yup
         .string()
-        .max(100, 'Too Long!')
+        .max(100, 'Too Long')
         .when(['value'], {
           is: (value : string) => !!value,
           then: (schema) => schema.required('Required')
         }),
       value: yup
         .string()
-        .max(100, 'Too Long!')
+        .max(100, 'Too Long')
         .when(['label'], {
           is: (label : string) => !!label,
           then: (schema) => schema.required('Required')
@@ -88,14 +88,14 @@ export const ValidationSchema = yup.object().shape({
     yup.object().shape({
       trait_type: yup
         .string()
-        .max(100, 'Too Long!')
+        .max(100, 'Too Long')
         .when(['value'], {
           is: (value : string) => !!value,
           then: (schema) => schema.required('Required')
         }),
       value: yup
         .string()
-        .max(100, 'Too Long!')
+        .max(100, 'Too Long')
         .when(['trait_type'], {
           is: (trait_type : string) => !!trait_type,
           then: (schema) => schema.required('Required')

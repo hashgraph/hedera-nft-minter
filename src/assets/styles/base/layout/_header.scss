@@ -32,7 +32,7 @@ header, .header {
     letter-spacing: 0.1em;
 
     button {
-      &:hover, &:focus, &:active {
+      &:active {
         border: unset;
       }
     }

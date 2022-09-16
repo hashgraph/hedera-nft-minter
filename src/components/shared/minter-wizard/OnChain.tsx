@@ -28,6 +28,7 @@ export default function OnChain() {
               share the same image and metadata properties.'
             min='0'
             max='10'
+            maxLength={2}
           />
         </div>
         <div className='minter-wizard__on-chain__input-row'>
@@ -39,6 +40,7 @@ export default function OnChain() {
             fastField
             name='maxSupply'
             type='number'
+            maxLength={6}
             tooltip={
               <>
                 This is the maximum number of NFTs which can be minted into the collection.

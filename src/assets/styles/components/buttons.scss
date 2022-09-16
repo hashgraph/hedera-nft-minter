@@ -24,9 +24,15 @@ button,
     padding: 0.8rem 1.25rem;
   }
 
-  &:hover, &:active, &:focus {
+  &:hover, &:active {
     color: $green;
     border: 1px solid $green;
+  }
+
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 1px;
+    border-radius: 2px;
   }
 
   &:disabled {
@@ -58,7 +64,12 @@ button,
       font-size: clamp(.9rem, 2.9vw, 1.375rem);
     }
     @include respond-to('desktop') {
-      margin-left: -1.4rem;
+      margin-left: -1.3rem;
+    }
+
+    &:focus, &:focus-visible {
+      border-radius: 3rem;
+      outline-color: $green;
     }
 
     span {
@@ -66,16 +77,16 @@ button,
     }
 
     &--icon {
-        position: absolute;
-        right: 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        background-image: url(../images/icons/button_group--icon.svg);
-        background-repeat: no-repeat;
-        width: 40px;
-        height: 40px;
-        background-size: contain;
-        transition: filter 0.2s ease-in-out;
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url(../images/icons/button_group--icon.svg);
+      background-repeat: no-repeat;
+      width: 40px;
+      height: 40px;
+      background-size: contain;
+      transition: filter 0.2s ease-in-out;
     }
 
     &--active {
