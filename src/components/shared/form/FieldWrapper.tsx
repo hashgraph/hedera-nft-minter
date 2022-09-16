@@ -73,17 +73,15 @@ const FieldWrapper = ({
   }, [isArray, helpers, field?.value, type, maxLength])
 
   const handleBlur = useCallback((e) => {
-    if(type === 'number') {
-      const value = e?.currentTarget.value;
-      const slicedValue = value.slice(0, maxLength)
+    const value = e?.currentTarget.value;
+    const slicedValue = value.slice(0, maxLength)
 
-      if(props?.max) {
-        helpers.setValue(Number.parseInt(slicedValue) > (props.max ?? 0) ? props.max : slicedValue)
-      } else {
-        helpers.setValue(slicedValue)
-      }
+    if(props?.max) {
+      helpers.setValue(Number.parseInt(slicedValue) > (props.max ?? 0) ? props.max : slicedValue)
+    } else {
+      helpers.setValue(slicedValue)
     }
-  }, [helpers, maxLength, props?.max, type])
+  }, [helpers, maxLength, props?.max])
 
   return (
     <div className={wrapperClassName}>
@@ -131,13 +129,7 @@ const FieldWrapper = ({
         )}
 
         {!hideError && meta?.error && (
-          props.max ? (
-            (Number.parseInt(field?.value) <= props?.max || !field?.value) && (
-              <Error name={name} />
-            )
-          ) : (
             <Error name={name} />
-          )
         )}
       </div>
     </div>
