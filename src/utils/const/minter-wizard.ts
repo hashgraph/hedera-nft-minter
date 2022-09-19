@@ -15,6 +15,7 @@ export interface WizardValues extends NFTMetadata {
   keys: TOKEN_KEY[];
   treasuryAccountId: TreasuryKey[],
   fees: Fees[];
+  leftToMint: null | number
 }
 
 export const initialValues: WizardValues = {
@@ -44,6 +45,7 @@ export const initialValues: WizardValues = {
   ],
   qty: 1,
   maxSupply: 10,
+  leftToMint: null,
   token_id: '',
   treasuryAccountId: [
     { type: TOKEN_KEY.TREASURY, value: 'account' },

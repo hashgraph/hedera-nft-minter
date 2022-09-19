@@ -64,24 +64,29 @@ const FieldWrapper = ({
       }
     } else {
       const value = e.currentTarget.value;
-      helpers.setValue(value.slice(0, type === 'number'
-        ? maxLength
-        : value.length
-      ));
+
+      if(type === 'number') {
+        helpers.setValue(value.slice(0, maxLength));
+      } else {
+        helpers.setValue(value);
+      }
     }
-    helpers.setTouched(true);
-  }, [isArray, helpers, field?.value, type, maxLength])
+  }, [isArray, helpers, field.value, type, maxLength])
 
   const handleBlur = useCallback((e) => {
     const value = e?.currentTarget.value;
     const slicedValue = value.slice(0, maxLength)
 
-    if(props?.max) {
-      helpers.setValue(Number.parseInt(slicedValue) > (props.max ?? 0) ? props.max : slicedValue)
-    } else {
-      helpers.setValue(slicedValue)
+    if(props?.min && Number.parseInt(slicedValue) <= 0) {
+      return helpers.setValue(props.min)
     }
-  }, [helpers, maxLength, props?.max])
+
+    if(Number.parseInt(slicedValue) >= (props.max ?? 0) && props?.max) {
+      return helpers.setValue(props.max)
+    }
+
+    helpers.setValue(slicedValue)
+  }, [helpers, maxLength, props.max, props.min])
 
   return (
     <div className={wrapperClassName}>
@@ -100,6 +105,7 @@ const FieldWrapper = ({
           id={id}
           name={name}
           {...props}
+          validateOnChange
           maxLength={maxLength}
           type={type}
           checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
@@ -122,14 +128,14 @@ const FieldWrapper = ({
           </div>
         )}
 
-        {props?.max && Number.parseInt(field?.value) > props.max && (
-          <div className='form__error'>
-            Max value of { props.max }
-          </div>
-        )}
-
         {!hideError && meta?.error && (
-          <Error name={name} />
+          type === 'number' ? (
+            <div className='form__error'>
+              {meta.error}
+            </div>
+          ) : (
+            <Error name={name} />
+          )
         )}
       </div>
     </div>

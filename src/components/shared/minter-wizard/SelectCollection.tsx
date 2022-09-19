@@ -55,7 +55,7 @@ export default function SelectCollection() {
         setFieldValue('name', collections[0]?.info.name);
         setFieldValue('symbol', collections[0]?.info.symbol);
         setFieldValue('token_id', collections[0]?.info.token_id);
-        setFieldValue('maxSupply', collections[0]?.info.max_supply);
+        setFieldValue('maxSupply', parseInt(collections[0]?.info?.max_supply ?? '0') > 10 ? 10 : collections[0]?.info.max_supply);
         setFieldValue('supplyType', collections[0]?.info.supply_type)
         setFieldValue('qty', 1);
       }
@@ -70,6 +70,13 @@ export default function SelectCollection() {
     collections && collections.find(collection => collection.info.token_id === values.token_id)
   ), [values.token_id, collections]);
 
+  const maxQtyNumber = useMemo(() => {
+    const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
+      - (selectedCollection?.nfts?.length ?? 0)
+
+    return (maxQty >= 10 || maxQty <= 0) ? 10 : maxQty
+  }, [selectedCollection])
+
   useEffect(() => {
     setNextButtonHidden(true)
   }, [setNextButtonHidden])
@@ -79,24 +86,18 @@ export default function SelectCollection() {
       setFieldValue('name', selectedCollection?.info.name)
       setFieldValue('symbol', selectedCollection?.info.symbol)
       setFieldValue('maxSupply', selectedCollection?.info.max_supply);
-      setFieldValue('supplyType', selectedCollection?.info.supply_type)
+      setFieldValue('supplyType', maxQtyNumber)
       setFieldValue('token_id', selectedCollection?.info.token_id);
       setFieldValue('qty', 1);
+      setFieldValue('leftToMint', maxQtyNumber)
     }
-  }, [selectedCollection, setFieldValue, wasNotBackFromSummary]);
+  }, [selectedCollection, setFieldValue, wasNotBackFromSummary, maxQtyNumber]);
 
   useEffect(() => {
     if (userWalletId && wasNotBackFromSummary) {
       loadCollections()
     }
   }, [loadCollections, userWalletId, wasNotBackFromSummary]);
-
-  const maxQtyNumber = useMemo(() => {
-    const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
-      - (selectedCollection?.nfts?.length ?? 0)
-
-    return (maxQty >= 10 || maxQty < 0) ? 10 : maxQty
-  }, [selectedCollection])
 
   return (
     <div>

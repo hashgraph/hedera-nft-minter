@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
 import { MintTypes } from '@/utils/entity/MinterWizard';
+import validateQtyFormField from '@utils/helpers/validateQtyFormField'
 
 const feeValidator = yup.object().shape({
   type: yup.string()
@@ -52,7 +53,20 @@ export const ValidationSchema = yup.object().shape({
     .required('Required'),
   creator: yup.string().max(100, 'Too Long'),
   description: yup.string().max(1000, 'Too Long'),
-  qty: yup.number().min(1, 'Min 1').required('Required'),
+  qty: yup
+    .number()
+    .min(1, 'Min 1')
+    .required('Required')
+    .when('mint_type', {
+      is: (mintType: MintTypes) => mintType === MintTypes.ExistingCollectionNewNFT,
+      then: (schema) => schema.when('leftToMint', (leftToMint, schema) => (
+        validateQtyFormField(leftToMint, schema)
+      )),
+      otherwise: (schema) => schema.when('maxSupply', (maxSupply, schema) => (
+        validateQtyFormField(maxSupply, schema))
+      )
+    }
+  ),
   maxSupply: yup
     .number()
     .when(['mint_type'], {
