@@ -1,5 +1,5 @@
 import { HEDERA_NETWORK } from '@/../Global.d';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
 import {
@@ -12,11 +12,6 @@ import { loadLocalData } from '@/utils/helpers/loadLocalData';
 
 export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = 'minerPocHashconnectData';
 
-export const HASHCONNECT_INITIAL_APP_CONFIG: HashConnectAppConfigType = {
-  name: 'Hedera Minter Wizard',
-  description: 'Mint your own NFT.',
-  icon: 'https://svgpnglogo.com/wp-content/uploads/hedera-hashgraph-hbar-logo.png',
-};
 export const HASHCONNECT_INITIAL_DEBUG: HashConnectDebugType = true;
 
 export const INITIAL_SAVE_DATA: SaveDataType = {
@@ -36,6 +31,13 @@ const useHashPack = () => {
     useState(INITIAL_SAVE_DATA);
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
+
+  // PREPARE APP CONFIG
+  const appConfig = useMemo<HashConnectAppConfigType>(() => ({
+    name: `${ HEDERA_NETWORK === 'testnet' ? `${ HEDERA_NETWORK }.` : '' }Mintbar.xyz`,
+    description: 'Mint your own NFT.',
+    icon: `${ window.location.protocol }//${ window.location.host }/logo.svg`
+  }), [])
 
   // CLEANER
   const clearPairedAccountsAndHashPackWalletData = useCallback(() => {
@@ -77,7 +79,7 @@ const useHashPack = () => {
     try {
       if (!localData) {
         //first init and store the private for later
-        const initData = await hashConnect.init(HASHCONNECT_INITIAL_APP_CONFIG);
+        const initData = await hashConnect.init(appConfig);
         newSaveData.privateKey = initData.privKey;
 
         //then connect, storing the new topic for later
@@ -93,7 +95,7 @@ const useHashPack = () => {
       } else {
         //use stored values to initialize and connect
         await hashConnect.init(
-          HASHCONNECT_INITIAL_APP_CONFIG,
+          appConfig,
           localData.privateKey
         );
         await hashConnect.connect(localData.topic, localData.pairedWalletData);
@@ -116,7 +118,7 @@ const useHashPack = () => {
         setHashConnectSaveData(newSaveData);
       }
     }
-  }, [setHashConnectSaveData]);
+  }, [setHashConnectSaveData, appConfig]);
 
   useEffect(() => {
     initializeHashConnect();

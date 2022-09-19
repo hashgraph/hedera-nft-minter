@@ -28,7 +28,7 @@ export default function FieldRadioButton({value, label, name, image, className, 
   ), [className, isActive, image]);
 
   const handleOnClick = useCallback((e) => {
-    if(onClick){
+    if (onClick) {
       onClick(e)
     }
     helpers.setValue(value)

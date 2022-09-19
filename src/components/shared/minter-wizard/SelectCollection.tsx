@@ -45,13 +45,13 @@ export default function SelectCollection() {
   const loadCollections = useCallback(async () => {
     setNextButtonHidden(true);
 
-    if(!collections) {
+    if (!collections) {
       const loadedCollections = await fetchCollections()
       setCollections(loadedCollections)
     }
 
     if (collections && collections?.length > 0) {
-      if(!values.token_id) {
+      if (!values.token_id) {
         setFieldValue('name', collections[0]?.info.name);
         setFieldValue('symbol', collections[0]?.info.symbol);
         setFieldValue('token_id', collections[0]?.info.token_id);
@@ -82,7 +82,7 @@ export default function SelectCollection() {
   }, [setNextButtonHidden])
 
   useEffect(() => {
-    if(wasNotBackFromSummary) {
+    if (wasNotBackFromSummary) {
       setFieldValue('name', selectedCollection?.info.name)
       setFieldValue('symbol', selectedCollection?.info.symbol)
       setFieldValue('maxSupply', selectedCollection?.info.max_supply);

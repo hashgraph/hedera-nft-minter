@@ -27,7 +27,7 @@ export default function ImageInput({name, alt, type} : Props) {
     const { files } = e.target;
     const file = files[0];
 
-    if(file.type.match(/image\/(png|jpg|jpeg)/gm)){
+    if (file.type.match(/image\/(png|jpg|jpeg)/gm)) {
       setImageFileBlob(file)
     }
 
@@ -40,7 +40,7 @@ export default function ImageInput({name, alt, type} : Props) {
     let fileReader = {} as FileReader;
     let isCancel = false;
 
-    if(typeof imageFileBlob !== 'undefined' ) {
+    if (typeof imageFileBlob !== 'undefined' ) {
       new Promise((resolve, reject) => {
         fileReader = new FileReader();
         fileReader.onload = (e) => {
@@ -83,7 +83,7 @@ export default function ImageInput({name, alt, type} : Props) {
   })
 
   const placeholder = useMemo(() => {
-    switch(type as ImageInputTypes) {
+    switch (type as ImageInputTypes) {
       case 'avatar':
         return placeholderSrc
 

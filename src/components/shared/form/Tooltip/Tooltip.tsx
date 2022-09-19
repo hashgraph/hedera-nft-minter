@@ -22,9 +22,9 @@ const Tooltip = ({showLabel, title, children }: Props) => {
   });
 
   const updatePositionY = useCallback(()=>{
-    if(containerRef?.current) {
+    if (containerRef?.current) {
       setPositionY(containerRef.current?.offsetTop ?? 0)
-      if(tooltipRef.current){
+      if (tooltipRef.current) {
         tooltipRef.current.style.setProperty('--position-y', `${ positionY.toString() }px`)
       }
     }

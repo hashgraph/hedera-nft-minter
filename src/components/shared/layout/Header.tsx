@@ -60,7 +60,7 @@ const Header = () => {
   })
 
   const closeNavbar = useCallback(() => {
-    if(headerRef?.current) {
+    if (headerRef?.current) {
       enableBodyScroll(headerRef);
       setIsMobileNavbarMenuExpanded(false);
     }

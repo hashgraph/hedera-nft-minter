@@ -27,7 +27,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
   useEffect(() => {
     const newFieldIndex = field.value.length - 1
     each(inputsSchema, (el) => {
-      if(newFieldIndex >= 0){
+      if (newFieldIndex >= 0) {
         setFieldTouched(`${ name }.${ newFieldIndex }.${ el.name }`)
         validateField(`${ name }.${ newFieldIndex }.${ el.name }`)
       }

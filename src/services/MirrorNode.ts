@@ -112,7 +112,7 @@ export default class MirrorNode {
   }
 
   static async fetchNFTMetadata(cid: string) {
-    if(/^0*$/.test(Buffer.from(cid).toString('hex'))){
+    if (/^0*$/.test(Buffer.from(cid).toString('hex'))) {
       return null
     }
 
@@ -125,12 +125,12 @@ export default class MirrorNode {
         timeout: 4000
       }).catch(() => null);
 
-      if(!res?.data) {
+      if (!res?.data) {
         return
       }
 
       return res.data;
-    } catch(e) {
+    } catch (e) {
       return null
     }
   }
@@ -197,11 +197,11 @@ export default class MirrorNode {
 
       let nfts : NFTInfo[] = data.nfts
 
-      if(data.links.next) {
+      if (data.links.next) {
         nextLink = data.links.next
       }
 
-      if(nextLink) {
+      if (nextLink) {
         const nextLinkNfts = await this.fetchAllNFTs(idOrAliasOrEvmAddress, nextLink);
 
         nfts = concat(nfts, nextLinkNfts)
