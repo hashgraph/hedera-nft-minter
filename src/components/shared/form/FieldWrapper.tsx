@@ -33,7 +33,7 @@ const FieldWrapper = ({
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => Math.random().toString(), []);
-  const [field, meta, helpers] = useField(name);
+  const [field,, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
 
   const wrapperClassName = useMemo(() => (
@@ -64,11 +64,12 @@ const FieldWrapper = ({
       }
     } else {
       const value = e.currentTarget.value;
+      helpers.setTouched(true, false)
 
       if (type === 'number') {
-        helpers.setValue(value.slice(0, maxLength));
+        helpers.setValue(value.slice(0, maxLength), true);
       } else {
-        helpers.setValue(value);
+        helpers.setValue(value, true);
       }
     }
   }, [isArray, helpers, field.value, type, maxLength])
@@ -128,14 +129,8 @@ const FieldWrapper = ({
           </div>
         )}
 
-        {!hideError && meta?.error && (
-          type === 'number' ? (
-            <div className='form__error'>
-              {meta.error}
-            </div>
-          ) : (
-            <Error name={name} />
-          )
+        {!hideError && (
+          <Error name={name} />
         )}
       </div>
     </div>
