@@ -65,7 +65,7 @@ const FieldWrapper = ({
     } else {
       const value = e.currentTarget.value;
 
-      if(type === 'number') {
+      if (type === 'number') {
         helpers.setValue(value.slice(0, maxLength));
       } else {
         helpers.setValue(value);
@@ -77,11 +77,11 @@ const FieldWrapper = ({
     const value = e?.currentTarget.value;
     const slicedValue = value.slice(0, maxLength)
 
-    if(props?.min && Number.parseInt(slicedValue) <= 0) {
+    if (props?.min && Number.parseInt(slicedValue) <= 0) {
       return helpers.setValue(props.min)
     }
 
-    if(Number.parseInt(slicedValue) >= (props.max ?? 0) && props?.max) {
+    if (Number.parseInt(slicedValue) >= (props.max ?? 0) && props?.max) {
       return helpers.setValue(props.max)
     }
 
