@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
+import { useField } from 'formik';
 
 export default function OnChain() {
+  const [field] = useField('maxSupply')
+
+  const maxQtyValue = useMemo(() => {
+    const maxQty = parseInt(field.value ?? '0')
+
+    return (maxQty >= 10 || maxQty <= 0) ? 10 : maxQty
+  }, [field.value])
 
   return (
     <div className='minter-wizard__on-chain'>
@@ -26,8 +34,9 @@ export default function OnChain() {
               You can mint 10 at a time until you reach the
               maximum number of NFTs. All NFTs created will
               share the same image and metadata properties.'
-            min='0'
-            max='10'
+            min='1'
+            max={maxQtyValue}
+            maxLength={2}
           />
         </div>
         <div className='minter-wizard__on-chain__input-row'>
@@ -39,13 +48,14 @@ export default function OnChain() {
             fastField
             name='maxSupply'
             type='number'
+            maxLength={6}
             tooltip={
               <>
                 This is the maximum number of NFTs which can be minted into the collection.
                 <span className='flex'>This amount CANNOT be changed in the future</span>
               </>
             }
-            min='0'
+            min='1'
           />
         </div>
       </div>

@@ -6,8 +6,6 @@ import { JSX } from '@babel/types';
 import Error from '@/components/shared/form/Error';
 import Tooltip from './Tooltip';
 
-const MAX_NUMBER_INPUT_LENGTH = 6
-
 type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> & {
   name: string,
   label?: string,
@@ -35,13 +33,23 @@ const FieldWrapper = ({
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => Math.random().toString(), []);
-  const [field, meta, helpers] = useField(name);
+  const [field,, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
-  const wrapperClassName = classNames(
-    'form__row',
-    `form__${ type }`,
-    { inverse },
-  );
+
+  const wrapperClassName = useMemo(() => (
+    classNames(
+      'form__row',
+      `form__${ type }`,
+      { inverse },
+    )
+  ), [inverse, type]);
+
+  const formFieldContainerClassName = useMemo(() => (
+    classNames('form__field__container', {
+      'input': props?.as === 'textarea',
+      'form__field__container--textarea': props?.as === 'textarea'
+    })
+  ), [props?.as])
 
   const handleChange = useCallback((e) => {
     if (isArray) {
@@ -58,13 +66,30 @@ const FieldWrapper = ({
     } else {
       const value = e.currentTarget.value;
 
-      helpers.setValue(value.slice(0, type === 'number'
-        ? MAX_NUMBER_INPUT_LENGTH
-        : value.length
-      ));
+      helpers.setTouched(true, false)
+
+      if (type === 'number') {
+        helpers.setValue(value.slice(0, maxLength), true);
+      } else {
+        helpers.setValue(value, true);
+      }
     }
-    helpers.setTouched(true);
-  }, [isArray, helpers, field.value, type])
+  }, [isArray, helpers, field.value, type, maxLength])
+
+  const handleBlur = useCallback((e) => {
+    const value = e?.currentTarget.value;
+    const slicedValue = value.slice(0, maxLength)
+
+    if (props?.min && Number.parseInt(slicedValue) <= 0) {
+      return helpers.setValue(props.min)
+    }
+
+    if (Number.parseInt(slicedValue) >= (props.max ?? 0) && props?.max) {
+      return helpers.setValue(props.max)
+    }
+
+    helpers.setValue(slicedValue)
+  }, [helpers, maxLength, props.max, props.min])
 
   return (
     <div className={wrapperClassName}>
@@ -78,32 +103,35 @@ const FieldWrapper = ({
           )}
         </label>
       )}
-      <div className='form__field__container'>
+      <div className={formFieldContainerClassName}>
         <Component
           id={id}
           name={name}
           {...props}
+          validateOnChange
           maxLength={maxLength}
           type={type}
           checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}
           onKeyDown={({ key }: KeyboardEvent) => key === 'Enter' ? onEnter() : null}
           onChange={['radio', 'checkbox', 'number'].includes(type) ? handleChange : field.onChange}
+          onBlur={['number'].includes(type) ? handleBlur : field.onBlur}
         />
 
         {maxLength && (
           <span className='max-length'>
-            {field.value?.length || 0}/{maxLength}
+            {field?.value?.toString()?.length || 0}/{maxLength}
           </span>
         )}
       </div>
+
       <div className='form__errors'>
-        {maxLength && field.value?.length === maxLength && (
+        {!props?.max && maxLength && field?.value?.length === maxLength && (
           <div className='form__warning'>
-              Max length reached!
+            Max length reached
           </div>
         )}
 
-        {!hideError && meta.error && (
+        {!hideError && (
           <Error name={name} />
         )}
       </div>
