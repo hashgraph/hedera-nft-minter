@@ -23,6 +23,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     (files) => {
       imageChange(files)
       const temp = values as FormikValues;
+
       temp.image = files[0];
       setValues(temp);
     }, [setValues, values, imageChange]);
@@ -32,6 +33,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     }
 
     const doesIncludeFileType = files[0].file.type.includes('image/');
+
     if (!doesIncludeFileType) {
       return toast.error('❌ You can only upload only image files!');
     }

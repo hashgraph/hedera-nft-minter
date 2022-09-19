@@ -62,6 +62,7 @@ export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], e
       ? every(errors[optionalFieldName] as [], (el) => !!el)
       : !!errors[optionalFieldName]
   )
+
   return foundErrors.length === 0
 }
 

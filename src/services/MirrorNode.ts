@@ -93,11 +93,13 @@ export default class MirrorNode {
     const promises = map(loadedNfts.nfts, async (nft) => {
       if (nft?.metadata) {
         const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
+
         return { ...nft, meta, collection_info: collectionInfo }
       }
       return { ...nft, collection_info: collectionInfo };
     }).filter(async (el) => {
       const elRes = await el;
+
       return elRes !== undefined;
     });
 

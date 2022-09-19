@@ -28,6 +28,7 @@ const useBladeWallet = () => {
     } catch (e) {
       if (typeof e === 'function') {
         const { message } = e();
+
         toast.error(message);
       } else if (typeof e === 'string') {
         toast.error(e);
@@ -55,6 +56,7 @@ const useBladeWallet = () => {
   //INITIALIZATION
   const initializeBladeWallet = useCallback(async () => {
     const wasConnected = loadLocalData(BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME);
+
     if (wasConnected) {
       await connectBladeWallet();
     }

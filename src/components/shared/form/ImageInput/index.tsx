@@ -45,6 +45,7 @@ export default function ImageInput({name, alt, type} : Props) {
         fileReader = new FileReader();
         fileReader.onload = (e) => {
           const { result } = e.target as FileReader;
+
           if (result) {
             resolve(result);
           }

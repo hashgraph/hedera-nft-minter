@@ -116,6 +116,7 @@ export default class Api {
    */
   request<T>(config: AxiosRequestConfig): AxiosPromise<T> {
     const newConfig = { ...config };
+
     newConfig.headers = {
       ...newConfig.headers,
       Authorization: `Bearer ${ this.token }`,
@@ -134,6 +135,7 @@ export default class Api {
     };
 
     const data = new FormData();
+
     data.append('username', username);
     data.append('password', password);
     data.append('grant_type', 'password');
@@ -177,6 +179,7 @@ export default class Api {
 
     try {
       const data = new FormData();
+
       data.append('refresh_token', api.getRefreshToken());
       data.append('grant_type', 'refresh_token');
 
@@ -184,6 +187,7 @@ export default class Api {
 
       if (request.status === 200) {
         const { data } = request;
+
         api.setToken(data.access_token);
         api.setRefreshToken(data.refresh_token);
       }
@@ -218,6 +222,7 @@ export default class Api {
       response.data.error === 'invalid_token'
     ) {
       let renewSessionResponse = null;
+
       if (!api.refreshingProcess) {
         renewSessionResponse = await Api.renewSession();
         if (isError(renewSessionResponse)) {
@@ -397,6 +402,7 @@ export default class Api {
 
   static logout() {
     const api = Api.getInstance();
+
     // TODO: ADD REST API ENDPOINT;
     api.logout(); // TODO: REMOVE - TEMP SOLUTION
     window.location.href = '/';

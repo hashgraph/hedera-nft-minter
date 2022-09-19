@@ -8,7 +8,6 @@ type Props = {
 };
 
 const Error = ({ name, className, onClick }: Props) => {
-
   const classname = classNames('form__error', className, {
     image_error: name === 'image',
     hover: typeof onClick === 'function'

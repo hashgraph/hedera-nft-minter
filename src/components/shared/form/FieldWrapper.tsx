@@ -50,12 +50,14 @@ const FieldWrapper = ({
 
       if (currentValue.includes(value)) {
         const newValue = field.value.filter((v: string) => v !== value);
+
         helpers.setValue(newValue);
       } else {
         helpers.setValue([...currentValue, value]);
       }
     } else {
       const value = e.currentTarget.value;
+
       helpers.setValue(value.slice(0, type === 'number'
         ? MAX_NUMBER_INPUT_LENGTH
         : value.length

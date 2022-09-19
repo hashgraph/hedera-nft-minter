@@ -116,6 +116,7 @@ export default class HTS {
       .addNftTransfer(tokenId, serial, sender, receiver)
       .setNodeAccountIds([new AccountId(3)])
       .freeze();
+
     return tx;
   }
 
@@ -127,6 +128,7 @@ export default class HTS {
       .addHbarTransfer(acc2, new Hbar(1))
       .setNodeAccountIds([new AccountId(3)])
       .freeze();
+
     return tx;
   }
 }

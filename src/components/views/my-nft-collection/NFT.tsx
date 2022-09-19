@@ -23,6 +23,7 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
 
   const loadMetadata = useCallback(async () => {
     const fetchedMetadata = await MirrorNode.fetchNFTMetadata(atob(metadata));
+
     setLoadedMetadata(fetchedMetadata);
     setIsLoading(false);
   }, [metadata, setLoadedMetadata]);

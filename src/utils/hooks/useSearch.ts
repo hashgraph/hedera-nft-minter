@@ -142,6 +142,7 @@ export default function useSearch() {
         skipNull: true,
         arrayFormat: 'bracket'
       });
+
       if (query !== location.search.slice(1)) {
         history.push(`${ location.pathname }?${ query }`);
       }
