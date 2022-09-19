@@ -47,6 +47,7 @@ export default function SelectCollection() {
 
     if (!collections) {
       const loadedCollections = await fetchCollections()
+
       setCollections(loadedCollections)
     }
 

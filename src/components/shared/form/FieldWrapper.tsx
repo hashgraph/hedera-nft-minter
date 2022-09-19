@@ -58,6 +58,7 @@ const FieldWrapper = ({
 
       if (currentValue.includes(value)) {
         const newValue = field.value.filter((v: string) => v !== value);
+
         helpers.setValue(newValue);
       } else {
         helpers.setValue([...currentValue, value]);

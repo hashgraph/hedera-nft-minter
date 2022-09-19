@@ -36,6 +36,7 @@ const Modal = ({ closeModal, isModalShowed, children} : Props) => {
         enableBodyScroll(ref.current as HTMLDivElement);
       }
     };
+
     document.addEventListener('keydown', handleExit);
     return () => document.removeEventListener('keydown', handleExit);
   }, [closeModal]);

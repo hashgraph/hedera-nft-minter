@@ -19,6 +19,7 @@ export default function Offers() {
         const users = await MirrorNode.fetchUserNFTs(userWalletId, {
           onlyAllowedToMint: true,
         })
+
         setCollections(users)
         setLoading(false);
       }

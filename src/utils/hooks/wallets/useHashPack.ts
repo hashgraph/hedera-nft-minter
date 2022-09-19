@@ -76,14 +76,17 @@ const useHashPack = () => {
   const initializeHashConnect = useCallback(async () => {
     const localData = loadLocalData(HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME);
     const newSaveData = INITIAL_SAVE_DATA;
+
     try {
       if (!localData) {
         //first init and store the private for later
         const initData = await hashConnect.init(appConfig);
+
         newSaveData.privateKey = initData.privKey;
 
         //then connect, storing the new topic for later
         const state = await hashConnect.connect();
+
         newSaveData.topic = state.topic;
 
         //generate a pairing string, which you can display and generate a QR code from

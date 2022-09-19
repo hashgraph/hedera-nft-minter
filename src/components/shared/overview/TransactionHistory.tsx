@@ -29,6 +29,7 @@ export default function TransactionHistory({collectionId, serialNumber} : Transa
         tokenId,
         editionNumber
       );
+
       setEditionTransactionHistoryData({ ...loadedEdition });
       setEditionTransactionHistoryLoading(false);
   }, [setEditionTransactionHistoryLoading, setEditionTransactionHistoryData]);

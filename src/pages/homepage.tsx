@@ -22,11 +22,13 @@ export default function MinterWizard() {
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
+
     return data;
   }, []);
 
   const uploadMetadata = useCallback(async (metadata) => {
     const { data } = await IPFS.createMetadataFile(metadata);
+
     return data;
   }, []);
 
@@ -59,6 +61,7 @@ export default function MinterWizard() {
   const handleFormSubmit = useCallback(async (values) => {
     const formValues : FormikValues = {...values}
     const tokenSymbol = formValues.symbol;
+
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
     let metaCIDs = [] as UploadRespone[]
@@ -77,6 +80,7 @@ export default function MinterWizard() {
         //upload image
         if (formValues.image) {
           const imageData = await uploadNFTFile(formValues.image);
+
           if (!imageData.ok) {
             throw new Error('Error when uploading NFT File!');
           }

@@ -11,11 +11,13 @@ export class SigningService {
     trans.setTransactionId(transId);
     trans = await trans.freeze();
     const transBytes = trans.toBytes();
+
     return transBytes;
   }
 
   static async makeBytes(trans: Transaction, signingAcctId: string) {
     const transId = TransactionId.generate(signingAcctId)
+
     trans.setTransactionId(transId);
     trans.setNodeAccountIds([new AccountId(3)]);
 

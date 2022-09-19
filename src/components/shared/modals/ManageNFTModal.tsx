@@ -66,6 +66,7 @@ export default function ManageNFTModal({ info }: ManageNFTModal) {
       }, {}) as { tokenName: string, tokenMemo: string, tokenSymbol: string};
 
       const tx = HTS.updateToken(info.token_id, userWalletId, changedValues);
+
       await sendTransaction(tx);
       toast.success('NFT update success :)');
     } catch (e) {

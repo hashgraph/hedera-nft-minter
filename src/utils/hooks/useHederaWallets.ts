@@ -108,6 +108,7 @@ const useHederaWallets = () => {
         | MessageTypes.TransactionResponse
         | TransactionResponse
         | undefined;
+
       switch (connectedWalletType) {
         case 'bladewallet':
           // eslint-disable-next-line no-case-declarations
@@ -131,6 +132,7 @@ const useHederaWallets = () => {
 
           // eslint-disable-next-line no-case-declarations,no-undef
           let txBytes: Uint8Array = new Buffer([]);
+
           if (sign) {
             txBytes = await SigningService.makeBytes(tx, userWalletId);
           } else {

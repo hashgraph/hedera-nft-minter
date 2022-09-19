@@ -14,6 +14,7 @@ export interface TabsProps {
 
 export default function Tabs({ tabs }: TabsProps ) {
   const slugs = tabs.map(({ slug }) => slug);
+
   type TabsSlugs = typeof slugs[number];
   const [activeTab, setActiveTab] = useState<TabsSlugs>(tabs[0].slug);
 

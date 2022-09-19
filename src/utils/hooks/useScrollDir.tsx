@@ -22,10 +22,12 @@ export const useScrollDirection = () => {
 
     const updateScrollDirection = () => {
       const currentScrollYPosition = window.scrollY;
+
       if (scrolledMoreThanThreshold(currentScrollYPosition)) {
         const newScrollDirection = isScrollingUp(currentScrollYPosition)
           ? ScrollDirection.down
           : ScrollDirection.up;
+
         setScrollDir(newScrollDirection);
         previousScrollYPosition =
           currentScrollYPosition > 0 ? currentScrollYPosition : 0;

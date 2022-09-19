@@ -135,6 +135,7 @@ export default function LayoutProvider({
         setIsDesktopExtraWide(false);
       }
     };
+
     handleResize();
 
     window.addEventListener('resize', handleResize);

@@ -86,6 +86,7 @@
     "react/jsx-indent-props": [2, 2],
     "react/jsx-closing-bracket-location": [2, "tag-aligned"],
     "keyword-spacing": ["error"],
-    "space-before-blocks": ["error"]
+    "space-before-blocks": ["error"],
+    "padding-line-between-statements": ["error", { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"}, { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"]}]
   }
 }
