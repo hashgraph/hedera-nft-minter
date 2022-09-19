@@ -65,6 +65,7 @@ const FieldWrapper = ({
       }
     } else {
       const value = e.currentTarget.value;
+
       helpers.setTouched(true, false)
 
       if (type === 'number') {
