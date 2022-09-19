@@ -19,7 +19,7 @@ export default function ShowNFTsModal({nfts, info}: ShowNFTsModalProps) {
 
   const loadMetadata = useCallback(async () => {
     try {
-      if(nfts) {
+      if (nfts) {
         const nftsMetadata = await Promise.all(nfts.map(nft => MirrorNode.fetchNFTMetadata(atob(nft.metadata))))
 
         const nftsWithCollectionInfoAndMetadata = map(nfts, (nft, i) => {

@@ -30,11 +30,11 @@ export default function Slider({ data, activeIndex }: SliderProps) {
   const { isDesktop } = useLayout()
 
   const getTransitionWidth = useCallback(() => {
-    if(!containerRef.current) {
+    if (!containerRef.current) {
       return 0
     }
 
-    if(isDesktop) {
+    if (isDesktop) {
       const bigColumnWidth = ((containerRef.current?.clientWidth ?? 0) * BIG_COLUMN_WIDTH_PERCENTAGE)
 
       const smallColumnWidth =

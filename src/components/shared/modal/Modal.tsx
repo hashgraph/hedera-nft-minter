@@ -17,13 +17,13 @@ const Modal = ({ closeModal, isModalShowed, children} : Props) => {
   const modalContext = useContext(ModalContext);
   let modalContent = children
 
-  if(!closeModal){
+  if (!closeModal) {
     closeModal = modalContext.closeModal
   }
-  if(!isModalShowed){
+  if (!isModalShowed) {
     isModalShowed = modalContext.isModalShowed
   }
-  if(!children){
+  if (!children) {
     modalContent = modalContext.modalContent
   } else {
     modalContent = children

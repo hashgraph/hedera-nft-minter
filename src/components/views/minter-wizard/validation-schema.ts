@@ -32,7 +32,7 @@ const keyValidator = yup.object().shape({
 
 export const ValidationSchema = yup.object().shape({
   image: yup.mixed().test('type', 'Only image files are accepted!', (value) => {
-    switch(typeof value){
+    switch (typeof value) {
       case 'object':
         return value ? value?.type?.includes('image/') : true;
       case 'string':

@@ -40,10 +40,10 @@ export default function Navigation({
   const { errors } = useFormikContext()
 
   const handleGoToSummary = useCallback(() => {
-    if(Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length > 0) {
       toast.error('Fix creator errors!')
     } else {
-      if(creatorStep > 0) {
+      if (creatorStep > 0) {
         setCreatorStepToBackFromSummary(creatorStep)
         goToSummary()
       }

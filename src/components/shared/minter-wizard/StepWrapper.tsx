@@ -44,7 +44,7 @@ export default function MinterWizardStepWrapper({
   [creatorStepToBackFromSummary])
 
   const handleBackFromWizardSummary = useCallback(() => {
-    if(wasUserBackFromSummary && minterWizardProps.creatorStep === 0) {
+    if (wasUserBackFromSummary && minterWizardProps.creatorStep === 0) {
       setCreatorStep(creatorStepToBackFromSummary)
 
       setCreatorStepToBackFromSummary(0)
@@ -56,7 +56,7 @@ export default function MinterWizardStepWrapper({
   }, [handleBackFromWizardSummary])
 
   useEffect(() => {
-    if(minterWizardProps.isFirstScreen) {
+    if (minterWizardProps.isFirstScreen) {
       setNextButtonHidden(false)
     }
   }, [minterWizardProps.isFirstScreen, setNextButtonHidden])

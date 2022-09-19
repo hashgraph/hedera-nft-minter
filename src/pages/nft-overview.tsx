@@ -24,7 +24,7 @@ export default function NFTOverview() {
   const selectEdition = useCallback(async () => {
       const edition = collectionNFTs.find(el => el.serial_number === Number.parseInt(serialNumber))
 
-      if(edition) {
+      if (edition) {
         setEdition(edition);
       }
   }, [collectionNFTs, serialNumber]);
@@ -38,7 +38,7 @@ export default function NFTOverview() {
   ]);
 
   useEffect(() => {
-    if(isCollectionsLoading) {
+    if (isCollectionsLoading) {
       selectEdition();
     }
   }, [selectEdition, isCollectionsLoading, serialNumber])

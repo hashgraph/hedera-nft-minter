@@ -7,19 +7,6 @@ import placeholder from '@assets/images/placeholder.png';
 import uploadArrow from '@assets/images/icons/upload-arrow.svg';
 import './drag-and-drop-file-input.scss'
 
-// https://stackoverflow.com/a/18650828
-function formatBytes(bytes : number, decimals = 2) {
-  if (bytes === 0) return '0 Bytes';
-
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
 type SelectedImage = File | undefined
 
 const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {

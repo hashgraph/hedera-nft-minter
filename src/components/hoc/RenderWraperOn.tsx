@@ -34,7 +34,7 @@ export default function RenderWrapperOn({
   } = useLayout();
 
   const renderWrapperOn = useCallback(() => {
-    if(isDesktopExtraWide) {
+    if (isDesktopExtraWide) {
       return (
         renderOnBreakpoints.desktopExtraWide
           ? wrapper
@@ -42,7 +42,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isDesktopWide) {
+    if (isDesktopWide) {
       return (
         renderOnBreakpoints.desktopWide
           ? wrapper
@@ -50,7 +50,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isDesktop) {
+    if (isDesktop) {
       return (
         renderOnBreakpoints.desktop
           ? wrapper
@@ -58,7 +58,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isLaptop) {
+    if (isLaptop) {
       return (
         renderOnBreakpoints.laptop
           ? wrapper
@@ -66,7 +66,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isTablet) {
+    if (isTablet) {
       return (
         renderOnBreakpoints.tablet
           ? wrapper
@@ -74,7 +74,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isMobile) {
+    if (isMobile) {
       return (
         renderOnBreakpoints.mobile
           ? wrapper
@@ -82,7 +82,7 @@ export default function RenderWrapperOn({
       )
     }
 
-    if(isMobileSmall) {
+    if (isMobileSmall) {
       return (
         renderOnBreakpoints.mobileSmall
           ? wrapper

@@ -134,10 +134,10 @@ export default function MinterWizard() {
       if (typeof e === 'string') {
         toast.error(e);
       } else if (e instanceof Error) {
-        if(e.message.includes('illegal buffer')){
+        if (e.message.includes('illegal buffer')) {
           toast.error('Transaction aborted in wallet.')
         }
-        if(e.message.includes('INSUFFICIENT_PAYER_BALANCE')){
+        if (e.message.includes('INSUFFICIENT_PAYER_BALANCE')) {
           toast.error('No available balance to finish operation.')
         }
         else {
