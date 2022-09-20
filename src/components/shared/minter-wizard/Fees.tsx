@@ -50,14 +50,14 @@ const MinterWizardFees = () => {
                   }) : toast.error('Enough!')
                 }
                 type='button'
-                className='btn--big'
+                className='form__group__button'
               >
                 <img width={15} height={15} src={plusIcon} alt='plus_icon' />
               </button>
             </div>
             {!hasAnyValues && (
               <div className='form__row'>
-                <p>Click the + to add Fees to the Collection</p>
+                <p>To add fees click the button above.</p>
               </div>
             )}
             <TransitionGroup className='form__group__list'>
@@ -82,7 +82,11 @@ const MinterWizardFees = () => {
                             <option value={FEE.FIXED}>Fixed Fee</option>
                           </FieldSelect>
                         </div>
-                        <button type='button' onClick={() => remove(index)}>
+                        <button
+                          type='button'
+                          className='form__group__button'
+                          onClick={() => remove(index)}
+                        >
                           <img width={13} height={16} src={thrashIcon} alt='thrash' />
                         </button>
                         </div>
