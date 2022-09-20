@@ -21,12 +21,13 @@ export type MinterWizardKey = {
     title: string;
     value: TOKEN_KEY;
     required?: boolean;
+    tooltip?: string,
 }
 
 export interface MinterWizardKeysProps {
   data: MinterWizardKey[],
   label: string,
-  name: string
+  name: string,
 }
 
 const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
@@ -40,31 +41,36 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
           <div className='minter-wizard__keys__checkbox'>
             <p className='title'>
               {el.title}
-              <Tooltip >
-                Here is key tooltip.
+              {el?.tooltip && (
+                <Tooltip >
+                  {el.tooltip}
 
-                {el.required && (
-                  <strong>
-                    {el.title} key is always set!
-                  </strong>
-                )}
-              </Tooltip>
+                  {el?.required && (
+                    <>
+                      <br />
+                      <strong>
+                        {el.title} key has to be always set!
+                      </strong>
+                    </>
+                  )}
+                </Tooltip>
+              )}
             </p>
 
-          <label className=''>
-            <span
-              className={classNames('minter-wizard__keys__pseudo-checkbox', {
-                'required': el.required,
-                'minter-wizard__keys__pseudo-checkbox--active': el.required ?? field.value.includes(el.value)
-              })}
-            />
-            {el.required ? (
-                <input type='checkbox' checked={true}/>
-              ) : (
-                <Field type='checkbox' name='keys' value={el.value} />
-              )
-            }
-          </label>
+            <label className=''>
+              <span
+                className={classNames('minter-wizard__keys__pseudo-checkbox', {
+                  'required': el.required,
+                  'minter-wizard__keys__pseudo-checkbox--active': el.required ?? field.value.includes(el.value)
+                })}
+              />
+              {el.required ? (
+                  <input type='checkbox' checked={true}/>
+                ) : (
+                  <Field type='checkbox' name='keys' value={el.value} />
+                )
+              }
+            </label>
           </div>
         ))}
       </div>
