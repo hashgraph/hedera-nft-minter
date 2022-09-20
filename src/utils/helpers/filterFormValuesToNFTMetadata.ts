@@ -46,7 +46,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     }, {});
   }
 
-  if (!Object.keys(filtered.attributes).length) {
+  if (!Object.keys(filtered?.attributes ?? [])?.length) {
     delete filtered.attributes;
   }
 
@@ -63,7 +63,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     }, {});
   }
 
-  if (!Object.keys(filtered.properties)?.length) {
+  if (!Object.keys(filtered?.properties ?? [])?.length) {
     delete filtered.properties;
   }
 
