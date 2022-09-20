@@ -57,7 +57,7 @@ const MinterWizardFees = () => {
             </div>
             {!hasAnyValues && (
               <div className='form__row'>
-                <p>To add fees click the button above.</p>
+                <p>Click the + to add Fees to the Collection</p>
               </div>
             )}
             <TransitionGroup className='form__group__list'>
