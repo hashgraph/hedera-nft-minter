@@ -7,27 +7,32 @@ import objectUnique from '@/utils/yup/objectUnique';
 objectUnique();
 
 const feeValidator = yup.object().shape({
-  type: yup.string().oneOf(Object.values(FEE), 'Select a type').ensure(),
+  type: yup.string()
+    .oneOf(Object.values(FEE), 'Select a type')
+    .ensure(),
 
   feeCollectorAccountId: yup.string().when(['type'], {
-    is: (type: FEE) => [FEE.ROYALTY].includes(type),
+    is: (type : FEE) => [FEE.ROYALTY].includes(type),
     then: yup.string().required('Required'),
   }),
 
   percent: yup.number().when(['type'], {
-    is: (type: FEE) => [FEE.ROYALTY].includes(type),
+    is: (type : FEE) => [FEE.ROYALTY].includes(type),
     then: yup.number().max(100, 'Max 100%').required('Required'),
   }),
 });
 
 const keyValidator = yup.object().shape({
-  type: yup.string().required('Required'),
-  value: yup.string().oneOf(['custom', 'account']).required('Required'),
-  key: yup.string().when('value', {
-    is: 'custom',
-    then: yup.string().required('Required'),
-  }),
-});
+  type: yup.string()
+    .required('Required'),
+  value: yup.string().oneOf(['custom', 'account'])
+    .required('Required'),
+  key: yup.string()
+    .when('value', {
+      is: 'custom',
+      then: yup.string().required('Required')
+    })
+})
 
 export const ValidationSchema = yup.object().shape({
   image: yup.mixed().test('type', 'Only image files are accepted', (value) => {
@@ -35,12 +40,20 @@ export const ValidationSchema = yup.object().shape({
       case 'object':
         return value ? value?.type?.includes('image/') : true;
       case 'string':
-        return true;
+        return true
     }
   }),
-  name: yup.string().max(100, 'Too Long').required('Required'),
-  edition_name: yup.string().max(100, 'Too Long'),
-  symbol: yup.string().max(100, 'Too Long').required('Required'),
+  name: yup
+    .string()
+    .max(100, 'Too Long')
+    .required('Required'),
+  edition_name: yup
+    .string()
+    .max(100, 'Too Long'),
+  symbol: yup
+    .string()
+    .max(100, 'Too Long')
+    .required('Required'),
   creator: yup.string().max(100, 'Too Long'),
   description: yup.string().max(1000, 'Too Long'),
   qty: yup
@@ -48,21 +61,21 @@ export const ValidationSchema = yup.object().shape({
     .min(1, 'Min 1')
     .required('Required')
     .when('mint_type', {
-      is: (mintType: MintTypes) =>
-        mintType === MintTypes.ExistingCollectionNewNFT,
-      then: (schema) =>
-        schema.when('leftToMint', (leftToMint, schema) =>
-          validateQtyFormField(leftToMint, schema)
-        ),
-      otherwise: (schema) =>
-        schema.when('maxSupply', (maxSupply, schema) =>
-          validateQtyFormField(maxSupply, schema)
-        ),
-    }),
-  maxSupply: yup.number().when(['mint_type'], {
-    is: (mintType: string) => mintType === MintTypes.NewCollectionNewNFT,
-    then: (schema) => schema.min(1, 'Min 1').required('Required'),
-    otherwise: (schema) => schema,
+      is: (mintType: MintTypes) => mintType === MintTypes.ExistingCollectionNewNFT,
+      then: (schema) => schema.when('leftToMint', (leftToMint, schema) => (
+        validateQtyFormField(leftToMint, schema)
+      )),
+      otherwise: (schema) => schema.when('maxSupply', (maxSupply, schema) => (
+        validateQtyFormField(maxSupply, schema))
+      )
+    }
+  ),
+  maxSupply: yup
+    .number()
+    .when(['mint_type'], {
+      is: (mintType : string) => mintType === MintTypes.NewCollectionNewNFT,
+      then: (schema) => schema.min(1, 'Min 1').required('Required'),
+      otherwise: (schema) => schema
   }),
   properties: yup.array().of(
     yup
@@ -90,8 +103,7 @@ export const ValidationSchema = yup.object().shape({
   ),
 
   token_id: yup.string().when(['mint_type'], {
-    is: (mintType: MintTypes) =>
-      MintTypes.ExistingCollectionNewNFT === mintType,
+    is: (mintType: MintTypes) => MintTypes.ExistingCollectionNewNFT === mintType,
     then: yup.string().required('Required'),
   }),
   attributes: yup.array().of(
