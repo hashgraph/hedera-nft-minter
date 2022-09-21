@@ -55,21 +55,21 @@ $removeButtonWidth: 27px;
     &__row {
       padding-bottom: 2.5rem;
 
-      button {
-        background-color: transparent;
-        width: 27px;
-        height: 27px;
-        border-color: $vapor;
-        padding: 0 !important;
-        color: $vapor;
-        display: grid;
-        place-items: center;
-        border-radius: 100%;
-      }
-
       &-mt {
         margin-top: 1.875rem;
       }
+    }
+
+    &__button {
+      background-color: transparent;
+      width: 27px;
+      height: 27px;
+      border-color: $vapor;
+      padding: 0 !important;
+      color: $vapor;
+      display: grid;
+      place-items: center;
+      border-radius: 100%;
     }
 
     &__inputs {
@@ -107,6 +107,10 @@ $removeButtonWidth: 27px;
       width: 100%;
       justify-content: space-between;
       align-items: center;
+
+      .title {
+        display: flex;
+      }
     }
 
     &__remove-button {

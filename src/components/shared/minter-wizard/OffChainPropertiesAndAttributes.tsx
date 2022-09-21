@@ -8,6 +8,8 @@ export default function OffChainPropertiesAndAttributes() {
         <FormGroup
           name='attributes'
           label='Attributes'
+          tooltip='Attributes describe elements of an NFT which are used to determine
+            its rarity. Common attributes include background color, eyes, fur, hat mouth and more.'
           inputsSchema={[
             {
               name: 'trait_type',
@@ -30,6 +32,8 @@ export default function OffChainPropertiesAndAttributes() {
         <FormGroup
           name='properties'
           label='Properties'
+          tooltip='Properties describe non-rarity elements which relate to the NFT such as website,
+            license type, social media handles and more.'
           inputsSchema={[
             {
               name: 'label',

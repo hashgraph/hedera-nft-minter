@@ -5,6 +5,7 @@ import each from 'lodash/each';
 import omit from 'lodash/omit';
 
 import FieldWrapper from '@/components/shared/form/FieldWrapper';
+import Tooltip from '@components/shared/form/Tooltip';
 import { WizardValues } from '@/utils/const/minter-wizard';
 
 import thrashIcon from '@assets/images/icons/thrash.svg'
@@ -18,9 +19,10 @@ interface Props {
   inputsSchema: Input[];
   name: string;
   label: string;
+  tooltip?: string
 }
 
-const FormGroup = ({ inputsSchema, name, label }: Props) => {
+const FormGroup = ({ inputsSchema, name, label, tooltip }: Props) => {
   const { setFieldTouched, validateField } = useFormikContext<WizardValues>()
   const [ field ] = useField(name)
 
@@ -42,14 +44,18 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
         {({ remove, push, form }) => (
           <>
             <div className='form__group__label-wrapper'>
-              {label && (
-                <p className='title title--medium title--strong'>
-                  {label}:
-                </p>
-              )}
+              <p className='title title--medium title--strong'>
+                {label}:
+                {tooltip && (
+                  <Tooltip>
+                    {tooltip}
+                  </Tooltip>
+                )}
+              </p>
+
               <button
                 type='button'
-                className='btn--big'
+                className='form__group__button'
                 onClick={() => push({
                   ...inputsSchema
                     .map(el => el.name && ({[el.name]:''}))
@@ -88,7 +94,7 @@ const FormGroup = ({ inputsSchema, name, label }: Props) => {
                     ))}
 
                     <div className='form__group__remove-button'>
-                      <button className='btn--big' type='button' onClick={() => remove(index)}>
+                      <button className='form__group__button' type='button' onClick={() => remove(index)}>
                         <img width={13} height={16} src={thrashIcon} alt='thrash' />
                       </button>
                     </div>

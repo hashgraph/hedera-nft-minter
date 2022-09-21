@@ -11,11 +11,32 @@ export default function Advanced() {
           label='Collection keys'
           name='keys'
           data={[
-            { title: 'Supply', value: TOKEN_KEY.SUPPLY, required: true },
-            { title: 'Admin', value: TOKEN_KEY.ADMIN },
-            { title: 'Freeze', value: TOKEN_KEY.FREEZE },
-            { title: 'Wipe', value: TOKEN_KEY.WIPE },
-            { title: 'Pause', value: TOKEN_KEY.PAUSE },
+            {
+              title: 'Supply',
+              value: TOKEN_KEY.SUPPLY,
+              required: true,
+              tooltip: 'The SUPPLY key can change the total supply of an NFT within a Collection.'
+            },
+            {
+              title: 'Admin',
+              value: TOKEN_KEY.ADMIN,
+              tooltip: 'The ADMIN key can be used to delete an entire NFT Collection.'
+            },
+            {
+              title: 'Freeze',
+              value: TOKEN_KEY.FREEZE,
+              tooltip: 'The FREEZE key can be used to freeze an account for NFT transfers.'
+            },
+            {
+              title: 'Wipe',
+              value: TOKEN_KEY.WIPE,
+              tooltip: 'The WIPE key cab be used to delete all NFTs within that Collection for a specific account.'
+            },
+            {
+              title: 'Pause',
+              value: TOKEN_KEY.PAUSE,
+              tooltip: 'The PAUSE key that has the authority to pause or unpause an NFT Collection. Pausing an NFT Collection prevents all transfers of the NFTs within the Collection.'
+            },
           ]}
         />
       </div>
