@@ -14,6 +14,21 @@ import { ValidationSchema } from '@components/views/minter-wizard/validation-sch
 import MinterWizardForm from '@/components/views/minter-wizard';
 import Summary from '@/components/views/minter-wizard/Summary';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
+import { NFTMetadata } from '@utils/entity/NFT-Metadata';
+
+const META_KEYS = [
+  'name',
+  'creator',
+  'creatorDID',
+  'description',
+  'image',
+  'type',
+  'format',
+  'attributes',
+  'properties',
+  'files',
+  'localization',
+];
 
 export default function MinterWizard() {
   const { userWalletId, sendTransaction } = useHederaWallets();
@@ -27,7 +42,15 @@ export default function MinterWizard() {
   }, []);
 
   const uploadMetadata = useCallback(async (metadata) => {
-    const { data } = await IPFS.createMetadataFile(metadata);
+    const orderedMetadata: {[key: string]: any} = {};
+
+    for (const key of META_KEYS) {
+      if (metadata[key]) {
+        orderedMetadata[key] = metadata[key];
+      }
+    }
+
+    const { data } = await IPFS.createMetadataFile(orderedMetadata as NFTMetadata);
 
     return data;
   }, []);
