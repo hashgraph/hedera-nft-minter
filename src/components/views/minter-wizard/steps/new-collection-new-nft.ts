@@ -16,28 +16,27 @@ const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OnChainScreen,
     Component: OnChain,
-    mandatoryFields: ['maxSupply', 'qty']
+    fieldsForValidation: ['maxSupply', 'qty']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainBasisScreen,
     Component: OffChainBasis,
-    mandatoryFields: ['name', 'symbol'],
-    optionalFields: ['edition_name', 'description', 'creator']
+    fieldsForValidation: ['name', 'symbol', 'edition_name', 'description', 'creator'],
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,
     Component: OffChainPropertiesAndAttributes,
-    optionalFields: ['properties', 'attributes']
+    fieldsForValidation: ['properties', 'attributes']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedFeesScreen,
     Component: AdvancedFees,
-    optionalFields: ['fees', 'treasuryAccountId']
+    fieldsForValidation: ['fees', 'treasuryAccountId']
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedKeysScreen,
     Component: AdvancedKeys,
-    optionalFields: ['keys']
+    fieldsForValidation: ['keys']
   },
 ]
 

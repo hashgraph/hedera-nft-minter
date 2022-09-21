@@ -116,8 +116,10 @@ p {
           width: 100%;
           column-gap: $columnGap;
 
-          .select__component {
-            max-width: 60%;
+          .form {
+            &__select {
+              max-width: 60%;
+            }
           }
         }
       }
