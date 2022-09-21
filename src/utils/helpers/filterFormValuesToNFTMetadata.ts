@@ -1,5 +1,7 @@
 import pick from 'lodash/pick';
+import reduce from 'lodash/reduce';
 import { FormikValues } from 'formik';
+import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   let filtered = pick(values, [
@@ -32,21 +34,27 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   );
 
   if (filtered?.attributes?.length) {
-    filtered.attributes = filtered.attributes.reduce((res, { label, value }) => {
+    filtered.attributes = reduce(filtered.attributes, (
+      res: {[trait_type: string]: string},
+      { trait_type, value } : Attribute
+    ) => {
       if (value) {
-        res[label] = value;
+        res[trait_type] = value;
       }
 
       return res;
     }, {});
   }
 
-  if (!filtered.attributes.length) {
+  if (!Object.keys(filtered?.attributes ?? [])?.length) {
     delete filtered.attributes;
   }
 
   if (filtered?.properties?.length) {
-    filtered.properties = filtered.properties.reduce((res, { label, value }) => {
+    filtered.properties = reduce(filtered.properties, (
+      res: {[key: string]: string},
+      { label, value } : Propertie
+    ) => {
       if (value) {
         res[label] = value;
       }
@@ -55,7 +63,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
     }, {});
   }
 
-  if (!filtered.properties.length) {
+  if (!Object.keys(filtered?.properties ?? [])?.length) {
     delete filtered.properties;
   }
 

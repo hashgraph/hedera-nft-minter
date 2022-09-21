@@ -1,3 +1,6 @@
+import { AnyObject, Maybe, Optionals } from 'yup/lib/types';
+import { ObjectShape, TypeOfShape, AssertsShape } from 'yup/lib/object';
+
 declare const HEDERA_NETWORK: string;
 declare const HEDERA_MIRROR_NODE_API_VERSION: string;
 declare const IPFS_KEY: string;
@@ -27,4 +30,17 @@ declare module '*.svg' {
   export const ReactComponent: React.SFC<React.SVGProps<SVGSVGElement>>;
   const src: string;
   export default src;
+}
+
+declare module 'yup' {
+  interface ObjectSchema<
+    TShape extends ObjectShape,
+    TContext extends AnyObject = AnyObject,
+    TIn extends Maybe<TypeOfShape<TShape>> = TypeOfShape<TShape>,
+    TOut extends Maybe<AssertsShape<TShape>> =
+      | AssertsShape<TShape>
+      | Optionals<TIn>
+  > {
+    unique(message: string, arrayValueKey: string): ObjectSchema<TShape, TContext, TIn, TOut>;
+  }
 }

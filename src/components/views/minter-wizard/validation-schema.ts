@@ -1,7 +1,10 @@
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
 import { MintTypes } from '@/utils/entity/MinterWizard';
-import validateQtyFormField from '@utils/helpers/validateQtyFormField'
+import validateQtyFormField from '@utils/helpers/validateQtyFormField';
+import objectUnique from '@/utils/yup/objectUnique';
+
+objectUnique();
 
 const feeValidator = yup.object().shape({
   type: yup.string()
@@ -75,47 +78,51 @@ export const ValidationSchema = yup.object().shape({
       otherwise: (schema) => schema
   }),
   properties: yup.array().of(
-    yup.object().shape({
-      label: yup
-        .string()
-        .max(100, 'Too Long')
-        .when(['value'], {
-          is: (value : string) => !!value,
-          then: (schema) => schema.required('Required')
-        }),
-      value: yup
-        .string()
-        .max(100, 'Too Long')
-        .when(['label'], {
-          is: (label : string) => !!label,
-          then: (schema) => schema.required('Required')
-        }),
-    }, [['label', 'value']])
+    yup
+      .object()
+      .shape(
+        {
+          label: yup
+            .string()
+            .max(100, 'Too Long')
+            .when(['value'], {
+              is: (value: string) => !!value,
+              then: (schema) => schema.required('Required'),
+            }),
+          value: yup
+            .string()
+            .max(100, 'Too Long')
+            .when(['label'], {
+              is: (label: string) => !!label,
+              then: (schema) => schema.required('Required'),
+            }),
+        },
+        [['label', 'value']]
+      )
+      .unique('Label must be unique', 'label')
   ),
+
   token_id: yup.string().when(['mint_type'], {
-    is: (mintType : MintTypes) => [
-      MintTypes.ExistingCollectionNewNFT,
-     ].includes(mintType),
+    is: (mintType: MintTypes) => MintTypes.ExistingCollectionNewNFT === mintType,
     then: yup.string().required('Required'),
   }),
   attributes: yup.array().of(
-    yup.object().shape({
-      trait_type: yup
-        .string()
-        .max(100, 'Too Long')
-        .when(['value'], {
-          is: (value : string) => !!value,
-          then: (schema) => schema.required('Required')
-        }),
-      value: yup
-        .string()
-        .max(100, 'Too Long')
-        .when(['trait_type'], {
-          is: (trait_type : string) => !!trait_type,
-          then: (schema) => schema.required('Required')
-        })
-        ,
-    }, [['trait_type', 'value']])
+    yup
+      .object()
+      .shape(
+        {
+          trait_type: yup.string().max(100, 'Too Long'),
+          value: yup
+            .string()
+            .max(100, 'Too Long')
+            .when(['trait_type'], {
+              is: (trait_type: string) => !!trait_type,
+              then: (schema) => schema.required('Required'),
+            }),
+        },
+        [['trait_type', 'value']]
+      )
+      .unique('Trait type must be unique', 'trait_type')
   ),
   fees: yup.array().of(feeValidator),
   // keys: yup.array().of(keyValidator),
