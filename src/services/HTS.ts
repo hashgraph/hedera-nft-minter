@@ -79,6 +79,8 @@ export default class HTS {
       ...(tokenProps.keys ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key) : {})
     });
 
+    token.setMaxTransactionFee(50);
+
     return token;
   }
 
