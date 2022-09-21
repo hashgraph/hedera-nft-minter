@@ -1,8 +1,11 @@
 import { FormikErrors, FormikValues } from 'formik';
 import filter from 'lodash/filter';
 import isArray from 'lodash/isArray';
-import every from 'lodash/every';
 import each from 'lodash/each';
+import isPlainObject from 'lodash/isPlainObject';
+import isString from 'lodash/isString';
+import map from 'lodash/map';
+import flatMap from 'lodash/flatMap';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
 import wizardSteps from '@/components/views/minter-wizard/steps';
 
@@ -11,57 +14,76 @@ export const getCurrentStepFieldsNames = (
   mintType: MintTypes,
   creatorStep: number,
 ) => {
-  let allMandatoryFields: string[] = [];
-  let allOptionalFields: string[] = [];
+  let allFieldsForValidation: string[] = [];
 
   if (Object.values(MintTypes).includes(mintType)) {
     const currentStepsData: CreatorSteps = wizardSteps[mintType];
 
     for (let i = 0; (i <= creatorStep) && (i < currentStepsData.length); i++) {
-      const mandatoryFields = currentStepsData[i]?.mandatoryFields;
-      const optionalFields = currentStepsData[i]?.optionalFields
+      const fieldsForValidation = currentStepsData[i]?.fieldsForValidation;
 
-      if (mandatoryFields) {
-        allMandatoryFields = [...allMandatoryFields, ...mandatoryFields]
-      }
-      if (optionalFields) {
-        allOptionalFields = [...allOptionalFields, ...optionalFields]
+      if (fieldsForValidation) {
+        allFieldsForValidation = [...allFieldsForValidation, ...fieldsForValidation]
       }
     }
   }
 
-  return { allMandatoryFields, allOptionalFields };
+  return allFieldsForValidation;
 }
 
-export const checkIfMandatoryFieldsAreValidated = (
-  allMandatoryFields: string[],
+const findAllErrorsNames = (errors: string[] | FormikErrors<FormikValues>[] | FormikErrors<FormikValues>, parentName?: string) => {
+  const errorNames = filter(flatMap(Object.entries(errors), ([errorKey, errorValue]) => {
+    const fieldName = parentName ? (
+      `${ parentName }.${ errorKey }`
+    ) : (
+      errorKey
+    )
+
+    if (errorValue && isArray(errorValue)) {
+      return findAllErrorsNames(errorValue, fieldName)
+    }
+
+    if (errorValue && isPlainObject(errorValue)) {
+      return map(Object.keys(errorValue), (errorKey) => (
+        `${ fieldName ? `${ fieldName }.` : '' }${ errorKey }`
+      ))
+    }
+
+    if (errorValue && isString(errorValue)) {
+      return errorKey
+    }
+
+    return false
+  }), Boolean) as string[]
+
+  return errorNames
+}
+
+export const checkIfFieldsAreValidated = (
+  fieldsForValidation: string[],
   validateField: (field: string) => void,
   setFieldTouched: (field: string, isTouched?: boolean, shouldValidate?: boolean) => void,
   values: FormikValues,
   errors: FormikErrors<FormikValues>
 ) => {
-  // // First validate mandatory fields
-  each(allMandatoryFields, (el) => !!values[el] && validateField(el))
+  // First validate fields
+  each(fieldsForValidation, (el) => !!values[el] && validateField(el))
 
-  //Next set untouched mandatory fields to touched to display errors underneath
-  const foundErrors = filter(Object.keys(errors),
-    errorFieldName => {
-      if (allMandatoryFields.includes(errorFieldName)) {
+  // Get all existing error names
+  const allErrorNames = findAllErrorsNames(errors);
+
+  //Next set untouched fields to touched to display errors underneath
+  const foundErrors = filter(allErrorNames, errorFieldName => {
+      //If field is array, get head field name to check if its needs validation
+      const fieldName = errorFieldName.split('.')[0];
+
+      if (fieldsForValidation.includes(fieldName)) {
         setFieldTouched(errorFieldName, true, true)
         return true
       }
+
       return false
   })
-
-  return foundErrors.length === 0
-}
-
-export const checkIfOptionalFieldsAreValidated = (allOptionalFields: string[], errors: FormikErrors<FormikValues>) => {
-  const foundErrors = filter(allOptionalFields, (optionalFieldName) =>
-    isArray(errors[optionalFieldName])
-      ? every(errors[optionalFieldName] as [], (el) => !!el)
-      : !!errors[optionalFieldName]
-  )
 
   return foundErrors.length === 0
 }

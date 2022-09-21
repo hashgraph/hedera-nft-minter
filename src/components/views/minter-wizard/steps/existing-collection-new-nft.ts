@@ -12,17 +12,17 @@ const Steps = [
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.SelectCollectionScreen,
     Component: SelectCollection,
-    mandatoryFields: ['token_id', 'qty'],
+    fieldsForValidation: ['token_id', 'qty'],
   },
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainScreen,
     Component: OffChainBasis,
-    optionalFields: ['edition_name', 'description', 'creator']
+    fieldsForValidation: ['edition_name', 'description', 'creator']
   },
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,
     Component: OffChainPropertiesAndAttributes,
-    optionalFields: ['properties', 'attributes']
+    fieldsForValidation: ['properties', 'attributes']
   },
 ]
 

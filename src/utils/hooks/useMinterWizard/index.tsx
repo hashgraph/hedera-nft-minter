@@ -4,8 +4,7 @@ import { toast } from 'react-toastify';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
 import {
   getCurrentStepFieldsNames,
-  checkIfMandatoryFieldsAreValidated,
-  checkIfOptionalFieldsAreValidated
+  checkIfFieldsAreValidated,
 } from './helpers'
 
 export default function useMinterWizard(
@@ -31,18 +30,17 @@ export default function useMinterWizard(
   const handleCreatorNextButton = useCallback((e) => {
     e.preventDefault();
 
-    const { allOptionalFields, allMandatoryFields } = getCurrentStepFieldsNames(mintType, creatorStep)
+    const allFieldsForValidation = getCurrentStepFieldsNames(mintType, creatorStep)
 
-    const areMandatoryFieldsValidated = checkIfMandatoryFieldsAreValidated(
-      allMandatoryFields,
+    const areFieldsValidated = checkIfFieldsAreValidated(
+      allFieldsForValidation,
       validateField,
       setFieldTouched,
       values,
       errors
     );
-    const areOptionalFieldsValidated = checkIfOptionalFieldsAreValidated(allOptionalFields, errors)
 
-    if (!aboveLastScreen && areMandatoryFieldsValidated && areOptionalFieldsValidated && creatorStep + 1 < steps?.length) {
+    if (!aboveLastScreen && areFieldsValidated && creatorStep + 1 < steps?.length) {
       setCreatorStep(prev => prev + 1)
     } else {
       toast.error('Fix creator errors!')
