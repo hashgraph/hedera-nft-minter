@@ -23,10 +23,10 @@ export default function SummaryAttributes() {
     <>
       {attributes.length > 0 && (
         <div>
-          <p className='summary__info__header'>
+          <p className='minter-wizard__summary__header'>
             NFT attributes:
           </p>
-          <div>
+          <div className='minter-wizard__summary__row__group'>
             <SummaryRows data={summaryRowsData} />
           </div>
         </div>

@@ -18,23 +18,25 @@ export default function MinterWizardSummary(props: MinterWizardSummaryProps) {
 
   return (
     <>
-      <div className='minter-wizard__summary minter-wizard__animation-container'>
-        <SwitchTransition>
-          <CSSTransition
-            key={isSubmitting ? 'submitting' : 'waiting'}
-            addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-            classNames='fade'
-          >
-            {isSubmitting ? (
-              <SummaryProcessing />
-            ) : (
-              <>
-                <SummaryContent />
-                <SummaryNavigation {...props}/>
-              </>
-            )}
-          </CSSTransition>
-        </SwitchTransition>
+      <div className='minter-wizard__animation-container'>
+        <div className='minter-wizard__summary'>
+          <SwitchTransition>
+            <CSSTransition
+              key={isSubmitting ? 'submitting' : 'waiting'}
+              addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+              classNames='fade'
+            >
+              {isSubmitting ? (
+                <SummaryProcessing />
+              ) : (
+                <>
+                  <SummaryContent />
+                  <SummaryNavigation {...props}/>
+                </>
+              )}
+            </CSSTransition>
+          </SwitchTransition>
+        </div>
       </div>
     </>
   )

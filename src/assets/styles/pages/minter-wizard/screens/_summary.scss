@@ -1,20 +1,70 @@
 .minter-wizard {
-
   &__summary {
     position: relative;
+    display: flex;
+    flex-direction: column;
     height: 100%;
 
     img {
       object-fit: cover;
     }
 
-    &__content {
-      display: grid;
-      grid-template-columns: 300px 1fr 1fr;
-      height: $contentContainerHeightMobile;
+    &--final {
+      @include respond-to('laptop') {
+        padding: #{$headerHeight} 1rem 5rem;
+      }
 
       @include respond-to('desktop') {
-        height: $contentContainerHeightDesktop;
+        padding: #{$headerHeight} $horizontalPaddingDesktop 5rem;
+      }
+    }
+
+    &__content {
+      display: grid;
+      grid-template-areas:
+        "avatar"
+        "offchain"
+        "onchain";
+      grid-row-gap: 2.5rem;
+
+      @include respond-to('laptop') {
+        grid-template-columns: 300px 1fr;
+        grid-template-areas:
+          "avatar offchain"
+          "avatar onchain";
+        grid-row-gap: .5rem;
+
+      }
+
+      @include respond-to('desktop-wide') {
+        grid-template-columns: 300px 1fr 1fr;
+        grid-template-areas:
+          "avatar offchain onchain";
+      }
+
+      &--processing {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+
+        @include respond-to('laptop') {
+          grid-template-columns: 300px 1fr;
+        }
+      }
+
+      &--offchain {
+        grid-area: offchain;
+      }
+
+      &--onchain {
+        grid-area: onchain;
+
+        @include respond-to('desktop-wide') {
+          margin-top: 3.5rem;
+        }
+      }
+
+      &--avatar {
+        grid-area: avatar;
       }
     }
 
@@ -49,35 +99,123 @@
         &-left {
           @extend .minter-wizard__summary__column;
 
-          margin-left: 7.5rem;
+          position: relative;
+
+          @include respond-to('laptop') {
+            margin-left: 7.5rem;
+          }
         }
 
         &-top {
           @extend .minter-wizard__summary__column;
 
-          margin-top: 3.5rem;
+          @include respond-to('laptop') {
+            margin-top: 3.5rem;
+          }
+        }
+      }
+
+      &--mobile {
+        &-visible {
+          @include respond-to('tablet') {
+            display: none;
+          }
+        }
+
+        &-invisible {
+          display: none;
+
+          @include respond-to('tablet') {
+            display: block;
+          }
         }
       }
     }
 
     &__row {
       display: grid;
-      grid-template-columns: 0.8fr 1.2fr;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
       color: #{$vapor}85;
       max-width: 600px;
       width: 100%;
+      align-items: center;
+
+      @include respond-to('mobile') {
+        grid-template-columns: 0.8fr 1.2fr;
+        grid-template-rows: 1fr;
+      }
+
+      @include respond-to('laptop') {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      @include respond-to('desktop-extra-wide') {
+        grid-template-columns: 0.8fr 1.2fr;
+        grid-template-rows: 1fr;
+      }
+
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+        margin-bottom: 0;
+
+        @include respond-to('desktop-extra-wide') {
+          margin-bottom: 0.35rem;
+        }
+      }
 
       span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         color: $vapor;
+        font-size: 1.405rem;
       }
+
+      &--description {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+
+        p {
+          margin-bottom: 0.35rem;
+        }
+
+        span {
+          white-space: normal;
+        }
+      }
+
+      &__group {
+        display: grid;
+        grid-row-gap: 0.75rem;
+      }
+    }
+
+    &__header {
+      margin-top: 1.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
     }
 
     &__warning {
       padding: 2rem 2rem 4rem;
-      border: 1px solid #821011;
-      background-color: $inputColor;
+      border: 1px solid $warningAddonColor;
+      background-color: $warningBackgroundColorSolid;
       border-bottom-right-radius: 100%;
       height: min-content;
+      position: fixed;
+      top: 0;
+      width: 100%;
+
+      @include respond-to('laptop') {
+        background-color: $warningBackgroundColor;
+        position: relative;
+      }
 
       p {
         margin: 0;
@@ -86,11 +224,15 @@
       &:after {
         position: absolute;
         top: 4rem;
-        right: 8rem;
+        right: 4.5rem;
         content: '!';
         font-size: 7.5rem;
         font-weight: 900;
-        color: #821011;
+        color: $warningAddonColor;
+
+        @include respond-to('mobile') {
+          right: 8rem;
+        }
       }
     }
 
@@ -99,6 +241,13 @@
 
       li {
         line-height: 1.5rem;
+
+        p {
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
 
         &::marker {
           font-size: 1.938rem;
@@ -124,8 +273,13 @@
     }
 
     &__loader {
-      margin-left: 123px;
-      margin-top: 75px;
+      margin-left: 50px;
+      margin-top: 125px;
+
+      @include respond-to('laptop') {
+        margin-left: 123px;
+        margin-top: 75px;
+      }
 
       img {
         width: 110px;
@@ -171,8 +325,6 @@
       color: $vapor;
       width: max-content;
       padding: 0;
-
-
     }
 
     &--done {

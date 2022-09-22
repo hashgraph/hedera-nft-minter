@@ -1,16 +1,25 @@
 
+import { useMemo } from 'react';
 import renderValue from '@/utils/helpers/renderValue';
+import classNames from 'classnames';
 
 export type SummaryRowProps = {
   fieldValue: string,
   title: string,
+  className?: string,
 }
 
-export default function SummaryRow({ fieldValue, title }: SummaryRowProps) {
+export default function SummaryRow({ fieldValue, title, className }: SummaryRowProps) {
+
+  const summaryRowClassName = useMemo(() => (
+    classNames('minter-wizard__summary__row', className)
+  ), [className])
 
   return (
-    <p className='minter-wizard__summary__row'>
-      {renderValue(title)}&nbsp;<span>{renderValue(fieldValue)}</span>
-    </p>
+    <div className={summaryRowClassName}>
+      <p>{renderValue(title)}</p>
+
+      <span>{renderValue(fieldValue)}</span>
+    </div>
   )
 }

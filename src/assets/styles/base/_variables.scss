@@ -39,7 +39,13 @@ $lime: #B7F133;
 $gradient: linear-gradient(160deg, #5281e7, #5a73e7 34%, #765aea);
 
 $border: 1px solid rgba(255, 255, 255, .69);
-$inputColor: #01020395;
+
+$inputColorSolid: #010203;
+$inputColor: #{$inputColorSolid}95;
+
+$warningAddonColor: #821011;
+$warningBackgroundColorSolid: $inputColorSolid;
+$warningBackgroundColor: #{$inputColorSolid}90;
 
 // breakpoints
 $breakpoints: (
