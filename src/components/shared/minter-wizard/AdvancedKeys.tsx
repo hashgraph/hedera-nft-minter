@@ -15,7 +15,7 @@ export default function Advanced() {
               title: 'Supply',
               value: TOKEN_KEY.SUPPLY,
               required: true,
-              tooltip: 'The SUPPLY key can change the total supply of an NFT within a Collection and must be set to mint additional NFTs'
+              tooltip: 'The SUPPLY key can change the total supply of an NFT within a Collection and must be set to mint additional NFTs.'
             },
             {
               title: 'Admin',
