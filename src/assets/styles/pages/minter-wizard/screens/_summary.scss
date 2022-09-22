@@ -11,11 +11,11 @@
 
     &--final {
       @include respond-to('laptop') {
-        padding: calc(#{$headerHeight}) 1rem 5rem;
+        padding: #{$headerHeight} 1rem 5rem;
       }
 
       @include respond-to('desktop') {
-        padding: calc(#{$headerHeight}) $horizontalPaddingDesktop 5rem;
+        padding: #{$headerHeight} $horizontalPaddingDesktop 5rem;
       }
     }
 
@@ -204,8 +204,8 @@
 
     &__warning {
       padding: 2rem 2rem 4rem;
-      border: 1px solid #821011;
-      background-color: #010203;
+      border: 1px solid $warningAddonColor;
+      background-color: $warningBackgroundColorSolid;
       border-bottom-right-radius: 100%;
       height: min-content;
       position: fixed;
@@ -213,7 +213,7 @@
       width: 100%;
 
       @include respond-to('laptop') {
-        background-color: $inputColor;
+        background-color: $warningBackgroundColor;
         position: relative;
       }
 
@@ -228,7 +228,7 @@
         content: '!';
         font-size: 7.5rem;
         font-weight: 900;
-        color: #821011;
+        color: $warningAddonColor;
 
         @include respond-to('mobile') {
           right: 8rem;
