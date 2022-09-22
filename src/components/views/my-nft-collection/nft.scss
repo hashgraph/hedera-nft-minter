@@ -37,20 +37,20 @@
     }
 
     &__name {
-      font-size: 0.75rem;
+      font-size: 1.15rem;
       font-weight: 700;
     }
 
     &__serial {
-      font-size: 0.5rem;
-      line-height: 0.7rem;
+      font-size: 0.8rem;
+      line-height: 0.85rem;
       font-weight: 300;
       opacity: 0.6;
     }
 
     &__collection-name {
-      margin: 0;
-      font-size: 0.5rem;
+      font-size: 0.85rem;
+      line-height: 1.5rem;
     }
 
     &__content {
@@ -70,7 +70,7 @@
         justify-content: center;
         margin: 0.55rem 0;
         display: flex;
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         letter-spacing: 0.05rem;
         font-weight: 700;
         border: unset;

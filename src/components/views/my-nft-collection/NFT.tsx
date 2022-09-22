@@ -82,7 +82,7 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
 
           <div className='nft-card__buttons'>
             <p className='hashscan'>
-              Hashscan.io
+              {collectionInfo?.token_id}
             </p>
           </div>
         </>
