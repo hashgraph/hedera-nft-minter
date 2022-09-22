@@ -113,9 +113,13 @@ const useHashPack = () => {
       }
     } finally {
       if (localData) {
+        if (localData.pairedWalletData !== appConfig) {
+          localData.pairedWalletData = appConfig
+        }
+
         setHashConnectSaveData((prevData) => ({
           ...prevData,
-          ...localData,
+          ...localData
         }));
       } else {
         setHashConnectSaveData(newSaveData);
