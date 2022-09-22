@@ -15,7 +15,7 @@ export default function Advanced() {
               title: 'Supply',
               value: TOKEN_KEY.SUPPLY,
               required: true,
-              tooltip: 'The SUPPLY key can change the total supply of an NFT within a Collection.'
+              tooltip: 'The SUPPLY key can change the total supply of an NFT within a Collection and must be set to mint additional NFTs'
             },
             {
               title: 'Admin',
@@ -30,7 +30,7 @@ export default function Advanced() {
             {
               title: 'Wipe',
               value: TOKEN_KEY.WIPE,
-              tooltip: 'The WIPE key cab be used to delete all NFTs within that Collection for a specific account.'
+              tooltip: 'The WIPE key can be used to delete all NFTs within that Collection for a specific account.'
             },
             {
               title: 'Pause',
