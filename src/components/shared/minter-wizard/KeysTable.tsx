@@ -44,15 +44,6 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
               {el?.tooltip && (
                 <Tooltip >
                   {el.tooltip}
-
-                  {el?.required && (
-                    <>
-                      <br />
-                      <strong>
-                        {el.title} key has to be always set!
-                      </strong>
-                    </>
-                  )}
                 </Tooltip>
               )}
             </p>
