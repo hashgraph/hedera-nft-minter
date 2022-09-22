@@ -40,8 +40,12 @@ export default function useMinterWizard(
       errors
     );
 
-    if (!aboveLastScreen && areFieldsValidated && creatorStep + 1 < steps?.length) {
-      setCreatorStep(prev => prev + 1)
+    if (!aboveLastScreen && areFieldsValidated) {
+      const nextStep = creatorStep >= steps.length - 1
+        ? creatorStep
+        : creatorStep + 1
+
+      setCreatorStep(nextStep)
     } else {
       toast.error('Fix creator errors!')
     }
