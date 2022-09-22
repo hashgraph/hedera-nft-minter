@@ -9,7 +9,7 @@ type SummaryRowsProps = {
 export default function SummaryRows({data} : SummaryRowsProps) {
   return (
     <>
-      {map(data, props => <SummaryRow {...props} />)}
+      {map(data, props => <SummaryRow key={props.title} {...props} />)}
     </>
   )
 }

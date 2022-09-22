@@ -4,6 +4,7 @@ import pick from 'lodash/pick';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
 
+import Scrollbar from '@/components/shared/layout/Scrollbar';
 import placeholder from '@assets/images/placeholder.png';
 import loadingHammer from '@assets/images/loading_hammer.svg';
 
@@ -31,25 +32,32 @@ export default function Processing() {
   ), [summaryItemsToRender])
 
   return (
-    <div className='minter-wizard__summary__content'>
-      <div>
-        <p className='title--small title--strong'>
-          Processing...
-        </p>
-        <div className='minter-wizard__summary__image'>
-          <img src={summaryImage} alt='Thumb' />
-          <ul className='minter-wizard__summary__item-list'>
-            {renderSummaryItemList()}
-          </ul>
+    <Scrollbar
+      renderOn={{
+        laptop: false,
+        desktop: false,
+        desktopWide: false,
+        desktopExtraWide: false,
+      }}
+    >
+      <div className='minter-wizard__summary__content minter-wizard__summary__content--processing'>
+        <div>
+          <p className='title--small title--strong'>Processing...</p>
+          <div className='minter-wizard__summary__image'>
+            <img src={summaryImage} alt='Thumb' />
+            <ul className='minter-wizard__summary__item-list'>
+              {renderSummaryItemList()}
+            </ul>
+          </div>
+        </div>
+        <div className='minter-wizard__summary__loader'>
+          <img src={loadingHammer} alt='loader_hammer' />
+          <p className='title title--small title--strong'>
+            Minting <br />
+            in progress...
+          </p>
         </div>
       </div>
-      <div className='minter-wizard__summary__loader'>
-        <img src={loadingHammer} alt='loader_hammer' />
-        <p className='title title--small title--strong'>
-          Minting <br />
-          in progress...
-        </p>
-      </div>
-    </div>
+    </Scrollbar>
   );
 }

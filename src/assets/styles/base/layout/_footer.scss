@@ -5,11 +5,12 @@ footer,
   transform: translateX(-50%);
   width: 100%;
   position: fixed;
+  bottom: 0;
 
   &__logo {
     position: absolute;
-    bottom: -.5rem;
     right: var(--horizontal-padding);
+    bottom: 0.5rem;
 
     img {
       width: 100px;
@@ -26,14 +27,13 @@ footer,
       @extend .footer__logo;
 
       left: var(--horizontal-padding);
-      bottom: 0rem;
       right: unset;
 
       img {
-        width: 130px;
-        height: 56px;
+        width: 100px;
+        height: 42px;
 
-        @include respond-to('tablet') {
+        @include respond-to('mobile') {
           width: 170px;
           height: 76px;
         }

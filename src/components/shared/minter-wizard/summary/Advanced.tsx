@@ -35,13 +35,15 @@ export default function SummaryAdvanced({ name }: SummaryAdvancedProps) {
                   return (
                     <React.Fragment key={element.type ?? `summary-fee-without-type-${ i }`}>
                       {element.type && element?.type?.length > 0 ? (
-                        <p className='minter-wizard__summary__row'>
-                          {element.type && firstLetterUppercase(element.type) + ' fee'}
+                        <div className='minter-wizard__summary__row'>
+                          <p>
+                            {element.type && firstLetterUppercase(element.type) + ' fee'}
+                          </p>
                           <span>
                             {element.type === 'fixed' && `Amount: ${ element.amount }`}
                             {element.type === 'royalty' && `Amount: ${ element.fallbackFee ?? '(empty)' } | %: ${ element.percent }`}
                           </span>
-                        </p>
+                        </div>
                       ) : (
                         <>
                           Empty fee
@@ -53,15 +55,17 @@ export default function SummaryAdvanced({ name }: SummaryAdvancedProps) {
                 case AdvancedTypes.keys:
                   element = element as TOKEN_KEY
                   return (
-                    <p
+                    <div
                       className='minter-wizard__summary__row'
                       key={element ?? `summary-key-without-type-${ i }`}
                     >
-                      {find(TokenKeys, key => key.value === element)?.title} key
+                      <p>
+                        {find(TokenKeys, key => key.value === element)?.title} key
+                      </p>
                       <span>
                         <img src={checkmarkIcon} width={16} height={16} alt='checked' />
                       </span>
-                    </p>
+                    </div>
                   )
               }
             }))}
