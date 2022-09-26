@@ -6,6 +6,7 @@ import MirrorNode from '@/services/MirrorNode';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import renderValue from '@/utils/helpers/renderValue';
 import { NFTInfo } from '@/utils/entity/NFTInfo';
+import { HEDERA_NETWORK } from '@/../Global.d';
 
 import Loader from '@components/shared/loader/Loader';
 
@@ -50,7 +51,7 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
 
   return (
     <a
-      href={`https://hashscan.io/#/testnet/token/${ collectionInfo?.token_id }`}
+      href={`https://hashscan.io/#/${ HEDERA_NETWORK }/token/${ collectionInfo?.token_id }`}
       target='_blank'
       className={nftCardClassnames}
     >
