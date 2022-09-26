@@ -11,7 +11,7 @@ $removeButtonWidth: 27px;
               grid-template-columns: 1fr;
               grid-template-rows: 1fr 1fr 1fr;
 
-              @include respond-to('desktop-extra-wide') {
+              @include respond-to('FHD') {
                 justify-content: center;
                 grid-template-rows: 1fr;
                 grid-template-columns: 1fr 1fr #{$removeButtonWidth};
@@ -31,7 +31,7 @@ $removeButtonWidth: 27px;
                 border-radius: 1rem;
               }
 
-              @include respond-to('desktop-extra-wide') {
+              @include respond-to('FHD') {
                 grid-row: 1/2;
                 grid-column: 3/4;
                 min-width: $removeButtonWidth;

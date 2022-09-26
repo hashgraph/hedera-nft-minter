@@ -53,10 +53,6 @@ main {
     }
   }
 
-  &--max-width {
-    max-width: $containerMaxWidth;
-  }
-
   &--max-height {
     height: var(--vh);
   }
@@ -104,7 +100,6 @@ main {
     border-color: $vapor;
   }
   > div {
-    max-width: $containerMaxWidth;
     margin: 0 auto;
     padding: 0 1rem;
   }

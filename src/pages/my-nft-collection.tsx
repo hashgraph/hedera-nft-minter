@@ -107,7 +107,7 @@ export default function MyNFTCollection() {
 
   return (
     <div className='dark-schema'>
-      <div className='mc--h container--max-width container--padding container--max-height bg--transparent'>
+      <div className='mc--h container--padding container--max-height bg--transparent'>
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
         ) : (
