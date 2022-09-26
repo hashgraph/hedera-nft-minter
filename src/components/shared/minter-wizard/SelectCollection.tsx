@@ -138,7 +138,7 @@ export default function SelectCollection() {
                       </b>
                     </p>
                     <p>
-                      Tokens minted: <b>{parseInt(selectedCollection.info.total_supply ?? '0') }</b>
+                      Tokens minted: <b>{selectedCollection.info.total_supply}</b>
                     </p>
                     <p>
                       {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
