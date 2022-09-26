@@ -29,7 +29,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
   ), [summaryValues])
 
   const hashScanLink = useMemo(() => (
-    `https://hashscan.io/#/${ HEDERA_NETWORK === 'testnet' ? 'testnet' : 'app' }/token/${ mintedNFTData.tokenId }`
+    `https://hashscan.io/#/${ HEDERA_NETWORK }/token/${ mintedNFTData.tokenId }`
   ), [mintedNFTData.tokenId])
 
   return (
