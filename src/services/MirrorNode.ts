@@ -143,10 +143,17 @@ export default class MirrorNode {
     return data
   }
 
-  static async fetchUserNFTs(accountId: string, options: { onlyAllowedToMint?: boolean, onlyHasNFTs?: boolean } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
+  static async fetchUserCollectionsInfo(
+    accountId: string,
+    options: {
+      fetchNftsData?: boolean,
+      onlyAllowedToMint?: boolean,
+      onlyHasNFTs?: boolean
+    } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
     const {
       onlyAllowedToMint = false,
       onlyHasNFTs = false,
+      fetchNftsData = false
     } = options;
     const { balance, key } = await this.fetchAccountInfo(accountId);
 
@@ -173,11 +180,19 @@ export default class MirrorNode {
             return null;
           }
 
-          return this.fetchNFTInfo(token.token_id)
-            .then(res => ({
-              ...res,
-              info: tokenInfo,
-            }));
+          if (fetchNftsData) {
+            return this.fetchNFTInfo(token.token_id)
+              .then(res => ({
+                ...res,
+                info: tokenInfo,
+              })
+            );
+          }
+
+          return {
+            info: tokenInfo
+          }
+
         })
     ).then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
 

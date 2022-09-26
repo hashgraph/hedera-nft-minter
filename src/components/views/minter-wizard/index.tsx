@@ -26,9 +26,9 @@ export const MinterWizardContext = React.createContext<{
   setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>,
   setCreatorStepToBackFromSummaryToCurrent: () => void,
-  setCollections:  React.Dispatch<React.SetStateAction<{ nfts: NFTInfo[]; info: TokenInfo; }[] | null>>,
+  setCollections:  React.Dispatch<React.SetStateAction<{ nfts?: NFTInfo[]; info: TokenInfo; }[] | null>>,
   creatorStepToBackFromSummary: number,
-  collections: { nfts: NFTInfo[]; info: TokenInfo; }[] | null,
+  collections: { nfts?: NFTInfo[]; info: TokenInfo; }[] | null,
   creatorStep: FormWizardSteps,
   showWarning: boolean,
 }>({
@@ -48,7 +48,7 @@ export default function MinterWizardForm({
 }: FormikProps<FormikValues>) {
   const [creatorStep, setCreatorStep] = useState(FormWizardSteps.WelcomeScreen);
   const [creatorStepToBackFromSummary, setCreatorStepToBackFromSummary] = useState(0)
-  const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[] | null>(null)
+  const [collections, setCollections] = useState<{ nfts?: NFTInfo[]; info: TokenInfo; }[] | null>(null)
   const [showWarning, setShowWarning] = useState(false)
 
   const { setIsMinterWizardWelcomeScreen } = useLayout()

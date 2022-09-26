@@ -10,13 +10,13 @@ import Loader from '@/components/shared/loader/Loader';
 
 export default function Offers() {
   const { userWalletId } = useHederaWallets();
-  const [collections, setCollections] = useState<{ nfts: NFTInfo[]; info: TokenInfo; }[]>([])
+  const [collections, setCollections] = useState<{ nfts?: NFTInfo[]; info: TokenInfo; }[]>([])
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     if (userWalletId) {
       const loadCollections = async () => {
-        const users = await MirrorNode.fetchUserNFTs(userWalletId, {
+        const users = await MirrorNode.fetchUserCollectionsInfo(userWalletId, {
           onlyAllowedToMint: true,
         })
 
