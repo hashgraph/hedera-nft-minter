@@ -35,7 +35,7 @@ export default function SelectCollection() {
     if (!userWalletId) {
       throw new Error('First connect your wallet!');
     }
-    const loadedCollections = await MirrorNode.fetchUserNFTs(userWalletId, {
+    const loadedCollections = await MirrorNode.fetchUserCollectionsInfo(userWalletId, {
       onlyAllowedToMint: true,
     });
 
@@ -73,7 +73,7 @@ export default function SelectCollection() {
 
   const maxQtyNumber = useMemo(() => {
     const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
-      - (selectedCollection?.nfts?.length ?? 0)
+      - parseInt(selectedCollection?.info.total_supply ?? '0')
 
     return (maxQty >= 10 || maxQty <= 0) ? 10 : maxQty
   }, [selectedCollection])
@@ -138,14 +138,14 @@ export default function SelectCollection() {
                       </b>
                     </p>
                     <p>
-                      Tokens minted: <b>{selectedCollection?.nfts?.length}</b>
+                      Tokens minted: <b>{parseInt(selectedCollection.info.total_supply ?? '0') }</b>
                     </p>
                     <p>
                       {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
                         <>
                           Left to mint: <b>{
                             parseInt(selectedCollection.info.max_supply ?? '0')
-                            - selectedCollection.nfts.length
+                            - parseInt(selectedCollection.info.total_supply ?? '0')
                           }</b>
                         </>
                       )}
