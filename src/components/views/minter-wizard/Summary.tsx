@@ -41,7 +41,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
         desktopExtraWide: false,
       }}
     >
-      <div className='minter-wizard__summary__content minter-wizard__animation-container minter-wizard__summary--final container--max-width'>
+      <div className='minter-wizard__summary__content minter-wizard__animation-container minter-wizard__summary--final'>
         <div className='minter-wizard__summary__image'>
           <img
             src={mintedNFTData?.image

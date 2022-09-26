@@ -11,7 +11,7 @@ export default function NFTOverviewLayout({
 }: NFTOverviewPageProps) {
 
   return (
-    <div className='overview overview--nft mc--h container--padding container--max-width bg--transparent'>
+    <div className='overview overview--nft mc--h container--padding bg--transparent'>
       <div className='overview__section--description'>
         <Avatar image={edition?.meta?.image} />
 

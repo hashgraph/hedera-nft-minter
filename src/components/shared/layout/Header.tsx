@@ -42,7 +42,7 @@ const Header = () => {
     isMobileSmall && isMobileNavbarMenuExpanded
   ), [isMobileSmall, isMobileNavbarMenuExpanded]);
 
-  const headerClassnames = classNames('header', 'container--max-width', {
+  const headerClassnames = classNames('header', {
     'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
     'is-hide': isNavbarHidden,
     'is-mobile': isMobileSmall,

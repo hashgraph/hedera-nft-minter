@@ -20,7 +20,7 @@ export default function Footer() {
   ), [showLogoOnLeft])
 
   return (
-    <footer className='footer container--max-width'>
+    <footer className='footer'>
       <SwitchTransition>
         <CSSTransition
           key={showLogoOnLeft ? 'left' : 'right'}

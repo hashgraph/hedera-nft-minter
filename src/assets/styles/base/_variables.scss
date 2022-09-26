@@ -3,7 +3,6 @@ $dividerHeight: 62px;
 $headerHeightMobile: 125px;
 $headerHeight: 200px;
 
-$containerMaxWidth: 1920px;
 $contentContainerHeightMobile: calc(var(--vh) - #{$headerHeightMobile * 2});
 $contentContainerHeightDesktop: calc(var(--vh) - #{$headerHeight * 2});
 
@@ -54,6 +53,7 @@ $breakpoints: (
   'laptop': 992px,
   'desktop': 1200px,
   'desktop-wide': 1600px,
-  'desktop-extra-wide': 1920px,
+  'FHD': 1920px,
+  '2K': 2048px,
+  'QHD': 2560px
 );
-

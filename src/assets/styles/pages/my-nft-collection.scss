@@ -141,6 +141,14 @@
   &__nfts {
     max-width: 1020px;
 
+    @include respond-to('2K') {
+      max-width: 1335px;
+    }
+
+    @include respond-to('QHD') {
+      max-width: 1620px;
+    }
+
     .scrollbar {
         &__scroller {
         padding-right: 1.5rem !important;
@@ -163,6 +171,14 @@
 
       @include respond-to('desktop') {
         grid-template-columns: repeat(4, 1fr);
+      }
+
+      @include respond-to('2K') {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      @include respond-to('QHD') {
+        grid-template-columns: repeat(6, 1fr);
       }
     }
   }

@@ -151,7 +151,7 @@
         grid-template-rows: 1fr 1fr;
       }
 
-      @include respond-to('desktop-extra-wide') {
+      @include respond-to('FHD') {
         grid-template-columns: 0.8fr 1.2fr;
         grid-template-rows: 1fr;
       }
@@ -163,7 +163,7 @@
         margin: 0;
         margin-bottom: 0;
 
-        @include respond-to('desktop-extra-wide') {
+        @include respond-to('FHD') {
           margin-bottom: 0.35rem;
         }
       }

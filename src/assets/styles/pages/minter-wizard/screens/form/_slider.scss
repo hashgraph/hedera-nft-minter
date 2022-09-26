@@ -34,6 +34,7 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
       transition: $transitionTime ease-in-out;
       transition-property: width, padding, opacity;
       user-select: none;
+      visibility: hidden;
       opacity: 0;
 
       @include respond-to('desktop') {
@@ -75,6 +76,7 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
 
       &--visible {
         user-select: auto;
+        visibility: visible;
         opacity: 1;
 
         .minter-wizard__slider__tab-content {
@@ -116,14 +118,14 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
             grid-template-columns: 1fr;
           }
 
-          @include respond-to('desktop-extra-wide') {
+          @include respond-to('FHD') {
             grid-template-columns: min-content auto;
           }
 
           .drag-and-drop__container {
             width: unset;
 
-            @include respond-to('desktop-extra-wide') {
+            @include respond-to('FHD') {
               width: 266px;
             }
           }
