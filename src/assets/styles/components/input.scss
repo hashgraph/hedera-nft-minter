@@ -35,7 +35,7 @@ select,
   font-size: 1rem;
   padding: 0.675rem 0.988rem;
   border-radius: 30px;
-  font-family: museo-sans-rounded;
+  font-family: museo-sans-rounded, sans-serif;
   width: 100%;
 
   @include respond-to('mobile') {
@@ -44,7 +44,7 @@ select,
 
   &::placeholder {
     font-weight: 100;
-    font-family: museo-sans-rounded;
+    font-family: museo-sans-rounded, sans-serif;
     filter: brightness(1.4);
   }
 
