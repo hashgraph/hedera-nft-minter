@@ -2,7 +2,7 @@ $fonts_dir: '/src/assets/fonts/';
 @import url('https://use.typekit.net/feu4bcz.css');
 
 @font-face {
-  font-family: 'Styrene A Web', sans-serif;
+  font-family: 'Styrene A Web';
   src: url($fonts_dir + 'StyreneA-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;

@@ -344,350 +344,54 @@ p {
       text-transform: uppercase;
       font-size: 1.625rem;
       font-weight: 300;
-@use 'sass:math';
-
-label,
-.label {
-  font-size: 0.95rem;
-}
-
-p {
-  font-size: 1.15rem;
-}
-
-.select__component {
-  position: relative;
-
-  .arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1rem;
-    color: var(--main-color);
-    background-repeat: no-repeat;
-    background-size: contain;
-    pointer-events: none;
-  }
-}
-
-// FORM STYLES
-.form {
-  padding-top: 2rem;
-
-  &__select_row {
-    position: relative;
-
-    &__radios {
-      margin-bottom: $errorHeight;
-    }
-  }
-
-  &__field {
-    &__container {
       position: relative;
 
-      .max-length {
+      &:after {
+        content: '';
+        width: 100%;
+        height: 2px;
         position: absolute;
-        right: 1rem;
+        background: $gradient;
         bottom: 0;
-        font-size: 0.675rem;
-        opacity: 0.4;
-      }
-
-      &--textarea {
-        padding: 0.5rem 0;
-        height: auto;
-        width: 100%;
-        resize: vertical;
-
-        &:focus-within {
-          border-color: $green;
-        }
-
-        textarea {
-          padding: 0;
-          resize: vertical;
-          width: 100%;
-          border-radius: 0;
-          background: transparent;
-          border: unset;
-        }
-      }
-    }
-  }
-
-  &__row {
-    display: flex;
-    flex-direction: column;
-    color: var(--main-color);
-    position: relative;
-
-    label {
-      display: flex;
-      column-gap: 8px;
-    }
-
-    &__groups {
-      display: flex;
-      flex-direction: column;
-
-      @include respond-to('desktop') {
-        flex-direction: row;
-        column-gap: 20px;
-        flex-wrap: wrap;
-        & > div {
-          flex: 0 1 calc(50% - 10px);
-        }
+        left: 0;
       }
     }
 
-    &__fees {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-
-      &__fee {
-        width: 100%;
-        max-width: 544px;
-        display: flex;
-        column-gap: $columnGap;
-
-        &-fixed {
-          display: flex;
-        }
-
-        &-container {
-          display: grid;
-          grid-template-columns: auto 27px;
-          width: 100%;
-          column-gap: $columnGap;
-
-          .form {
-            &__select {
-              max-width: 60%;
-            }
-          }
-        }
-      }
-
-      &-container {
-        display: flex;
-        width: 100%;
-        column-gap: $columnGap;
-        align-items: center;
-
-        button {
-          margin-top: .5rem;
-        }
-
-        &:first-of-type {
-          border-top: unset;
-        }
-      }
-
-      &-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-    }
-
-    &__number-columns {
-      width: 100%;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      column-gap: math.div($columnGap, 2);
-
-      &__column {
-        display: flex;
-        flex-direction: column;
-        flex: 0 1 calc(111px);
-      }
-    }
-
-    &__two-columns {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-column-gap: $columnGap;
-      @include respond-to('tablet') {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      p,
-      h1 {
-        color: var(--main-color);
-      }
-
-      &-flex {
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        column-gap: $columnGap;
-        grid-template-columns: unset;
-
-        &__numbers {
-          display: flex;
-          column-gap: $columnGap;
-        }
-
-        .number {
-          flex: 0 1 101px;
-
-          input {
-            margin-left: auto;
-            margin-right: auto;
-          }
-        }
-
-        .before-number {
-          flex: 0 1 calc(100% - 121px);
-        }
-
-        div {
-          flex: 0 1 calc(50% - 10px);
-        }
-
-        @include respond-to('tablet') {
-          grid-template-columns: unset;
-
-          div {
-            flex: 0 1 calc(50% - 10px);
-          }
-        }
-
-        @media only screen and (max-width: 900px) {
-          .before-number {
-            flex: 0 1 calc(100%);
-          }
-        }
-      }
-    }
-  }
-
-  &__text {
-    color: var(--main-color);
-    font-size: 0.875rem;
-    font-weight: 300;
-    margin-top: 0;
-  }
-
-  &__number {
-    max-width: 131px;
-
-    input {
-      text-align: center;
-    }
-  }
-
-  &__radio {
-    display: flex;
-  }
-
-  &__checkbox,
-  &__radio {
-    display: grid;
-    align-items: center;
-    grid-template-columns: 30px auto;
-    grid-template-areas:
-      "input label"
-      "error error"
-    ;
-
-    &.inverse {
-      grid-template-columns: auto 30px;
-      grid-template-areas:
-        "label input"
-        "error error"
-      ;
-    }
-
-    label {
-      grid-area: label;
+    span,
+    p {
+      font-size: 1.625rem;
+      color: $vapor;
       padding: 0;
+      margin: 0;
+      text-align: left;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      font-weight: 100;
     }
 
-    input {
-      grid-area: input;
-    }
-
-    .form__error {
-      grid-area: error;
-    }
-  }
-
-  &__buttons {
-    display: flex;
-
-    &.square {
-      flex-direction: column;
-
-      @include respond-to("mobile") {
-        flex-direction: row;
-      }
-    }
-
-    &--row {
-      flex-direction: row;
-    }
-
-    &--column {
-      width: 100%;
-      flex-direction: column;
-      row-gap: 1rem;
-      max-width: 452px;
-
-      button {
-        justify-content: flex-start;
-        padding-left: 1.375rem;
-        padding-right: 1rem;
-      }
+    p {
+      font-weight: 500;
     }
   }
 
-  &__errors {
-    min-height: $errorHeight;
+  &__properties__remove_button_row {
+    display: grid;
+    place-items: center;
   }
 
-  &__error, &__warning {
-    width: 100%;
+  &__btns {
     display: flex;
     justify-content: flex-end;
-    color: $orange;
-    padding-top: 2px;
-    font-size: 0.6875rem;
-    height: $errorHeight;
-    padding-right: .25rem;
-
-    &.hover{
-      cursor: pointer;
-
-      &:hover{
-        color: $vapor;
-      }
-    }
-
-    &.image_error {
-      padding-right: 50px;
-    }
+    padding-top: 1rem;
+    grid-gap: 1rem;
   }
 
-  &__warning {
-    color: $yellow;
+  &__textarea, textarea {
+    width: 100%;
+    max-width: inherit;
+    padding: 1rem;
+    min-height: 100px;
   }
+}
 
-  &__step-wrapper {
-    margin-bottom: 2rem;
-
-    h1 {
-      color: $blue;
-      width: 100%;
-      display: block;
-      padding: 0 0 0.625rem;
-      margin-bottom: 0.938rem;
-      position: relative;
-      text-transform: uppercase;
-      font-size: 1.625rem;
-      font-weight: 300;
 
