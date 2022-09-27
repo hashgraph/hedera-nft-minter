@@ -84,7 +84,7 @@ export default function ImageInput({name, alt, type} : Props) {
   })
 
   const placeholder = useMemo(() => {
-    switch (type as ImageInputTypes) {
+    switch (type) {
       case 'avatar':
         return placeholderSrc
 

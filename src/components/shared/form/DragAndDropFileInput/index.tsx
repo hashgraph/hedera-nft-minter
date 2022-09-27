@@ -22,7 +22,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   const onDrop = useCallback(
     (files) => {
       imageChange(files)
-      const temp = values as FormikValues;
+      const temp = values;
 
       temp.image = files[0];
       setValues(temp);
