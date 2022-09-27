@@ -44,7 +44,6 @@
   }
 
   &__card {
-    transition: 1s ease-in;
     transition-property: transform, opacity;
     transition: 0.4s ease-in-out;
     opacity: 0;
