@@ -31,8 +31,7 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
       min-width: 100%;
       margin: 0;
       position: relative;
-      transition: $transitionTime ease-in-out;
-      transition-property: width, padding, opacity;
+      transition: generateTransitions((padding, width, opacity), $transitionTime);
       user-select: none;
       visibility: hidden;
       opacity: 0;
@@ -42,14 +41,11 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
       }
 
       &-content {
-        transition: 0.5s ease-in-out;
-        transition-property: padding, width;
+        transition: generateTransitions((padding, width), $transitionTime);
         width: 100%;
         height: $contentContainerHeightMobile;
         overflow-y: auto;
         overflow-x: hidden;
-        transition: 0.5s ease-in-out;
-        transition-property: padding, width;
 
         @include respond-to('mobile') {
           height: $contentContainerHeightDesktop;
