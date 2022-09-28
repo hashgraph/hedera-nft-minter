@@ -87,7 +87,7 @@ export default function MinterWizard() {
 
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
-    let metaCIDs = [] as UploadRespone[]
+    let metaCIDs : UploadRespone[] = []
 
     try {
       if (!userWalletId) {
@@ -181,7 +181,7 @@ export default function MinterWizard() {
   ]);
 
   return (
-    <div className='dark-schema'>
+    <div className='dark-s    chema'>
       <div className='mc--h container--padding container--max-height bg--transparent'>
         <SwitchTransition>
           <CSSTransition
