@@ -40,7 +40,7 @@ const MinterWizardFees = () => {
         render={({ push, remove }) => (
           <div className='form__row__fees'>
             <div className='form__group__label-wrapper'>
-              <p className='title title--medium title--strong'>Transfer fees:</p>
+              <p className='title title--medium title--strong'>Royalty Fees:</p>
               <button
                 onClick={() =>
                   field.value.length < 10 ? push({
@@ -57,7 +57,7 @@ const MinterWizardFees = () => {
             </div>
             {!hasAnyValues && (
               <div className='form__row'>
-                <p>Click the + to add Fees to the Collection</p>
+                <p>Click the + to add Royalties to the Collection</p>
               </div>
             )}
             <TransitionGroup className='form__group__list'>
