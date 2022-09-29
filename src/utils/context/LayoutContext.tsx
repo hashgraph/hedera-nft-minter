@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
+import { map } from 'lodash';
 
 type Position = { x: number; y: number };
 
@@ -83,64 +84,54 @@ export default function LayoutProvider({
     }
   }, [setDocDimensions]);
 
+  const breakpointsAndSetters = useMemo(() => ([
+    {
+      breakpoint: '(max-width: 599px)',
+      setter: setIsMobileSmall
+    },
+    {
+      breakpoint: '(min-width: 600px)',
+      setter: setIsMobile
+    },
+    {
+      breakpoint: '(min-width: 768px)',
+      setter: setIsTablet
+    },
+    {
+      breakpoint: '(min-width: 992px)',
+      setter: setIsLaptop
+    },
+    {
+      breakpoint: '(min-width: 1200px)',
+      setter: setIsDesktop
+    },
+    {
+      breakpoint: '(min-width: 1600px)',
+      setter: setIsDesktopWide
+    },
+    {
+      breakpoint: '(min-width: 1920px)',
+      setter: setIsDesktopExtraWide
+    },
+  ]), [])
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.matchMedia('(max-width: 599px)').matches) {
-        setIsMobileSmall(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsMobileSmall(false);
-      }
-
-      if (window.matchMedia('(min-width: 600px)').matches) {
-        setIsMobile(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsMobile(false);
-      }
-
-      if (window.matchMedia('(min-width: 768px)').matches) {
-        setIsTablet(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsTablet(false);
-      }
-
-      if (window.matchMedia('(min-width: 992px)').matches) {
-        setIsLaptop(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsLaptop(false);
-      }
-
-      if (window.matchMedia('(min-width: 1200px)').matches) {
-        setIsDesktop(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsDesktop(false);
-      }
-
-      if (window.matchMedia('(min-width: 1600px)').matches) {
-        setIsDesktopWide(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsDesktopWide(false);
-      }
-
-      if (window.matchMedia('(min-width: 1920px)').matches) {
-        setIsDesktopExtraWide(true);
-      } else {
-        clearAllBodyScrollLocks();
-        setIsDesktopExtraWide(false);
-      }
+      map(breakpointsAndSetters, breakpointAndSetter => {
+        if (window.matchMedia(breakpointAndSetter.breakpoint).matches) {
+          breakpointAndSetter.setter(true)
+        } else {
+          clearAllBodyScrollLocks();
+          breakpointAndSetter.setter(false)
+        }
+      })
     };
 
     handleResize();
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [breakpointsAndSetters]);
 
   useEffect(() => {
     setDocDimensions();
