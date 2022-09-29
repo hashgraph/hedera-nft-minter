@@ -30,33 +30,29 @@ export default class IPFS {
   });
 
   static async uploadFile(file: File | Blob) {
-    let uploadDataResponse;
-
-    while (!uploadDataResponse || uploadDataResponse.status !== 200) {
-      uploadDataResponse = await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
+    try {
+      return await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
         headers: {
           'Content-Type': 'image/*',
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length)] }`,
+          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
         }
       });
+    } catch (e) {
+      throw new Error('Too many request while uploading image! Try again in few secs...')
     }
-
-    return uploadDataResponse
   }
 
   static async createMetadataFile(meta: NFTMetadata) {
-    let uploadDataResponse;
-
-    while (!uploadDataResponse || uploadDataResponse.status !== 200) {
+    try {
       const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
 
-      uploadDataResponse = await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
+      return await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
         headers: {
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length)] }`,
+          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
         }
       });
+    } catch (e) {
+      throw new Error('Too many request! Try again in few secs...')
     }
-
-    return uploadDataResponse
   }
 }
