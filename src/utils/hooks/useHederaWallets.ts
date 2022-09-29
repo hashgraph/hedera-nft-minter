@@ -109,12 +109,10 @@ const useHederaWallets = () => {
         | TransactionResponse
         | undefined;
 
-      // eslint-disable-next-line no-undef
-      let hashConnectTxBytes = new Buffer([]);
+      let hashConnectTxBytes;
 
       switch (connectedWalletType) {
         case ConnectionStateType.BLADEWALLET:
-          // eslint-disable-next-line no-case-declarations
           response = (await bladeSigner?.sendRequest(
             tx
           )) as TransactionResponse;
