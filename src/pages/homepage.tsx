@@ -111,12 +111,13 @@ export default function MinterWizard() {
           filteredValues.image = `ipfs://${ imageData.value.cid }`;
         }
 
-        // if new NFT, upload metadata
-        metaCIDs = await Promise.all(
-          Array.from(new Array(parseInt(formValues.qty))).map(() =>
-            uploadMetadata(filteredValues)
-          )
-        );
+        // upload metadata
+        const uploadedMetadata = await uploadMetadata(filteredValues)
+
+        // copy uploaded metadata CID to have same length as minting NFT qty
+        metaCIDs = Array.from(new Array(parseInt(formValues.qty))).map(() =>
+          uploadedMetadata
+        )
       } else {
         // if semi-NFT, use metadata from formik formValues
         metaCIDs = await Promise.all(
