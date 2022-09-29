@@ -55,19 +55,6 @@ html, body {
   }
 }
 
-label, .label {
-  margin-bottom: 0;
-  color: var(--main-color);
-  display: block;
-  padding-bottom: 0.938rem;
-  padding-left: 3px;
-  letter-spacing: -.4px;
-  margin-top: 1rem;
-
-  @include respond-to("mobile") {
-    white-space: pre;
-  }
-}
 .label, label {
   margin-bottom: 0;
   color: var(--main-color);
