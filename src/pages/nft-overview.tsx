@@ -17,7 +17,9 @@ export default function NFTOverview() {
   const loadCollectionNfts = useCallback(async (tokenId) => {
     const loadedNfts = await MirrorNode.fetchNFTsInfoWithMetadata(tokenId);
 
-    setCollectionNFTs(loadedNfts.reverse());
+    const reversedLoadedNfts = loadedNfts.reverse()
+
+    setCollectionNFTs(reversedLoadedNfts);
 
     setCollectionsLoading(false);
   }, [setCollectionNFTs, setCollectionsLoading]);
