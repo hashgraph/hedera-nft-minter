@@ -140,7 +140,7 @@ const useHederaWallets = () => {
           }
 
           // eslint-disable-next-line no-case-declarations
-          response = (await hashConnect?.sendTransaction(
+          response = await hashConnect?.sendTransaction(
             hashConnectSaveData.topic,
             {
               topic: hashConnectSaveData.topic,
@@ -150,11 +150,15 @@ const useHederaWallets = () => {
                 returnTransaction: false,
               },
             }
-          )) as MessageTypes.TransactionResponse;
-
-          return TransactionReceipt.fromBytes(
-            response.receipt as Uint8Array
           );
+
+          if (response?.receipt) {
+            return TransactionReceipt.fromBytes(
+              response.receipt as Uint8Array
+            );
+          } else {
+            throw new Error('No transaction receipt found!');
+          }
 
         case ConnectionStateType.NOCONNECTION:
           throw new Error('No wallet connected!');
