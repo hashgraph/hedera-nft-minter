@@ -27,6 +27,7 @@
     "gsap": "^3.11.0",
     "hamburger-react": "^2.5.0",
     "hashconnect": "^0.1.9",
+    "http-proxy-middleware": "^2.0.6",
     "i18next": "^20.4.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
@@ -42,6 +43,7 @@
     "react-scrollbars-custom": "^4.1.1",
     "react-toastify": "^8.0.2",
     "react-transition-group": "^4.4.2",
+    "uuid": "^9.0.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {
@@ -61,6 +63,7 @@
     "@types/react-dom": "^17.0.9",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-transition-group": "^4.4.4",
+    "@types/uuid": "^8.3.4",
     "@types/webpack-env": "^1.18.0",
     "@types/yup": "^0.29.13",
     "@typescript-eslint/eslint-plugin": "4.28.3",
