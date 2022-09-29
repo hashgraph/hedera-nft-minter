@@ -132,7 +132,7 @@ const useHederaWallets = () => {
           }
 
           hashConnectTxBytes = sign ? (
-            await SigningService.makeBytes(tx, userWalletId)
+            SigningService.makeBytes(tx, userWalletId)
           ) : (
             tx.toBytes()
           );
