@@ -84,26 +84,60 @@ export default function MyNFTCollection() {
     }
   )), [collections, selectedCollectionsNFTs]);
 
+  const renderSelectedCollectionError = useCallback(() => (
+    !selectedCollectionsId
+      ? (
+        <p>First mint some NFTs!</p>
+      ) : (
+        <p>You don't have any NFTs in this collection!</p>
+      )
+  ), [selectedCollectionsId])
+
   const renderNFTs = useCallback(() => (
     selectedCollectionsNFTs && selectedCollectionsNFTs.length <= 0 ? (
-      !selectedCollectionsId
-        ? (
-          <p>First mint some NFTs!</p>
-        ) : (
-          <p>You don't have any NFTs in this collection!</p>
-        )
-      ) : (
-        <Scrollbar renderOn={{mobileSmall: false, mobile: false}}>
-          <div className='my-nft-collection__nfts__grid'>
-            {renderSelectedNFTs()}
-          </div>
-        </Scrollbar>
-      )
-  ), [renderSelectedNFTs, selectedCollectionsId, selectedCollectionsNFTs])
+      renderSelectedCollectionError()
+    ) : (
+      <Scrollbar renderOn={{mobileSmall: false, mobile: false}}>
+        <div className='my-nft-collection__nfts__grid'>
+          {renderSelectedNFTs()}
+        </div>
+      </Scrollbar>
+    )
+  ), [renderSelectedCollectionError, renderSelectedNFTs, selectedCollectionsNFTs])
 
   useEffect(() => {
     load();
   }, [load]);
+
+  const renderUserNfts = useCallback(() => (
+    loading ? (
+      <div className='my-nft-collection__loader-wrapper'>
+        <Loader />
+      </div>
+    ) : (
+      <Scrollbar
+        renderOn={{
+          tablet: false,
+          laptop: false,
+          desktop: false,
+          desktopWide: false,
+          desktopExtraWide: false
+        }}
+      >
+        <div className='my-nft-collection'>
+          <CollectionList
+            setSelectedCollectionsId={setSelectedCollectionsId}
+            selectedCollectionsId={selectedCollectionsId}
+            collections={collections}
+          />
+
+          <div className='my-nft-collection__nfts'>
+            {renderNFTs()}
+          </div>
+        </div>
+      </Scrollbar>
+    )
+  ), [collections, loading, renderNFTs, selectedCollectionsId])
 
   return (
     <div className='dark-schema'>
@@ -111,33 +145,8 @@ export default function MyNFTCollection() {
         {!userWalletId ? (
           <div>Firstly, you need connect your wallet!</div>
         ) : (
-          loading ? (
-            <div className='my-nft-collection__loader-wrapper'>
-              <Loader />
-            </div>
-          ) : (
-            <Scrollbar
-              renderOn={{
-                tablet: false,
-                laptop: false,
-                desktop: false,
-                desktopWide: false,
-                desktopExtraWide: false
-              }}
-            >
-              <div className='my-nft-collection'>
-                <CollectionList
-                  setSelectedCollectionsId={setSelectedCollectionsId}
-                  selectedCollectionsId={selectedCollectionsId}
-                  collections={collections}
-                />
-
-                <div className='my-nft-collection__nfts'>
-                  {renderNFTs()}
-                </div>
-              </div>
-            </Scrollbar>
-          ))}
+          renderUserNfts()
+        )}
       </div>
     </div>
   );

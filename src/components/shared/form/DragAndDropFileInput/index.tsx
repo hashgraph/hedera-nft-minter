@@ -67,25 +67,31 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     acceptedFiles.length > 0,
     [acceptedFiles]);
 
+  const renderUploadedImage = useCallback(() => (
+    isFileUploaded ? (
+      values?.image && (
+        <img
+          className='selected-image'
+          src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
+          alt='Thumb'
+        />
+      )
+    ) : (
+      <>
+        <img src={uploadArrow} className='drag-and-drop__upload-arrow' alt='upload-arrow' />
+        <p>Upload your NFT image</p>
+      </>
+    )
+  ), [isFileUploaded, selectedImage, values?.image])
+
  return (
     <div className='drag-and-drop'>
       <div className={dragAndDropClassNames} {...getRootProps()}>
         <input {...props} {...getInputProps()} />
         {isDragActive ? (
           <p>Drop the files here ...</p>
-        ) : isFileUploaded ? (
-          values?.image && (
-            <img
-              className='selected-image'
-              src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
-              alt='Thumb'
-            />
-          )
         ) : (
-          <>
-            <img src={uploadArrow} className='drag-and-drop__upload-arrow' alt='upload-arrow' />
-            <p>Upload your NFT image</p>
-          </>
+          renderUploadedImage()
         )}
       </div>
     </div>
