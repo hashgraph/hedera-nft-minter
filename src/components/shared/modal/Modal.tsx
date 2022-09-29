@@ -31,9 +31,9 @@ const Modal = ({ children, ...props } : Props) => {
 
   useEffect(() => {
     const handleExit = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (ref.current && e.key === 'Escape') {
         closeModal();
-        enableBodyScroll(ref.current as HTMLDivElement);
+        enableBodyScroll(ref.current);
       }
     };
 
@@ -43,7 +43,10 @@ const Modal = ({ children, ...props } : Props) => {
 
   useOnClickAway(ref, () => {
     closeModal();
-    enableBodyScroll(ref.current as HTMLDivElement);
+
+    if (ref.current) {
+      enableBodyScroll(ref.current);
+    }
   });
 
   const modalBackgroundClassnames = useMemo(

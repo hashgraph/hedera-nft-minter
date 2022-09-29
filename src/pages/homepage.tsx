@@ -81,6 +81,22 @@ export default function MinterWizard() {
     return tokenMintResponse;
   }, [userWalletId, sendTransaction]);
 
+  const renderMintingError = useCallback((e) => {
+    if (typeof e === 'string') {
+      toast.error(e);
+    } else if (e instanceof Error) {
+      if (e.message.includes('illegal buffer')) {
+        toast.error('Transaction aborted in wallet.')
+      }
+      if (e.message.includes('INSUFFICIENT_PAYER_BALANCE')) {
+        toast.error('No available balance to finish operation.')
+      }
+      else {
+        toast.error(e.message)
+      }
+    }
+  }, [])
+
   const handleFormSubmit = useCallback(async (values) => {
     const formValues : FormikValues = {...values}
     const tokenSymbol = formValues.symbol;
@@ -158,27 +174,9 @@ export default function MinterWizard() {
       setNewNFTdata({...formValues, tokenId: tokenIdToMint})
       setTokenCreated(true);
     } catch (e) {
-      if (typeof e === 'string') {
-        toast.error(e);
-      } else if (e instanceof Error) {
-        if (e.message.includes('illegal buffer')) {
-          toast.error('Transaction aborted in wallet.')
-        }
-        if (e.message.includes('INSUFFICIENT_PAYER_BALANCE')) {
-          toast.error('No available balance to finish operation.')
-        }
-        else {
-          toast.error(e.message)
-        }
-      }
+      renderMintingError(e)
     }
-  }, [
-    createToken,
-    mint,
-    uploadMetadata,
-    uploadNFTFile,
-    userWalletId,
-  ]);
+  }, [createToken, mint, renderMintingError, uploadMetadata, uploadNFTFile, userWalletId]);
 
   return (
     <div className='dark-schema'>
