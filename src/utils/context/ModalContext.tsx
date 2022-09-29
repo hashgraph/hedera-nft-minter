@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from 'react';
 
+type ModalContentType = HTMLElement | string | React.ReactNode
+
 export const ModalContext = React.createContext<{
   closeModal: () => void;
   showModal: () => void;
   isModalShowed: boolean;
-  modalContent: HTMLElement | string | React.ReactNode;
-  setModalContent: (el: HTMLElement | string | React.ReactNode) => void;
+  modalContent: ModalContentType;
+  setModalContent: (el: ModalContentType) => void;
 }>({
   closeModal: () => undefined,
   showModal: () => undefined,
