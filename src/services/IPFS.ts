@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { IPFS_KEY, IPFS_URL } from '@/../Global.d';
+import random from 'lodash/random';
+import { IPFS_KEYS, IPFS_URL } from '@/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
 export interface UploadRespone {
@@ -27,7 +28,7 @@ export default class IPFS {
   static readonly instance = axios.create({
     baseURL: IPFS_URL,
     headers: {
-      Authorization: `Bearer ${ IPFS_KEY }`,
+      Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length)] }`,
     }
   });
 
