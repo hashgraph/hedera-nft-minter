@@ -60,8 +60,8 @@ const Modal = ({ children, ...props } : Props) => {
   useEffect(() => {
     if (ref && ref.current) {
       isModalShowed
-        ? disableBodyScroll(ref.current as HTMLDivElement)
-        : enableBodyScroll(ref.current as HTMLDivElement);
+        ? disableBodyScroll(ref.current)
+        : enableBodyScroll(ref.current);
     }
   }, [isModalShowed]);
 
