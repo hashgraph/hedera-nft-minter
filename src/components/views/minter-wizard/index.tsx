@@ -22,7 +22,7 @@ export enum FormWizardSteps {
   SummaryScreen = 2,
 }
 
-export const MinterWizardContext = React.createContext<{
+type MinterWizardContextProps = {
   setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>,
   setCreatorStepToBackFromSummaryToCurrent: () => void,
@@ -31,7 +31,9 @@ export const MinterWizardContext = React.createContext<{
   collections: { nfts?: NFTInfo[], info: TokenInfo }[] | null,
   creatorStep: FormWizardSteps,
   showWarning: boolean,
-}>({
+}
+
+export const MinterWizardContext = React.createContext<MinterWizardContextProps>({
   creatorStepToBackFromSummary: 0,
   showWarning: false,
   collections: [],
