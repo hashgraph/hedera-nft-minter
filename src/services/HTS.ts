@@ -16,7 +16,6 @@ import { Buffer } from 'buffer';
 import { HEDERA_NETWORK } from '@/../Global.d';
 import transformToKeys from '@helpers/transformToKeys';
 import prepareFees from '@/utils/helpers/prepareFees';
-import { TokenKey } from '@utils/entity/TokenKeys';
 import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {
@@ -33,7 +32,7 @@ export type NewTokenType = {
   amount: number;
   pause_key?: string;
   customFees?: Fees[];
-  keys?: TokenKey[];
+  keys?: string[];
 };
 
 type UpdateTokenProps = {
