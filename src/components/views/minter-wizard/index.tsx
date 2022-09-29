@@ -26,9 +26,9 @@ export const MinterWizardContext = React.createContext<{
   setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>,
   setCreatorStepToBackFromSummaryToCurrent: () => void,
-  setCollections:  React.Dispatch<React.SetStateAction<{ nfts?: NFTInfo[]; info: TokenInfo; }[] | null>>,
+  setCollections:  React.Dispatch<React.SetStateAction<{ nfts?: NFTInfo[], info: TokenInfo }[] | null>>,
   creatorStepToBackFromSummary: number,
-  collections: { nfts?: NFTInfo[]; info: TokenInfo; }[] | null,
+  collections: { nfts?: NFTInfo[], info: TokenInfo }[] | null,
   creatorStep: FormWizardSteps,
   showWarning: boolean,
 }>({
