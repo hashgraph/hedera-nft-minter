@@ -15,6 +15,8 @@ export const TokenKeys = [
   { title: 'Freeze', value: TOKEN_KEY.FREEZE },
   { title: 'Wipe', value: TOKEN_KEY.WIPE },
   { title: 'Pause', value: TOKEN_KEY.PAUSE },
+  { title: 'Pause', value: TOKEN_KEY.PAUSE },
+  { title: 'Fee Schedule', value: TOKEN_KEY.FEE_SCHEDULE },
 ]
 
 export type MinterWizardKey = {

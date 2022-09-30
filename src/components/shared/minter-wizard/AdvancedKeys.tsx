@@ -37,6 +37,11 @@ export default function Advanced() {
               value: TOKEN_KEY.PAUSE,
               tooltip: 'The PAUSE key that has the authority to pause or unpause an NFT Collection. Pausing an NFT Collection prevents all transfers of the NFTs within the Collection.'
             },
+            {
+              title: 'Fee Schedule',
+              value: TOKEN_KEY.FEE_SCHEDULE,
+              tooltip: 'The Fee Schedule key has the ability to change the Collection’s royalty fees after it has been minted. Changing the royalty fees of a Collection will impact all NFTs within the Collection (fixed, royalty and fallback).'
+            },
           ]}
         />
       </div>
