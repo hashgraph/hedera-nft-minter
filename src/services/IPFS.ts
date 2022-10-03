@@ -38,7 +38,7 @@ export default class IPFS {
         }
       });
     } catch (e) {
-      throw new Error('Too many request while uploading image! Try again in few secs...')
+      throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
   }
 
@@ -52,7 +52,7 @@ export default class IPFS {
         }
       });
     } catch (e) {
-      throw new Error('Too many request! Try again in few secs...')
+      throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
   }
 }
