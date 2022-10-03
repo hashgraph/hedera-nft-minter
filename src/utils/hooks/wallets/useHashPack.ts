@@ -1,4 +1,10 @@
-import { HEDERA_NETWORK } from '@/../Global.d';
+import {
+  APP_NAME,
+  HEDERA_NETWORK,
+  HASHPACK_APP_CONFIG_NAME,
+  HASHPACK_APP_CONFIG_DESCRIPTION,
+  HASHPACK_APP_CONFIG_ICON_URL
+} from '@/../Global.d';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
@@ -10,7 +16,7 @@ import {
 } from '@utils/types/hashconnect.types';
 import { loadLocalData } from '@/utils/helpers/loadLocalData';
 
-export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = 'minerPocHashconnectData';
+export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }HashconnectData`;
 
 export const HASHCONNECT_INITIAL_DEBUG: HashConnectDebugType = true;
 
@@ -38,9 +44,9 @@ const useHashPack = () => {
 
   // PREPARE APP CONFIG
   const appConfig = useMemo<HashConnectAppConfigType>(() => ({
-    name: `${ hederaNetworkPrefix }Mintbar.xyz`,
-    description: 'Mint your own NFT.',
-    icon: `${ window.location.protocol }//${ window.location.host }/logo.svg`
+    name: `${ hederaNetworkPrefix }${ HASHPACK_APP_CONFIG_NAME }`,
+    description: HASHPACK_APP_CONFIG_DESCRIPTION,
+    icon: HASHPACK_APP_CONFIG_ICON_URL ?? `${ window.location.protocol }//${ window.location.host }/logo.svg`
   }), [hederaNetworkPrefix])
 
   // CLEANER
