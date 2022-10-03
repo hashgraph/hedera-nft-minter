@@ -36,20 +36,28 @@ export default function Collected() {
     return Object.values(filters).filter(Boolean).length > 0
   }, [filters])
 
+  const removeArrayTypeFilterValue = useCallback(value => (
+    Array.isArray(value) ? value : []
+  ), [])
+
+  const removeBooleanTypeFilterValue = useCallback(value => (
+    typeof value === 'boolean'
+      ? false
+      : ''
+  ), [])
+
   const removeFilter = useCallback((f: string) => {
     setFilters(
       reduce(filters, (res, value, key) => {
         res[key] = key !== f
-          ? Array.isArray(value) ? value : []
-          : typeof value === 'boolean'
-            ? false
-            : ''
+          ? removeArrayTypeFilterValue(value)
+          : removeBooleanTypeFilterValue(value)
         ;
 
         return res;
       }, {} as {[key: string]: boolean | string | number })
     );
-  }, [filters, setFilters]);
+  }, [filters, removeArrayTypeFilterValue, removeBooleanTypeFilterValue, setFilters]);
 
   const handleSearchBarSubmit = useCallback(({ sort: newSort, search}) => {
     if (sort != newSort) {

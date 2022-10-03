@@ -54,10 +54,6 @@ a {
   }
 }
 
-img {
-  max-width: 100%;
-}
-
 button,
 input,
 select,
@@ -76,6 +72,7 @@ img[src='.svg'] {
 }
 
 img {
+  max-width: 100%;
   image-rendering: auto;
   @include user-select(none);
 }

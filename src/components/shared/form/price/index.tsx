@@ -1,4 +1,3 @@
-import './field-price.scss';
 import { useField } from 'formik';
 import { useCallback, useState } from 'react';
 

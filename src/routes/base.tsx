@@ -3,6 +3,7 @@ import {
   NotFound,
   Homepage,
   MyWallet,
+  TermsOfService,
   NFTOverview
   // Profile,
   // Book,
@@ -24,6 +25,10 @@ const routes: Array<CommonRoute> = [
   {
     path: '/my-nft-collection',
     component: MyWallet,
+  },
+  {
+    path: '/terms-of-service',
+    component: TermsOfService,
   },
   // {
   //   path: '/profile',

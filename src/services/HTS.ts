@@ -16,7 +16,6 @@ import { Buffer } from 'buffer';
 import { HEDERA_NETWORK } from '@/../Global.d';
 import transformToKeys from '@helpers/transformToKeys';
 import prepareFees from '@/utils/helpers/prepareFees';
-import { TokenKey } from '@utils/entity/TokenKeys';
 import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {
@@ -33,25 +32,25 @@ export type NewTokenType = {
   amount: number;
   pause_key?: string;
   customFees?: Fees[];
-  keys?: TokenKey[];
+  keys?: string[];
 };
 
 type UpdateTokenProps = {
-  tokenId?: string | TokenId | undefined;
-  tokenName?: string | undefined;
-  tokenSymbol?: string | undefined;
-  treasuryAccountId?: string | AccountId | undefined;
-  adminKey?: Key | undefined;
-  kycKey?: Key | undefined;
-  freezeKey?: Key | undefined;
-  wipeKey?: Key | undefined;
-  supplyKey?: Key | undefined;
-  autoRenewAccountId?: string | AccountId | undefined;
-  expirationTime?: Date | Timestamp | undefined;
-  autoRenewPeriod?: number | import('long').Long | undefined;
-  tokenMemo?: string | undefined;
-  feeScheduleKey?: Key | undefined;
-  pauseKey?: Key | undefined;
+  tokenId?: string | TokenId;
+  tokenName?: string;
+  tokenSymbol?: string;
+  treasuryAccountId?: string | AccountId;
+  adminKey?: Key;
+  kycKey?: Key;
+  freezeKey?: Key;
+  wipeKey?: Key;
+  supplyKey?: Key;
+  autoRenewAccountId?: string | AccountId;
+  expirationTime?: Date | Timestamp;
+  autoRenewPeriod?: number | import('long').Long;
+  tokenMemo?: string;
+  feeScheduleKey?: Key;
+  pauseKey?: Key;
 } | undefined
 
 export default class HTS {

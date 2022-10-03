@@ -100,6 +100,76 @@ export default function SelectCollection() {
     }
   }, [loadCollections, userWalletId, wasNotBackFromSummary]);
 
+  const renderCollections = useCallback(() => (
+    collections && collections.length > 0 ? (
+      <div className='minter-wizard__select-collection'>
+        <p className='title'><span className='title--strong'>Select a collection</span> where your NFT will be placed</p>
+        <div className='minter-wizard__select-collection__wrapper'>
+          <FieldSelect name='token_id'>
+            {collections.map((collection, index) => (
+              <option
+                key={collection.info.token_id}
+                value={collection.info.token_id as string}
+              >
+                {index + 1}. {collection.info.symbol} | {collection.info.name}
+              </option>
+            ))}
+          </FieldSelect>
+          {selectedCollection && (
+            <div className='minter-wizard__select-collection__summary'>
+              <div className='values'>
+                <p>
+                  Max supply:{' '}
+                  <b>
+                    {selectedCollection?.info.supply_type === TokenSupplyType.INFINITE
+                       ? TokenSupplyType.INFINITE
+                       : selectedCollection?.info?.max_supply
+                    }
+                  </b>
+                </p>
+                <p>
+                  Tokens minted: <b>{selectedCollection.info.total_supply}</b>
+                </p>
+                <p>
+                  {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
+                    <>
+                      Left to mint: <b>{
+                        parseInt(selectedCollection.info.max_supply ?? '0')
+                        - parseInt(selectedCollection.info.total_supply ?? '0')
+                      }</b>
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className='minter-wizard__on-chain__input-row'>
+          <label htmlFor='maxSupply' className='title--strong title--medium'>
+            # of <br />
+            NFTs to <br />
+            mint now:
+          </label>
+          <FieldWrapper
+            fastField
+            name='qty'
+            type='number'
+            maxLength={2}
+            max={maxQtyNumber}
+            min={1}
+          />
+        </div>
+      </div>
+    ) : (
+      <div className='minter-wizard__select-collection--not-found'>
+        <h3>Sorry! We cannot find any of your existing collections.</h3>
+        <p>First, you need to create a new collection and then you will be able to
+          add more NFTs to the existing collection.
+        </p>
+      </div>
+    )
+  ), [collections, maxQtyNumber, selectedCollection])
+
   return (
     <div>
       {isLoading ? (
@@ -111,73 +181,7 @@ export default function SelectCollection() {
           </p>
         </div>
       ) : (
-        collections && collections.length > 0 ? (
-          <div className='minter-wizard__select-collection'>
-            <p className='title'><span className='title--strong'>Select a collection</span> where your NFT will be placed</p>
-            <div className='minter-wizard__select-collection__wrapper'>
-              <FieldSelect name='token_id'>
-                {collections.map((collection, index) => (
-                  <option
-                    key={collection.info.token_id}
-                    value={collection.info.token_id as string}
-                  >
-                    {index + 1}. {collection.info.symbol} | {collection.info.name}
-                  </option>
-                ))}
-              </FieldSelect>
-              {selectedCollection && (
-                <div className='minter-wizard__select-collection__summary'>
-                  <div className='values'>
-                    <p>
-                      Max supply:{' '}
-                      <b>
-                        {selectedCollection?.info.supply_type === TokenSupplyType.INFINITE
-                           ? TokenSupplyType.INFINITE
-                           : selectedCollection?.info?.max_supply
-                        }
-                      </b>
-                    </p>
-                    <p>
-                      Tokens minted: <b>{selectedCollection.info.total_supply}</b>
-                    </p>
-                    <p>
-                      {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
-                        <>
-                          Left to mint: <b>{
-                            parseInt(selectedCollection.info.max_supply ?? '0')
-                            - parseInt(selectedCollection.info.total_supply ?? '0')
-                          }</b>
-                        </>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className='minter-wizard__on-chain__input-row'>
-              <label htmlFor='maxSupply' className='title--strong title--medium'>
-                # of <br />
-                NFTs to <br />
-                mint now:
-              </label>
-              <FieldWrapper
-                fastField
-                name='qty'
-                type='number'
-                maxLength={2}
-                max={maxQtyNumber}
-                min={1}
-              />
-            </div>
-          </div>
-        ) : (
-          <div className='minter-wizard__select-collection--not-found'>
-            <h3>Sorry! We cannot find any of your existing collections.</h3>
-            <p>First, you need to create a new collection and then you will be able to
-              add more NFTs to the existing collection.
-            </p>
-          </div>
-        )
+        renderCollections()
       )}
     </div>
   );

@@ -52,12 +52,15 @@ export default function Slider({ data, activeIndex }: SliderProps) {
       )
     }
 
+    const isFirstSlide = activeIndex === 0
+    const slidesToShow = isFirstSlide ? 1 : activeIndex
+
     return (
       activeIndex < 1
         ? 0
         : sum(map(containerRef.current?.childNodes, (child : HTMLDivElement) => (
             child.clientWidth
-          ))?.slice(0, activeIndex === 0 ? 1 : activeIndex))
+          ))?.slice(0, slidesToShow))
     )
   }, [activeIndex, isDesktop])
 

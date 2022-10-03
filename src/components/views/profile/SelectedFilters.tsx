@@ -1,6 +1,7 @@
 import map from 'lodash/map';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { Filters } from '@utils/hooks/useSearch';
+import { useCallback } from 'react';
 
 interface FilterItemProps {
   value: Filters,
@@ -39,29 +40,30 @@ export default function SelectedFilters({
   clearAll,
   onRemoveFilter,
 }: SelectedFiltersProps) {
+  const renderFilterItem = useCallback((value, key) => (
+    Array.isArray(value) ? map(value, (v) => (
+      <FilterItem
+        key={`${ key }_${ v }`}
+        fieldKey={key}
+        value={v}
+        onRemoveFilter={onRemoveFilter}
+      />
+    )) : (
+      <FilterItem
+        key={key}
+        fieldKey={key}
+        value={value}
+        onRemoveFilter={onRemoveFilter}
+      />
+    )
+  ), [onRemoveFilter])
 
   return (
     <>
       {map(filters, (value, key) => (
         ['price'].includes(key)
           ? null
-          : (
-            Array.isArray(value) ? map(value, (v) => (
-              <FilterItem
-                key={`${ key }_${ v }`}
-                fieldKey={key}
-                value={v}
-                onRemoveFilter={onRemoveFilter}
-              />
-            )) : (
-              <FilterItem
-                key={key}
-                fieldKey={key}
-                value={value}
-                onRemoveFilter={onRemoveFilter}
-              />
-            )
-          )
+          : renderFilterItem(value, key)
       ))}
 
       <button

@@ -88,10 +88,7 @@ export default function useSearch() {
   }, [])
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const loadMoreResults = useCallback((page: number) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const filters = parse(location.search.slice(1), { arrayFormat: 'bracket'}) as Filters;
-
+  const loadMoreResults = useCallback(() => {
     setLoading(true);
 
     setTimeout(() => {
@@ -99,7 +96,7 @@ export default function useSearch() {
       setLoading(false);
     }, 1000);
 
-  }, [location, setResult]);
+  }, [setResult]);
 
   const setFilters = useCallback((filters) => {
     dispatch({

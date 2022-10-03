@@ -12,8 +12,7 @@
   padding: 0;
 
   img {
-    transition-property: opacity, filter;
-    transition: 0.2s ease-in-out;
+    transition: generateTransitions((opacity, filter), 0.2s);
     opacity: 0.5;
     filter: grayscale(1);
     margin-right: 0.625rem;

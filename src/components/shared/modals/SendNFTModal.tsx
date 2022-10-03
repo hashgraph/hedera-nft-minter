@@ -30,7 +30,7 @@ const ModalForm = ({ serials }: { serials:  number[] }) => (
 
 interface SendNFTModalProps {
   info: TokenInfo,
-  nfts?: NFTInfo[] | undefined;
+  nfts?: NFTInfo[];
 }
 
 export default function SendNFTModal({ info, nfts }: SendNFTModalProps) {

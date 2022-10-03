@@ -3,6 +3,32 @@ import reduce from 'lodash/reduce';
 import { FormikValues } from 'formik';
 import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 
+const reduceAttributes = (attributes: Attribute[]) => (
+  reduce(attributes, (
+    res: {[trait_type: string]: string},
+    { trait_type, value } : Attribute
+  ) => {
+    if (value) {
+      res[trait_type] = value;
+    }
+
+    return res;
+  }, {})
+)
+
+const reduceProperties = (properties: Propertie[]) => (
+  reduce(properties, (
+    res: {[key: string]: string},
+    { label, value } : Propertie
+  ) => {
+    if (value) {
+      res[label] = value;
+    }
+
+    return res;
+  }, {})
+)
+
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   let filtered = pick(values, [
     'type',
@@ -34,16 +60,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   );
 
   if (filtered?.attributes?.length) {
-    filtered.attributes = reduce(filtered.attributes, (
-      res: {[trait_type: string]: string},
-      { trait_type, value } : Attribute
-    ) => {
-      if (value) {
-        res[trait_type] = value;
-      }
-
-      return res;
-    }, {});
+    filtered.attributes = reduceAttributes(filtered.attributes)
   }
 
   if (!Object.keys(filtered?.attributes ?? [])?.length) {
@@ -51,16 +68,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
   }
 
   if (filtered?.properties?.length) {
-    filtered.properties = reduce(filtered.properties, (
-      res: {[key: string]: string},
-      { label, value } : Propertie
-    ) => {
-      if (value) {
-        res[label] = value;
-      }
-
-      return res;
-    }, {});
+    filtered.properties = reduceProperties(filtered.properties);
   }
 
   if (!Object.keys(filtered?.properties ?? [])?.length) {

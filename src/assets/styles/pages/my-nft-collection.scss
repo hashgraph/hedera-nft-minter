@@ -57,7 +57,6 @@
         align-items: center;
         width: 100%;
         white-space: normal;
-        display: grid;
         grid-column-gap: .5rem;
         grid-template-columns: 25px auto;
 
@@ -160,12 +159,10 @@
       grid-gap: 1.3rem;
 
       @include respond-to('mobile') {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
       }
 
       @include respond-to('laptop') {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
       }
 

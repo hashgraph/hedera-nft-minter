@@ -34,7 +34,7 @@ export const getCurrentStepFieldsNames = (
 const findAllErrorsNames = (errors: string[] | FormikErrors<FormikValues>[] | FormikErrors<FormikValues>, parentName?: string) => {
   const errorNames = filter(flatMap(Object.entries(errors), ([errorKey, errorValue]) => {
     const fieldName = parentName ? (
-      `${ parentName }.${ errorKey }`
+      `${ parentName }.${ errorKey }.`
     ) : (
       errorKey
     )
@@ -45,7 +45,7 @@ const findAllErrorsNames = (errors: string[] | FormikErrors<FormikValues>[] | Fo
 
     if (errorValue && isPlainObject(errorValue)) {
       return map(Object.keys(errorValue), (errorKey) => (
-        `${ fieldName ? `${ fieldName }.` : '' }${ errorKey }`
+        `${ fieldName ? fieldName : '' }${ errorKey }`
       ))
     }
 

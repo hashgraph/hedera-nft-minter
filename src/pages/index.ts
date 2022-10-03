@@ -5,3 +5,4 @@ export { default as MyWallet } from './my-nft-collection';
 export { default as Profile } from './profile';
 export { default as Book } from './book';
 export { default as NFTOverview } from './nft-overview';
+export { default as TermsOfService } from './terms-of-service';
