@@ -7,8 +7,12 @@
       display: flex;
       align-items: center;
       transition: color 0.2s ease-in-out;
-      width: 210px;
+      width: 280px;
       justify-content: space-between;
+
+      @include respond-to('mobile') {
+        width: 325px;
+      }
 
       input {
         opacity: 0;

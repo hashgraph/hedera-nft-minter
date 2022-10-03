@@ -5,7 +5,8 @@ export enum TOKEN_KEY {
   FREEZE = 'freezeKey',
   WIPE = 'wipeKey',
   PAUSE = 'pauseKey',
-  SUPPLY = 'supplyKey'
+  SUPPLY = 'supplyKey',
+  FEE_SCHEDULE = 'feeScheduleKey'
 }
 
 export type TokenKeys = TOKEN_KEY[]
