@@ -5,8 +5,6 @@ import {
   MyWallet,
   TermsOfService,
   NFTOverview
-  // Profile,
-  // Book,
 } from '@/pages';
 // import settingsConfig from '@routes/settings/config';
 
@@ -57,16 +55,7 @@ const routes: Array<CommonRoute | NestedRoute> = [
     path: '/terms-of-service',
     component: TermsOfService,
   },
-  // {
-  //   path: '/profile',
-  //   component: Profile,
-  // },
-  // {
-  //   path: '/book',
-  //   component: Book,
-  // },
-  // {
-  //   path: '/settings',
+    //   path: '/settings',
   //   config: settingsConfig,
   //   title: 'Profile'
   // },
