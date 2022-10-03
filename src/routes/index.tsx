@@ -3,25 +3,15 @@ import map from 'lodash/map';
 import omit from 'lodash/omit';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import NestedRoute from '@hoc/NestedRoute';
-
 import { BaseLayout } from '@layout/Base.layout';
 
-import pages, {
-  NestedRoute as NestedRouteProps,
-  instanceOfNestedRoute
-} from '@routes/base';
+import pages from '@routes/base';
 
 function Routes() {
   return (
     <BaseLayout>
       <Switch>
         {map(pages, (page) => (
-          instanceOfNestedRoute(page) ? (
-            <Route path={page.path}>
-              <NestedRoute {...page as NestedRouteProps} />
-            </Route>
-          ) : (
             <Route
               {...omit({ ...page }, 'noBreadcrumbs')}
               exact={page?.path === '/'}
@@ -31,7 +21,7 @@ function Routes() {
                 </Suspense>
               )}
             />
-          )))}
+          ))}
 
         <Redirect from='*' to='/404' />
       </Switch>
