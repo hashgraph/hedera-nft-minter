@@ -157,6 +157,7 @@ export default function SelectCollection() {
             maxLength={2}
             max={maxQtyNumber}
             min={1}
+            hideCharLimit
           />
         </div>
       </div>

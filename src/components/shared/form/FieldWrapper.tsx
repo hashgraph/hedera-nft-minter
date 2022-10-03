@@ -17,6 +17,7 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   isArray?: boolean,
   onEnter?: () => void,
   tooltip?: string | JSX.Element,
+  hideCharLimit?: boolean,
 };
 
 const FieldWrapper = ({
@@ -29,6 +30,7 @@ const FieldWrapper = ({
   type = 'text',
   isArray = false,
   maxLength,
+  hideCharLimit,
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
   onEnter = () => {},
   ...props
@@ -118,7 +120,7 @@ const FieldWrapper = ({
           onBlur={['number'].includes(type) ? handleBlur : field.onBlur}
         />
 
-        {maxLength && (
+        {maxLength && !hideCharLimit && (
           <span className='max-length'>
             {field?.value?.toString()?.length || 0}/{maxLength}
           </span>
