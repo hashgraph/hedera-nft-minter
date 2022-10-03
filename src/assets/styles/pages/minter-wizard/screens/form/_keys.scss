@@ -5,6 +5,7 @@
 
     &__checkbox {
       display: flex;
+      position: relative;
       align-items: center;
       transition: color 0.2s ease-in-out;
       width: 280px;

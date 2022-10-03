@@ -14,6 +14,10 @@ header, .header {
     height: $headerHeight;
   }
 
+  @include respond-to('desktop-wide') {
+    height: $headerHeightWide;
+  }
+
   &__logo {
     @include respond-to('mobile') {
       img {
