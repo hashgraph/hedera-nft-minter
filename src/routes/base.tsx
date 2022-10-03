@@ -4,7 +4,6 @@ import {
   Homepage,
   MyWallet,
   TermsOfService,
-  NFTOverview
   // Profile,
   // Book,
 } from '@/pages';
@@ -70,10 +69,6 @@ const routes: Array<CommonRoute | NestedRoute> = [
   //   config: settingsConfig,
   //   title: 'Profile'
   // },
-  {
-    path: '/nft-overview/:collectionId/:serialNumber',
-    component: NFTOverview,
-  },
   {
     path: '/404',
     component: NotFound,
