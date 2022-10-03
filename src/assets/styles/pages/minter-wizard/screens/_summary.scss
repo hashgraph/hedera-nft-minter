@@ -26,6 +26,7 @@
         "offchain"
         "onchain";
       grid-row-gap: 2.5rem;
+      height: 100%;
 
       @include respond-to('laptop') {
         grid-template-columns: 300px 1fr;
