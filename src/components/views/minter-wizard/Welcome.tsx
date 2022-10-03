@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@/components/shared/form/button-group'
 import Scrollbar from '@components/shared/layout/Scrollbar'
@@ -40,6 +41,9 @@ export default function Welcome({ goToCreator }: Props) {
               easiest. <br />
               most sustainable.
             </h2>
+            <Link to='/terms-of-service'>
+              Terms of service
+            </Link>
           </div>
         </div>
       </Scrollbar>
