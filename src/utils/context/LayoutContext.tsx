@@ -2,12 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { map } from 'lodash';
 
-type Position = { x: number; y: number };
-
 export const LayoutContext = React.createContext<{
-  pageMenuPositionY: null | number;
-  setPageMenuPositionY: React.Dispatch<React.SetStateAction<number | null>>;
-  scrollPosition: Position;
   isMobileSmall: boolean;
   isMobile: boolean;
   isDesktop: boolean;
@@ -18,9 +13,6 @@ export const LayoutContext = React.createContext<{
   isMinterWizardWelcomeScreen: boolean;
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }>({
-  pageMenuPositionY: null,
-  setPageMenuPositionY: () => null,
-  scrollPosition: { x: 0, y: 0 },
   isMobileSmall: true,
   isMobile: true,
   isLaptop: true,
@@ -37,14 +29,6 @@ export default function LayoutProvider({
 }: {
   children: React.ReactElement;
 }) {
-  const [pageMenuPositionY, setPageMenuPositionY] = useState<number | null>(
-    null
-  );
-
-  const [scrollPosition, setScrollPosition] = useState<Position>({
-    x: 0,
-    y: 0,
-  });
   const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
 
   const [isMobileSmall, setIsMobileSmall] = useState(true);
@@ -70,7 +54,6 @@ export default function LayoutProvider({
 
   useEffect(() => {
     const handler = () => {
-      setScrollPosition({ x: window.scrollX, y: window.scrollY });
       setDocDimensions();
     };
 
@@ -144,9 +127,6 @@ export default function LayoutProvider({
   return (
     <LayoutContext.Provider
       value={{
-        pageMenuPositionY,
-        setPageMenuPositionY,
-        scrollPosition,
         isDesktopExtraWide,
         isDesktopWide,
         isDesktop,
