@@ -15,6 +15,17 @@ export default function ConnectionModal() {
     closeModal();
   }, [closeModal, connect])
 
+  const renderButtonContent = useCallback((connectionState: ConnectionStateType, walletName: string) => (
+    connectedWalletType === connectionState
+      ? (
+        <>
+          <p>Disconnect from account { userWalletId }</p>
+        </>
+      ) : (
+          <p>Switch to {walletName} wallet.</p>
+      )
+  ), [connectedWalletType, userWalletId])
+
 
   const renderHashpackConnectionButton = useCallback(() => (
     <button
@@ -29,18 +40,11 @@ export default function ConnectionModal() {
         ? (
           <p>Connect to app with HashPack wallet.</p>
         ) : (
-          connectedWalletType === ConnectionStateType.HASHPACK
-            ? (
-              <>
-                <p>Disconnect from account { userWalletId }</p>
-              </>
-            ) : (
-                <p>Switch to HashPack wallet.</p>
-            )
+          renderButtonContent(ConnectionStateType.HASHPACK, 'HashPack')
         )
       }
     </button>
-  ), [connectToWallet, connectedWalletType, disconnect, userWalletId])
+  ), [connectToWallet, connectedWalletType, disconnect, renderButtonContent])
 
   const renderBladeWalletConnectionButton = useCallback(() => (
     <button
@@ -55,18 +59,11 @@ export default function ConnectionModal() {
         ? (
           <p>Connect to app with BladeWallet.</p>
         ) : (
-          connectedWalletType === ConnectionStateType.BLADEWALLET
-            ? (
-              <>
-                <p>Disconnect from account { userWalletId }</p>
-              </>
-            ) : (
-                <p>Switch to BladeWallet.</p>
-            )
+          renderButtonContent(ConnectionStateType.BLADEWALLET, 'BladeWallet')
         )
       }
     </button>
-  ), [connectToWallet, connectedWalletType, disconnect, userWalletId])
+  ), [connectToWallet, connectedWalletType, disconnect, renderButtonContent])
 
   return (
     <div className='connection-modal'>

@@ -8,7 +8,6 @@ import NestedRoute from '@hoc/NestedRoute';
 import { BaseLayout } from '@layout/Base.layout';
 
 import pages, {
-  NestedRoute as NestedRouteProps,
   instanceOfNestedRoute
 } from '@routes/base';
 
@@ -19,7 +18,7 @@ function Routes() {
         {map(pages, (page) => (
           instanceOfNestedRoute(page) ? (
             <Route path={page.path}>
-              <NestedRoute {...page as NestedRouteProps} />
+              <NestedRoute {...page} />
             </Route>
           ) : (
             <Route

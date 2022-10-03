@@ -29,11 +29,11 @@ export default function Footer() {
           classNames={footerLogoAnimationClassnames}
         >
           {showLogoOnLeft ? (
-            <a className='footer__logo' href='http://hedera.com' target='_blank'>
+            <a className='footer__logo' href='https://hedera.com' target='_blank'>
               <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
             </a>
           ) : (
-            <a className='footer__logo--left' href='http://hedera.com' target='_blank'>
+            <a className='footer__logo--left' href='https://hedera.com' target='_blank'>
               <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
             </a>
           )}

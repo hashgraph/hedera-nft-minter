@@ -30,28 +30,28 @@ const useHederaWallets = () => {
   const { accountsIds } = hashConnectSaveData;
 
   const [connectedWalletType, setConnectedWalletType] =
-    useState<ConnectionStateType>('noconnection');
+    useState<ConnectionStateType>(ConnectionStateType.NOCONNECTION);
 
   useEffect(() => {
     if (!bladeAccountId && accountsIds?.length === 0) {
-      setConnectedWalletType('noconnection');
+      setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
     if (bladeAccountId && accountsIds?.length === 0) {
-      setConnectedWalletType('bladewallet');
+      setConnectedWalletType(ConnectionStateType.BLADEWALLET);
     }
     if (accountsIds?.length > 0 && !bladeAccountId) {
-      setConnectedWalletType('hashpack');
+      setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
   }, [bladeAccountId, accountsIds, setConnectedWalletType]);
 
   const connect = useCallback(
     (walletType) => {
       switch (walletType) {
-        case 'bladewallet':
+        case ConnectionStateType.BLADEWALLET:
           clearPairedAccountsAndHashPackWalletData();
           connectBladeWallet();
           break;
-        case 'hashpack':
+        case ConnectionStateType.HASHPACK:
           clearConnectedBladeWalletData();
           connectToHashPack();
           break;
@@ -67,11 +67,11 @@ const useHederaWallets = () => {
 
   const disconnect = useCallback(() => {
     switch (connectedWalletType) {
-      case 'bladewallet':
+      case ConnectionStateType.BLADEWALLET:
         clearConnectedBladeWalletData();
         toast.error('❌ Removed Blade Wallet pairing.');
         break;
-      case 'hashpack':
+      case ConnectionStateType.HASHPACK:
         clearPairedAccountsAndHashPackWalletData();
         toast.error('❌ Removed HashPack pairings.');
         break;
@@ -89,11 +89,11 @@ const useHederaWallets = () => {
 
   const userWalletId = useMemo(() => {
     switch (connectedWalletType) {
-      case 'bladewallet':
+      case ConnectionStateType.BLADEWALLET:
         return bladeAccountId;
-      case 'hashpack':
+      case ConnectionStateType.HASHPACK:
         return hashConnectSaveData?.accountsIds[0];
-      case 'noconnection':
+      case ConnectionStateType.NOCONNECTION:
         return undefined;
     }
   }, [connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds]);
@@ -109,9 +109,10 @@ const useHederaWallets = () => {
         | TransactionResponse
         | undefined;
 
+      let hashConnectTxBytes;
+
       switch (connectedWalletType) {
-        case 'bladewallet':
-          // eslint-disable-next-line no-case-declarations
+        case ConnectionStateType.BLADEWALLET:
           response = (await bladeSigner?.sendRequest(
             tx
           )) as TransactionResponse;
@@ -125,38 +126,40 @@ const useHederaWallets = () => {
               transactionId: response.transactionId,
             })
           );
-        case 'hashpack':
+        case ConnectionStateType.HASHPACK:
           if (!hashConnectSaveData.topic) {
             throw new Error('Loading topic Error.');
           }
 
-          // eslint-disable-next-line no-case-declarations,no-undef
-          let txBytes: Uint8Array = new Buffer([]);
+          hashConnectTxBytes = sign ? (
+            SigningService.makeBytes(tx, userWalletId)
+          ) : (
+            tx.toBytes()
+          );
 
-          if (sign) {
-            txBytes = await SigningService.makeBytes(tx, userWalletId);
-          } else {
-            txBytes = tx.toBytes();
-          }
 
           // eslint-disable-next-line no-case-declarations
-          response = (await hashConnect?.sendTransaction(
+          response = await hashConnect?.sendTransaction(
             hashConnectSaveData.topic,
             {
               topic: hashConnectSaveData.topic,
-              byteArray: txBytes,
+              byteArray: hashConnectTxBytes,
               metadata: {
                 accountToSign: userWalletId,
                 returnTransaction: false,
               },
             }
-          )) as MessageTypes.TransactionResponse;
+          );
 
-          return TransactionReceipt.fromBytes(
-            response.receipt as Uint8Array
-          ) as TransactionReceipt;
+          if (response?.receipt) {
+            return TransactionReceipt.fromBytes(
+              response.receipt as Uint8Array
+            );
+          } else {
+            throw new Error('No transaction receipt found!');
+          }
 
-        case 'noconnection':
+        case ConnectionStateType.NOCONNECTION:
           throw new Error('No wallet connected!');
       }
     },

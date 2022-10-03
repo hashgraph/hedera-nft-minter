@@ -32,12 +32,16 @@ const useHashPack = () => {
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
 
+  const hederaNetworkPrefix = useMemo(() => (
+    HEDERA_NETWORK === 'testnet' ? `${ HEDERA_NETWORK }.` : ''
+  ), [])
+
   // PREPARE APP CONFIG
   const appConfig = useMemo<HashConnectAppConfigType>(() => ({
-    name: `${ HEDERA_NETWORK === 'testnet' ? `${ HEDERA_NETWORK }.` : '' }Mintbar.xyz`,
+    name: `${ hederaNetworkPrefix }Mintbar.xyz`,
     description: 'Mint your own NFT.',
     icon: `${ window.location.protocol }//${ window.location.host }/logo.svg`
-  }), [])
+  }), [hederaNetworkPrefix])
 
   // CLEANER
   const clearPairedAccountsAndHashPackWalletData = useCallback(() => {

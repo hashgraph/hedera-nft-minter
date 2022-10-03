@@ -37,11 +37,11 @@ interface FormikFields {
   memo?: string | null,
 }
 
-interface ManageNFTModal {
+interface ManageNFTModalProps {
   info: TokenInfo,
 }
 
-export default function ManageNFTModal({ info }: ManageNFTModal) {
+export default function ManageNFTModal({ info }: ManageNFTModalProps) {
   const { userWalletId ,sendTransaction } = useHederaWallets();
 
   const handleManageForm = useCallback(async (values) => {

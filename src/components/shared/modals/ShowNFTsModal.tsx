@@ -10,7 +10,7 @@ import NFT from '@/components/views/my-nft-collection/NFT';
 
 interface ShowNFTsModalProps {
   info: TokenInfo,
-  nfts?: NFTInfo[] | undefined;
+  nfts?: NFTInfo[];
 }
 
 export default function ShowNFTsModal({nfts, info}: ShowNFTsModalProps) {

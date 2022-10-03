@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes, useCallback, useMemo } from 'react';
 import { FastField, FieldAttributes, Field, useField } from 'formik';
 import classNames from 'classnames';
+import { v4 as uuidv4 } from 'uuid';
 import { JSX } from '@babel/types';
 
 import Error from '@/components/shared/form/Error';
@@ -32,7 +33,7 @@ const FieldWrapper = ({
   onEnter = () => {},
   ...props
 }: FieldWrapperProps) => {
-  const id = useMemo(() => Math.random().toString(), []);
+  const id = useMemo(() => uuidv4(), []);
   const [field,, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
 

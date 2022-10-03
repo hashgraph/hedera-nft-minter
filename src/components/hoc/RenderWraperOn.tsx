@@ -1,4 +1,6 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
+import map from 'lodash/map';
+import find from 'lodash/find';
 import { JSX } from '@babel/types'
 import useLayout from '@/utils/hooks/useLayout';
 
@@ -33,76 +35,63 @@ export default function RenderWrapperOn({
     isMobileSmall
   } = useLayout();
 
-  const renderWrapperOn = useCallback(() => {
-    if (isDesktopExtraWide) {
-      return (
-        renderOnBreakpoints.desktopExtraWide
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isDesktopWide) {
-      return (
-        renderOnBreakpoints.desktopWide
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isDesktop) {
-      return (
-        renderOnBreakpoints.desktop
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isLaptop) {
-      return (
-        renderOnBreakpoints.laptop
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isTablet) {
-      return (
-        renderOnBreakpoints.tablet
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isMobile) {
-      return (
-        renderOnBreakpoints.mobile
-          ? wrapper
-          : children
-      )
-    }
-
-    if (isMobileSmall) {
-      return (
-        renderOnBreakpoints.mobileSmall
-          ? wrapper
-          : children
-      )
-    }
-
-    return children
-  }, [
-    children,
-    isMobileSmall,
-    isMobile,
-    isTablet,
-    isLaptop,
+  const renderWrapperOnTable = useMemo(() => ([
+    {
+      isLayoutBreakpointAchived: isDesktopExtraWide,
+      renderOnBreakpoint: renderOnBreakpoints.desktopExtraWide
+    },
+    {
+      isLayoutBreakpointAchived: isDesktopWide,
+      renderOnBreakpoint: renderOnBreakpoints.desktopWide
+    },
+    {
+      isLayoutBreakpointAchived: isDesktop,
+      renderOnBreakpoint: renderOnBreakpoints.desktop
+    },
+    {
+      isLayoutBreakpointAchived: isLaptop,
+      renderOnBreakpoint: renderOnBreakpoints.laptop
+    },
+    {
+      isLayoutBreakpointAchived: isTablet,
+      renderOnBreakpoint: renderOnBreakpoints.tablet
+    },
+    {
+      isLayoutBreakpointAchived: isMobile,
+      renderOnBreakpoint: renderOnBreakpoints.mobile
+    },
+    {
+      isLayoutBreakpointAchived: isMobileSmall,
+      renderOnBreakpoint: renderOnBreakpoints.mobileSmall
+    },
+  ]), [
     isDesktop,
-    isDesktopWide,
     isDesktopExtraWide,
-    renderOnBreakpoints,
-    wrapper,
+    isDesktopWide,
+    isLaptop,
+    isMobile,
+    isMobileSmall,
+    isTablet,
+    renderOnBreakpoints.desktop,
+    renderOnBreakpoints.desktopExtraWide,
+    renderOnBreakpoints.desktopWide,
+    renderOnBreakpoints.laptop,
+    renderOnBreakpoints.mobile,
+    renderOnBreakpoints.mobileSmall,
+    renderOnBreakpoints.tablet
   ])
+
+  const renderWrapperOn = useCallback(() => {
+    const rendererElement = find(map(renderWrapperOnTable, renderWrapperOnTableElement => (
+      renderWrapperOnTableElement.isLayoutBreakpointAchived && (
+        renderWrapperOnTableElement.renderOnBreakpoint
+          ? wrapper
+          : children
+      )
+    )))
+
+    return rendererElement ? rendererElement : children
+  }, [renderWrapperOnTable, children, wrapper])
 
   return renderWrapperOn()
 }
