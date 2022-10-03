@@ -1,5 +1,10 @@
 .minter-wizard {
   &__slogan {
+    a {
+      color: var(--text-color);
+      margin-top: 0.5rem;
+    }
+
     img {
       @include respond-to('mobile') {
         position: absolute;
