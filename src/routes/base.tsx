@@ -55,7 +55,7 @@ const routes: Array<CommonRoute | NestedRoute> = [
     path: '/terms-of-service',
     component: TermsOfService,
   },
-    //   path: '/settings',
+  //   path: '/settings',
   //   config: settingsConfig,
   //   title: 'Profile'
   // },
