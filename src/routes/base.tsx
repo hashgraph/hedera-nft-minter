@@ -8,7 +8,6 @@ import {
   // Profile,
   // Book,
 } from '@/pages';
-// import settingsConfig from '@routes/settings/config';
 
 export type CommonRoute = {
   path: string;
@@ -18,33 +17,7 @@ export type CommonRoute = {
   component: () => JSX.Element;
 };
 
-type NestedPageComponent = ({ children }: { children: JSX.Element }) => JSX.Element
-
-export type NestedRouteConfig = {
-  defaultComponent: () => JSX.Element
-  nestedRoutes: Array<CommonRoute | NestedRoute>,
-  wrapper: NestedPageComponent,
-}
-
-export type NestedRoute = {
-  path: string,
-  config: NestedRouteConfig,
-  title?: string
-}
-
-export const instanceOfNestedRouteConfig =
-  (data : NestedRouteConfig): data is NestedRouteConfig =>
-    'wrapper' in data &&
-    'nestedRoutes' in data &&
-    'defaultComponent' in data
-
-export const instanceOfNestedRoute =
-  (data: NestedRoute | CommonRoute): data is NestedRoute =>
-    'path' in data &&
-    'config' in data &&
-    instanceOfNestedRouteConfig(data.config)
-
-const routes: Array<CommonRoute | NestedRoute> = [
+const routes: Array<CommonRoute> = [
   {
     path: '/',
     component: Homepage,
