@@ -3,11 +3,10 @@ import axios from 'axios';
 import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
-import filter from 'lodash/filter';
 import concat from 'lodash/concat';
 import entries from 'lodash/entries';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
-import { NFTInfo, NFTInfoWithMetadata, NFTTransactionHistory } from '@utils/entity/NFTInfo';
+import { NFTInfo } from '@utils/entity/NFTInfo';
 
 type GroupedNFTs = {
   [index: string]: NFTInfo[]
@@ -28,11 +27,6 @@ interface AccountBalance {
   tokens: Token[],
 }
 
-interface BalanceResponse {
-  balances: AccountBalance[],
-  timestamp: string,
-}
-
 interface AccountResponse {
   balance: AccountBalance,
   timestamp: string,
@@ -50,12 +44,6 @@ export default class MirrorNode {
     baseURL: MirrorNode.url,
   });
 
-  static async fetchAccountBalance(accountId: string) {
-    const { data } = await this.instance.get<BalanceResponse>(`/balances?account.id=${ accountId }`);
-
-    return data.balances[0];
-  }
-
   static async fetchAccountInfo(accountId: string) {
     const { data } = await this.instance.get<AccountResponse>(`/accounts/${ accountId }`);
 
@@ -68,49 +56,10 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchTokenBalanceInfo(tokenId: string, accountId: string): Promise<TokenInfo> {
-    const { data } = await this.instance.get(`/tokens/${ tokenId }/balances?account.id=${ accountId }`);
-
-    return data;
-  }
-
-  static async fetchTokensInfoByAccountId(accountId: string): Promise<TokenInfo> {
-    const { data } = await this.instance.get(`/tokens?account.id=${ accountId }`);
-
-    return data;
-  }
-
   static async fetchNFTInfo(tokenId: string | TokenId): Promise<{ nfts: NFTInfo[] }> {
     const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts`);
 
     return data;
-  }
-
-  static async fetchNFTsInfoWithMetadata(tokenId: string | TokenId) : Promise<NFTInfoWithMetadata[]> {
-    const loadedNfts = await this.fetchNFTInfo(tokenId)
-    const collectionInfo = await this.fetchTokenInfo(tokenId.toString());
-
-    const promises = map(loadedNfts.nfts, async (nft) => {
-      if (nft?.metadata) {
-        const meta = await MirrorNode.fetchNFTMetadata(atob(nft?.metadata));
-
-        return { ...nft, meta, collection_info: collectionInfo }
-      }
-      return { ...nft, collection_info: collectionInfo };
-    }).filter(async (el) => {
-      const elRes = await el;
-
-      return elRes !== undefined;
-    });
-
-    const collections = await Promise.all(promises);
-
-    const nftsWithMetadata = filter(
-      collections,
-      (el) => el && typeof el !== 'undefined'
-    );
-
-    return nftsWithMetadata
   }
 
   static async fetchNFTMetadata(cid: string) {
@@ -135,12 +84,6 @@ export default class MirrorNode {
     } catch (e) {
       return null
     }
-  }
-
-  static async fetchEditionTransactionHistory(tokenId: string | TokenId, serialNumber: string | number): Promise<NFTTransactionHistory> {
-    const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts/${ serialNumber }/transactions`);
-
-    return data
   }
 
   static async fetchUserCollectionsInfo(
