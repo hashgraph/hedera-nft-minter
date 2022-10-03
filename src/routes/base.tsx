@@ -4,7 +4,6 @@ import {
   Homepage,
   MyWallet,
   TermsOfService,
-  NFTOverview
 } from '@/pages';
 
 export type CommonRoute = {
@@ -28,15 +27,7 @@ const routes: Array<CommonRoute> = [
     path: '/terms-of-service',
     component: TermsOfService,
   },
-  //   path: '/settings',
-  //   config: settingsConfig,
-  //   title: 'Profile'
-  // },
-  {
-    path: '/nft-overview/:collectionId/:serialNumber',
-    component: NFTOverview,
-  },
-  {
+{
     path: '/404',
     component: NotFound,
   },
