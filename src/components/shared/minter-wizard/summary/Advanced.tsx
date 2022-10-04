@@ -40,8 +40,10 @@ export default function SummaryAdvanced({ name }: SummaryAdvancedProps) {
                             {element.type && firstLetterUppercase(element.type) + ' fee'}
                           </p>
                           <span>
-                            {element.type === 'fixed' && `Amount: ${ element.amount }`}
-                            {element.type === 'royalty' && `Amount: ${ element.fallbackFee ?? '(empty)' } | %: ${ element.percent }`}
+                            {element.type === 'fixed' && `Amount: ${ element.amount }ℏ`}
+                            {element.type === 'royalty' && (
+                              `${ element.percent }% (Fallback fee: ${ element.fallbackFee }ℏ)`
+                            )}
                           </span>
                         </div>
                       ) : (
