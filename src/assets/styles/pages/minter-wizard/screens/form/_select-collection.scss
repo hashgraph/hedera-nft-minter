@@ -8,6 +8,10 @@
       @include respond-to('desktop-wide') {
         font-size: default;
       }
+
+      &--strong {
+        padding-bottom: 0;
+      }
     }
 
     .form__number {
