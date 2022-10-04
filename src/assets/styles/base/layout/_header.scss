@@ -31,18 +31,18 @@ header, .header {
     position: relative;
     letter-spacing: 0.1em;
 
+    button {
+      &:active {
+        border: unset;
+      }
+    }
+
     &:before {
       @include blur-container;
       content: '';
       opacity: 0;
       top: 0;
       left: -1rem;
-    }
-
-    button {
-      &:active {
-        border: unset;
-      }
     }
   }
 
