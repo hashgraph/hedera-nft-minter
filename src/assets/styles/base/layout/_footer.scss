@@ -7,15 +7,57 @@ footer,
   position: fixed;
   bottom: 0;
 
+  &__tos {
+    position: absolute;
+    right: var(--horizontal-padding);
+    top: 50%;
+    transform: translateY(-50%);
+
+    a {
+      text-decoration: unset;
+      color: $vapor;
+      font-weight: 600;
+      position: relative;
+      font-size: 0.75rem;
+      padding-top: 0.75rem;
+
+      @include respond-to('mobile') {
+        padding-top: 0;
+        font-size: 1rem;
+      }
+
+      &:before {
+        @include blur-container;
+        content: '';
+        opacity: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 1rem;
+        margin: 0;
+
+        @include respond-to('mobile') {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   &__logo {
     position: absolute;
     right: var(--horizontal-padding);
-    bottom: 0.5rem;
+    bottom: 0;
 
     img {
       width: 100px;
       height: 43px;
       object-fit: contain;
+      margin-bottom: 0.35rem;
+
+      @include respond-to('mobile') {
+        margin-bottom: 0;
+      }
+
 
       @include respond-to('tablet') {
         width: 140px;
