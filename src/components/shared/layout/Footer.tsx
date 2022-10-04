@@ -10,7 +10,7 @@ export default function Footer() {
   const location = useLocation();
   const { isMinterWizardWelcomeScreen } = useLayout();
 
-  const showLogoOnRightSide = useMemo(() => {
+  const showLogoOnLeftSide = useMemo(() => {
     switch (location.pathname) {
       case '/':
         return !isMinterWizardWelcomeScreen
@@ -27,24 +27,24 @@ export default function Footer() {
   }, [location.pathname, isMinterWizardWelcomeScreen])
 
   const footerLogoAnimationClassnames = useMemo(() => (
-    classNames(`fadeslide${ showLogoOnRightSide ? '-left' : '-right' }`)
-  ), [showLogoOnRightSide])
+    classNames(`fadeslide${ showLogoOnLeftSide ? '-left' : '-right' }`)
+  ), [showLogoOnLeftSide])
 
   return (
     <footer className='footer'>
       <SwitchTransition>
         <CSSTransition
-          key={showLogoOnRightSide ? 'right' : 'left'}
+          key={showLogoOnLeftSide ? 'left' : 'right'}
           addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
           timeout={500}
           classNames={footerLogoAnimationClassnames}
         >
-          {showLogoOnRightSide ? (
+          {showLogoOnLeftSide ? (
             <a className='footer__logo' href='https://hedera.com' target='_blank'>
               <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
             </a>
           ) : (
-            <a className='footer__logo--left' href='https://hedera.com' target='_blank'>
+            <a className='footer__logo--right' href='https://hedera.com' target='_blank'>
               <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
             </a>
           )}
@@ -52,7 +52,7 @@ export default function Footer() {
       </SwitchTransition>
 
       <CSSTransition
-        in={!showLogoOnRightSide}
+        in={!showLogoOnLeftSide}
         addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
         timeout={700}
         classNames='fade'
