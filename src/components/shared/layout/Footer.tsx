@@ -53,7 +53,7 @@ export default function Footer() {
         classNames='fade'
         unmountOnExit
       >
-        <div className='footer__tos'>
+        <div className='footer__links'>
           <Link to='/terms-of-service'>
             Terms of service
           </Link>
