@@ -12,6 +12,12 @@ footer,
     right: var(--horizontal-padding);
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    column-gap: 0.5rem;
+
+    @include respond-to('mobile') {
+      column-gap: 1.5rem;
+    }
 
     a {
       text-decoration: unset;
@@ -30,20 +36,20 @@ footer,
         padding-top: 0;
         font-size: 1rem;
       }
+    }
 
-      &:before {
-        @include blur-container;
-        content: '';
-        opacity: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 1rem;
-        margin: 0;
+    &:before {
+      @include blur-container;
+      content: '';
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1rem;
+      margin: 0;
 
-        @include respond-to('mobile') {
-          opacity: 1;
-        }
+      @include respond-to('mobile') {
+        opacity: 1;
       }
     }
   }

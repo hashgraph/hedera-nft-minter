@@ -15,14 +15,8 @@ export default function Footer() {
       case '/':
         return !isMinterWizardWelcomeScreen
 
-      case '/my-nft-collection':
-        return true;
-
-      case '/terms-of-service':
-        return true;
-
       default:
-        return false
+        return true
     }
   }, [location.pathname, isMinterWizardWelcomeScreen])
 
