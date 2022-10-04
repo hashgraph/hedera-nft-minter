@@ -37,6 +37,7 @@ export default function OnChain() {
             min='1'
             max={maxQtyValue}
             maxLength={2}
+            hideCharLimit
           />
         </div>
         <div className='minter-wizard__on-chain__input-row'>
