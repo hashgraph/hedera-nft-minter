@@ -35,6 +35,7 @@ export default function Scrollbar({children, renderOn} : ScrollerProps) {
 
   const scrollbarProps = useMemo<ScrollbarProps>(() => ({
     className: 'scrollbar',
+    noScrollX: true,
     children,
     scrollerProps: {
       renderer: ({ elementRef, ...restProps }) => {
