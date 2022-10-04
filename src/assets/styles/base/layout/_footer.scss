@@ -62,10 +62,6 @@ footer,
       @include respond-to('mobile') {
         margin-bottom: 0;
         padding-bottom: 0.5rem;
-      }
-
-
-      @include respond-to('mobile') {
         width: 140px;
         height: 63px;
       }
