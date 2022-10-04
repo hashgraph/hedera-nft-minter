@@ -20,6 +20,11 @@ footer,
       position: relative;
       font-size: 0.75rem;
       padding-top: 0.75rem;
+      transition: generateTransitions((color), 500ms);
+
+      &:hover {
+        color: $green;
+      }
 
       @include respond-to('mobile') {
         padding-top: 0;
@@ -56,16 +61,17 @@ footer,
 
       @include respond-to('mobile') {
         margin-bottom: 0;
+        padding-bottom: 0.5rem;
       }
 
 
-      @include respond-to('tablet') {
+      @include respond-to('mobile') {
         width: 140px;
         height: 63px;
       }
     }
 
-    &--left {
+    &--right {
       @extend .footer__logo;
 
       left: var(--horizontal-padding);
