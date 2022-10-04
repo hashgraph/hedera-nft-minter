@@ -211,8 +211,7 @@
 }
 
 @mixin blur-container {
-  transition: 0.5s ease-in-out;
-  transition-property: opacity, width, height;
+  transition: generateTransitions((opacity, width, height), 500ms);
   padding: 0 1rem;
   position: absolute;
   width: 100%;
