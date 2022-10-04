@@ -170,19 +170,23 @@ export default function SummaryContent() {
                       }
                       classNames='fade'
                     >
-                        <div className='minter-wizard__summary__warning'>
-                          <p className='title--small title--strong'>
-                            Remember... <br />
-                            Minting <br />
-                            is immutable.
-                          </p>
-                          <br />
-                          <p className='title--small title--strong'>
-                            If everything looks <br />
-                            fine, go ahead and <br />
-                            mint your new NFT!
-                          </p>
-                        </div>
+                      <>
+                        {showWarning && (
+                          <div className='minter-wizard__summary__warning'>
+                            <p className='title--small title--strong'>
+                              Remember... <br />
+                              Minting <br />
+                              is immutable.
+                            </p>
+                            <br />
+                            <p className='title--small title--strong'>
+                              If everything looks <br />
+                              fine, go ahead and <br />
+                              mint your new NFT!
+                            </p>
+                          </div>
+                        )}
+                      </>
                     </CSSTransition>
                   </div>
                 </div>
