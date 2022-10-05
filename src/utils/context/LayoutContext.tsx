@@ -12,6 +12,8 @@ export const LayoutContext = React.createContext<{
   isTablet: boolean;
   isMinterWizardWelcomeScreen: boolean;
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  goBackToMintTypeSelection: null | (() => void);
+  setGoBackToMintTypeSelection: React.Dispatch<React.SetStateAction<(() => void) | null>>
 }>({
   isMobileSmall: true,
   isMobile: true,
@@ -22,6 +24,8 @@ export const LayoutContext = React.createContext<{
   isTablet: true,
   isMinterWizardWelcomeScreen: false,
   setIsMinterWizardWelcomeScreen: () => false,
+  goBackToMintTypeSelection: null,
+  setGoBackToMintTypeSelection: () => null,
 });
 
 export default function LayoutProvider({
@@ -30,6 +34,7 @@ export default function LayoutProvider({
   children: React.ReactElement;
 }) {
   const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
+  const [goBackToMintTypeSelection, setGoBackToMintTypeSelection] = useState<(() => void) | null>(null)
 
   const [isMobileSmall, setIsMobileSmall] = useState(true);
   const [isMobile, setIsMobile] = useState(true);
@@ -136,6 +141,8 @@ export default function LayoutProvider({
         isTablet,
         isMinterWizardWelcomeScreen,
         setIsMinterWizardWelcomeScreen,
+        goBackToMintTypeSelection,
+        setGoBackToMintTypeSelection
       }}
     >
       {children}
