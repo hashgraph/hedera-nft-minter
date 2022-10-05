@@ -18,7 +18,7 @@ export default function Tooltip({showLabel, title, children}: TooltipProps) {
   const popperRef = useRef(null);
   const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
 
-  const { attributes } = usePopper(buttonRef.current, popperRef.current, {
+  const { styles } = usePopper(buttonRef.current, popperRef.current, {
     modifiers: [
       {
         name: 'arrow',
@@ -45,7 +45,7 @@ export default function Tooltip({showLabel, title, children}: TooltipProps) {
         unmountOnExit
         addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
       >
-        <div ref={setArrowRef} className='tooltip__wrapper' {...attributes}>
+        <div ref={setArrowRef} className='tooltip__wrapper' style={{...styles.popper}} >
           {title && <h1>{title}</h1>}
           <p>{children}</p>
           <button type='button' onClick={() => setShowPopper(false)}>
