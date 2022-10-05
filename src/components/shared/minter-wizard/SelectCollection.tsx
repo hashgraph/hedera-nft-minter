@@ -171,18 +171,30 @@ export default function SelectCollection() {
     )
   ), [collections, maxQtyNumber, selectedCollection])
 
+  const renderUserCollections = useCallback(() => (
+    isLoading ? (
+      <div className='minter-wizard__summary__loader'>
+        <img src={loadingHammer} alt='loader_hammer' />
+        <p className='title title--small title--strong'>
+          Fetching <br />
+          your collections...
+        </p>
+      </div>
+    ) : (
+      renderCollections()
+    )
+  ), [isLoading, renderCollections])
+
   return (
     <div>
-      {isLoading ? (
-        <div className='minter-wizard__summary__loader'>
-          <img src={loadingHammer} alt='loader_hammer' />
-          <p className='title title--small title--strong'>
-            Fetching <br />
-            your collections...
+      {userWalletId ? (
+        renderUserCollections()
+      ) : (
+        <div>
+          <p className='title--small'>
+            Please connect your wallet first!
           </p>
         </div>
-      ) : (
-        renderCollections()
       )}
     </div>
   );
