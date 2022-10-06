@@ -57,8 +57,8 @@ export default function RoyaltyFee({index} : RoyaltyFeeProps) {
           Link to docs
         </a>
       </Tooltip>
-      <div className='form__row__fees__fee'>
-        <div>
+      <div className='form__row__fees__fee--royalty'>
+        <div className='collector'>
           <label htmlFor='null'>
             Fee collector account ID:
           </label>
@@ -66,21 +66,23 @@ export default function RoyaltyFee({index} : RoyaltyFeeProps) {
             {collectingAccountId}
           </p>
         </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.fallbackFee`}
-            type='number'
-            label='Fallback fee (ℏ)'
-            placeholder='e.g. 5'
-          />
-        </div>
-        <div>
-          <FieldWrapper
-            name={`fees.${ index }.percent`}
-            type='number'
-            label='Royalty %'
-            placeholder='e.g. 10'
-          />
+        <div className='input-fields'>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.fallbackFee`}
+              type='number'
+              label='Fallback fee (ℏ)'
+              placeholder='e.g. 5'
+            />
+          </div>
+          <div>
+            <FieldWrapper
+              name={`fees.${ index }.percent`}
+              type='number'
+              label='Royalty %'
+              placeholder='e.g. 10'
+            />
+          </div>
         </div>
       </div>
     </>

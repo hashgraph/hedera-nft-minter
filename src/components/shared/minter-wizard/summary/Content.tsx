@@ -17,7 +17,7 @@
  *
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
@@ -34,21 +34,26 @@ import SummaryAdvanced, {
 } from '@/components/shared/minter-wizard/summary/Advanced';
 
 import placeholder from '@assets/images/placeholder.png';
+import classNames from 'classnames';
 
 export default function SummaryContent() {
   const { values } = useFormikContext<FormikValues>();
   const { showWarning } = useContext(MinterWizardContext);
 
+  const contentClassNames = useMemo(() => (
+    classNames('minter-wizard__summary__content', {
+      'minter-wizard__summary__content--warning': showWarning
+    })
+  ), [showWarning])
+
   return (
     <Scrollbar
       renderOn={{
-        laptop: false,
-        desktop: false,
         desktopWide: false,
         desktopExtraWide: false,
       }}
     >
-      <div className='minter-wizard__summary__content'>
+      <div className={contentClassNames}>
         <div className='minter-wizard__summary__content--avatar'>
           <p className='title title--small title--strong'>NFT Summary:</p>
           <div className='minter-wizard__summary__image'>
@@ -67,6 +72,8 @@ export default function SummaryContent() {
               mobileSmall: false,
               mobile: false,
               tablet: false,
+              laptop: false,
+              desktop: false,
             }}
           >
             <div className='minter-wizard__summary__column'>
@@ -106,6 +113,8 @@ export default function SummaryContent() {
               mobileSmall: false,
               mobile: false,
               tablet: false,
+              laptop: false,
+              desktop: false,
             }}
           >
             <>
@@ -172,6 +181,32 @@ export default function SummaryContent() {
 
                     <SummaryAdvanced name={AdvancedTypes.fees} />
                     <SummaryAdvanced name={AdvancedTypes.keys} />
+
+                    <CSSTransition
+                      in={showWarning}
+                      addEndListener={(node, done) =>
+                        node.addEventListener('transitionend', done, false)
+                      }
+                      classNames='fade'
+                    >
+                      <>
+                        {showWarning && (
+                          <div className='minter-wizard__summary__warning'>
+                            <p className='title--small title--strong'>
+                              Remember... <br />
+                              Minting <br />
+                              is immutable.
+                            </p>
+                            <br />
+                            <p className='title--small title--strong'>
+                              If everything looks <br />
+                              fine, go ahead and <br />
+                              mint your new NFT!
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    </CSSTransition>
                   </div>
                 </div>
               </div>

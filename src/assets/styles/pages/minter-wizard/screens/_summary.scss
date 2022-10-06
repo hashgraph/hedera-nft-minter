@@ -45,6 +45,7 @@
         "offchain"
         "onchain";
       grid-row-gap: 2.5rem;
+      height: 100%;
 
       @include respond-to('laptop') {
         grid-template-columns: 300px 1fr;
@@ -79,6 +80,10 @@
 
         @include respond-to('desktop-wide') {
           margin-top: 3.5rem;
+
+          &.minter-wizard__summary__column--gutter-left {
+            margin-left: 0;
+          }
         }
       }
 
@@ -96,6 +101,7 @@
       margin-top: 1rem;
 
       img {
+        object-fit: cover;
         width: 300px;
         height: 300px;
         border-radius: 30px;
@@ -136,7 +142,7 @@
 
       &--mobile {
         &-visible {
-          @include respond-to('tablet') {
+          @include respond-to('desktop-wide') {
             display: none;
           }
         }
@@ -144,7 +150,7 @@
         &-invisible {
           display: none;
 
-          @include respond-to('tablet') {
+          @include respond-to('desktop-wide') {
             display: block;
           }
         }
@@ -222,18 +228,33 @@
     }
 
     &__warning {
-      padding: 2rem 2rem 4rem;
+      padding: 2rem;
       border: 1px solid $warningAddonColor;
       background-color: $warningBackgroundColorSolid;
-      border-bottom-right-radius: 100%;
       height: min-content;
       position: fixed;
-      top: 0;
+      border-radius: 1rem;
+      top: 50%;
+      left: 50%;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      transform: translate(-50%, -50%);
       width: 100%;
+      max-width: 600px;
+      z-index: 2;
 
-      @include respond-to('laptop') {
+      @include respond-to('desktop-wide') {
         background-color: $warningBackgroundColor;
         position: relative;
+        padding: 2rem 2rem 4rem;
+        border: 1px solid $warningAddonColor;
+        border-radius: 0;
+        border-bottom-right-radius: 100%;
+        max-width: 600px;
+        transform: unset;
+        left: unset;
+        top: unset;
       }
 
       p {
@@ -243,14 +264,24 @@
       &:after {
         position: absolute;
         top: 4rem;
-        right: 4.5rem;
+        right: 3.5rem;
         content: '!';
         font-size: 7.5rem;
         font-weight: 900;
         color: $warningAddonColor;
+        top: 50%;
+        transform: translateY(-50%);
 
         @include respond-to('mobile') {
+          right: 7rem;
+          font-size: 10rem;
+        }
+
+        @include respond-to('desktop-wide') {
           right: 8rem;
+          font-size: 7.5rem;
+          top: 4rem;
+          transform: unset;
         }
       }
     }

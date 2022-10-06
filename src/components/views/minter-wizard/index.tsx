@@ -72,7 +72,11 @@ export default function MinterWizardForm({
   const [collections, setCollections] = useState<{ nfts?: NFTInfo[]; info: TokenInfo; }[] | null>(null)
   const [showWarning, setShowWarning] = useState(false)
 
-  const { setIsMinterWizardWelcomeScreen } = useLayout()
+  const {
+    setIsMinterWizardWelcomeScreen,
+    isMinterWizardWelcomeScreen,
+    setGoBackToMintTypeSelection
+  } = useLayout()
 
   const minterWizardSteps = useMemo(() => (
     wizardSteps[values.mint_type as MintTypes]
@@ -110,6 +114,14 @@ export default function MinterWizardForm({
   useEffect(() => {
     setIsMinterWizardWelcomeScreen(creatorStep === FormWizardSteps.WelcomeScreen)
   }, [creatorStep, setIsMinterWizardWelcomeScreen])
+
+  useEffect(() => {
+    if (!isMinterWizardWelcomeScreen) {
+      setGoBackToMintTypeSelection(() => backToMintTypeSelection)
+    } else {
+      setGoBackToMintTypeSelection(null)
+    }
+  }, [backToMintTypeSelection, setGoBackToMintTypeSelection, isMinterWizardWelcomeScreen])
 
 
   const renderFormWizard = useCallback((creatorStep: FormWizardSteps) => {

@@ -20,10 +20,13 @@
 
 $dividerHeight: 62px;
 $headerHeightMobile: 125px;
-$headerHeight: 200px;
+$headerHeight: 160px;
+$headerHeightWide: 200px;
+$footerHeight: 80px;
 
 $contentContainerHeightMobile: calc(var(--vh) - #{$headerHeightMobile * 2});
 $contentContainerHeightDesktop: calc(var(--vh) - #{$headerHeight * 2});
+$contentContainerHeightDesktopWide: calc(var(--vh) - #{$headerHeightWide * 2});
 
 $horizontalPadding: 1rem;
 $horizontalPaddingTablet: 1rem;
@@ -70,7 +73,7 @@ $breakpoints: (
   'mobile': 600px,
   'tablet': 768px,
   'laptop': 992px,
-  'desktop': 1200px,
+  'desktop': 1366px,
   'desktop-wide': 1600px,
   'FHD': 1920px,
   '2K': 2048px,

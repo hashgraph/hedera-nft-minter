@@ -19,6 +19,20 @@
 
 .minter-wizard {
   &__select-collection {
+    max-width: 400px;
+
+    .title {
+      margin-bottom: 0.9rem;
+
+      @include respond-to('desktop-wide') {
+        font-size: default;
+      }
+
+      &--strong {
+        padding-bottom: 0;
+      }
+    }
+
     .form__number {
       max-width: unset;
     }
@@ -34,7 +48,6 @@
     &__summary {
       color: var(--main-color);
       display: flex;
-      padding-bottom: 0.75rem;
       flex-direction: column;
 
       @include respond-to('mobile') {
@@ -53,7 +66,8 @@
 
         p {
           position: relative;
-          margin: 0.25rem 0;
+          margin: 0;
+          font-size: 1rem;
 
           &:last-of-type {
             &:after {
