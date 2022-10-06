@@ -29,7 +29,6 @@
       transition: color 0.2s ease-in-out;
       width: 280px;
       justify-content: space-between;
-      position: relative;
 
       @include respond-to('mobile') {
         width: 325px;
