@@ -25,7 +25,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { isNavbarHidden, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
+  const { goBackToMintTypeSelection, isNavbarHidden, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
   const headerRef = useRef<HTMLDivElement>();
   const expandedMenuRef = useRef(null);
@@ -71,10 +71,16 @@ const Header = () => {
     closeNavbar();
   });
 
+  const handleLogoClick = useCallback(() => (
+    location.pathname === '/' && !isMinterWizardWelcomeScreen && (
+      goBackToMintTypeSelection && goBackToMintTypeSelection()
+    )
+  ), [isMinterWizardWelcomeScreen, location.pathname, goBackToMintTypeSelection])
+
   return (
     <header className={headerClassnames} ref={headerRef}>
       <div className={classNames('header-container', 'container--padding')}>
-        <Link className='header__logo' to='/'>
+        <Link onClick={handleLogoClick} className='header__logo' to='/'>
           <img src={Logo} alt='hedera_logo' height={66} width={110} />{' '}
         </Link>
         {!isMobileSmall ? (
