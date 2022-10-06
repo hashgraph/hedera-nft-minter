@@ -39,17 +39,22 @@ main {
   }
 
   &--padding {
-    padding: calc(#{$headerHeightMobile}) $horizontalPadding 5rem;
+    padding: $headerHeightMobile $horizontalPadding $footerHeight;
 
     @include respond-to('mobile') {
-      padding: calc(#{$headerHeight}) $horizontalPadding 5rem;
+      padding: $headerHeight $horizontalPadding $footerHeight;
     }
 
     @include respond-to('tablet') {
-      padding: calc(#{$headerHeight}) $horizontalPaddingTablet 10.25%;
+      padding: $headerHeight $horizontalPaddingTablet $footerHeight;
     }
+
     @include respond-to('desktop') {
-      padding: calc(#{$headerHeight}) $horizontalPaddingDesktop 5rem;
+      padding: $headerHeight $horizontalPaddingDesktop $footerHeight;
+    }
+
+    @include respond-to('desktop-wide') {
+      padding: $headerHeightWide $horizontalPaddingDesktop $footerHeight;
     }
   }
 

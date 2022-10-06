@@ -85,7 +85,7 @@ export default function LayoutProvider({
       setter: setIsLaptop
     },
     {
-      breakpoint: '(min-width: 1200px)',
+      breakpoint: '(min-width: 1366px)',
       setter: setIsDesktop
     },
     {

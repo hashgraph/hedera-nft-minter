@@ -110,6 +110,36 @@ p {
           display: flex;
         }
 
+        &--royalty {
+          @extend .form__row__fees__fee;
+
+          @include respond-to('laptop') {
+            display: block;
+          }
+
+          @include respond-to('desktop-wide') {
+            display: flex;
+          }
+
+          .input-fields {
+            @include respond-to('laptop') {
+              display: grid;
+              grid-template-columns: 150px 150px;
+              grid-column-gap: 1rem;
+            }
+
+            @include respond-to('desktop-wide') {
+              display: flex;
+            }
+          }
+
+          .collector {
+            @include respond-to('laptop') {
+                max-width: 300px;
+            }
+          }
+        }
+
         &-container {
           display: grid;
           grid-template-columns: auto 27px;

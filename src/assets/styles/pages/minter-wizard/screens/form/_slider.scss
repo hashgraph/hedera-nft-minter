@@ -54,6 +54,10 @@ $smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingD
         @include respond-to('desktop') {
           width: $bigColumnWidth;
         }
+
+        @include respond-to('desktop-wide') {
+          height: $contentContainerHeightDesktopWide;
+        }
       }
 
       &--w40 {

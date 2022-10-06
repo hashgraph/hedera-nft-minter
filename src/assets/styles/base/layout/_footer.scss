@@ -6,6 +6,7 @@ footer,
   width: 100%;
   position: fixed;
   bottom: 0;
+  padding-bottom: 1rem;
 
   &__links {
     position: absolute;
@@ -57,19 +58,18 @@ footer,
   &__logo {
     position: absolute;
     right: var(--horizontal-padding);
-    bottom: 0;
+    margin-top: .75rem;
 
     img {
       width: 100px;
       height: 43px;
+      object-position: right;
       object-fit: contain;
       margin-bottom: 0.35rem;
 
       @include respond-to('mobile') {
-        margin-bottom: 0;
-        padding-bottom: 0.5rem;
         width: 140px;
-        height: 63px;
+        height: 56px;
       }
     }
 
@@ -80,13 +80,7 @@ footer,
       right: unset;
 
       img {
-        width: 100px;
-        height: 42px;
-
-        @include respond-to('mobile') {
-          width: 170px;
-          height: 76px;
-        }
+        object-position: left;
       }
     }
   }
