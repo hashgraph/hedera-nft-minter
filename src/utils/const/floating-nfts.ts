@@ -1,18 +1,18 @@
-import first from '@assets/images/nfts/1.jpeg'
+import first from '@assets/images/nfts/1.png'
 import second from '@assets/images/nfts/2.png'
-import third from '@assets/images/nfts/3.jpeg'
-import fourth from '@assets/images/nfts/4.jpeg'
+import third from '@assets/images/nfts/3.png'
+import fourth from '@assets/images/nfts/4.png'
 import fifth from '@assets/images/nfts/5.png'
-import sixth from '@assets/images/nfts/6.jpeg'
+import sixth from '@assets/images/nfts/6.png'
 import seventh from '@assets/images/nfts/7.png'
-import eighths from '@assets/images/nfts/8.jpg'
+import eighths from '@assets/images/nfts/8.png'
 import ninth from '@assets/images/nfts/9.png'
 import tenth from '@assets/images/nfts/10.png'
 import eleventh from '@assets/images/nfts/11.png'
-import twelfth from '@assets/images/nfts/12.jpeg'
+import twelfth from '@assets/images/nfts/12.png'
 import thirteenth from '@assets/images/nfts/13.png'
-import fourteenth from '@assets/images/nfts/14.jpeg'
-import fifteenth from '@assets/images/nfts/15.jpeg'
+import fourteenth from '@assets/images/nfts/14.png'
+import fifteenth from '@assets/images/nfts/15.png'
 import sixteenth from '@assets/images/nfts/16.png'
 import seventeenth from '@assets/images/nfts/17.png'
 import eighteenth from '@assets/images/nfts/18.png'
@@ -21,7 +21,7 @@ import twentieth from '@assets/images/nfts/20.png'
 
 export type CardRowProps = {
   src: string;
-  collectionId: string;
+  tokenId: string;
   editionNumber: number;
 }
 
