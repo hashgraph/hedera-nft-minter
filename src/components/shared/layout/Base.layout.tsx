@@ -7,7 +7,7 @@ export const BaseLayout: FC = ({ children }) => {
   return (
     <>
       <Header />
-      <main className=''>
+      <main className='dark-schema container--min-height'>
         {children}
         <Modal />
       </main>

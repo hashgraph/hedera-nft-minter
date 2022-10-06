@@ -180,27 +180,25 @@ export default function MinterWizard() {
   }, [createToken, mint, renderMintingError, uploadMetadata, uploadNFTFile, userWalletId]);
 
   return (
-    <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-height bg--transparent'>
-        <SwitchTransition>
-          <CSSTransition
-            key={tokenCreated ? 'created' : 'creating'}
-            addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-            classNames='fade'
-          >
-            {tokenCreated ? (
-                <Summary mintedNFTData={mintedNFTData} />
-              ) : (
-                <Formik
-                  initialValues={initialValues}
-                  onSubmit={handleFormSubmit}
-                  component={MinterWizardForm}
-                  validationSchema={ValidationSchema}
-                />
-            )}
-          </CSSTransition>
-        </SwitchTransition>
-      </div>
+    <div className='mc--h container--padding container--max-height bg--transparent'>
+      <SwitchTransition>
+        <CSSTransition
+          key={tokenCreated ? 'created' : 'creating'}
+          addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+          classNames='fade'
+        >
+          {tokenCreated ? (
+              <Summary mintedNFTData={mintedNFTData} />
+            ) : (
+              <Formik
+                initialValues={initialValues}
+                onSubmit={handleFormSubmit}
+                component={MinterWizardForm}
+                validationSchema={ValidationSchema}
+              />
+          )}
+        </CSSTransition>
+      </SwitchTransition>
     </div>
   )
 }

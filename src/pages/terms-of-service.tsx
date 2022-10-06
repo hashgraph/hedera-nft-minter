@@ -2,48 +2,46 @@ import Scrollbar from '@/components/shared/layout/Scrollbar';
 
 export default function TermsOfService() {
   return (
-    <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-height bg--transparent'>
-        <Scrollbar>
-          <div className='tos__wrapper'>
-            <div className='tos__header'>
-              <h1 className='title'>Terms Of Service</h1>
-            </div>
-
-            <div className='tos__content'>
-              <p>
-                Use of the Mintbar Application (“Mintbar”) is subject to the
-                Terms of Service of IPFS.io.
-              </p>
-
-              <p>
-                If you encounter content that violates the{' '}
-                <a href='https://discuss.ipfs.io/tos' target='_blank'>
-                  Terms of Service of IPFS.io
-                </a>
-                (e.g., spam/phishing content or your unauthorized copyrighted
-                content), please reach out to{' '}
-                <a href='mail:abuse@ipfs.io'>abuse@ipfs.io</a>, making sure to
-                include the relevant URL.
-              </p>
-
-              <p>
-                If we determine that the content violates our Terms of Service
-                we will remove or disable access to that content.
-              </p>
-
-              <p>
-                If your complaint is copyright-related, please make sure your
-                DMCA Notice contains the required information listed in our{' '}
-                <a href='https://ipfs.io/legal/' target='_blank'>
-                  DMCA Policy
-                </a>
-                .
-              </p>
-            </div>
+    <div className='mc--h container--padding container--max-height bg--transparent'>
+      <Scrollbar>
+        <div className='tos__wrapper'>
+          <div className='tos__header'>
+            <h1 className='title'>Terms Of Service</h1>
           </div>
-        </Scrollbar>
-      </div>
+
+          <div className='tos__content'>
+            <p>
+              Use of the Mintbar Application (“Mintbar”) is subject to the
+              Terms of Service of IPFS.io.
+            </p>
+
+            <p>
+              If you encounter content that violates the{' '}
+              <a href='https://discuss.ipfs.io/tos' target='_blank'>
+                Terms of Service of IPFS.io
+              </a>
+              (e.g., spam/phishing content or your unauthorized copyrighted
+              content), please reach out to{' '}
+              <a href='mail:abuse@ipfs.io'>abuse@ipfs.io</a>, making sure to
+              include the relevant URL.
+            </p>
+
+            <p>
+              If we determine that the content violates our Terms of Service
+              we will remove or disable access to that content.
+            </p>
+
+            <p>
+              If your complaint is copyright-related, please make sure your
+              DMCA Notice contains the required information listed in our{' '}
+              <a href='https://ipfs.io/legal/' target='_blank'>
+                DMCA Policy
+              </a>
+              .
+            </p>
+          </div>
+        </div>
+      </Scrollbar>
     </div>
   );
 }
