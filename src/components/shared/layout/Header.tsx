@@ -146,7 +146,7 @@ const Header = () => {
               {connectedWalletType === ConnectionStateType.NOCONNECTION ? (
                 'Connect Wallet'
               ) : (
-                'Wallet Connected'
+                `Connected ${ userWalletId }`
               )}
           </button>
         </div>
