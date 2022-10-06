@@ -11,7 +11,7 @@ import React, {
 import { Link, useLocation } from 'react-router-dom';
 import { useOnClickAway } from 'use-on-click-away';
 
-import useHederaWallets from '@hooks/useHederaWallets';
+import useHederaWallets, { ConnectionStateType } from '@hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 import useLayout from '@utils/hooks/useLayout';
 
@@ -25,9 +25,9 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { goBackToMintTypeSelection, isNavbarHidden, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
+  const { goBackToMintTypeSelection, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
-  const headerRef = useRef<HTMLDivElement>();
+  const headerRef = useRef<HTMLDivElement>(null);
   const expandedMenuRef = useRef(null);
   const [isMobileNavbarMenuExpanded, setIsMobileNavbarMenuExpanded] =
     useState(false);
@@ -44,7 +44,6 @@ const Header = () => {
 
   const headerClassnames = classNames('header', {
     'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
-    'is-hide': isNavbarHidden,
     'is-mobile': isMobileSmall,
   });
 
@@ -56,18 +55,18 @@ const Header = () => {
   );
 
   const connectIconClassName = classNames('icon__connect', {
-    'icon--active': connectedWalletType !== 'noconnection'
+    'icon--active': connectedWalletType !== ConnectionStateType.NOCONNECTION
   })
 
   const closeNavbar = useCallback(() => {
     if (headerRef?.current) {
-      enableBodyScroll(headerRef);
+      enableBodyScroll(headerRef.current);
       setIsMobileNavbarMenuExpanded(false);
     }
   }, [setIsMobileNavbarMenuExpanded]);
 
 
-  useOnClickAway(expandedMenuRef, () => {
+  useOnClickAway(headerRef, () => {
     closeNavbar();
   });
 
@@ -96,28 +95,27 @@ const Header = () => {
               <button onClick={handleShowModal} className={connectIconClassName}>
                 <img src={ConnectIcon} alt='wallet_connect_icon' />
                 <p>
-                <SwitchTransition>
-                  <CSSTransition
-                    key={connectedWalletType}
-                    addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-                    classNames='fade'
-                  >
-                    <div>
-                      {connectedWalletType === 'noconnection' ? (
-                        <>
-                          Connect <br />
-                          Wallet
-                        </>
-                      ) : (
-                        <>
-                          Connected <br />
-                          {userWalletId}
-                        </>
-                      )}
-                    </div>
-                  </CSSTransition>
-                </SwitchTransition>
-
+                  <SwitchTransition>
+                    <CSSTransition
+                      key={connectedWalletType}
+                      addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                      classNames='fade'
+                    >
+                      <div>
+                        {connectedWalletType === ConnectionStateType.NOCONNECTION ? (
+                          <>
+                            Connect <br />
+                            Wallet
+                          </>
+                        ) : (
+                          <>
+                            Connected <br />
+                            {userWalletId}
+                          </>
+                        )}
+                      </div>
+                    </CSSTransition>
+                  </SwitchTransition>
                 </p>
               </button>
             </div>
@@ -145,19 +143,11 @@ const Header = () => {
             My NFT Collection
           </Link>
           <button onClick={handleShowModal}>
-            <p>
-              {connectedWalletType === 'noconnection' ? (
-                <>
-                  Connect <br />
-                  Wallet
-                </>
+              {connectedWalletType === ConnectionStateType.NOCONNECTION ? (
+                'Connect Wallet'
               ) : (
-                <>
-                  Wallet <br />
-                  Connected
-                </>
+                `Connected ${ userWalletId }`
               )}
-            </p>
           </button>
         </div>
       )}
