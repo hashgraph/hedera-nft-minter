@@ -22,13 +22,14 @@ $transition: opacity 400ms, transform 400ms;
     width: 435px;
   }
 
-  h1{
+  &__title {
     background: transparent;
     color: #464646;
     font-weight: 500;
     font-size: 0.875rem;
     padding: 0;
     padding-bottom: 5px;
+    margin: 0;
   }
 
   p, span{

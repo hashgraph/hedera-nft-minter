@@ -46,7 +46,11 @@ export default function Tooltip({showLabel, title, children}: TooltipProps) {
         addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
       >
         <div ref={setArrowRef} className='tooltip__wrapper' style={{...styles.popper}} >
-          {title && <h1>{title}</h1>}
+          {title && (
+            <p className='tooltip__wrapper__title'>
+              {title}
+            </p>
+          )}
           <p>{children}</p>
           <button type='button' onClick={() => setShowPopper(false)}>
             Close hint
