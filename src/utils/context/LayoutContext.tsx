@@ -21,7 +21,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { map } from 'lodash';
 
-export const LayoutContext = React.createContext<{
+interface LayoutContextProps {
   isMobileSmall: boolean;
   isMobile: boolean;
   isDesktop: boolean;
@@ -33,7 +33,9 @@ export const LayoutContext = React.createContext<{
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
   goBackToMintTypeSelection: null | (() => void);
   setGoBackToMintTypeSelection: React.Dispatch<React.SetStateAction<(() => void) | null>>
-}>({
+}
+
+export const LayoutContext = React.createContext<LayoutContextProps>({
   isMobileSmall: true,
   isMobile: true,
   isLaptop: true,

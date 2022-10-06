@@ -30,13 +30,11 @@ export default function Footer() {
   const { isMinterWizardWelcomeScreen } = useLayout();
 
   const showLogoOnRightSide = useMemo(() => {
-    switch (location.pathname) {
-      case '/':
-        return !isMinterWizardWelcomeScreen
-
-      default:
-        return true
+    if (location.pathname === '/') {
+      return !isMinterWizardWelcomeScreen
     }
+
+    return true
   }, [location.pathname, isMinterWizardWelcomeScreen])
 
   const footerLogoAnimationClassnames = useMemo(() => (
