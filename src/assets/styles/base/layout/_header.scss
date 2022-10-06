@@ -107,7 +107,7 @@ header, .header {
     display: flex;
     flex-direction: column;
 
-    a {
+    a, button {
       padding: 15px 0;
       cursor: pointer;
       font-size: 13px;
@@ -119,6 +119,7 @@ header, .header {
       opacity: 0.8;
       letter-spacing: 2px;
       transition: generateTransitions((opacity), 100ms);
+      background: transparent;
 
       &:after {
         content: '';
@@ -132,6 +133,15 @@ header, .header {
 
       &:hover {
         opacity: 1;
+      }
+    }
+
+    button {
+      justify-content: flex-start;
+      font-size: 0.8rem;
+
+      &:hover, &:focus-within, &:focus, &:active {
+        border-color: transparent;
       }
     }
   }
