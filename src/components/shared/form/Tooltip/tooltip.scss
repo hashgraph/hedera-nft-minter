@@ -4,20 +4,17 @@
 $transition: opacity 400ms, transform 400ms;
 
 @mixin wrapper {
-  position: fixed;
+  position: absolute;
+  top: 0;
+  left: 0;
   max-width: 235px;
   width: 100%;
   padding: 1rem 1rem 1.188rem;
   line-height: 1.2;
-  z-index: 1;
+  z-index: 2;
   background: $vapor;
-  min-width: fit-content;
-  left: 0;
-  top: var(--position-y);
 
   @include respond-to('mobile') {
-    left: unset;
-    // top: -500%;
     min-width: 300px;
   }
 
@@ -25,13 +22,14 @@ $transition: opacity 400ms, transform 400ms;
     width: 435px;
   }
 
-  h1{
+  &__title {
     background: transparent;
     color: #464646;
     font-weight: 500;
     font-size: 0.875rem;
     padding: 0;
     padding-bottom: 5px;
+    margin: 0;
   }
 
   p, span{
@@ -77,6 +75,8 @@ $transition: opacity 400ms, transform 400ms;
     font-size: 1rem;
     margin-top: -1rem;
     margin-left: 0.1rem;
+    z-index: 1  ;
+    position: relative;
 
     &:before {
       content: "";
