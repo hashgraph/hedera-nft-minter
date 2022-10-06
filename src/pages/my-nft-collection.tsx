@@ -159,14 +159,12 @@ export default function MyNFTCollection() {
   ), [collections, loading, renderNFTs, selectedCollectionsId])
 
   return (
-    <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-height bg--transparent'>
-        {!userWalletId ? (
-          <div>Firstly, you need connect your wallet!</div>
-        ) : (
-          renderUserNfts()
-        )}
-      </div>
+    <div className='mc--h container--padding container--max-height bg--transparent'>
+      {!userWalletId ? (
+        <div>Firstly, you need connect your wallet!</div>
+      ) : (
+        renderUserNfts()
+      )}
     </div>
   );
 }

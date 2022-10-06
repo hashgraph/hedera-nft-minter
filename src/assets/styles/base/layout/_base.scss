@@ -80,6 +80,10 @@ main {
   &--max-height {
     height: var(--vh);
   }
+
+  &--min-height {
+    min-height: var(--vh);
+  }
 }
 
 

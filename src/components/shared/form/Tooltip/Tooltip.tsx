@@ -17,89 +17,65 @@
  *
  */
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react'
+import { usePopper } from 'react-popper'
 import { CSSTransition } from 'react-transition-group';
 import { useOnClickAway } from 'use-on-click-away';
 
 import './tooltip.scss'
 
-type Props = {
+type TooltipProps = {
   title?: string,
   children?: React.ReactNode,
   showLabel?: boolean,
 };
 
-const Tooltip = ({showLabel, title, children }: Props) => {
-  const [isShowed, setShow] = useState(false)
-  const [positionY, setPositionY] = useState(0);
+export default function Tooltip({showLabel, title, children}: TooltipProps) {
+  const [showPopper, setShowPopper] = useState(false);
 
-  const tooltipRef = useRef<HTMLDivElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef(null);
+  const popperRef = useRef(null);
+  const [arrowRef, setArrowRef] = useState<HTMLDivElement | null>(null);
 
-  useOnClickAway(tooltipRef, () => {
-    setShow(false);
+  const { styles } = usePopper(buttonRef.current, popperRef.current, {
+    modifiers: [
+      {
+        name: 'arrow',
+        options: {
+          element: arrowRef,
+        },
+      },
+    ],
   });
 
-  const updatePositionY = useCallback(()=>{
-    if (containerRef?.current) {
-      setPositionY(containerRef.current?.offsetTop ?? 0)
-      if (tooltipRef.current) {
-        tooltipRef.current.style.setProperty('--position-y', `${ positionY.toString() }px`)
-      }
-    }
-  },[positionY, setPositionY])
+  useOnClickAway(buttonRef, () => {
+    setShowPopper(false);
+  });
 
-  useEffect(()=>{
-    updatePositionY()
-
-    window.addEventListener('resize', updatePositionY)
-    return () => window.removeEventListener('resize', updatePositionY)
-  },[updatePositionY])
-
-
-  return <div className='tooltip__container' ref={containerRef}>
-    <div
-      className='tooltip__button'
-      onClick={() => {
-      setShow(prev => !prev)
-    }}
-    >
-      {showLabel && 'Show hint'}
-    </div>
-    <CSSTransition
-      in={isShowed}
-      timeout={300}
-      classNames='tooltip__wrapper'
-      unmountOnExit
-    >
-      <div ref={tooltipRef} className='tooltip__wrapper'>
-        {title && <h1>{title}</h1>}
-        <p>{children}</p>
-        <button type='button' onClick={ () => setShow(false) }>
-          Close hint
-        </button>
+  return (
+    <div className='tooltip__container'>
+      <div className='tooltip__button' ref={buttonRef} onClick={() => setShowPopper(true)}>
+        {showLabel && 'Show hint'}
       </div>
-    </CSSTransition>
-
-  </div>;
-};
-
-export default Tooltip;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <CSSTransition
+        in={showPopper}
+        timeout={300}
+        classNames='tooltip__wrapper'
+        unmountOnExit
+        addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+      >
+        <div ref={setArrowRef} className='tooltip__wrapper' style={{...styles.popper}} >
+          {title && (
+            <p className='tooltip__wrapper__title'>
+              {title}
+            </p>
+          )}
+          <p>{children}</p>
+          <button type='button' onClick={() => setShowPopper(false)}>
+            Close hint
+          </button>
+        </div>
+      </CSSTransition>
+    </div>
+  )
+}

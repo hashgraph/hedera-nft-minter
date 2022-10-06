@@ -126,18 +126,19 @@ header, .header {
     display: flex;
     flex-direction: column;
 
-    a {
-      padding: 15px 0;
+    a, button {
+      padding: 0.9375rem 0;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 0.8125rem;
       position: relative;
       text-decoration: none;
       color: $vapor;
       font-weight: bold;
       text-transform: uppercase;
       opacity: 0.8;
-      letter-spacing: 2px;
+      letter-spacing: 0.125rem;
       transition: generateTransitions((opacity), 100ms);
+      background: transparent;
 
       &:after {
         content: '';
@@ -151,6 +152,16 @@ header, .header {
 
       &:hover {
         opacity: 1;
+      }
+    }
+
+    button {
+      color: $green;
+      justify-content: flex-start;
+      font-size: 0.8rem;
+
+      &:hover, &:focus-within, &:focus, &:active {
+        border-color: transparent;
       }
     }
   }
