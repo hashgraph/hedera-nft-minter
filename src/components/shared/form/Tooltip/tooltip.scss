@@ -60,6 +60,13 @@ $transition: opacity 400ms, transform 400ms;
     white-space: break-spaces;
   }
 
+  button {
+    &:hover {
+      border: 1px solid $black;
+      color: $black;
+    }
+  }
+
   &:after{
     content: "";
     display: block;
