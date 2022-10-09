@@ -25,6 +25,7 @@ import useHederaWallets from '@/utils/hooks/useHederaWallets';
 import {
   getCurrentStepFieldsNames,
   checkIfFieldsAreValidated,
+  checkIfFieldsRequireConnectedWallet
 } from './helpers'
 
 export default function useMinterWizard(
@@ -53,6 +54,7 @@ export default function useMinterWizard(
 
     const allFieldsForValidation = getCurrentStepFieldsNames(mintType, creatorStep)
 
+    const areFieldsRequireConnectedWallet = checkIfFieldsRequireConnectedWallet(mintType, creatorStep)
     const areFieldsValidated = checkIfFieldsAreValidated(
       allFieldsForValidation,
       validateField,
@@ -61,6 +63,7 @@ export default function useMinterWizard(
       errors
     );
 
+
     if (!aboveLastScreen && areFieldsValidated) {
       const nextStep = creatorStep >= steps.length - 1
         ? creatorStep
@@ -68,10 +71,10 @@ export default function useMinterWizard(
 
       setCreatorStep(nextStep)
     } else {
-      if (userWalletId) {
-        toast.error('Fix creator errors!')
-      } else {
+      if (areFieldsRequireConnectedWallet && !userWalletId) {
         toast.error('Connect your wallet to continue')
+      } else {
+        toast.error('Fix creator errors!')
       }
     }
   }, [

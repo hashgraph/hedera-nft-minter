@@ -50,7 +50,8 @@ const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedFeesScreen,
     Component: AdvancedFees,
-    fieldsForValidation: ['fees', 'treasuryAccountId']
+    fieldsForValidation: ['fees', 'treasuryAccountId'],
+    requireConnectedWallet: true,
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedKeysScreen,
