@@ -28,7 +28,8 @@ const reduceAttributes = (attributes: Attribute[]) => (
     { trait_type, value } : Attribute
   ) => {
     if (value) {
-      res[trait_type] = value;
+      res['trait_type'] = trait_type
+      res['value'] = value
     }
 
     return res;
@@ -41,7 +42,8 @@ const reduceProperties = (properties: Propertie[]) => (
     { label, value } : Propertie
   ) => {
     if (value) {
-      res[label] = value;
+      res['label'] = label
+      res['value'] = value
     }
 
     return res;
