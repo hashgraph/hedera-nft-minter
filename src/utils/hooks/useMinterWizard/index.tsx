@@ -21,6 +21,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { FormikValues, useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
+import useHederaWallets from '@/utils/hooks/useHederaWallets';
 import {
   getCurrentStepFieldsNames,
   checkIfFieldsAreValidated,
@@ -30,6 +31,7 @@ export default function useMinterWizard(
   steps: CreatorSteps
 ) {
   const [creatorStep, setCreatorStep] = useState(0);
+  const { userWalletId } = useHederaWallets()
   const { setFieldTouched, validateField, errors, values } = useFormikContext<FormikValues>()
   const mintType = useMemo<MintTypes>(() => values.mint_type, [values.mint_type])
 
@@ -66,7 +68,11 @@ export default function useMinterWizard(
 
       setCreatorStep(nextStep)
     } else {
-      toast.error('Fix creator errors!')
+      if (userWalletId) {
+        toast.error('Fix creator errors!')
+      } else {
+        toast.error('Connect your wallet to continue')
+      }
     }
   }, [
     aboveLastScreen,
@@ -77,7 +83,8 @@ export default function useMinterWizard(
     setFieldTouched,
     mintType,
     creatorStep,
-    steps
+    steps,
+    userWalletId
   ])
 
   const handleCreatorPrevButton = useCallback(() => (
