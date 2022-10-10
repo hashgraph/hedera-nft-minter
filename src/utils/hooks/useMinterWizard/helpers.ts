@@ -107,3 +107,19 @@ export const checkIfFieldsAreValidated = (
   return foundErrors.length === 0
 }
 
+export const checkIfFieldsRequireConnectedWallet = (
+  mintType: MintTypes,
+  creatorStep: number,
+) => {
+  if (Object.values(MintTypes).includes(mintType)) {
+    const currentStepsData: CreatorSteps = wizardSteps[mintType];
+
+    for (let i = 0; (i <= creatorStep) && (i <= currentStepsData.length); i++) {
+      if (currentStepsData[i]?.requireConnectedWallet) {
+        return true
+      }
+    }
+  }
+
+  return false;
+}

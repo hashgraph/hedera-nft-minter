@@ -30,6 +30,7 @@ export type CreatorScreen = {
   creatorStep: number,
   Component: React.FC,
   fieldsForValidation?: string[],
+  requireConnectedWallet?: boolean,
 }
 
 export type CreatorSteps = CreatorScreen[];
