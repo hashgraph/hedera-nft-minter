@@ -14,7 +14,7 @@ sonarqube-check:
   stage: test
   tags:
     - docker
-  image: 
+  image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   variables:
@@ -25,6 +25,8 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
+    - npm i
+    - npm run test
     - sonar-scanner
   allow_failure: true
 
