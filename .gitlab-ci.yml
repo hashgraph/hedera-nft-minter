@@ -25,7 +25,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - npm i
+    - npm install
     - npm run test
     - sonar-scanner
   allow_failure: true
