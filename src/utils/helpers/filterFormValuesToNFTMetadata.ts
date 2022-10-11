@@ -24,30 +24,28 @@ import { Attribute, Propertie } from '@utils/entity/NFT-Metadata';
 
 const reduceAttributes = (attributes: Attribute[]) => (
   reduce(attributes, (
-    res: {[trait_type: string]: string},
+    res: {[key: string] : string}[],
     { trait_type, value } : Attribute
   ) => {
-    if (value) {
-      res['trait_type'] = trait_type
-      res['value'] = value
+    if (trait_type && value) {
+      res.push({trait_type, value})
     }
 
-    return res;
-  }, {})
+    return res
+  }, [])
 )
 
 const reduceProperties = (properties: Propertie[]) => (
   reduce(properties, (
-    res: {[key: string]: string},
+    res: {[key: string] : string}[],
     { label, value } : Propertie
   ) => {
-    if (value) {
-      res['label'] = label
-      res['value'] = value
+    if (label && value) {
+      res.push({label, value})
     }
 
-    return res;
-  }, {})
+    return res
+  }, [])
 )
 
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {
