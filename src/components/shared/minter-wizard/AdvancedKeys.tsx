@@ -18,7 +18,7 @@
  */
 
 import React from 'react';
-import KeysTable from '@/components/shared/minter-wizard/KeysTable';
+import KeysTable from '@components/shared/minter-wizard/KeysTable';
 import { TOKEN_KEY } from '@utils/entity/TokenKeys';
 
 export default function Advanced() {

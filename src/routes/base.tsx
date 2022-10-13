@@ -23,7 +23,7 @@ import {
   Homepage,
   MyWallet,
   TermsOfService,
-} from '@/pages';
+} from '@pages';
 
 export type CommonRoute = {
   path: string;

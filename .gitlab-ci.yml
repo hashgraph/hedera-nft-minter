@@ -28,7 +28,7 @@ sonarqube-check:
     - apk add npm --no-cache
   script:
     - npm install
-    - npm run test
+    - npm run test:coverage
     - sonar-scanner
   allow_failure: true
 

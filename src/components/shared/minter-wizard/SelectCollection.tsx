@@ -20,16 +20,16 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useFormikContext } from 'formik';
 
-import { WizardValues } from '@/utils/const/minter-wizard';
-import MirrorNode from '@/services/MirrorNode';
+import { WizardValues } from '@utils/const/minter-wizard';
+import MirrorNode from '@services/MirrorNode';
 
 import useHederaWallets from '@hooks/useHederaWallets';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
-import { MinterWizardContext } from '@/components/views/minter-wizard';
-import { TokenSupplyType } from '@/utils/entity/TokenInfo';
+import { MinterWizardContext } from '@components/views/minter-wizard';
+import { TokenSupplyType } from '@utils/entity/TokenInfo';
 
 import loadingHammer from '@assets/images/loading_hammer.svg'
-import FieldSelect from '@/components/shared/form/FieldSelect';
+import FieldSelect from '@components/shared/form/FieldSelect';
 import FieldWrapper from '@components/shared/form/FieldWrapper';
 
 

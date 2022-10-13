@@ -21,8 +21,8 @@ import React, { useMemo } from 'react'
 import { useField } from 'formik'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
-import { Attribute } from '@/utils/entity/NFT-Metadata'
-import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows'
+import { Attribute } from '@utils/entity/NFT-Metadata'
+import SummaryRows from '@components/shared/minter-wizard/summary/SummaryRows'
 
 export default function SummaryAttributes() {
   const [field] = useField('attributes')

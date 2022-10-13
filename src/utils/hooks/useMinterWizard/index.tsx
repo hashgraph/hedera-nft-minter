@@ -21,7 +21,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { FormikValues, useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
-import useHederaWallets from '@/utils/hooks/useHederaWallets';
+import useHederaWallets from '@utils/hooks/useHederaWallets';
 import {
   getCurrentStepFieldsNames,
   checkIfFieldsAreValidated,

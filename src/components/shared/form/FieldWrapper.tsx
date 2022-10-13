@@ -23,7 +23,7 @@ import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 import { JSX } from '@babel/types';
 
-import Error from '@/components/shared/form/Error';
+import Error from '@components/shared/form/Error';
 import Tooltip from './Tooltip';
 
 type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> & {

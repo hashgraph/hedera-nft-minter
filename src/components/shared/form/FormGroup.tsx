@@ -23,9 +23,9 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import each from 'lodash/each';
 import omit from 'lodash/omit';
 
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
 import Tooltip from '@components/shared/form/Tooltip';
-import { WizardValues } from '@/utils/const/minter-wizard';
+import { WizardValues } from '@utils/const/minter-wizard';
 
 import thrashIcon from '@assets/images/icons/thrash.svg'
 import plusIcon from '@assets/images/icons/plus.svg'

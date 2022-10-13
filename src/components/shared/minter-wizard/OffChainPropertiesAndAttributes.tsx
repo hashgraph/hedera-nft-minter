@@ -18,7 +18,7 @@
  */
 
 import React from 'react';
-import FormGroup from '@/components/shared/form/FormGroup';
+import FormGroup from '@components/shared/form/FormGroup';
 
 export default function OffChainPropertiesAndAttributes() {
   return (

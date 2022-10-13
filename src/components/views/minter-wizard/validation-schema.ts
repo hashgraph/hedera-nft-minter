@@ -19,9 +19,9 @@
 
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
-import { MintTypes } from '@/utils/entity/MinterWizard';
+import { MintTypes } from '@utils/entity/MinterWizard';
 import validateQtyFormField from '@utils/helpers/validateQtyFormField';
-import objectUnique from '@/utils/yup/objectUnique';
+import objectUnique from '@utils/yup/objectUnique';
 
 objectUnique();
 

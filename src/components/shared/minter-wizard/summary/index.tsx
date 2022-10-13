@@ -22,9 +22,9 @@ import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 
-import SummaryContent from '@/components/shared/minter-wizard/summary/Content'
-import SummaryNavigation from '@/components/shared/minter-wizard/summary/Navigation'
-import SummaryProcessing from '@/components/shared/minter-wizard/summary/Processing';
+import SummaryContent from '@components/shared/minter-wizard/summary/Content'
+import SummaryNavigation from '@components/shared/minter-wizard/summary/Navigation'
+import SummaryProcessing from '@components/shared/minter-wizard/summary/Processing';
 
 
 type MinterWizardSummaryProps = {

@@ -32,9 +32,9 @@ import {
   Timestamp,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
-import { HEDERA_NETWORK } from '@/../Global.d';
+import { HEDERA_NETWORK } from '@src/../Global.d';
 import transformToKeys from '@helpers/transformToKeys';
-import prepareFees from '@/utils/helpers/prepareFees';
+import prepareFees from '@utils/helpers/prepareFees';
 import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {

@@ -17,7 +17,7 @@
  *
  */
 
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 
 export default function TermsOfService() {
   return (

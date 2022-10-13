@@ -26,15 +26,15 @@ import values from 'lodash/values';
 import find from 'lodash/find';
 import groupBy from 'lodash/groupBy';
 
-import MirrorNode from '@/services/MirrorNode';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
+import MirrorNode from '@services/MirrorNode';
+import { NFTInfo } from '@utils/entity/NFTInfo';
 import { TokenInfo } from '@utils/entity/TokenInfo';
 import useHederaWallets from '@hooks/useHederaWallets';
 
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 import Loader from '@components/shared/loader/Loader';
-import NFT from '@/components/views/my-nft-collection/NFT';
-import CollectionList from '@/components/views/my-nft-collection/CollectionList';
+import NFT from '@components/views/my-nft-collection/NFT';
+import CollectionList from '@components/views/my-nft-collection/CollectionList';
 
 export type CollectionRowProps = {
   collection_id: string;

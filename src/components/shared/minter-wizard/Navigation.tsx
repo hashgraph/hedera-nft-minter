@@ -24,8 +24,8 @@ import SwitchTransition from 'react-transition-group/SwitchTransition';
 import { useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 
-import { MinterWizardContext } from '@/components/views/minter-wizard'
-import { MinterWizardStepWrapperContext } from '@/components/shared/minter-wizard/StepWrapper';
+import { MinterWizardContext } from '@components/views/minter-wizard'
+import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
 type NavigationProps = {
   backToMintTypeSelection: () => void;

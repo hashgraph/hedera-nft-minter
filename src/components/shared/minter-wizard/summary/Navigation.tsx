@@ -22,7 +22,7 @@ import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 
-import { MinterWizardContext } from '@/components/views/minter-wizard'
+import { MinterWizardContext } from '@components/views/minter-wizard'
 
 type SummaryNavigationProps = {
   goToCreator: () => void;

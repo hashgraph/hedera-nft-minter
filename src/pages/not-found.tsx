@@ -20,7 +20,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import HederaLogoWide from '@assets/images/logo.svg'
-import Scrollbar from '@/components/shared/layout/Scrollbar'
+import Scrollbar from '@components/shared/layout/Scrollbar'
 
 export default function NotFound() {
   return (

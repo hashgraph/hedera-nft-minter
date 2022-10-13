@@ -22,16 +22,16 @@ import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 
-import { MinterWizardContext } from '@/components/views/minter-wizard';
+import { MinterWizardContext } from '@components/views/minter-wizard';
 
 import Scrollbar from '@components/shared/layout/Scrollbar';
-import SummaryRow from '@/components/shared/minter-wizard/summary/SummaryRow';
-import SummaryRows from '@/components/shared/minter-wizard/summary/SummaryRows';
-import SummaryProperties from '@/components/shared/minter-wizard/summary/Properties';
-import SummaryAttributes from '@/components/shared/minter-wizard/summary/Attributes';
+import SummaryRow from '@components/shared/minter-wizard/summary/SummaryRow';
+import SummaryRows from '@components/shared/minter-wizard/summary/SummaryRows';
+import SummaryProperties from '@components/shared/minter-wizard/summary/Properties';
+import SummaryAttributes from '@components/shared/minter-wizard/summary/Attributes';
 import SummaryAdvanced, {
   AdvancedTypes,
-} from '@/components/shared/minter-wizard/summary/Advanced';
+} from '@components/shared/minter-wizard/summary/Advanced';
 
 import placeholder from '@assets/images/placeholder.png';
 import classNames from 'classnames';

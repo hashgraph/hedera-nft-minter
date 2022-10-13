@@ -19,10 +19,10 @@
 
 import React, {useMemo} from 'react';
 import { useField } from 'formik';
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import DragAndDropFileInput from '@/components/shared/form/DragAndDropFileInput';
-import Error from '@/components/shared/form/Error';
-import { MintTypes } from '@/utils/entity/MinterWizard';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
+import DragAndDropFileInput from '@components/shared/form/DragAndDropFileInput';
+import Error from '@components/shared/form/Error';
+import { MintTypes } from '@utils/entity/MinterWizard';
 
 export default function OffChainBasis() {
   const [field] = useField('mint_type');

@@ -19,7 +19,7 @@
 
 
 import { useMemo } from 'react';
-import renderValue from '@/utils/helpers/renderValue';
+import renderValue from '@utils/helpers/renderValue';
 import classNames from 'classnames';
 
 export type SummaryRowProps = {

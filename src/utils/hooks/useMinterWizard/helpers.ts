@@ -26,7 +26,7 @@ import isString from 'lodash/isString';
 import map from 'lodash/map';
 import flatMap from 'lodash/flatMap';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
-import wizardSteps from '@/components/views/minter-wizard/steps';
+import wizardSteps from '@components/views/minter-wizard/steps';
 
 
 export const getCurrentStepFieldsNames = (

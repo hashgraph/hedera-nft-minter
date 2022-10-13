@@ -18,10 +18,10 @@
  */
 
 import { useCallback, useContext } from 'react';
-import useHederaWallets, { ConnectionStateType } from '@/utils/hooks/useHederaWallets';
+import useHederaWallets, { ConnectionStateType } from '@utils/hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
-import BladeWalletLogo from '@/assets/images/wallets/bladewallet.svg'
-import HashpackWalletLogo from '@/assets/images/wallets/hashpack.svg'
+import BladeWalletLogo from '@assets/images/wallets/bladewallet.svg'
+import HashpackWalletLogo from '@assets/images/wallets/hashpack.svg'
 
 export default function ConnectionModal() {
   const { userWalletId, connectedWalletType, connect, disconnect } =

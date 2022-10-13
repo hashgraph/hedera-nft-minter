@@ -17,7 +17,7 @@
  *
  */
 
-import SelectCollection from '@/components/shared/minter-wizard/SelectCollection';
+import SelectCollection from '@components/shared/minter-wizard/SelectCollection';
 import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis'
 import OffChainPropertiesAndAttributes from '@components/shared/minter-wizard/OffChainPropertiesAndAttributes'
 

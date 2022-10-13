@@ -23,7 +23,7 @@ import pick from 'lodash/pick';
 import map from 'lodash/map';
 import filter from 'lodash/filter';
 
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 import placeholder from '@assets/images/placeholder.png';
 import loadingHammer from '@assets/images/loading_hammer.svg';
 

@@ -19,11 +19,11 @@
 
 import React, { useCallback, useEffect, useState, useContext, useMemo } from 'react'
 
-import useMinterWizard from '@/utils/hooks/useMinterWizard';
-import { CreatorSteps } from '@/utils/entity/MinterWizard';
+import useMinterWizard from '@utils/hooks/useMinterWizard';
+import { CreatorSteps } from '@utils/entity/MinterWizard';
 
-import { MinterWizardContext } from '@/components/views/minter-wizard'
-import Slider from '@/components/shared/minter-wizard/Slider';
+import { MinterWizardContext } from '@components/views/minter-wizard'
+import Slider from '@components/shared/minter-wizard/Slider';
 import Navigation from './Navigation';
 
 

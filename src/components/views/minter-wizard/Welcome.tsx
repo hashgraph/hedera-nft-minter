@@ -18,7 +18,7 @@
  */
 
 import { MintTypes } from '@utils/entity/MinterWizard'
-import ButtonGroup from '@/components/shared/form/button-group'
+import ButtonGroup from '@components/shared/form/button-group'
 import Scrollbar from '@components/shared/layout/Scrollbar'
 
 type Props = {

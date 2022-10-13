@@ -21,7 +21,7 @@ import { useCallback, useMemo } from 'react'
 import map from 'lodash/map';
 import find from 'lodash/find';
 import { JSX } from '@babel/types'
-import useLayout from '@/utils/hooks/useLayout';
+import useLayout from '@utils/hooks/useLayout';
 
 export type RenderOnProps = {
   mobileSmall?: boolean;
@@ -33,7 +33,7 @@ export type RenderOnProps = {
   desktopExtraWide?: boolean;
 }
 
-type RenderWraperOnProps = {
+type RenderWrapperOnProps = {
   renderOnBreakpoints: RenderOnProps,
   wrapper: JSX.Element,
   children: JSX.Element
@@ -43,7 +43,7 @@ export default function RenderWrapperOn({
   renderOnBreakpoints,
   wrapper,
   children
-} : RenderWraperOnProps) {
+} : RenderWrapperOnProps) {
   const {
     isDesktopExtraWide,
     isDesktopWide,

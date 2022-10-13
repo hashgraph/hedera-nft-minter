@@ -27,7 +27,7 @@ import {
 } from 'react-transition-group';
 
 import { Fees, FEE } from '@utils/entity/Fees';
-import FieldSelect from '@/components/shared/form/FieldSelect';
+import FieldSelect from '@components/shared/form/FieldSelect';
 import RoyaltyFee from '@components/shared/minter-wizard/Fees/Royalty';
 import FixedFee from '@components/shared/minter-wizard/Fees/Fixed';
 

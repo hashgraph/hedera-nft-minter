@@ -23,7 +23,7 @@ import {
   HASHPACK_APP_CONFIG_NAME,
   HASHPACK_APP_CONFIG_DESCRIPTION,
   HASHPACK_APP_CONFIG_ICON_URL
-} from '@/../Global.d';
+} from '@src/../Global.d';
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
@@ -33,7 +33,7 @@ import {
   DebugType as HashConnectDebugType,
   NetworkType as HashConnectNetworkType,
 } from '@utils/types/hashconnect.types';
-import { loadLocalData } from '@/utils/helpers/loadLocalData';
+import { loadLocalData } from '@utils/helpers/loadLocalData';
 
 export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }HashconnectData`;
 

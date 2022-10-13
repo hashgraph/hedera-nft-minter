@@ -18,8 +18,8 @@
  */
 
 import React from 'react';
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import Tooltip from '@/components/shared/form/Tooltip';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
+import Tooltip from '@components/shared/form/Tooltip';
 
 type FixedFeeProps = {
   index: number;

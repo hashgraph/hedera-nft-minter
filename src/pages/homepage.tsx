@@ -22,16 +22,16 @@ import { Formik, FormikValues } from 'formik';
 import { toast } from 'react-toastify';
 import { TokenId } from '@hashgraph/sdk';
 
-import HTS, { NewTokenType } from '@/services/HTS';
-import IPFS, { UploadRespone } from '@/services/IPFS';
-import useHederaWallets from '@/utils/hooks/useHederaWallets';
-import filterFormValuesToNFTMetadata from '@/utils/helpers/filterFormValuesToNFTMetadata';
-import { initialValues } from '@/utils/const/minter-wizard';
+import HTS, { NewTokenType } from '@services/HTS';
+import IPFS, { UploadResponse } from '@services/IPFS';
+import useHederaWallets from '@utils/hooks/useHederaWallets';
+import filterFormValuesToNFTMetadata from '@utils/helpers/filterFormValuesToNFTMetadata';
+import { initialValues } from '@utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
 
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
-import MinterWizardForm from '@/components/views/minter-wizard';
-import Summary from '@/components/views/minter-wizard/Summary';
+import MinterWizardForm from '@components/views/minter-wizard';
+import Summary from '@components/views/minter-wizard/Summary';
 import { SwitchTransition, CSSTransition } from 'react-transition-group';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
@@ -122,7 +122,7 @@ export default function MinterWizard() {
 
     delete formValues.symbol;
     let formTokenId = formValues?.token_id
-    let metaCIDs : UploadRespone[] = []
+    let metaCIDs : UploadResponse[] = []
 
     try {
       if (!userWalletId) {

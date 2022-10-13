@@ -18,7 +18,7 @@
  */
 
 import React from 'react';
-import Fees from '@/components/shared/minter-wizard/Fees';
+import Fees from '@components/shared/minter-wizard/Fees';
 
 
 export default function AdvancedFees() {

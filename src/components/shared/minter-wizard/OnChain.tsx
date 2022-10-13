@@ -18,7 +18,7 @@
  */
 
 import React, { useMemo } from 'react';
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
 import { useField } from 'formik';
 
 export default function OnChain() {

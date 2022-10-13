@@ -26,7 +26,7 @@ import {
 } from '@hashgraph/sdk';
 import { MessageTypes } from 'hashconnect';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
-import { SigningService } from '@/services/SigningService';
+import { SigningService } from '@services/SigningService';
 
 export enum ConnectionStateType {
   BLADEWALLET= 'bladewallet',

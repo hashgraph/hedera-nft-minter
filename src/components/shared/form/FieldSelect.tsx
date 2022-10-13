@@ -19,7 +19,7 @@
 
 import React, { SelectHTMLAttributes, useMemo } from 'react';
 import { FastField, Field, FieldAttributes } from 'formik';
-import Error from '@/components/shared/form/Error';
+import Error from '@components/shared/form/Error';
 import { DownOutlined } from '@ant-design/icons';
 
 type FieldWrapperProps = FieldAttributes<SelectHTMLAttributes<HTMLSelectElement>> & {

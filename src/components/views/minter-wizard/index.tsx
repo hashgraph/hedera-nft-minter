@@ -24,16 +24,16 @@ import {
   SwitchTransition,
 } from 'react-transition-group';
 
-import useLayout from '@/utils/hooks/useLayout';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { TokenInfo } from '@/utils/entity/TokenInfo';
-import { initialValues, WizardValues } from '@/utils/const/minter-wizard';
+import useLayout from '@utils/hooks/useLayout';
+import { NFTInfo } from '@utils/entity/NFTInfo';
+import { TokenInfo } from '@utils/entity/TokenInfo';
+import { initialValues, WizardValues } from '@utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
-import Welcome from '@/components/views/minter-wizard/Welcome';
+import Welcome from '@components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/steps';
-import MinterWizardStepWrapper from '@/components/shared/minter-wizard/StepWrapper';
-import MinterWizardSummary from '@/components/shared/minter-wizard/summary';
-import FloatingCollections from '@/components/shared/FloatingCollections'
+import MinterWizardStepWrapper from '@components/shared/minter-wizard/StepWrapper';
+import MinterWizardSummary from '@components/shared/minter-wizard/summary';
+import FloatingCollections from '@components/shared/FloatingCollections'
 
 export enum FormWizardSteps {
   WelcomeScreen = 0,

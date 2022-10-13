@@ -21,12 +21,12 @@ import React from 'react'
 import { useField } from 'formik';
 import find from 'lodash/find';
 
-import firstLetterUppercase from '@/utils/helpers/firstLetterUppercase';
+import firstLetterUppercase from '@utils/helpers/firstLetterUppercase';
 import { Fees } from '@utils/entity/Fees';
 import { TOKEN_KEY } from '@utils/entity/TokenKeys'
 
-import { TokenKeys } from '@/components/shared/minter-wizard/KeysTable';
-import checkmarkIcon from '@/assets/images/icons/checkmark.svg'
+import { TokenKeys } from '@components/shared/minter-wizard/KeysTable';
+import checkmarkIcon from '@assets/images/icons/checkmark.svg'
 
 
 export enum AdvancedTypes {

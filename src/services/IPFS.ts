@@ -19,10 +19,10 @@
 
 import axios from 'axios';
 import random from 'lodash/random';
-import { IPFS_KEYS, IPFS_URL } from '@/../Global.d';
+import { IPFS_KEYS, IPFS_URL } from '@src/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
-export interface UploadRespone {
+export interface UploadResponse {
   ok: boolean,
   value: {
     cid: string;
@@ -50,7 +50,7 @@ export default class IPFS {
 
   static async uploadFile(file: File | Blob) {
     try {
-      return await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
         headers: {
           'Content-Type': 'image/*',
           Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
@@ -65,7 +65,7 @@ export default class IPFS {
     try {
       const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
 
-      return await this.instance.post<UploadRespone>(this.UPLOAD_URL, file, {
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
         headers: {
           Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
         }

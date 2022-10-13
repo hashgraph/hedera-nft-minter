@@ -21,17 +21,17 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
-import MirrorNode from '@/services/MirrorNode';
+import MirrorNode from '@services/MirrorNode';
 import { TokenInfo } from '@utils/entity/TokenInfo';
-import renderValue from '@/utils/helpers/renderValue';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { HEDERA_NETWORK } from '@/../Global.d';
+import renderValue from '@utils/helpers/renderValue';
+import { NFTInfo } from '@utils/entity/NFTInfo';
+import { HEDERA_NETWORK } from '@src/../Global.d';
 
 import Loader from '@components/shared/loader/Loader';
 
 import placeholder from '@assets/images/placeholder.png';
 import './nft.scss';
-import formatToIPFSImageLink from '@/utils/helpers/formatToIPFSImageLink';
+import formatToIPFSImageLink from '@utils/helpers/formatToIPFSImageLink';
 
 type NFTProps = NFTInfo & {
   collectionInfo?: TokenInfo

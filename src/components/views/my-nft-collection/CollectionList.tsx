@@ -22,8 +22,8 @@ import classNames from 'classnames';
 import map from 'lodash/map';
 import xor from 'lodash/xor';
 import isEmpty from 'lodash/isEmpty';
-import { CollectionRowProps } from '@/pages/my-nft-collection';
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import { CollectionRowProps } from '@pages/my-nft-collection';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 
 type CollectionListProps = {
   collections: CollectionRowProps[] | null,

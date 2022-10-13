@@ -19,9 +19,9 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { useField } from 'formik';
-import useHederaWallets from '@/utils/hooks/useHederaWallets';
-import FieldWrapper from '@/components/shared/form/FieldWrapper';
-import Tooltip from '@/components/shared/form/Tooltip';
+import useHederaWallets from '@utils/hooks/useHederaWallets';
+import FieldWrapper from '@components/shared/form/FieldWrapper';
+import Tooltip from '@components/shared/form/Tooltip';
 
 type RoyaltyFeeProps = {
   index: number;

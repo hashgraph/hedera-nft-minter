@@ -23,7 +23,7 @@ import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { useOnClickAway } from 'use-on-click-away';
 import classNames from 'classnames';
 
-import { ModalContext } from '@/utils/context/ModalContext';
+import { ModalContext } from '@utils/context/ModalContext';
 
 type Props = {
   closeModal: () => void;

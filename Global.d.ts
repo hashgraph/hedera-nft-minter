@@ -23,7 +23,7 @@ import { ObjectShape, TypeOfShape, AssertsShape } from 'yup/lib/object';
 declare const APP_NAME: string;
 declare const HEDERA_NETWORK: string;
 declare const HEDERA_MIRROR_NODE_API_VERSION: string;
-declare const IPFS_KEYS: string;
+declare const IPFS_KEYS: string[];
 declare const IPFS_URL: string;
 declare const API_HOST: string;
 declare const HASHPACK_APP_CONFIG_NAME: string;
@@ -78,5 +78,14 @@ declare module 'yup' {
       | Optionals<TIn>
   > {
     unique(message: string, arrayValueKey: string): ObjectSchema<TShape, TContext, TIn, TOut>;
+  }
+}
+
+declare global {
+  namespace NodeJS {
+    interface ProcessEnv {
+      IPFS_KEYS: string[];
+      IPFS_URL: string;
+    }
   }
 }

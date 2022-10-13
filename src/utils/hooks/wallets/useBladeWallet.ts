@@ -17,11 +17,11 @@
  *
  */
 
-import { APP_NAME } from '@/../Global.d';
+import { APP_NAME } from '@src/../Global.d';
 import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { BladeSigner } from '@bladelabs/blade-web3.js';
-import { loadLocalData } from '@/utils/helpers/loadLocalData';
+import { loadLocalData } from '@utils/helpers/loadLocalData';
 
 export const BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }BladeWalletData`;
 
