@@ -24,6 +24,8 @@ sonarqube-check:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
+  before_script:
+    - apk add npm --no-cache
   script:
     - npm install
     - npm run test
