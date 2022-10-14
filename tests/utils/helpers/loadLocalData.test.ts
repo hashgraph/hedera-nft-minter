@@ -10,4 +10,9 @@ describe('Load local data', () => {
   it('load local data', () => {
     expect(loadLocalData('test')).toBe(null)
   });
+
+
+  it('load local data', () => {
+    expect(loadLocalData('foo')).toBe('test')
+  });
 });

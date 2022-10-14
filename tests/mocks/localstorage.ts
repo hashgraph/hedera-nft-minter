@@ -1,7 +1,9 @@
 export const localStorageMock = (function() {
   const store: {
     [key: string]: string
-  } = {};
+  } = {
+    foo: 'test'
+  };
 
   return {
     getItem: function(key: string) {
