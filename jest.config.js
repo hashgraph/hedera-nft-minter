@@ -5,7 +5,7 @@ module.exports = {
   // extensionsToTreatAsEsm: ['.cjs'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
-    '\\.scss$': 'identity-obj-proxy',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '^.+.(svg)$': 'jest-transform-stub',
     '^@src(.*)$': '<rootDir>/src$1',
     '^@assets(.*)$': '<rootDir>/src/assets$1',
