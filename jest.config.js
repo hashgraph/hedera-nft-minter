@@ -1,7 +1,8 @@
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = {
   preset: 'ts-jest',
+  // extensionsToTreatAsEsm: ['.cjs'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '\\.scss$': 'identity-obj-proxy',
@@ -21,12 +22,14 @@ module.exports = {
     '^@layout(.*)$': '<rootDir>/src/components/shared/layout$1',
   },
   collectCoverageFrom: ['<rootDir>/**/*.{ts, tsx}'],
-  moduleDirectories: ['node_modules', 'src'],
+  // moduleDirectories: ['node_modules', 'src'],
   roots: ['<rootDir>'],
+  testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.(ts|tsx)'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': ['ts-jest', { useESM: true }],
+    '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.svg$': '<rootDir>/svgTransform.js'
   },
-  injectGlobals: true,
 }

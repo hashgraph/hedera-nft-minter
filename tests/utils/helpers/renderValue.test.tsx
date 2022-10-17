@@ -1,6 +1,6 @@
 /** @jest-environment jsdom */
 
-import renderValue from '@helpers/renderValue';
+import renderValue from '@utils/helpers/renderValue';
 import { describe, expect, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 

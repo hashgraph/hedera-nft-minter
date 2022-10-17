@@ -46,6 +46,7 @@ describe('Test IPFS service', () => {
     expect.assertions(1);
     try {
       const res = await IPFS.uploadFile(exampleFile);
+
       expect(res.data.ok).toBe(true)
     } catch (e) {
       expect(e.message).toBe('INCORRECT_FILE')

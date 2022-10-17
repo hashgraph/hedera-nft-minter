@@ -7,7 +7,7 @@
     "start": "webpack serve --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
-    "test": "jest --config=jest.config.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js",
     "test:coverage": "jest --config=jest.config.js --coverage --testResultsProcessor=jest-sonar-reporter"
   },
   "repository": {
@@ -19,9 +19,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@bladelabs/blade-web3.js": "^0.9.7",
-    "@hashgraph/sdk": "^2.15.0",
+    "@hashgraph/sdk": "^2.18.3",
     "@popperjs/core": "^2.11.6",
     "axios": "^0.21.4",
+    "bignumber.js": "^9.1.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "classnames": "^2.3.1",
     "copy-webpack-plugin": "^11.0.0",
