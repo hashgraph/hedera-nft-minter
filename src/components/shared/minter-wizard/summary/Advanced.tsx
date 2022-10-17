@@ -33,7 +33,7 @@ export default function SummaryAdvanced() {
   const [{ value: keysValue }] = useField<TOKEN_KEY[]>('keys');
 
   const renderFees = useMemo(() => (
-    feesValue.length == 0 ? null : (
+    feesValue?.length == 0 ? null : (
       feesValue.map(element => (
         <div
           key={element.type}
@@ -54,7 +54,7 @@ export default function SummaryAdvanced() {
   ), [feesValue]);
 
   const renderKeys = useMemo(() => (
-    keysValue.length == 0 ? null : (
+    keysValue?.length == 0 ? null : (
       keysValue.map(element => (
         <div
           className='minter-wizard__summary__row'

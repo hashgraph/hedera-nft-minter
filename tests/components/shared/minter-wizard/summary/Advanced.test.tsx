@@ -13,7 +13,7 @@ describe('Minter Wizard - Advanced', () => {
 
     render(
       <Router>
-        <Formik initialValues={{}} onSubmit={fn}>
+        <Formik initialValues={{keys: [], fees: []}} onSubmit={fn}>
           <Advanced />
         </Formik>
       </Router>
