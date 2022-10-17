@@ -17,7 +17,7 @@
  *
  */
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useField } from 'formik';
 import find from 'lodash/find';
 
@@ -28,68 +28,56 @@ import { TOKEN_KEY } from '@utils/entity/TokenKeys'
 import { TokenKeys } from '@components/shared/minter-wizard/KeysTable';
 import checkmarkIcon from '@assets/images/icons/checkmark.svg'
 
+export default function SummaryAdvanced() {
+  const [{ value: feesValue }] = useField<Fees[]>('fees');
+  const [{ value: keysValue }] = useField<TOKEN_KEY[]>('keys');
 
-export enum AdvancedTypes {
-  fees = 'fees',
-  keys = 'keys',
-}
+  const renderFees = useMemo(() => (
+    feesValue.length == 0 ? null : (
+      feesValue.map(element => (
+        <div
+          key={element.type}
+          className='minter-wizard__summary__row'
+        >
+          <p>
+            {element.type && firstLetterUppercase(element.type) + ' fee'}
+          </p>
+          <span>
+            {element.type === 'fixed' && `${ element.amount }ℏ`}
+                {element.type === 'royalty' && (
+                  `${ element.percent }% (Fallback fee: ${ element.fallbackFee }ℏ)`
+                )}
+          </span>
+        </div>
+      ))
+    )
+  ), [feesValue]);
 
-type SummaryAdvancedProps = {
-  name: AdvancedTypes
-}
-
-
-export default function SummaryAdvanced({ name }: SummaryAdvancedProps) {
-  const [field] = useField<Fees[] | TOKEN_KEY[]>(name);
+  const renderKeys = useMemo(() => (
+    keysValue.length == 0 ? null : (
+      keysValue.map(element => (
+        <div
+          className='minter-wizard__summary__row'
+          key={element}
+        >
+          <p>
+            {find(TokenKeys, key => key.value === element)?.title} key
+          </p>
+          <span>
+            <img src={checkmarkIcon} width={16} height={16} alt='checked' />
+          </span>
+        </div>
+      ))
+    )
+  ), [keysValue]);
 
   return (
     <>
-      {field.value.length > 0 && (
+      {(feesValue.length + keysValue.length) > 0 && (
         <>
           <div className='minter-wizard__summary__column'>
-            {field.value?.length > 0 && field.value.map(((element, i) => {
-              switch (name) {
-                case AdvancedTypes.fees:
-                  element = element as Fees
-                  return (
-                    <React.Fragment key={element.type ?? `summary-fee-without-type-${ i }`}>
-                      {element.type && element?.type?.length > 0 ? (
-                        <div className='minter-wizard__summary__row'>
-                          <p>
-                            {element.type && firstLetterUppercase(element.type) + ' fee'}
-                          </p>
-                          <span>
-                            {element.type === 'fixed' && `${ element.amount }ℏ`}
-                            {element.type === 'royalty' && (
-                              `${ element.percent }% (Fallback fee: ${ element.fallbackFee }ℏ)`
-                            )}
-                          </span>
-                        </div>
-                      ) : (
-                        <>
-                          Empty fee
-                        </>
-                      )}
-                    </React.Fragment>
-                  )
-
-                case AdvancedTypes.keys:
-                  element = element as TOKEN_KEY
-                  return (
-                    <div
-                      className='minter-wizard__summary__row'
-                      key={element ?? `summary-key-without-type-${ i }`}
-                    >
-                      <p>
-                        {find(TokenKeys, key => key.value === element)?.title} key
-                      </p>
-                      <span>
-                        <img src={checkmarkIcon} width={16} height={16} alt='checked' />
-                      </span>
-                    </div>
-                  )
-              }
-            }))}
+            {renderFees}
+            {renderKeys}
           </div>
         </>
       )}

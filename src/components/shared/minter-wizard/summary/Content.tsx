@@ -29,9 +29,7 @@ import SummaryRow from '@components/shared/minter-wizard/summary/SummaryRow';
 import SummaryRows from '@components/shared/minter-wizard/summary/SummaryRows';
 import SummaryProperties from '@components/shared/minter-wizard/summary/Properties';
 import SummaryAttributes from '@components/shared/minter-wizard/summary/Attributes';
-import SummaryAdvanced, {
-  AdvancedTypes,
-} from '@components/shared/minter-wizard/summary/Advanced';
+import SummaryAdvanced from '@components/shared/minter-wizard/summary/Advanced';
 
 import placeholder from '@assets/images/placeholder.png';
 import classNames from 'classnames';
@@ -142,8 +140,7 @@ export default function SummaryContent() {
                           ]}
                         />
 
-                        <SummaryAdvanced name={AdvancedTypes.fees} />
-                        <SummaryAdvanced name={AdvancedTypes.keys} />
+                        <SummaryAdvanced />
                       </div>
                     </div>
                   ) : (
@@ -179,8 +176,7 @@ export default function SummaryContent() {
                       ]}
                     />
 
-                    <SummaryAdvanced name={AdvancedTypes.fees} />
-                    <SummaryAdvanced name={AdvancedTypes.keys} />
+                    <SummaryAdvanced />
 
                     <CSSTransition
                       in={showWarning}

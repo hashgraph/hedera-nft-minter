@@ -2,7 +2,6 @@ require('dotenv').config();
 
 module.exports = {
   preset: 'ts-jest',
-  // extensionsToTreatAsEsm: ['.cjs'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
@@ -22,7 +21,6 @@ module.exports = {
     '^@layout(.*)$': '<rootDir>/src/components/shared/layout$1',
   },
   collectCoverageFrom: ['<rootDir>/**/*.{ts, tsx}'],
-  // moduleDirectories: ['node_modules', 'src'],
   roots: ['<rootDir>'],
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.(ts|tsx)'],
