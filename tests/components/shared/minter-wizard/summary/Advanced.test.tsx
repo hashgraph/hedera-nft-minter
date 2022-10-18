@@ -41,7 +41,7 @@ describe('Minter Wizard - Advanced', () => {
     const advanced = container.querySelector('.minter-wizard__summary__column')
 
     if (advanced) {
-      expect(advanced.tagName).toBe('div')
+      expect(advanced.tagName).toBe('DIV')
     }
   })
 })
