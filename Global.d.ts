@@ -21,7 +21,7 @@ import { AnyObject, Maybe, Optionals } from 'yup/lib/types';
 import { ObjectShape, TypeOfShape, AssertsShape } from 'yup/lib/object';
 
 declare const APP_NAME: string;
-declare const HEDERA_NETWORK: string;
+declare const HEDERA_NETWORK: 'testnet' | 'mainnet';
 declare const HEDERA_MIRROR_NODE_API_VERSION: string;
 declare const IPFS_KEYS: string[];
 declare const IPFS_URL: string;

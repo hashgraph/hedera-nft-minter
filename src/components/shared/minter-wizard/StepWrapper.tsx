@@ -23,7 +23,7 @@ import useMinterWizard from '@utils/hooks/useMinterWizard';
 import { CreatorSteps } from '@utils/entity/MinterWizard';
 
 import { MinterWizardContext } from '@components/views/minter-wizard'
-import Slider from '@components/shared/minter-wizard/Slider';
+import Slider, { SliderTabData } from '@components/shared/minter-wizard/Slider';
 import Navigation from './Navigation';
 
 
@@ -90,7 +90,7 @@ export default function MinterWizardStepWrapper({
             data={steps.map(step => ({
               key: `minter-wizard.step-${ step.creatorStep }`,
               content: step.Component,
-            }))}
+            })) as SliderTabData[]}
           />
         </div>
 

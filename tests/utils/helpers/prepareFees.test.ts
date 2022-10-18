@@ -49,7 +49,6 @@ describe('Prepare Fees', () => {
       feeCollectorAccountId: '1234567890'
     };
 
-
     const royaltyFee = new CustomRoyaltyFee({
       numerator: fee.percent,
       denominator: 100,

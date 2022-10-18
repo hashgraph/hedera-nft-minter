@@ -4,6 +4,7 @@ module.exports = {
   preset: 'ts-jest',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   moduleNameMapper: {
+    '\\.(jpg|jpeg|png)$': '<rootDir>/tests/mocks/fileMock.js',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '^.+.(svg)$': 'jest-transform-stub',
     '^@src(.*)$': '<rootDir>/src$1',
@@ -24,10 +25,13 @@ module.exports = {
   roots: ['<rootDir>'],
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.(ts|tsx)'],
-  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  transformIgnorePatterns: [
+    // 'node_modules',
+  ],
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', { useESM: true }],
-    '^.+\\.(js|jsx)$': 'babel-jest',
-    '^.+\\.svg$': '<rootDir>/svgTransform.js'
+    '^.+\\.(ts|tsx|js|jsx)$': ['ts-jest', { useESM: true }],
+    // '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.svg$': '<rootDir>/svgTransform.js',
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/fileTransformer.js'
   },
 }
