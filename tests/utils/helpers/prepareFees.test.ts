@@ -41,4 +41,21 @@ describe('Prepare Fees', () => {
 
     expect(prepareFees([fee], '0987654321')).toStrictEqual([royaltyFee])
   });
+
+  it('should be royalty fee without fallbackFee', () => {
+    const fee: Fees = {
+      type: FEE.ROYALTY,
+      percent: 10,
+      feeCollectorAccountId: '1234567890'
+    };
+
+
+    const royaltyFee = new CustomRoyaltyFee({
+      numerator: fee.percent,
+      denominator: 100,
+      feeCollectorAccountId: '1234567890',
+    })
+
+    expect(prepareFees([fee], '0987654321')).toStrictEqual([royaltyFee])
+  });
 });
