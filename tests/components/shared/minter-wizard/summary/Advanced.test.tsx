@@ -7,7 +7,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { MemoryRouter as Router } from 'react-router-dom';
 
-import Advanced from '@components/shared/minter-wizard/summary/Advanced';
+import SummaryAdvanced from '@components/shared/minter-wizard/summary/Advanced';
 import { TOKEN_KEY } from '@utils/entity/TokenKeys';
 
 describe('Minter Wizard - Advanced', () => {
@@ -17,7 +17,7 @@ describe('Minter Wizard - Advanced', () => {
     const { container } = render(
       <Router>
         <Formik initialValues={{keys: [], fees: []}} onSubmit={fn}>
-          <Advanced />
+          <SummaryAdvanced />
         </Formik>
       </Router>
     );
@@ -33,7 +33,7 @@ describe('Minter Wizard - Advanced', () => {
     const { container } = render(
       <Router>
         <Formik initialValues={{keys: [TOKEN_KEY.TREASURY], fees: []}} onSubmit={fn}>
-          <Advanced />
+          <SummaryAdvanced />
         </Formik>
       </Router>
     );
@@ -41,7 +41,7 @@ describe('Minter Wizard - Advanced', () => {
     const advanced = container.querySelector('.minter-wizard__summary__column')
 
     if (advanced) {
-      expect(advanced.nodeType).toBe('div')
+      expect(advanced.tagName).toBe('div')
     }
   })
 })
