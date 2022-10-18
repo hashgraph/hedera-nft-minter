@@ -71,16 +71,15 @@ export default function SummaryAdvanced() {
     )
   ), [keysValue]);
 
+
+  if (feesValue?.length + keysValue?.length === 0) {
+    return null;
+  }
+
   return (
-    <>
-      {(feesValue.length + keysValue.length) > 0 && (
-        <>
-          <div className='minter-wizard__summary__column'>
-            {renderFees}
-            {renderKeys}
-          </div>
-        </>
-      )}
-    </>
+    <div className='minter-wizard__summary__column'>
+      {renderFees}
+      {renderKeys}
+    </div>
   )
 }
