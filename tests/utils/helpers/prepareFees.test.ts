@@ -5,7 +5,7 @@ import { CustomFixedFee, CustomRoyaltyFee, Hbar } from '@hashgraph/sdk';
 
 describe('Prepare Fees', () => {
   it('empty', () => {
-    expect(prepareFees([], '')).toBe([])
+    expect(prepareFees([], '')).toStrictEqual([])
   });
 
   it('should be fixed fee', () => {
