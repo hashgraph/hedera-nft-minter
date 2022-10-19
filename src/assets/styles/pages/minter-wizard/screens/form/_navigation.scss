@@ -31,12 +31,6 @@
         transition: width 500ms ease-out;
       }
 
-      &--first-screen {
-        @include respond-to('desktop') {
-          width: 90%;
-        }
-      }
-
       &--summary {
         @extend .minter-wizard__creator__nav;
         margin-top: auto;
