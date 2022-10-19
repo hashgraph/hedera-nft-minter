@@ -1,11 +1,20 @@
 import { Buffer } from 'buffer';
-import { describe, test, expect } from '@jest/globals';
+import { describe, test, expect, jest, beforeEach } from '@jest/globals';
 import { SigningService } from '@services/SigningService';
-import { AccountCreateTransaction, AccountId, PrivateKey } from '@hashgraph/sdk'
+import { AccountCreateTransaction, AccountId, PrivateKey, TransactionId } from '@hashgraph/sdk'
+
+// jest.mock('@hashgraph/sdk');
 
 describe('Test Signing service', () => {
   const pkString = '704085272b147ecc6cf8eed094016555e7eaf68eb4145f0473746053adaecf00';
 
+  beforeEach(() => {
+    const mockFn = jest.fn().mockReturnValue(TransactionId.fromString('0.0.123456@1666180043.380955673'));
+
+    TransactionId.generate = mockFn as () => TransactionId;
+  })
+
+  // '0.0.123456@1666180043.380955673'
   test('signAndMakeBytes', async () => {
     const pk = PrivateKey.fromString(pkString);
     const tx = new AccountCreateTransaction()
