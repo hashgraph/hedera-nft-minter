@@ -86,6 +86,12 @@ p {
           border: unset;
         }
       }
+
+      &--active {
+        input, textarea, select {
+          background: darken($red, 55%);
+        }
+      }
     }
   }
 
@@ -168,6 +174,10 @@ p {
           .form {
             &__select {
               max-width: 60%;
+
+              option {
+                background-color: $lightGrey;
+              }
             }
           }
         }
@@ -360,7 +370,7 @@ p {
     justify-content: flex-end;
     color: $orange;
     padding-top: 2px;
-    font-size: 0.6875rem;
+    font-size: 1rem;
     height: $errorHeight;
     padding-right: .25rem;
 
