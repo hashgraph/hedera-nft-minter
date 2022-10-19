@@ -31,6 +31,8 @@ sonarqube-check:
     - npm run test:coverage
     - sonar-scanner
   allow_failure: true
+  only:
+    - main
 
 build:
   stage: build
