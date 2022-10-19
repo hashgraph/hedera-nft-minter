@@ -62,7 +62,7 @@ const filterFormValuesToNFTMetadata = (values : FormikValues) => {
 
   filtered.name = values.edition_name
 
-  filtered.format = 'opensea';
+  filtered.format = 'HIP412@1.0.0';
 
   filtered = Object.keys(filtered).reduce(
     (params: FormikValues, paramName: string) => {
