@@ -17,7 +17,7 @@
  *
  */
 
-import React, { useContext, useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { useOnClickAway } from 'use-on-click-away';
@@ -25,28 +25,13 @@ import classNames from 'classnames';
 
 import { ModalContext } from '@utils/context/ModalContext';
 
-type Props = {
-  closeModal: () => void;
-  isModalShowed: boolean;
-  children: React.ReactNode;
-}
-
-const Modal = ({ children, ...props } : Props) => {
+const Modal = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const modalContext = useContext(ModalContext);
-  const [modalContent, setModalContent] = useState(children)
-
-  const closeModal = useCallback(() => (
-    props.closeModal ? props.closeModal() : modalContext.closeModal()
-  ), [modalContext, props])
-
-  const isModalShowed = useMemo(() => (
-    props.isModalShowed ?? modalContext.isModalShowed
-  ), [modalContext.isModalShowed, props.isModalShowed])
-
-  useEffect(() => {
-    setModalContent(children ?? modalContext.modalContent)
-  }, [children, modalContext.modalContent])
+  const {
+    closeModal,
+    isModalShowed,
+    modalContent
+  } = useContext(ModalContext);
 
   useEffect(() => {
     const handleExit = (e: KeyboardEvent) => {

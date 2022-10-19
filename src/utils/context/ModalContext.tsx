@@ -19,7 +19,7 @@
 
 import React, { useState, useCallback } from 'react';
 
-type ModalContentType = HTMLElement | string | React.ReactNode
+export type ModalContentType = HTMLElement | string | React.ReactNode
 
 type ModalContextProps = {
   closeModal: () => void,

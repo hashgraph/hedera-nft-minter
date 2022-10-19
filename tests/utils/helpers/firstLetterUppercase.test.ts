@@ -5,4 +5,8 @@ describe('FirstLetterUppercase', () => {
   it('first letter to upper', () => {
     expect(firstLetterUppercase('test')).toBe('Test')
   });
+
+  it('first letter to upper - empty', () => {
+    expect(firstLetterUppercase('')).toBe('undefined')
+  });
 });
