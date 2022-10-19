@@ -3,8 +3,6 @@ import { describe, test, expect, jest, beforeEach } from '@jest/globals';
 import { SigningService } from '@services/SigningService';
 import { AccountCreateTransaction, AccountId, PrivateKey, TransactionId } from '@hashgraph/sdk'
 
-// jest.mock('@hashgraph/sdk');
-
 describe('Test Signing service', () => {
   const pkString = '704085272b147ecc6cf8eed094016555e7eaf68eb4145f0473746053adaecf00';
 
