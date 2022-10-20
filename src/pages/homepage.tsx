@@ -183,13 +183,10 @@ export default function MinterWizard() {
       const tokenIdToMint = formTokenId.toString();
 
       // mint
-      const mintRes = await mint(
+      await mint(
         tokenIdToMint,
         metaCIDs.map(({ value }) => value.cid)
       );
-
-      // eslint-disable-next-line no-console
-      console.log({ mintRes });
 
       setNewNFTdata({...formValues, tokenId: tokenIdToMint})
       setTokenCreated(true);
