@@ -48,7 +48,7 @@ const FieldSelect = ({
 
   const selectClassName = useMemo(() => (
     classNames('form__row', 'form__select', {
-      'form__field__container--active': shouldBeErrorDisplayed
+      'form__field__container--error-active': shouldBeErrorDisplayed
     })
   ), [shouldBeErrorDisplayed])
 
