@@ -26,12 +26,12 @@ describe('hook useLocalStorage', () => {
 
   it('change', () => {
     const { result } = renderHook(() => useLocalStorage('foo'));
-    const value = result.current[0] as string
     const change = result.current[1] as (v: string) => void;
 
-    expect(JSON.parse(value)).toEqual('test');
+    expect(JSON.parse(result.current[0] as string)).toEqual('test');
 
     act(() => { change('newValue')});
-    expect(JSON.parse(value)).toEqual('newValue');
+
+    expect(result.current[0]).toEqual('newValue');
   });
 });
