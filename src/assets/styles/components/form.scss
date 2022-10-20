@@ -87,7 +87,7 @@ p {
         }
       }
 
-      &--error-active {
+      &--error {
         input, textarea, select {
           background: darken($red, 55%);
         }

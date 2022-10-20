@@ -74,7 +74,7 @@ const FieldWrapper = ({
     classNames('form__field__container', {
       'input': props?.as === 'textarea',
       'form__field__container--textarea': props?.as === 'textarea',
-      'form__field__container--error-active': shouldBeErrorDisplayed
+      'form__field__container--error': shouldBeErrorDisplayed
     })
   ), [props?.as, shouldBeErrorDisplayed])
 
