@@ -2,7 +2,7 @@ export const localStorageMock = (function() {
   const store: {
     [key: string]: string
   } = {
-    foo: JSON.stringify('test'),
+    foo: 'test',
   };
 
   return {
