@@ -2,10 +2,11 @@
 
 import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
-import useLocalStorage from '@utils/hooks/useLocalStorage';
+import TestRenderer from 'react-test-renderer';
 
+import useLocalStorage from '@utils/hooks/useLocalStorage';
 import { localStorageMock } from '../../mocks/localstorage';
-import { act } from 'react-dom/test-utils';
+const {act} = TestRenderer;
 
 describe('hook useLocalStorage', () => {
   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
@@ -18,17 +19,19 @@ describe('hook useLocalStorage', () => {
 
   it('foo', () => {
     const { result } = renderHook(() => useLocalStorage('foo'));
+    const value = result.current[0] as string
 
-    expect(result.current[0]).toEqual('test');
+    expect(JSON.parse(value)).toEqual('test');
   });
 
   it('change', () => {
     const { result } = renderHook(() => useLocalStorage('foo'));
+    const value = result.current[0] as string
     const change = result.current[1] as (v: string) => void;
 
-    expect(result.current[0]).toEqual('test');
+    expect(JSON.parse(value)).toEqual('test');
 
     act(() => { change('newValue')});
-    expect(result.current[0]).toEqual('newValue');
+    expect(JSON.parse(value)).toEqual('newValue');
   });
 });
