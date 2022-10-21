@@ -74,7 +74,7 @@ export default function useMinterWizard(
       if (areFieldsRequireConnectedWallet && !userWalletId) {
         toast.error('Connect your wallet to continue')
       } else {
-        toast.error('Fix creator errors!')
+        toast.error('Please review errors')
       }
     }
   }, [

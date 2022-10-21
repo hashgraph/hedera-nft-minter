@@ -17,8 +17,9 @@
  *
  */
 
-import React, { SelectHTMLAttributes, useMemo } from 'react';
-import { FastField, Field, FieldAttributes } from 'formik';
+import { SelectHTMLAttributes, useMemo } from 'react';
+import { FastField, Field, FieldAttributes, useField } from 'formik';
+import classNames from 'classnames';
 import Error from '@components/shared/form/Error';
 import { DownOutlined } from '@ant-design/icons';
 
@@ -39,9 +40,20 @@ const FieldSelect = ({
   ...restProps
 }: FieldWrapperProps) => {
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
+  const [, meta] = useField(name)
+
+  const shouldBeErrorDisplayed = useMemo(() => (
+    meta.touched && meta.error
+  ), [meta.error, meta.touched])
+
+  const selectClassName = useMemo(() => (
+    classNames('form__row', 'form__select', {
+      'form__field__container--error': shouldBeErrorDisplayed
+    })
+  ), [shouldBeErrorDisplayed])
 
   return (
-    <div className='form__row form__select'>
+    <div className={selectClassName}>
       {Boolean(label) && <label htmlFor={name}>{label}:</label>}
       <div className='select__component'>
         <Component name={name} as='select' {...restProps}>
