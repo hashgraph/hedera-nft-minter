@@ -135,7 +135,6 @@ const FieldWrapper = ({
           id={id}
           name={name}
           {...props}
-          validateOnChange
           maxLength={maxLength}
           type={type}
           checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}

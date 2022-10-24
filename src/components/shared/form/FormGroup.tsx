@@ -63,14 +63,14 @@ const FormGroup = ({ inputsSchema, name, label, tooltip }: Props) => {
         {({ remove, push, form }) => (
           <>
             <div className='form__group__label-wrapper'>
-              <p className='title title--medium title--strong'>
+              <div className='title title--medium title--strong'>
                 {label}:
                 {tooltip && (
                   <Tooltip>
                     {tooltip}
                   </Tooltip>
                 )}
-              </p>
+              </div>
 
               <button
                 type='button'
