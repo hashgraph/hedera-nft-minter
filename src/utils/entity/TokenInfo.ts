@@ -46,7 +46,7 @@ export interface TokenInfo {
   token_id: string | null,
   total_supply: string | null,
   treasury_account_id: string | null,
-  type: 'FUNGIBLE_COMMON' | 'NON_FUNGIBLE_UNIQUE',
+  type?: 'FUNGIBLE_COMMON' | 'NON_FUNGIBLE_UNIQUE',
   supply_type: TokenSupplyType,
   wipe_key: string | null,
   // custom_fees: string | null,
