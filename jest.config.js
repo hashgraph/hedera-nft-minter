@@ -21,7 +21,7 @@ module.exports = {
     '^@hoc(.*)$': '<rootDir>/src/components/hoc$1',
     '^@layout(.*)$': '<rootDir>/src/components/shared/layout$1',
   },
-  collectCoverageFrom: ['<rootDir>/**/*.{ts, tsx}'],
+  collectCoverageFrom: ['<rootDir>/**/*.(ts|tsx)'],
   roots: ['<rootDir>'],
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.test.(ts|tsx)'],
@@ -30,7 +30,6 @@ module.exports = {
   ],
   transform: {
     '^.+\\.(ts|tsx|js|jsx)$': ['ts-jest', { useESM: true }],
-    // '^.+\\.(js|jsx)$': 'babel-jest',
     '^.+\\.svg$': '<rootDir>/svgTransform.js',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/fileTransformer.js'
   },
