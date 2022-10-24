@@ -55,8 +55,12 @@ const FieldWrapper = ({
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => uuidv4(), []);
-  const [field,, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
+
+  const shouldBeErrorDisplayed = useMemo(() => (
+    meta.touched && meta.error
+  ), [meta.error, meta.touched])
 
   const wrapperClassName = useMemo(() => (
     classNames(
@@ -69,9 +73,10 @@ const FieldWrapper = ({
   const formFieldContainerClassName = useMemo(() => (
     classNames('form__field__container', {
       'input': props?.as === 'textarea',
-      'form__field__container--textarea': props?.as === 'textarea'
+      'form__field__container--textarea': props?.as === 'textarea',
+      'form__field__container--error': shouldBeErrorDisplayed
     })
-  ), [props?.as])
+  ), [props?.as, shouldBeErrorDisplayed])
 
   const handleChange = useCallback((e) => {
     if (isArray) {
