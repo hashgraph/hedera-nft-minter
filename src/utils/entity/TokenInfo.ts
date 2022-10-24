@@ -28,19 +28,19 @@ interface TokenInfoKey {
 }
 
 export interface TokenInfo {
-  admin_key: TokenInfoKey,
+  admin_key: TokenInfoKey | null,
   auto_renew_account: string | null,
   auto_renew_period: string | null,
   created_timestamp: string | null,
   decimals: number,
   expiry_timestamp: string | null,
   freeze_default: boolean,
-  fee_schedule_key: TokenInfoKey,
-  freeze_key: TokenInfoKey,
+  fee_schedule_key: TokenInfoKey | null,
+  freeze_key: TokenInfoKey | null,
   initial_supply: string | null,
-  kyc_key: TokenInfoKey,
+  kyc_key: TokenInfoKey | null,
   name: string | null,
-  supply_key: TokenInfoKey,
+  supply_key: TokenInfoKey | null,
   deleted: boolean,
   symbol: string | null,
   token_id: string | null,
@@ -50,7 +50,7 @@ export interface TokenInfo {
   supply_type: TokenSupplyType,
   wipe_key: string | null,
   // custom_fees: string | null,
-  pause_key: TokenInfoKey,
+  pause_key: TokenInfoKey | null,
   pause_status: string | null,
   max_supply: string | null,
 }
