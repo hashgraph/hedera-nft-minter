@@ -1,3 +1,4 @@
+/** @jest-environment jsdom */
 /*
  * Hedera NFT Minter App
  *
@@ -16,8 +17,6 @@
  * limitations under the License.
  *
  */
-
-/** @jest-environment jsdom */
 
 import renderValue from '@utils/helpers/renderValue';
 import { describe, expect, it } from '@jest/globals';

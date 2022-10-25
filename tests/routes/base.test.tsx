@@ -19,17 +19,14 @@
  *
  */
 
-import React from 'react';
-import { describe, it } from '@jest/globals';
-import { render } from '@testing-library/react';
-import MyNFTCollection from '@pages/my-nft-collection';
+import { describe, it, expect } from '@jest/globals';
+import base from '@routes/base';
+import { Homepage } from '@src/pages';
 
-describe('MyNFTCollection', () => {
+describe('Base routes', () => {
   it('render', () => {
 
-    render(
-      <MyNFTCollection />
-    )
+    expect(base[0]).toEqual({ path: '/', component: Homepage })
   })
 
 });

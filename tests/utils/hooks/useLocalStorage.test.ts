@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 /*
  * Hedera NFT Minter App
  *
@@ -16,8 +18,6 @@
  * limitations under the License.
  *
  */
-
-/** @jest-environment jsdom */
 
 import { describe, expect, it } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';

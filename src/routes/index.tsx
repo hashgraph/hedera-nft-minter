@@ -45,7 +45,7 @@ function Routes() {
                 exact={page?.path === '/'}
                 render={matchProps => (
                   <Suspense fallback={<div>loading</div>}>
-                    {page.component && <page.component {...matchProps} {...page} />}
+                    <page.component {...matchProps} {...page} />
                   </Suspense>
                 )}
               />

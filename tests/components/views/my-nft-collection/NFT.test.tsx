@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 /*
  * Hedera NFT Minter App
  *
@@ -17,7 +19,6 @@
  *
  */
 
-/** @jest-environment jsdom */
 import { describe, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 import React from 'react';

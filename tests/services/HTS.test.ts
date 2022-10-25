@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 /*
  * Hedera NFT Minter App
  *
@@ -16,8 +18,6 @@
  * limitations under the License.
  *
  */
-
-/** @jest-environment jsdom */
 
 import { describe, test, expect, jest, beforeEach } from '@jest/globals';
 import { AccountId, Hbar, TokenCreateTransaction, TokenMintTransaction, TokenType, TokenSupplyType, TokenUpdateTransaction, TransactionId, TransferTransaction } from '@hashgraph/sdk'

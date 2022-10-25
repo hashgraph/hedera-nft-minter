@@ -20,16 +20,25 @@
  */
 
 import React from 'react';
-import { describe, it } from '@jest/globals';
+import { describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import MyNFTCollection from '@pages/my-nft-collection';
+import { Formik } from 'formik';
+import SelectCollection from '@components/shared/minter-wizard/SelectCollection';
+import MinterWizardForm from '@components/views/minter-wizard';
 
-describe('MyNFTCollection', () => {
+describe('SelectCollection', () => {
   it('render', () => {
+    const fn = jest.fn(v => v)
 
     render(
-      <MyNFTCollection />
-    )
+        <Formik initialValues={{}} onSubmit={fn}>
+          {formProps => (
+            <MinterWizardForm {...formProps}>
+              <SelectCollection />
+            </MinterWizardForm>
+          )}
+        </Formik>
+    );
   })
 
 });
