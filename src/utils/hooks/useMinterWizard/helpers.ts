@@ -28,7 +28,6 @@ import flatMap from 'lodash/flatMap';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
 import wizardSteps from '@components/views/minter-wizard/steps';
 
-
 export const getCurrentStepFieldsNames = (
   mintType: MintTypes,
   creatorStep: number,

@@ -19,36 +19,28 @@
  *
  */
 
-import renderValue from '@utils/helpers/renderValue';
 import { describe, expect, it } from '@jest/globals';
-import { render } from '@testing-library/react';
+import validateQtyFormField from '@utils/helpers/validateQtyFormField';
+import * as yup from 'yup';
 
-describe('renderValue', () => {
+describe('validateQtyFormField', () => {
   it('should be value', () => {
-    const renderedValue = renderValue('test');
+    const numValidation = validateQtyFormField(10, yup.number());
 
-    expect(renderedValue).toBe('test')
+    expect(numValidation.validateSync(5)).toBe(5)
   })
 
-  it('should be empty', () => {
-    const renderedValue = renderValue(undefined);
+  it('should be max', () => {
+    const numValidation = validateQtyFormField(10, yup.number());
 
-    if (typeof renderedValue != 'string' && typeof renderedValue != 'number') {
-      const { getByText } = render(renderedValue);
-
-      getByText('(empty)')
-    }
+    expect(() => numValidation.validateSync(11)).toThrow(yup.ValidationError)
   })
 
-  it('should be empty with message', function () {
-    const message = 'mintbar';
-    const renderedValue = renderValue(undefined, message);
+  it('should be max', () => {
+    const numValidation = validateQtyFormField(15, yup.number());
 
-    if (typeof renderedValue != 'string' && typeof renderedValue != 'number') {
-      const { getByText } = render(renderedValue);
+    expect(numValidation.validateSync(11)).toBe(11)
+  })
 
-      getByText(message)
-    }
-  });
 })
 
