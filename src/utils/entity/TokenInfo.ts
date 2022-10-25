@@ -49,7 +49,7 @@ export interface TokenInfo {
   type?: 'FUNGIBLE_COMMON' | 'NON_FUNGIBLE_UNIQUE',
   supply_type: TokenSupplyType,
   wipe_key: string | null,
-  // custom_fees: string | null,
+  custom_fees?: string | null,
   pause_key: TokenInfoKey | null,
   pause_status: string | null,
   max_supply: string | null,

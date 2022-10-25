@@ -86,6 +86,8 @@ declare global {
     interface ProcessEnv {
       IPFS_KEYS: string[];
       IPFS_URL: string;
+      HEDERA_NETWORK: string;
+      HEDERA_MIRROR_NODE_API_VERSION: string;
     }
   }
 }
