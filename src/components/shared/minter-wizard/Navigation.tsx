@@ -35,7 +35,6 @@ type NavigationProps = {
   creatorStep: number;
   isFirstScreen: boolean,
   isLastScreen: boolean;
-
 }
 
 export default function Navigation({
