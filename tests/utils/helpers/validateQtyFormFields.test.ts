@@ -36,10 +36,10 @@ describe('validateQtyFormField', () => {
     expect(() => numValidation.validateSync(11)).toThrow(yup.ValidationError)
   })
 
-  it('should be max', () => {
+  it('should be max 10', () => {
     const numValidation = validateQtyFormField(15, yup.number());
 
-    expect(numValidation.validateSync(11)).toBe(11)
+    expect(() => numValidation.validateSync(11)).toThrow(yup.ValidationError)
   })
 
 })
