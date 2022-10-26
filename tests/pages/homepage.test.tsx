@@ -20,13 +20,62 @@
  */
 
 import React from 'react';
-import { describe, it } from '@jest/globals';
+import { describe, it, beforeEach, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import MinterWizard from '@pages/homepage';
+import Homepage from '@pages/homepage';
 
 describe('Homepage', () => {
-  it('render', () => {
-    render(<MinterWizard />);
+  beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: jest.fn().mockImplementation(query => ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(), // Deprecated
+        removeListener: jest.fn(), // Deprecated
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+    });
   })
+
+  it('render', () => {
+    render(<Homepage />);
+  })
+
+  // it('submitForm', () => {
+    // let getByTestId: (id: Matcher, options?: MatcherOptions | undefined) => HTMLElement;
+
+    // act(() => {
+    //   ReactDom.createRoot().render(
+    //     <LayoutProvider>
+    //       <ModalProvider>
+    //         <HederaWalletsProvider>
+    //           <Router>
+    //             <Homepage />
+    //           </Router>
+    //         </HederaWalletsProvider>
+    //       </ModalProvider>
+    //     </LayoutProvider>
+    //   )
+    //
+    //   const form = getByTestId('minter-wizard-form');
+    //
+    //   // act(() => {
+    //   // fireEvent.submit(form, {});
+    //   // });
+    //
+    // });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // const form = getByTestId('minter-wizard-form');
+    //
+    // act(() => {
+    //   fireEvent.submit(form, {});
+    // });
+  // })
 
 });

@@ -161,7 +161,7 @@ export default function MinterWizardForm({
         setShowWarning
       }}
     >
-      <Form className='minter-wizard__form'>
+      <Form className='minter-wizard__form' data-testid='minter-wizard-form'>
         <SwitchTransition mode='out-in'>
           <CSSTransition
             key={creatorStep}
