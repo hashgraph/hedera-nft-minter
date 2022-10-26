@@ -26,7 +26,6 @@ import { TOKEN_KEY } from '@utils/entity/TokenKeys';
 
 import Tooltip from '@components/shared/form/Tooltip';
 
-
 export const TokenKeys = [
   { title: 'Treasury Account ID', value: TOKEN_KEY.TREASURY, required: true },
   { title: 'Supply', value: TOKEN_KEY.SUPPLY, required: true },
@@ -59,15 +58,15 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
       <p className='title--medium title--strong'>Keys:</p>
       <div role='group' aria-labelledby='checkbox-group-keys' className='minter-wizard__keys'>
         {map(data, (el) => (
-          <div className='minter-wizard__keys__checkbox'>
-            <p className='title'>
+          <div key={el.value} className='minter-wizard__keys__checkbox'>
+            <div className='title'>
               {el.title}
               {el?.tooltip && (
                 <Tooltip >
                   {el.tooltip}
                 </Tooltip>
               )}
-            </p>
+            </div>
 
             <label className=''>
               <span
@@ -77,7 +76,7 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
                 })}
               />
               {el.required ? (
-                  <input type='checkbox' checked={true}/>
+                  <input type='checkbox' checked={true} onChange={() => null}/>
                 ) : (
                   <Field type='checkbox' name='keys' value={el.value} />
                 )
