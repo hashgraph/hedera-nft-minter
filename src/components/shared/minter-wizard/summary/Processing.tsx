@@ -34,21 +34,18 @@ export default function Processing() {
     values?.image ? URL.createObjectURL(values?.image) : placeholder
   ), [values?.image])
 
-  const summaryItemsToRender = useMemo(() => (
-    filter(pick(values, [
-      'name',
-      'symbol',
-      'edition_name',
-      'creator',
-      'description',
-    ]), Boolean)
-  ), [values])
-
   const renderSummaryItemList = useCallback(() => (
-    map(summaryItemsToRender, (value) => (
-      <li key={value}>{value}</li>
-    ))
-  ), [summaryItemsToRender])
+    map(
+      filter(pick(values, [
+        'name',
+        'symbol',
+        'edition_name',
+        'creator',
+        'description',
+      ]), Boolean),
+      (value) => <li key={value}>{value}</li>
+    )
+  ), [values])
 
   return (
     <Scrollbar
