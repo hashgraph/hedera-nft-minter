@@ -70,4 +70,28 @@ describe('Filter form values to metadata', () => {
         format: 'HIP412@1.0.0',
       });
   })
+
+  it('correct metadata', () => {
+    const values = {
+      edition_name: 'Test',
+      description: 'lorem ipsum',
+      type: 'image/jpeg',
+      image: 'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
+      creator: 'Tester',
+      attributes: [ { trait_type: 'foo', value: 'bar'} ],
+      properties: [ { value: 'foo', label: 'bar'} ]
+    };
+
+    expect(filterFormValuesToNFTMetadata({...values, files: ''}))
+      .toEqual({
+        name: 'Test',
+        description: 'lorem ipsum',
+        type: 'image/jpeg',
+        image: 'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
+        creator: 'Tester',
+        format: 'HIP412@1.0.0',
+        attributes: [ { trait_type: 'foo', value: 'bar'} ],
+        properties: [ { value: 'foo', label: 'bar'} ]
+      });
+  })
 });

@@ -30,7 +30,7 @@ type TooltipProps = {
   showLabel?: boolean,
 };
 
-export default function Tooltip({showLabel, title, children}: TooltipProps) {
+export default function Tooltip({ showLabel, title, children }: TooltipProps) {
   const [showPopper, setShowPopper] = useState(false);
 
   const buttonRef = useRef(null);
@@ -54,24 +54,24 @@ export default function Tooltip({showLabel, title, children}: TooltipProps) {
 
   return (
     <div className='tooltip__container'>
-      <div className='tooltip__button' ref={buttonRef} onClick={() => setShowPopper(true)}>
-        {showLabel && 'Show hint'}
+      <div className='tooltip__button' ref={ buttonRef } onClick={ () => setShowPopper(true) }>
+        { showLabel && 'Show hint' }
       </div>
       <CSSTransition
-        in={showPopper}
-        timeout={300}
+        in={ showPopper }
+        timeout={ 300 }
         classNames='tooltip__wrapper'
         unmountOnExit
-        addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+        addEndListener={ (node, done) => node.addEventListener('transitionend', done, false) }
       >
-        <div ref={setArrowRef} className='tooltip__wrapper' style={{...styles.popper}} >
-          {title && (
+        <div ref={ setArrowRef } className='tooltip__wrapper' style={ { ...styles.popper } }>
+          { title && (
             <p className='tooltip__wrapper__title'>
-              {title}
+              { title }
             </p>
-          )}
-          <p>{children}</p>
-          <button type='button' onClick={() => setShowPopper(false)}>
+          ) }
+          <p>{ children }</p>
+          <button type='button' onClick={ () => setShowPopper(false) }>
             Close hint
           </button>
         </div>

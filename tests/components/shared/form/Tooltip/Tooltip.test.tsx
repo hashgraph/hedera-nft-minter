@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 /*
  * Hedera NFT Minter App
  *
@@ -17,6 +19,21 @@
  *
  */
 
-import Tooltip from './Tooltip';
+import { describe, it } from '@jest/globals';
+import { render } from '@testing-library/react';
+import React from 'react';
+import Tooltip from '@components/shared/form/Tooltip';
 
-export default Tooltip
+describe('Footer', () => {
+  it('render', () => {
+    render(
+      <Tooltip
+        showLabel
+        title='title'
+      >
+        <div>test</div>
+      </Tooltip>
+    );
+  });
+
+});
