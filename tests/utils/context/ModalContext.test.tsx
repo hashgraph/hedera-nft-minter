@@ -19,9 +19,11 @@
  *
  */
 
-import { beforeEach, describe, it, jest } from '@jest/globals';
+import { beforeEach, describe, it, jest, expect } from '@jest/globals';
 import { render } from '@testing-library/react';
-import ModalProvider from '@utils/context/ModalContext';
+import ModalProvider, { ModalContext } from '@utils/context/ModalContext';
+import { useContext } from 'react';
+import { act } from 'react-dom/test-utils';
 
 describe('ModalContext', () => {
   beforeEach(() => {
@@ -46,6 +48,39 @@ describe('ModalContext', () => {
         <div>Test</div>
       </ModalProvider>
     )
+  })
+
+  it('render', () => {
+    // const provider = jest.spyOn(ModalProvider);
+    const TestComponent = () => {
+      const {showModal, closeModal, isModalShowed} = useContext(ModalContext);
+
+      return (
+        <div>
+          <button type='button' onClick={showModal}>ShowModal</button>
+          <button type='button' onClick={closeModal}>CloseModal</button>
+          {isModalShowed && <div>TEST</div>}
+        </div>
+      )
+    }
+
+    const {getByText} = render(
+      <ModalProvider>
+        <TestComponent />
+      </ModalProvider>
+    )
+
+    act(() => {
+      getByText('ShowModal').click();
+    })
+
+    expect(getByText('TEST')).toBe(HTMLDivElement)
+
+    act(() => {
+      getByText('CloseModal').click();
+    })
+
+    expect(getByText('TEST')).toBe(null)
   })
 
 });

@@ -27,10 +27,10 @@ import Royalty from '@components/shared/minter-wizard/Fees/Royalty';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 
 describe('Royalty', () => {
-  it('render', () => {
+  it('render', async () => {
     const fn = jest.fn(v => v);
 
-    render(
+    await render(
       <HederaWalletsProvider>
         <Formik initialValues={{fees: [{ feeCollectorAccountId: '0.0.123456', fallbackFee: '', percent: ''}]}} onSubmit={fn}>
           <Royalty index={0} />
