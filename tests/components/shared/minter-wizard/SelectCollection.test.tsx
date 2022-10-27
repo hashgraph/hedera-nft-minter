@@ -24,21 +24,37 @@ import { describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 import SelectCollection from '@components/shared/minter-wizard/SelectCollection';
-import MinterWizardForm from '@components/views/minter-wizard';
+import { FormWizardSteps, MinterWizardContext } from '@components/views/minter-wizard';
+import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
+import useHederaWallets from '@utils/hooks/useHederaWallets';
+
+jest.mock('@utils/hooks/useHederaWallets');
 
 describe('SelectCollection', () => {
   it('render', () => {
-    const fn = jest.fn(v => v)
+    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: '0.0.123456'})
+    const fn = jest.fn()
+    const submit = jest.fn(v => v)
 
     render(
-        <Formik initialValues={{}} onSubmit={fn}>
-          {formProps => (
-            <MinterWizardForm {...formProps}>
-              <SelectCollection />
-            </MinterWizardForm>
-          )}
-        </Formik>
+      <HederaWalletsProvider>
+        <MinterWizardContext.Provider
+          value={{
+            creatorStep: FormWizardSteps.WelcomeScreen,
+            showWarning: false,
+            creatorStepToBackFromSummary: 0,
+            setCreatorStepToBackFromSummary: fn,
+            setCreatorStepToBackFromSummaryToCurrent: fn,
+            setShowWarning: fn,
+            setCollections: fn,
+            collections: [],
+          }}
+        >
+          <Formik initialValues={{}} onSubmit={submit}>
+            <SelectCollection />
+          </Formik>
+        </MinterWizardContext.Provider>
+      </HederaWalletsProvider>
     );
   })
-
 });
