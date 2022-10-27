@@ -8,7 +8,7 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js",
-    "test:coverage": "jest --config=jest.config.js --coverage --testResultsProcessor=jest-sonar-reporter"
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config=jest.config.js --coverage --testResultsProcessor=jest-sonar-reporter"
   },
   "repository": {
     "type": "git",

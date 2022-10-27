@@ -20,7 +20,7 @@
  */
 
 import { beforeEach, describe, it, jest, expect } from '@jest/globals';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import ModalProvider, { ModalContext } from '@utils/context/ModalContext';
 import { useContext } from 'react';
 import { act } from 'react-dom/test-utils';
@@ -51,7 +51,6 @@ describe('ModalContext', () => {
   })
 
   it('render', () => {
-    // const provider = jest.spyOn(ModalProvider);
     const TestComponent = () => {
       const {showModal, closeModal, isModalShowed} = useContext(ModalContext);
 
@@ -64,23 +63,27 @@ describe('ModalContext', () => {
       )
     }
 
-    const {getByText} = render(
+    const { getByText, queryByText } = render(
       <ModalProvider>
         <TestComponent />
       </ModalProvider>
     )
 
     act(() => {
-      getByText('ShowModal').click();
+      fireEvent.click(
+        getByText('ShowModal'),
+      )
     })
 
     expect(getByText('TEST').tagName).toBe('DIV')
 
     act(() => {
-      getByText('CloseModal').click();
-    })
+      fireEvent.click(
+        getByText('CloseModal'),
+      )
+    });
 
-    expect(getByText('TEST')).toBe(null)
+    expect(queryByText('TEST')).toBeNull();
   })
 
 });
