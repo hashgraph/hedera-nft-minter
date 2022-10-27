@@ -74,7 +74,7 @@ describe('ModalContext', () => {
       getByText('ShowModal').click();
     })
 
-    expect(getByText('TEST')).toBe(HTMLDivElement)
+    expect(getByText('TEST').tagName).toBe('DIV')
 
     act(() => {
       getByText('CloseModal').click();
