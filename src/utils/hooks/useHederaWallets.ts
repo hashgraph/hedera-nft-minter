@@ -132,7 +132,7 @@ const useHederaWallets = () => {
 
       switch (connectedWalletType) {
         case ConnectionStateType.BLADEWALLET:
-          response = (await bladeSigner?.sendRequest(
+          response = (await bladeSigner?.call(
             tx
           )) as TransactionResponse;
 
@@ -140,7 +140,7 @@ const useHederaWallets = () => {
             throw new Error('Get transaction response error');
           }
 
-          return bladeSigner?.sendRequest(
+          return bladeSigner?.call(
             new TransactionReceiptQuery({
               transactionId: response.transactionId,
             })
