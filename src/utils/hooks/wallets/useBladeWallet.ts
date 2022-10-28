@@ -17,15 +17,20 @@
  *
  */
 
-import { APP_NAME } from '@src/../Global.d';
+import { APP_NAME, HEDERA_NETWORK } from '@src/../Global.d';
 import { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { BladeSigner } from '@bladelabs/blade-web3.js';
+import { BladeSigner, HederaNetwork } from '@bladelabs/blade-web3.js';
 import { loadLocalData } from '@utils/helpers/loadLocalData';
 
 export const BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }BladeWalletData`;
 
 export type BladeAccountId = string;
+
+const BLADE_SIGNER_PARAMS = {
+  network: HEDERA_NETWORK === 'mainnet' ? HederaNetwork.Mainnet : HederaNetwork.Testnet,
+  dAppCode: APP_NAME
+}
 const bladeSigner = new BladeSigner();
 
 const useBladeWallet = () => {
@@ -42,7 +47,7 @@ const useBladeWallet = () => {
     let loggedId = '';
 
     try {
-      await bladeSigner.createSession();
+      await bladeSigner.createSession(BLADE_SIGNER_PARAMS);
       loggedId = bladeSigner.getAccountId().toString();
     } catch (e) {
       if (typeof e === 'function') {
