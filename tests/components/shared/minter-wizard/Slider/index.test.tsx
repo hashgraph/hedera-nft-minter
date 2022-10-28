@@ -22,10 +22,10 @@
 import React from 'react';
 import { beforeEach, describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import Tab from '@components/shared/minter-wizard/Slider/Tab';
+import Slider from '@components/shared/minter-wizard/Slider';
 import LayoutProvider from '@utils/context/LayoutContext';
 
-describe('Tab', () => {
+describe('Slider', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -51,7 +51,7 @@ describe('Tab', () => {
 
     render(
       <LayoutProvider>
-        <Tab el={el} activeIndex={0} />
+        <Slider data={[ el ]} activeIndex={0} />
       </LayoutProvider>
     )
   })
