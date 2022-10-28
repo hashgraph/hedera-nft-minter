@@ -63,7 +63,6 @@ export default function useMinterWizard(
       errors
     );
 
-
     if (!aboveLastScreen && areFieldsValidated) {
       const nextStep = creatorStep >= steps.length - 1
         ? creatorStep
