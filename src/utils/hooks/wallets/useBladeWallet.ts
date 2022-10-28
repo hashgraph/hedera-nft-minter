@@ -23,9 +23,9 @@ import { toast } from 'react-toastify';
 import { BladeSigner, HederaNetwork } from '@bladelabs/blade-web3.js';
 import { loadLocalData } from '@utils/helpers/loadLocalData';
 
-export const BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }BladeWalletData`;
-
 export type BladeAccountId = string;
+
+export const BLADE_WALLET_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }BladeWalletData`;
 
 const BLADE_SIGNER_PARAMS = {
   network: HEDERA_NETWORK === 'mainnet' ? HederaNetwork.Mainnet : HederaNetwork.Testnet,
