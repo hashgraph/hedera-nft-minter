@@ -90,6 +90,11 @@ const useBladeWallet = () => {
     initializeBladeWallet();
   }, [initializeBladeWallet]);
 
+  //LISTEN FOR ACCOUNT CHANGES
+  useEffect(() => {
+    bladeSigner.onAccountChanged(connectBladeWallet)
+  }, [connectBladeWallet])
+
   return {
     bladeSigner,
     bladeAccountId,
