@@ -34,6 +34,12 @@ describe('useMinterWizard helpers', () => {
     expect(fieldsForValidation).toEqual(['maxSupply', 'qty'])
   })
 
+  it('getCurrentStepFieldsNames', () => {
+    const fieldsForValidation = getCurrentStepFieldsNames(MintTypes.NewCollectionNewNFT, 1);
+
+    expect(fieldsForValidation).toEqual(['name', 'symbol', 'edition_name', 'description', 'creator'])
+  })
+
   it('checkIfFieldsAreValidated', () => {
     const fn = jest.fn()
     const tmp = checkIfFieldsAreValidated(
@@ -45,6 +51,19 @@ describe('useMinterWizard helpers', () => {
     );
 
     expect(tmp).toBe(true)
+  });
+
+  it('checkIfFieldsAreValidated - with error', () => {
+    const fn = jest.fn()
+    const tmp = checkIfFieldsAreValidated(
+      ['maxSupply', 'qty'],
+      fn,
+      fn,
+      { maxSupply: 10, qty: 10 },
+      { maxSupply: 'error' }
+    );
+
+    expect(tmp).toBe(false)
   });
 
   it('checkIfFieldsRequireConnectedWallet', () => {
