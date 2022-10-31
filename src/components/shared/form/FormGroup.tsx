@@ -62,9 +62,11 @@ const FormGroup = ({ inputsSchema, name, label, tooltip }: Props) => {
       <FieldArray name={name}>
         {({ remove, push, form }) => (
           <>
-            <div className='form__group__label-wrapper'>
-              <div className='title title--medium title--strong'>
-                {label}:
+            <div className='form__group__label__wrapper'>
+              <div className='form__group__label'>
+                <p className='title title--medium title--strong'>
+                  {label}:
+                </p>
                 {tooltip && (
                   <Tooltip>
                     {tooltip}
