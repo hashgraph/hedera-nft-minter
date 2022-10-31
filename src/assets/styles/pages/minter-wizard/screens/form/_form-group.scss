@@ -125,14 +125,19 @@ $removeButtonWidth: 27px;
       }
     }
 
-    &__label-wrapper {
+    &__label {
       display: flex;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
 
-      .title {
+      &__wrapper {
+        margin: 1.5rem 0;
         display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .title {
+          margin: 0;
+        }
       }
     }
 
