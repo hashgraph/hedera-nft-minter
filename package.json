@@ -18,7 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
-    "@bladelabs/blade-web3.js": "^0.9.7",
+    "@bladelabs/blade-web3.js": "^0.9.12",
     "@hashgraph/sdk": "^2.18.3",
     "@popperjs/core": "^2.11.6",
     "axios": "^0.21.4",
