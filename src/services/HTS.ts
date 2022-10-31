@@ -82,7 +82,7 @@ export default class HTS {
     ).then(res => res.json());
 
     if (!accountInfo.key?.key) {
-      throw new Error('Error while try to fetch user Public key.');
+      throw new Error('Error while trying to fetch user Public key.');
     }
 
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);

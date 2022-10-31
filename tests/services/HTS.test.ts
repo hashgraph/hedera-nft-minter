@@ -104,7 +104,7 @@ describe('Test HTS service', () => {
     try {
       await HTS.createToken(tokenProps);
     } catch (e) {
-      expect(e.message).toBe('Error while try to fetch user Public key.')
+      expect(e.message).toBe('Error while trying to fetch user Public key.')
     }
 
   });
