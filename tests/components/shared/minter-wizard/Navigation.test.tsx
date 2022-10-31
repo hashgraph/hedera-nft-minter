@@ -24,13 +24,17 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { Formik } from 'formik';
 import Navigation from '@components/shared/minter-wizard/Navigation';
-import MinterWizardForm from '@components/views/minter-wizard';
+import { FormWizardSteps, MinterWizardContext } from '@components/views/minter-wizard';
+import useHederaWallets from '@utils/hooks/useHederaWallets';
+import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
+
+jest.mock('@utils/hooks/useHederaWallets');
 
 describe('Minter Wizard - navigation', () => {
   it('render', () => {
-    const fn = jest.fn();
-    const submit = jest.fn(v => v);
-
+    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: '0.0.123456'})
+    const fn = jest.fn()
+    const submit = jest.fn(v => v)
     const props = {
       backToMintTypeSelection: fn,
       goToSummary: fn,
@@ -42,14 +46,25 @@ describe('Minter Wizard - navigation', () => {
     }
 
     render(
-      <Formik initialValues={{}} onSubmit={submit}>
-        {formProps => (
-          <MinterWizardForm {...formProps}>
+      <HederaWalletsProvider>
+        <MinterWizardContext.Provider
+          value={{
+            creatorStep: FormWizardSteps.WelcomeScreen,
+            showWarning: false,
+            creatorStepToBackFromSummary: 0,
+            setCreatorStepToBackFromSummary: fn,
+            setCreatorStepToBackFromSummaryToCurrent: fn,
+            setShowWarning: fn,
+            setCollections: fn,
+            collections: [],
+          }}
+        >
+          <Formik initialValues={{}} onSubmit={submit}>
             <Navigation {...props} />
-          </MinterWizardForm>
-        )}
-      </Formik>
+          </Formik>
+        </MinterWizardContext.Provider>
+      </HederaWalletsProvider>
     );
-  });
+  })
 
 });
