@@ -21,13 +21,13 @@ import { useState, useMemo, useCallback } from 'react'
 import { FormikValues, useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 import { CreatorSteps, MintTypes } from '@utils/entity/MinterWizard';
+import MINTER_WIZARD_ERROR_MESSAGES from '@utils/const/minter-wizard-error-messages';
 import useHederaWallets from '@utils/hooks/useHederaWallets';
 import {
   getCurrentStepFieldsNames,
   checkIfFieldsAreValidated,
   checkIfFieldsRequireConnectedWallet
 } from './helpers'
-import MINTER_WIZARD_ERROR_MESSAGES from '@src/utils/const/minter-wizard-error-messages';
 
 export default function useMinterWizard(
   steps: CreatorSteps
