@@ -58,7 +58,7 @@ const MinterWizardFees = () => {
         name='fees'
         render={({ push, remove }) => (
           <div className='form__row__fees'>
-            <div className='form__group__label-wrapper'>
+            <div className='form__group__label__wrapper'>
               <p className='title title--medium title--strong'>Royalty Fees:</p>
               <button
                 onClick={() =>
