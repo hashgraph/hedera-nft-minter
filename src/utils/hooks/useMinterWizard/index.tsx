@@ -48,20 +48,24 @@ export default function useMinterWizard(
     steps && creatorStep > steps[steps?.length - 1]?.creatorStep
   ), [creatorStep, steps])
 
-
-  const handleCreatorNextButton = useCallback((e) => {
-    e.preventDefault();
-
+  const checkIfAllFieldsAreValidated = useCallback(() => {
     const allFieldsForValidation = getCurrentStepFieldsNames(mintType, creatorStep)
 
-    const areFieldsRequireConnectedWallet = checkIfFieldsRequireConnectedWallet(mintType, creatorStep)
-    const areFieldsValidated = checkIfFieldsAreValidated(
+    return checkIfFieldsAreValidated(
       allFieldsForValidation,
       validateField,
       setFieldTouched,
       values,
       errors
     );
+  }, [creatorStep, errors, mintType, setFieldTouched, validateField, values])
+
+
+  const handleCreatorNextButton = useCallback((e) => {
+    e.preventDefault();
+
+    const areFieldsRequireConnectedWallet = checkIfFieldsRequireConnectedWallet(mintType, creatorStep)
+    const areFieldsValidated = checkIfAllFieldsAreValidated()
 
     if (!aboveLastScreen && areFieldsValidated) {
       const nextStep = creatorStep >= steps.length - 1
@@ -76,18 +80,7 @@ export default function useMinterWizard(
         toast.error('Please review errors')
       }
     }
-  }, [
-    aboveLastScreen,
-    setCreatorStep,
-    errors,
-    values,
-    validateField,
-    setFieldTouched,
-    mintType,
-    creatorStep,
-    steps,
-    userWalletId
-  ])
+  }, [mintType, creatorStep, checkIfAllFieldsAreValidated, aboveLastScreen, steps.length, userWalletId])
 
   const handleCreatorPrevButton = useCallback(() => (
     !isFirstScreen && setCreatorStep(prev => prev - 1)
@@ -100,7 +93,8 @@ export default function useMinterWizard(
     isLastScreen,
     handleCreatorNextButton,
     handleCreatorPrevButton,
-    mintType
+    mintType,
+    checkIfAllFieldsAreValidated
   }
 }
 

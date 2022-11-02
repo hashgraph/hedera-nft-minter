@@ -21,9 +21,9 @@ import React, { useCallback, useContext } from 'react'
 import classNames from 'classnames';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
-import { useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 
+import MINTER_WIZARD_ERROR_MESSAGES from '@src/utils/const/minter-wizard-error-messages';
 import { MinterWizardContext } from '@components/views/minter-wizard'
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
@@ -35,6 +35,7 @@ type NavigationProps = {
   creatorStep: number;
   isFirstScreen: boolean,
   isLastScreen: boolean;
+  checkIfAllFieldsAreValidated: () => boolean;
 }
 
 export default function Navigation({
@@ -45,6 +46,7 @@ export default function Navigation({
   isLastScreen,
   handleCreatorNextButton,
   handleCreatorPrevButton,
+  checkIfAllFieldsAreValidated
 } : NavigationProps) {
 
   const {
@@ -55,18 +57,18 @@ export default function Navigation({
     isNextButtonHidden,
   } = useContext(MinterWizardStepWrapperContext)
 
-  const { errors } = useFormikContext()
-
   const handleGoToSummary = useCallback(() => {
-    if (Object.keys(errors).length > 0) {
-      toast.error('Fix creator errors!')
+    const areFieldsValidated = checkIfAllFieldsAreValidated()
+
+    if (!areFieldsValidated) {
+      toast.error(MINTER_WIZARD_ERROR_MESSAGES.FIX_ERRORS)
     } else {
       if (creatorStep > 0) {
         setCreatorStepToBackFromSummary(creatorStep)
         goToSummary()
       }
     }
-  }, [errors, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+  }, [checkIfAllFieldsAreValidated, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
 
 
   const nextButtonClassName = classNames('btn--arrow', {
