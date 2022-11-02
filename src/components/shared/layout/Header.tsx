@@ -113,7 +113,7 @@ const Header = () => {
 
               <button onClick={handleShowModal} className={connectIconClassName}>
                 <img src={ConnectIcon} alt='wallet_connect_icon' />
-                <p>
+                <div>
                   <SwitchTransition>
                     <CSSTransition
                       key={connectedWalletType}
@@ -135,7 +135,7 @@ const Header = () => {
                       </div>
                     </CSSTransition>
                   </SwitchTransition>
-                </p>
+                </div>
               </button>
             </div>
           ) : (

@@ -17,7 +17,7 @@
  *
  */
 
-import React, { Suspense } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import map from 'lodash/map';
 import omit from 'lodash/omit';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
@@ -25,10 +25,28 @@ import TransitionGroup from 'react-transition-group/TransitionGroup';
 import CSSTransition from 'react-transition-group/CSSTransition';
 
 import { BaseLayout } from '@layout/Base.layout';
-import pages from '@routes/base';
+import pages, { CommonRoute } from '@routes/base';
 
 function Routes() {
   const location = useLocation();
+
+  const renderComponent = useCallback((page: CommonRoute) => {
+    const Component = page.component;
+
+    return (
+      <Route
+        key={page.path}
+        {...omit({ ...page }, 'noBreadcrumbs', 'component')}
+        exact
+      >
+        <Component />
+      </Route>
+    )
+  }, []);
+
+  const routesMap = useMemo(() => (
+    map(pages, (page) => renderComponent(page))
+  ), [pages, renderComponent]);
 
   return (
     <BaseLayout>
@@ -39,17 +57,7 @@ function Routes() {
           timeout={500}
         >
           <Switch>
-            {map(pages, (page) => (
-              <Route
-                {...omit({ ...page }, 'noBreadcrumbs')}
-                exact={page?.path === '/'}
-                render={matchProps => (
-                  <Suspense fallback={<div>loading</div>}>
-                    <page.component {...matchProps} {...page} />
-                  </Suspense>
-                )}
-              />
-            ))}
+            {routesMap}
 
             <Redirect from='*' to='/404' />
           </Switch>
