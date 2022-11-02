@@ -23,7 +23,7 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 import { toast } from 'react-toastify';
 
-import MINTER_WIZARD_ERROR_MESSAGES from '@src/utils/const/minter-wizard-error-messages';
+import MINTER_WIZARD_ERROR_MESSAGES from '@utils/const/minter-wizard-error-messages';
 import { MinterWizardContext } from '@components/views/minter-wizard'
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
