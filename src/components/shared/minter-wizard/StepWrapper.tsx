@@ -48,7 +48,6 @@ export default function MinterWizardStepWrapper({
 } : Props) {
   const {
     setCreatorStep,
-    checkIfAllFieldsAreValidated,
     ...minterWizardProps
   } = useMinterWizard(steps)
 
@@ -97,7 +96,6 @@ export default function MinterWizardStepWrapper({
 
         <Navigation
           goToSummary={goToSummary}
-          checkIfAllFieldsAreValidated={checkIfAllFieldsAreValidated}
           backToMintTypeSelection={backToMintTypeSelection}
           {...minterWizardProps}
         />
