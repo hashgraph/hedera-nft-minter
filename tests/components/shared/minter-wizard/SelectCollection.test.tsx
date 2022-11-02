@@ -57,4 +57,31 @@ describe('SelectCollection', () => {
       </HederaWalletsProvider>
     );
   })
+
+  it('render - without userWallerId', () => {
+    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: null})
+    const fn = jest.fn()
+    const submit = jest.fn(v => v)
+
+    render(
+      <HederaWalletsProvider>
+        <MinterWizardContext.Provider
+          value={{
+            creatorStep: FormWizardSteps.WelcomeScreen,
+            showWarning: false,
+            creatorStepToBackFromSummary: 0,
+            setCreatorStepToBackFromSummary: fn,
+            setCreatorStepToBackFromSummaryToCurrent: fn,
+            setShowWarning: fn,
+            setCollections: fn,
+            collections: [],
+          }}
+        >
+          <Formik initialValues={{}} onSubmit={submit}>
+            <SelectCollection />
+          </Formik>
+        </MinterWizardContext.Provider>
+      </HederaWalletsProvider>
+    );
+  })
 });
