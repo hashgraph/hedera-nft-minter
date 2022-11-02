@@ -31,14 +31,24 @@ const feeValidator = yup.object().shape({
     .ensure(),
 
   feeCollectorAccountId: yup.string().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALTY].includes(type),
+    is: (type : FEE) => type === FEE.ROYALTY,
     then: yup.string().required('Required'),
   }),
 
   percent: yup.number().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALTY].includes(type),
+    is: (type : FEE) => type === FEE.ROYALTY,
     then: yup.number().max(100, 'Max 100%').required('Required'),
   }),
+
+  fallbackFee: yup.number().when(['type'], {
+    is: (type : FEE) => type === FEE.ROYALTY,
+    then: yup.number().required('Required')
+  }),
+
+  amount: yup.number().when(['type'], {
+    is: (type : FEE) => type === FEE.FIXED,
+    then: yup.number().required('Required')
+  })
 });
 
 const keyValidator = yup.object().shape({
