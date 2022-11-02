@@ -22,22 +22,17 @@
 import React from 'react';
 import { describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import MyNFTCollection from '@pages/my-nft-collection';
-import useHederaWallets from '@utils/hooks/useHederaWallets';
+import { Formik } from 'formik';
+import Attributes from '@components/shared/minter-wizard/summary/Attributes';
 
-jest.mock('@utils/hooks/useHederaWallets');
-
-describe('MyNFTCollection', () => {
+describe('Attributes', () => {
   it('render', () => {
+    const fn = jest.fn(v => v);
+
     render(
-      <MyNFTCollection />
-    )
-  })
-
-  it('render - moc user account', () => {
-    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: '0.0.2661933'})
-
-    render(<MyNFTCollection />);
+      <Formik initialValues={{ attributes: [{ trait_type: 'Foo', value: 'bar' }]}} onSubmit={fn}>
+        <Attributes />
+      </Formik>);
   })
 
 });
