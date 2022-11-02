@@ -27,6 +27,7 @@ import {
   checkIfFieldsAreValidated,
   checkIfFieldsRequireConnectedWallet
 } from './helpers'
+import MINTER_WIZARD_ERROR_MESSAGES from '@src/utils/const/minter-wizard-error-messages';
 
 export default function useMinterWizard(
   steps: CreatorSteps
@@ -75,9 +76,9 @@ export default function useMinterWizard(
       setCreatorStep(nextStep)
     } else {
       if (areFieldsRequireConnectedWallet && !userWalletId) {
-        toast.error('Connect your wallet to continue')
+        toast.error(MINTER_WIZARD_ERROR_MESSAGES.CONNECT_WALLET)
       } else {
-        toast.error('Please review errors')
+        toast.error(MINTER_WIZARD_ERROR_MESSAGES.FIX_ERRORS)
       }
     }
   }, [mintType, creatorStep, checkIfAllFieldsAreValidated, aboveLastScreen, steps.length, userWalletId])
