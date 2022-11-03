@@ -18,6 +18,7 @@
  */
 
 import { useCallback, useContext } from 'react';
+import classNames from 'classnames';
 import useHederaWallets, { ConnectionStateType } from '@utils/hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 import BladeWalletLogo from '@assets/images/wallets/bladewallet.svg'
@@ -34,61 +35,86 @@ export default function ConnectionModal() {
     closeModal();
   }, [closeModal, connect])
 
-  const renderButtonContent = useCallback((connectionState: ConnectionStateType, walletName: string) => (
-    connectedWalletType === connectionState
-      ? (
-        <>
-          <p>Disconnect from account { userWalletId }</p>
-        </>
+  const notConnectedConnectionComponentContent = useCallback((
+    walletType : ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
+    isEnabled: boolean,
+  ) => {
+    const walletNameToSwitch = walletType === ConnectionStateType.HASHPACK ? 'HashPack' : 'BladeWallet'
+
+    const enabledButtonContent = (userWalletId && walletType !== connectedWalletType) ? (
+      `Switch to ${ walletNameToSwitch }`
+    ) : (
+      'Click to connect'
+    )
+
+    return (
+      isEnabled ? (
+        enabledButtonContent
       ) : (
-          <p>Switch to {walletName} wallet.</p>
+        'Coming soon'
       )
-  ), [connectedWalletType, userWalletId])
+    )
+  }, [connectedWalletType, userWalletId])
 
+  const renderConnectionComponentContent = useCallback((
+    walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
+    isEnabled: boolean
+  ) => {
+    const logoImageSrc = walletType === ConnectionStateType.BLADEWALLET ? BladeWalletLogo : HashpackWalletLogo
 
-  const renderHashpackConnectionButton = useCallback(() => (
-    <button
-      className='connection-modal__button'
-      onClick={connectedWalletType === ConnectionStateType.HASHPACK
-        ? disconnect
-        : () => connectToWallet(ConnectionStateType.HASHPACK)
-      }
-    >
-      <img src={HashpackWalletLogo} alt='hashpack_wallet' />
-      {connectedWalletType === ConnectionStateType.NOCONNECTION
-        ? (
-          <p>Connect to app with HashPack wallet.</p>
-        ) : (
-          renderButtonContent(ConnectionStateType.HASHPACK, 'HashPack')
-        )
-      }
-    </button>
-  ), [connectToWallet, connectedWalletType, disconnect, renderButtonContent])
+    return (
+      <>
+        <img src={logoImageSrc} alt={walletType} />
+        {connectedWalletType === walletType
+          ? (
+            <p>Disconnect from account { userWalletId }</p>
+          ) : (
+            <p>{notConnectedConnectionComponentContent(walletType, isEnabled)}</p>
+          )
+        }
+      </>
+    )
+  }, [connectedWalletType, notConnectedConnectionComponentContent, userWalletId])
 
-  const renderBladeWalletConnectionButton = useCallback(() => (
-    <button
-      className='connection-modal__button'
-      onClick={connectedWalletType === ConnectionStateType.BLADEWALLET
-        ? disconnect
-        : () => connectToWallet(ConnectionStateType.BLADEWALLET)
-      }
-    >
-      <img src={BladeWalletLogo} alt='blade_wallet' />
-      {connectedWalletType === ConnectionStateType.NOCONNECTION
-        ? (
-          <p>Connect to app with BladeWallet.</p>
-        ) : (
-          renderButtonContent(ConnectionStateType.BLADEWALLET, 'BladeWallet')
-        )
-      }
-    </button>
-  ), [connectToWallet, connectedWalletType, disconnect, renderButtonContent])
+  const handleConnectionButtonOnClick = useCallback((walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET) => (
+    connectedWalletType === walletType ? (
+      disconnect
+    ) : (
+      () => connectToWallet(walletType)
+    )
+  ), [connectToWallet, connectedWalletType, disconnect])
+
+  const generateConnectionComponentProps = useCallback((
+    walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
+    isEnabled: boolean
+  ) => ({
+    className: classNames('connection-modal__button', { 'connection-modal__button--disabled': !isEnabled }),
+    onClick: (
+      isEnabled ? (
+        handleConnectionButtonOnClick(walletType)
+      ) : (
+        () => undefined
+      )
+    ),
+    children: renderConnectionComponentContent(walletType, isEnabled)
+  }), [handleConnectionButtonOnClick, renderConnectionComponentContent])
+
+  const renderConnectionComponent = useCallback((
+    walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
+    isEnabled = true,
+  ) => (
+    isEnabled ? (
+      <button {...generateConnectionComponentProps(walletType, isEnabled)}/>
+    ) : (
+      <span {...generateConnectionComponentProps(walletType, isEnabled)}/>
+    )
+  ), [generateConnectionComponentProps])
 
   return (
     <div className='connection-modal'>
       <div className='connection-modal__buttons-wrapper'>
-        {renderHashpackConnectionButton()}
-        {renderBladeWalletConnectionButton()}
+        {renderConnectionComponent(ConnectionStateType.HASHPACK)}
+        {renderConnectionComponent(ConnectionStateType.BLADEWALLET, false)}
       </div>
     </div>
   );
