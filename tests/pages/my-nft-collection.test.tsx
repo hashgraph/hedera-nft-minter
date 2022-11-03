@@ -29,6 +29,8 @@ jest.mock('@utils/hooks/useHederaWallets');
 
 describe('MyNFTCollection', () => {
   it('render', () => {
+    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: null })
+
     render(
       <MyNFTCollection />
     )
