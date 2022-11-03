@@ -56,7 +56,6 @@ const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.AdvancedKeysScreen,
     Component: AdvancedKeys,
-    fieldsForValidation: ['keys']
   },
 ]
 
