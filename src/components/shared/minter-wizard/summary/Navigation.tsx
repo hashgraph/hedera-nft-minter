@@ -68,7 +68,7 @@ export default function Navigation({ goToCreator } : SummaryNavigationProps) {
                 type='submit'
                 disabled={isSubmitting}
               >
-                YES! Mint it!
+                Confirm
               </button>
             )}
           </CSSTransition>
