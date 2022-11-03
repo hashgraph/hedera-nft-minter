@@ -20,10 +20,15 @@
 import { describe, expect, it } from '@jest/globals';
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import { MintTypes } from '@utils/entity/MinterWizard';
+import { FEE } from '@utils/entity/Fees';
 
 describe('ValidationSchema', () => {
   it('image', () => {
     expect(ValidationSchema.validateAt('image', { image: 'test'})).toBeTruthy();
+  });
+
+  it('image - object', () => {
+    expect(ValidationSchema.validateAt('image', { image: { type: 'image/png' }})).toBeTruthy();
   });
 
   it('name', () => {
@@ -54,9 +59,21 @@ describe('ValidationSchema', () => {
     ).toBeTruthy();
   });
 
+  it('qty - new', () => {
+    expect(
+      ValidationSchema.validateAt('qty', { qty: 10, mint_type: MintTypes.NewCollectionNewNFT })
+    ).toBeTruthy();
+  });
+
   it('maxSupply', () => {
     expect(
-      ValidationSchema.validateAt('maxSupply', { maxSupply: 10, mint_type: MintTypes.ExistingCollectionNewNFT })
+      ValidationSchema.validateAt('maxSupply', { maxSupply: 0, mint_type: MintTypes.ExistingCollectionNewNFT })
+    ).toBeTruthy();
+  });
+
+  it('maxSupply', () => {
+    expect(
+      ValidationSchema.validateAt('maxSupply', { maxSupply: 2, mint_type: MintTypes.NewCollectionNewNFT })
     ).toBeTruthy();
   });
 
@@ -73,5 +90,48 @@ describe('ValidationSchema', () => {
         }], mint_type: MintTypes.ExistingCollectionNewNFT })
     ).toBeTruthy();
   });
+
+  it('attributes', () => {
+    expect(
+      ValidationSchema.validateAt('attributes', { attributes: [{
+        trait_type: 'foo', value: 'bar'
+        }]})
+    ).toBeTruthy();
+  });
+
+  it('attributes - empty', () => {
+    expect(
+      ValidationSchema.validateAt('attributes', { attributes: [{
+        trait_type: ''
+        }]})
+    ).toBeTruthy();
+  });
+
+  it('properties', () => {
+    expect(
+      ValidationSchema.validateAt('properties', { properties: [{
+        label: 'foo', value: 'bar'
+        }]})
+    ).toBeTruthy();
+  });
+
+  it('properties -empty value', () => {
+    expect(
+      ValidationSchema.validateAt('properties', { properties: [{
+        label: '', value: ''
+        }]})
+    ).toBeTruthy();
+  });
+
+  it('fees', () => {
+    expect(
+      ValidationSchema.validateAt('fees', { fees: [
+        { type: FEE.FIXED, amount: 10 },
+        { type: FEE.ROYALTY, feeCollectorAccountId: '0.0.123456', percent: 10, fallbackFee: 2 },
+      ]})
+    ).toBeTruthy();
+  });
+
+
 
 });
