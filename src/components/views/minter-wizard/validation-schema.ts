@@ -35,15 +35,15 @@ const feeValidator = yup.object().shape({
   }),
   percent: yup.number().when(['type'], {
     is: (type : FEE) => type === FEE.ROYALTY,
-    then: yup.number().max(100, 'Max 100%').required('Required'),
+    then: yup.number().min(1, 'Must be above 0%').max(100, 'Max 100%').required('Required'),
   }),
   fallbackFee: yup.number().when(['type'], {
     is: (type : FEE) => type === FEE.ROYALTY,
-    then: yup.number().required('Required')
+    then: yup.number().min(1, 'Must be above 0').required('Required')
   }),
   amount: yup.number().when(['type'], {
     is: (type : FEE) => type === FEE.FIXED,
-    then: yup.number().required('Required')
+    then: yup.number().min(1, 'Must be above 0').required('Required')
   })
 });
 
