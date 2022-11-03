@@ -55,7 +55,6 @@ export default function Tab({ activeIndex, el} : SliderTabProps) {
 
   return (
     <div
-      tabIndex={el.index === activeIndex ? 0 : -1}
       className={tabClassNames}
     >
       <div className='minter-wizard__slider__tab-content'>
