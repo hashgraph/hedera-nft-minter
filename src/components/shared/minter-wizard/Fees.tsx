@@ -65,7 +65,6 @@ const MinterWizardFees = () => {
                   field.value.length < 10 ? push({
                     type: '',
                     feeCollectorAccountId: '',
-                    percent: '',
                   }) : toast.error('Enough!')
                 }
                 type='button'
