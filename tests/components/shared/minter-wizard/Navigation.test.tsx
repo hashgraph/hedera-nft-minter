@@ -34,6 +34,7 @@ describe('Minter Wizard - navigation', () => {
   it('render', () => {
     (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: '0.0.123456'})
     const fn = jest.fn()
+    const fnTrue = jest.fn( () => true );
     const submit = jest.fn(v => v)
     const props = {
       backToMintTypeSelection: fn,
@@ -43,6 +44,7 @@ describe('Minter Wizard - navigation', () => {
       creatorStep: 1,
       isFirstScreen: false,
       isLastScreen: false,
+      checkIfAllFieldsAreValidated: fnTrue,
     }
 
     render(
