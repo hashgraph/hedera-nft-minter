@@ -45,17 +45,13 @@ export default function RoyaltyFee({index} : RoyaltyFeeProps) {
   return (
     <>
       <Tooltip title='Royalty fee' showLabel>
-        A fee to assess during a CryptoTransfer that changes ownership of an NFT.
-        Defines the fraction of the fungible value exchanged for an NFT that the
-        ledger should collect as a royalty. ("Fungible value" includes both ℏ and units of
-        fungible HTS tokens.) When the NFT sender does not receive any fungible value, the
-        ledger will assess the fallback fee, if present, to the new NFT owner. <br />
-        <a
-          href='https://docs.hedera.com/guides/docs/hedera-api/token-service/customfees/royaltyfee'
-          target='_blank'
-        >
-          Link to docs
-        </a>
+        A fee to assess during a CryptoTransfer that changes ownership of an
+        NFT. Defines the fraction of the fungible value exchanged for an NFT
+        that the ledger should collect as a royalty. ("Fungible value" includes
+        both ℏ and units of fungible HTS tokens.) When the NFT sender does not
+        receive any fungible value, the ledger will assess the fallback fee, if
+        present, to the new NFT owner. Royalty fees can only be added to tokens
+        of type NON_FUNGIBLE_UNIQUE.
       </Tooltip>
       <div className='form__row__fees__fee--royalty'>
         <div className='collector'>
