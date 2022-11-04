@@ -70,7 +70,7 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
 
   return (
     <a
-      href={`https://hashscan.io/#/${ HEDERA_NETWORK }/token/${ collectionInfo?.token_id }`}
+      href={`https://hashscan.io/${ HEDERA_NETWORK }/token/${ collectionInfo?.token_id }`}
       target='_blank'
       className={nftCardClassnames}
     >
