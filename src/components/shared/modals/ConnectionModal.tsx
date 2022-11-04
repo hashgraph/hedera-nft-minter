@@ -114,7 +114,7 @@ export default function ConnectionModal() {
     <div className='connection-modal'>
       <div className='connection-modal__buttons-wrapper'>
         {renderConnectionComponent(ConnectionStateType.HASHPACK)}
-        {renderConnectionComponent(ConnectionStateType.BLADEWALLET, false)}
+        {renderConnectionComponent(ConnectionStateType.BLADEWALLET)}
       </div>
     </div>
   );
