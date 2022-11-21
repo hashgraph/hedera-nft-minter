@@ -49,12 +49,7 @@ export default class IPFS {
 
   static async uploadFile(file: File | Blob) {
     try {
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
-        headers: {
-          'Content-Type': 'image/*',
-          Accept: 'image/*'
-        }
-      });
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file);
     } catch (e) {
       throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
@@ -64,12 +59,7 @@ export default class IPFS {
     try {
       const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
 
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      });
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file);
     } catch (e) {
       throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
