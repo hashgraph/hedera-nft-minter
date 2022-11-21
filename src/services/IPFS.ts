@@ -18,8 +18,7 @@
  */
 
 import axios from 'axios';
-import random from 'lodash/random';
-import { IPFS_KEYS, IPFS_URL } from '@src/../Global.d';
+import { IPFS_URL } from '@src/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
 export interface UploadResponse {
@@ -53,7 +52,7 @@ export default class IPFS {
       return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
         headers: {
           'Content-Type': 'image/*',
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
+          Accept: 'image/*'
         }
       });
     } catch (e) {
@@ -67,7 +66,8 @@ export default class IPFS {
 
       return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
         headers: {
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
         }
       });
     } catch (e) {
