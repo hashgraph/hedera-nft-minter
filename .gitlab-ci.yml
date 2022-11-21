@@ -32,7 +32,7 @@ sonarqube-check:
     - sonar-scanner
   allow_failure: true
   only:
-    - xyz
+    - xyza
 
 build:
   stage: build
