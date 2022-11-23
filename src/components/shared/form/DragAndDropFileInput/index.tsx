@@ -35,7 +35,6 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   const imageChange = useCallback((files) => {
     if (files && files.length > 0) {
       setSelectedImage(files[0]);
-
     }
   }, [setSelectedImage])
 
@@ -43,14 +42,13 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     touched.image && !!errors.image
   ), [errors.image, touched.image])
 
-  const onDrop = useCallback(
-    (files) => {
-      imageChange(files)
-      const temp = values;
+  const onDrop = useCallback((files) => {
+    imageChange(files)
+    const temp = values;
 
-      temp.image = files[0];
-      setValues(temp);
-    }, [setValues, values, imageChange]);
+    temp.image = files[0];
+    setValues(temp);
+  }, [setValues, values, imageChange]);
 
   const onDropRejected = useCallback((files) => {
     if (files.length > 1) {
@@ -88,9 +86,9 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     'is-drag-rejected': shouldBeErrorDisplayed ?? isDragReject,
   });
 
-  const isFileUploaded = useMemo(() =>
-    acceptedFiles.length > 0,
-    [acceptedFiles]);
+  const isFileUploaded = useMemo(() => (
+    acceptedFiles.length > 0
+  ), [acceptedFiles]);
 
   const renderUploadedImage = useCallback(() => (
     isFileUploaded ? (
