@@ -36,7 +36,7 @@ const Steps = [
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainScreen,
     Component: OffChainBasis,
-    fieldsForValidation: ['edition_name', 'description', 'creator']
+    fieldsForValidation: ['edition_name', 'description', 'creator', 'image']
   },
   {
     creatorStep: ExistingCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,

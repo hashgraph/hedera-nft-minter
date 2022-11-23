@@ -40,7 +40,7 @@ const Steps = [
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainBasisScreen,
     Component: OffChainBasis,
-    fieldsForValidation: ['name', 'symbol', 'edition_name', 'description', 'creator'],
+    fieldsForValidation: ['name', 'symbol', 'edition_name', 'description', 'creator', 'image'],
   },
   {
     creatorStep: NewCollectionNewNFTWizardSteps.OffChainPropertiesAndAttributesScreen,
