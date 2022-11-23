@@ -69,7 +69,7 @@ export const ValidationSchema = yup.object().shape({
       case 'string':
         return true
     }
-  }).test('size', 'Max file size = 6MB', (value) => (
+  }).test('size', 'Max file size = 5.8MB', (value) => (
     value ? (
       value?.size < MAX_FILE_LIMIT_IN_BYTES
     ) : (
