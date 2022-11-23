@@ -29,14 +29,19 @@ import './drag-and-drop-file-input.scss'
 type SelectedImage = File | undefined
 
 const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
-  const { values, setValues } = useFormikContext<FormikValues>();
+  const { values, errors, touched, setValues } = useFormikContext<FormikValues>();
   const [selectedImage, setSelectedImage] = useState<SelectedImage>(values?.image);
 
   const imageChange = useCallback((files) => {
     if (files && files.length > 0) {
       setSelectedImage(files[0]);
+
     }
   }, [setSelectedImage])
+
+  const shouldBeErrorDisplayed = useMemo(() => (
+    touched.image && !!errors.image
+  ), [errors.image, touched.image])
 
   const onDrop = useCallback(
     (files) => {
@@ -46,6 +51,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
       temp.image = files[0];
       setValues(temp);
     }, [setValues, values, imageChange]);
+
   const onDropRejected = useCallback((files) => {
     if (files.length > 1) {
       return toast.error('❌ Only single image file can be upload!');
@@ -79,7 +85,7 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     'drag-and-drop__container': true,
     'is-focused': isFocused,
     'is-drag-accepted': isDragAccept,
-    'is-drag-rejected': isDragReject,
+    'is-drag-rejected': shouldBeErrorDisplayed ?? isDragReject,
   });
 
   const isFileUploaded = useMemo(() =>
