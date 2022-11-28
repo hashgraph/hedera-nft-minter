@@ -53,7 +53,7 @@ const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
 
 const useHashPack = () => {
   const [hashConnectSaveData, setHashConnectSaveData] =
-    useState(INITIAL_SAVE_DATA);
+    useState<SaveDataType>(INITIAL_SAVE_DATA);
   const [installedHashPackExtensions, setInstalledHashPackExtensions] =
     useState<HashConnectTypes.AppMetadata[]>([]);
 
@@ -70,7 +70,7 @@ const useHashPack = () => {
 
   // CLEANER
   const clearPairedAccountsAndHashPackWalletData = useCallback(() => {
-    setHashConnectSaveData((prev) => {
+    setHashConnectSaveData((prev: SaveDataType) => {
       prev.accountsIds = [];
       prev.pairedWalletData = undefined;
       return { ...prev };
@@ -91,7 +91,7 @@ const useHashPack = () => {
         throw new Error('Hashpack wallet is not installed!');
       }
 
-      hashConnect.connectToLocalWallet(hashConnectSaveData?.pairingString);
+      hashConnect.connectToLocalWallet();
     } catch (e) {
       if (typeof e === 'string') {
         toast.error(e);
@@ -109,14 +109,17 @@ const useHashPack = () => {
     try {
       if (!localData) {
         //first init and store the private for later
-        const initData = await hashConnect.init(appConfig);
+        console.log({appConfig, HEDERA_NETWORK})
+        const initData = await hashConnect.init(appConfig, HEDERA_NETWORK, true);
+        console.log({initData})
 
-        newSaveData.privateKey = initData.privKey;
+        newSaveData.privateKey = initData.encryptionKey;
 
         //then connect, storing the new topic for later
         const state = await hashConnect.connect();
+        console.log({state})
 
-        newSaveData.topic = state.topic;
+        newSaveData.topic = state;
 
         //generate a pairing string, which you can display and generate a QR code from
         newSaveData.pairingString = hashConnect.generatePairingString(
@@ -146,7 +149,7 @@ const useHashPack = () => {
           localData.pairedWalletData = appConfig
         }
 
-        setHashConnectSaveData((prevData) => ({
+        setHashConnectSaveData((prevData: SaveDataType) => ({
           ...prevData,
           ...localData
         }));
@@ -163,7 +166,7 @@ const useHashPack = () => {
   /* ---- EVENTS LISTENING ---- */
   const setSaveDataAndInLocalStorage = useCallback(
     (data) => {
-      setHashConnectSaveData((prevSaveData) => {
+      setHashConnectSaveData((prevSaveData: SaveDataType) => {
         prevSaveData.accountsIds = data.accountIds;
         prevSaveData.pairedWalletData = data.metadata;
         return { ...prevSaveData };
@@ -198,6 +201,7 @@ const useHashPack = () => {
     if (hashConnect) {
       hashConnect.foundExtensionEvent.on(foundExtensionEventHandler);
       hashConnect.pairingEvent.on(pairingEventHandler);
+      hashConnect.foundIframeEvent.on(pairingEventHandler)
     }
   }, [foundExtensionEventHandler, pairingEventHandler]);
 
@@ -205,6 +209,7 @@ const useHashPack = () => {
     if (hashConnect) {
       hashConnect.foundExtensionEvent.off(foundExtensionEventHandler);
       hashConnect.pairingEvent.off(pairingEventHandler);
+      hashConnect.foundIframeEvent.off(pairingEventHandler);
     }
   }, [foundExtensionEventHandler, pairingEventHandler]);
 

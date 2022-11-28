@@ -29,7 +29,7 @@
     "date-fns": "^2.27.0",
     "formik": "^2.2.9",
     "hamburger-react": "^2.5.0",
-    "hashconnect": "^0.1.9",
+    "hashconnect": "^0.2.3",
     "i18next": "^20.4.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
