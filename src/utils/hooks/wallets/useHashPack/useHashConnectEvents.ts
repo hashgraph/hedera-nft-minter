@@ -15,8 +15,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { HashConnect } from 'hashconnect';
 import { toast } from 'react-toastify';
-import { HashConnectState } from '.';
-
+import { HashConnectState } from '@utils/hooks/wallets/useHashPack';
 
 export default function useHashConnectEvents(
   hashConnect: HashConnect,

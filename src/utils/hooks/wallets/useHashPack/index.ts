@@ -28,7 +28,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
 import { HashConnectConnectionState } from 'hashconnect/dist/types';
-import useHashConnectEvents from './useHashConnectEvents';
+import useHashConnectEvents from '@utils/hooks/wallets/useHashPack/useHashConnectEvents';
 
 export interface HashConnectState {
   availableExtension: HashConnectTypes.WalletMetadata;
