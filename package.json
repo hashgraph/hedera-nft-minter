@@ -38,6 +38,7 @@
     "multiformats": "^9.6.5",
     "query-string": "^7.0.1",
     "react": "17.0.2",
+    "react-device-detect": "^2.2.2",
     "react-dom": "17.0.2",
     "react-i18next": "^11.11.4",
     "react-intersection-observer": "^9.2.2",

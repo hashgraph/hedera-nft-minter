@@ -40,34 +40,33 @@ const useHederaWallets = () => {
     bladeAccountId,
     hashConnect,
     connectBladeWallet,
-    clearPairedAccountsAndHashPackWalletData,
+    disconnectFromHashPack,
     clearConnectedBladeWalletData,
     connectToHashPack,
-    hashConnectSaveData,
+    hashConnectState,
+    isIframeParent
   } = useContext(HederaWalletsContext);
-
-  const { accountsIds } = hashConnectSaveData;
 
   const [connectedWalletType, setConnectedWalletType] =
     useState<ConnectionStateType>(ConnectionStateType.NOCONNECTION);
 
   useEffect(() => {
-    if (!bladeAccountId && accountsIds?.length === 0) {
+    if (!bladeAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
-    if (bladeAccountId && accountsIds?.length === 0) {
+    if (bladeAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.BLADEWALLET);
     }
-    if (accountsIds?.length > 0 && !bladeAccountId) {
+    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0 && !bladeAccountId) {
       setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
-  }, [bladeAccountId, accountsIds, setConnectedWalletType]);
+  }, [bladeAccountId, setConnectedWalletType, hashConnectState.pairingData]);
 
   const connect = useCallback(
     (walletType) => {
       switch (walletType) {
         case ConnectionStateType.BLADEWALLET:
-          clearPairedAccountsAndHashPackWalletData();
+          disconnectFromHashPack();
           connectBladeWallet();
           break;
         case ConnectionStateType.HASHPACK:
@@ -79,7 +78,7 @@ const useHederaWallets = () => {
     [
       connectBladeWallet,
       connectToHashPack,
-      clearPairedAccountsAndHashPackWalletData,
+      disconnectFromHashPack,
       clearConnectedBladeWalletData,
     ]
   );
@@ -91,19 +90,19 @@ const useHederaWallets = () => {
         toast.error('❌ Removed Blade Wallet pairing.');
         break;
       case ConnectionStateType.HASHPACK:
-        clearPairedAccountsAndHashPackWalletData();
+        disconnectFromHashPack();
         toast.error('❌ Removed HashPack pairings.');
         break;
       default:
         clearConnectedBladeWalletData();
-        clearPairedAccountsAndHashPackWalletData();
+        disconnectFromHashPack();
         toast.error('❌ Removed pairings.');
         break;
     }
   }, [
     connectedWalletType,
     clearConnectedBladeWalletData,
-    clearPairedAccountsAndHashPackWalletData,
+    disconnectFromHashPack,
   ]);
 
   const userWalletId = useMemo(() => {
@@ -111,11 +110,11 @@ const useHederaWallets = () => {
       case ConnectionStateType.BLADEWALLET:
         return bladeAccountId;
       case ConnectionStateType.HASHPACK:
-        return hashConnectSaveData?.accountsIds[0];
+        return hashConnectState.pairingData?.accountIds[0]
       case ConnectionStateType.NOCONNECTION:
         return undefined;
     }
-  }, [connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds]);
+  }, [connectedWalletType, bladeAccountId, hashConnectState]);
 
   const sendTransaction = useCallback(
     async (tx, sign = false) => {
@@ -146,7 +145,7 @@ const useHederaWallets = () => {
             })
           );
         case ConnectionStateType.HASHPACK:
-          if (!hashConnectSaveData.topic) {
+          if (!hashConnectState.topic) {
             throw new Error('Loading topic Error.');
           }
 
@@ -156,12 +155,11 @@ const useHederaWallets = () => {
             tx.toBytes()
           );
 
-
           // eslint-disable-next-line no-case-declarations
           response = await hashConnect?.sendTransaction(
-            hashConnectSaveData.topic,
+            hashConnectState.topic,
             {
-              topic: hashConnectSaveData.topic,
+              topic: hashConnectState.topic,
               byteArray: hashConnectTxBytes,
               metadata: {
                 accountToSign: userWalletId,
@@ -186,7 +184,7 @@ const useHederaWallets = () => {
       hashConnect,
       connectedWalletType,
       userWalletId,
-      hashConnectSaveData.topic,
+      hashConnectState.topic,
       bladeSigner,
     ]
   );
@@ -198,6 +196,7 @@ const useHederaWallets = () => {
     connect,
     disconnect,
     sendTransaction,
+    isIframeParent
   };
 };
 
