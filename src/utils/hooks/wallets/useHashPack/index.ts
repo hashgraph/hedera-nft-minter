@@ -42,19 +42,6 @@ export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' 
 export const HASHCONNECT_INITIAL_NETWORK = HEDERA_NETWORK;
 export const HASHCONNECT_INITIAL_DEBUG = true;
 
-export const INITIAL_SAVE_DATA: HashConnectTypes.SavedPairingData = {
-  topic: '',
-  encryptionKey: '',
-  metadata: {
-    name: '',
-    description: '',
-    icon: '',
-  },
-  network: '',
-  accountIds: [],
-  lastUsed: 0
-};
-
 const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
 
 const useHashPack = () => {
