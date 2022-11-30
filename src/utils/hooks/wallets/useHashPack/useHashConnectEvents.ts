@@ -30,20 +30,24 @@ export default function useHashConnectEvents(
     }))
   }, [setHashConnectState]);
 
-  const pairingEventHandler = useCallback((data) => {
+  const updatePairingData = useCallback(data => (
     setHashConnectState(prev => ({
       ...prev,
       pairingData: data
-    }));
+    }))
+  ), [setHashConnectState])
+
+  const pairingEventHandler = useCallback((data) => {
+    updatePairingData(data);
 
     toast.success('➕ New HashPack account(s) paired!');
-  }, [setHashConnectState]);
+  }, [updatePairingData]);
 
   const foundIframeEventHandler = useCallback((data) => {
-    pairingEventHandler(data)
+    updatePairingData(data);
 
     setIsIFrameParent(true)
-  }, [pairingEventHandler])
+  }, [updatePairingData])
 
   const mountEvents = useCallback(() => {
     if (hashConnect) {

@@ -95,8 +95,6 @@ const useHashPack = () => {
 
       if (isIframeParent) {
         await hashConnect.clearConnectionsAndData();
-
-        toast.warning('You have to reset dApp before be able to login again!');
       }
     }
   }, [hashConnectState.topic, isIframeParent]);

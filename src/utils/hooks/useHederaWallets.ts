@@ -110,7 +110,7 @@ const useHederaWallets = () => {
       case ConnectionStateType.BLADEWALLET:
         return bladeAccountId;
       case ConnectionStateType.HASHPACK:
-        return hashConnectState.pairingData?.accountIds[0]
+        return hashConnectState.pairingData?.accountIds && hashConnectState.pairingData?.accountIds[0]
       case ConnectionStateType.NOCONNECTION:
         return undefined;
     }
