@@ -46,16 +46,14 @@ export default function ConnectionModal() {
       return 'You need to reset dApp to connect again'
     }
 
-    if (walletType === ConnectionStateType.BLADEWALLET && isMobile) {
-      return `${ walletName } not supported on mobile`
-    }
+    if (isMobile) {
+      if (walletType === ConnectionStateType.HASHPACK) {
+        return `Log in using the ${ walletName } mobile dApp explorer`
+      }
 
-    if (isIframeParent && walletType === ConnectionStateType.BLADEWALLET) {
-      return 'BladeWallet is not supported here'
-    }
-
-    if (walletType === ConnectionStateType.HASHPACK && isMobile) {
-      return `Log in using the ${ walletName } mobile dApp explorer`
+      if (walletType === ConnectionStateType.BLADEWALLET) {
+        return `${ walletName } not supported on mobile`
+      }
     }
 
     const enabledButtonContent = (userWalletId && walletType !== connectedWalletType) ? (
