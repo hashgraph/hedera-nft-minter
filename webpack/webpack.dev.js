@@ -85,6 +85,7 @@ module.exports = {
       HEDERA_NETWORK: JSON.stringify(process.env.HEDERA_NETWORK),
       HEDERA_MIRROR_NODE_API_VERSION: JSON.stringify(process.env.HEDERA_MIRROR_NODE_API_VERSION),
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
+      API_HOST: JSON.stringify(process.env.API_HOST),
       HASHPACK_APP_CONFIG_NAME: JSON.stringify(process.env.HASHPACK_APP_CONFIG_NAME),
       HASHPACK_APP_CONFIG_DESCRIPTION: JSON.stringify(process.env.HASHPACK_APP_CONFIG_DESCRIPTION),
       HASHPACK_APP_CONFIG_ICON_URL: JSON.stringify(process.env.HASHPACK_APP_CONFIG_ICON_URL),

@@ -24,6 +24,7 @@ declare const APP_NAME: string;
 declare const HEDERA_NETWORK: 'testnet' | 'mainnet';
 declare const HEDERA_MIRROR_NODE_API_VERSION: string;
 declare const IPFS_URL: string;
+declare const API_HOST: string;
 declare const HASHPACK_APP_CONFIG_NAME: string;
 declare const HASHPACK_APP_CONFIG_DESCRIPTION: string;
 declare const HASHPACK_APP_CONFIG_ICON_URL: string;
@@ -37,6 +38,8 @@ const _HEDERA_MIRROR_NODE_API_VERSION = HEDERA_MIRROR_NODE_API_VERSION;
 // eslint-disable-next-line no-underscore-dangle
 const _IPFS_URL = IPFS_URL;
 // eslint-disable-next-line no-underscore-dangle
+const _API_HOST = API_HOST;
+// eslint-disable-next-line no-underscore-dangle
 const _HASHPACK_APP_CONFIG_NAME = HASHPACK_APP_CONFIG_NAME;
 // eslint-disable-next-line no-underscore-dangle
 const _HASHPACK_APP_CONFIG_DESCRIPTION = HASHPACK_APP_CONFIG_DESCRIPTION;
@@ -48,6 +51,7 @@ export {
   _HEDERA_NETWORK as HEDERA_NETWORK,
   _HEDERA_MIRROR_NODE_API_VERSION as HEDERA_MIRROR_NODE_API_VERSION,
   _IPFS_URL as IPFS_URL,
+  _API_HOST as API_HOST,
   _HASHPACK_APP_CONFIG_NAME as HASHPACK_APP_CONFIG_NAME,
   _HASHPACK_APP_CONFIG_DESCRIPTION as HASHPACK_APP_CONFIG_DESCRIPTION,
   _HASHPACK_APP_CONFIG_ICON_URL as HASHPACK_APP_CONFIG_ICON_URL
