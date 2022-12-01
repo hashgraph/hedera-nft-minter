@@ -18,7 +18,6 @@
  */
 
 import {
-  APP_NAME,
   HEDERA_NETWORK,
   HASHPACK_APP_CONFIG_NAME,
   HASHPACK_APP_CONFIG_DESCRIPTION,
@@ -38,11 +37,9 @@ export interface HashConnectState {
   pairingData: HashConnectTypes.SavedPairingData | null;
 }
 
-export const HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME = `${ APP_NAME ?? 'mintbar' }HashconnectData`;
-export const HASHCONNECT_INITIAL_NETWORK = HEDERA_NETWORK;
-export const HASHCONNECT_INITIAL_DEBUG = true;
+const HASHCONNECT_DEBUG_MODE = true;
 
-const hashConnect = new HashConnect(HASHCONNECT_INITIAL_DEBUG);
+const hashConnect = new HashConnect(HASHCONNECT_DEBUG_MODE);
 
 const useHashPack = () => {
   const [hashConnectState, setHashConnectState] = useState<Partial<HashConnectState>>({});
