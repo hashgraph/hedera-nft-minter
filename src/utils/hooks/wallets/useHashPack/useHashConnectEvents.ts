@@ -23,19 +23,19 @@ export default function useHashConnectEvents(
 ) {
   const [isIframeParent, setIsIFrameParent] = useState(false);
 
-  const foundExtensionEventHandler = useCallback((data) => {
-    setHashConnectState(prev => ({
-      ...prev,
-      availableExtension: data
-    }))
-  }, [setHashConnectState]);
-
   const updatePairingData = useCallback(data => (
     setHashConnectState(prev => ({
       ...prev,
       pairingData: data
     }))
   ), [setHashConnectState])
+
+  const foundExtensionEventHandler = useCallback((data) => {
+    setHashConnectState(prev => ({
+      ...prev,
+      availableExtension: data
+    }))
+  }, [setHashConnectState]);
 
   const pairingEventHandler = useCallback((data) => {
     updatePairingData(data);
