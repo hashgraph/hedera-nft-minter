@@ -37,7 +37,7 @@ describe('useMinterWizard helpers', () => {
   it('getCurrentStepFieldsNames', () => {
     const fieldsForValidation = getCurrentStepFieldsNames(MintTypes.NewCollectionNewNFT, 1);
 
-    expect(fieldsForValidation).toEqual(['maxSupply', 'qty', 'name', 'symbol', 'edition_name', 'description', 'creator', 'image'])
+    expect(fieldsForValidation).toEqual(['maxSupply', 'qty', 'name', 'symbol', 'edition_name', 'description', 'creator'])
   })
 
   it('checkIfFieldsAreValidated', () => {

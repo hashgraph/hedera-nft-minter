@@ -28,7 +28,7 @@ describe('useHashPack', () => {
   it('render', async () => {
     const { result } = renderHook(() => useHashPack());
 
-    expect(result.current.hashConnectSaveData).toEqual({
+    expect(result.current.hashConnectState).toEqual({
       availableExtension: {
         name: '',
         description: '',
