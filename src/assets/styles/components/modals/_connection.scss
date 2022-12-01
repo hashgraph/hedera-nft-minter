@@ -42,6 +42,14 @@
     & > *:last-child {
       border-radius: 0 0 1rem 1rem;
     }
+
+    &--single {
+      grid-template-rows: 1fr;
+
+      & > *:first-child {
+        border-radius: 1rem;
+      }
+    }
   }
 
   &__button {
@@ -54,6 +62,7 @@
     color: $vapor;
     border-top: 1px solid $smoke;
     justify-content: center;
+    text-align: center;
     align-items: center;
     display: flex;
     transition: background-color 0.5s ease-in-out;

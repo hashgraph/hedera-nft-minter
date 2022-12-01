@@ -17,15 +17,16 @@
  *
  */
 
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
+import { isMobile } from 'react-device-detect';
 import useHederaWallets, { ConnectionStateType } from '@utils/hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 import BladeWalletLogo from '@assets/images/wallets/bladewallet.svg'
 import HashpackWalletLogo from '@assets/images/wallets/hashpack.svg'
 
 export default function ConnectionModal() {
-  const { userWalletId, connectedWalletType, connect, disconnect } =
+  const { userWalletId, connectedWalletType, connect, disconnect, isIframeParent } =
     useHederaWallets();
 
   const {closeModal} = useContext(ModalContext)
@@ -39,10 +40,24 @@ export default function ConnectionModal() {
     walletType : ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
     isEnabled: boolean,
   ) => {
-    const walletNameToSwitch = walletType === ConnectionStateType.HASHPACK ? 'HashPack' : 'BladeWallet'
+    const walletName = walletType === ConnectionStateType.HASHPACK ? 'HashPack' : 'BladeWallet'
+
+    if (isIframeParent && walletType === ConnectionStateType.HASHPACK) {
+      return 'You need to reset dApp to connect again'
+    }
+
+    if (isMobile) {
+      if (walletType === ConnectionStateType.HASHPACK) {
+        return `Log in using the ${ walletName } mobile dApp explorer`
+      }
+
+      if (walletType === ConnectionStateType.BLADEWALLET) {
+        return `${ walletName } not supported on mobile`
+      }
+    }
 
     const enabledButtonContent = (userWalletId && walletType !== connectedWalletType) ? (
-      `Switch to ${ walletNameToSwitch }`
+      `Switch to ${ walletName }`
     ) : (
       'Click to connect'
     )
@@ -54,7 +69,7 @@ export default function ConnectionModal() {
         'Coming soon'
       )
     )
-  }, [connectedWalletType, userWalletId])
+  }, [connectedWalletType, isIframeParent, userWalletId])
 
   const renderConnectionComponentContent = useCallback((
     walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET,
@@ -110,11 +125,25 @@ export default function ConnectionModal() {
     )
   ), [generateConnectionComponentProps])
 
+  const isHashPackConnectionComponentEnabled = useMemo(() => (
+    isIframeParent ? (
+      !!userWalletId
+    ) : (
+      !isMobile
+    )
+  ), [userWalletId, isIframeParent])
+
+  const buttonsWrapperClassName = useMemo(() => (
+    classNames('connection-modal__buttons-wrapper', {
+      'connection-modal__buttons-wrapper--single': isIframeParent
+    })
+  ), [isIframeParent])
+
   return (
     <div className='connection-modal'>
-      <div className='connection-modal__buttons-wrapper'>
-        {renderConnectionComponent(ConnectionStateType.HASHPACK)}
-        {renderConnectionComponent(ConnectionStateType.BLADEWALLET)}
+      <div className={buttonsWrapperClassName}>
+        {renderConnectionComponent(ConnectionStateType.HASHPACK, isHashPackConnectionComponentEnabled)}
+        {!isIframeParent && renderConnectionComponent(ConnectionStateType.BLADEWALLET, !isMobile)}
       </div>
     </div>
   );

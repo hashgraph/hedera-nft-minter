@@ -21,26 +21,26 @@
 
 import { describe, it, expect } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
-import useHashPack, { HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME } from '@utils/hooks/wallets/useHashPack';
+import { HashConnectConnectionState } from 'hashconnect/dist/types';
+import useHashPack from '@utils/hooks/wallets/useHashPack';
 
 describe('useHashPack', () => {
-  it('HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME', () => {
-    expect(HASHCONNECT_LOCALSTORAGE_VARIABLE_NAME).toBe('mintbarHashconnectData')
-  })
-
   it('render', async () => {
     const { result } = renderHook(() => useHashPack());
 
-    expect(result.current.hashConnectSaveData).toEqual({
+    expect(result.current.hashConnectState).toEqual({
+      availableExtension: {
+        name: '',
+        description: '',
+        icon: '',
+      },
+      state: HashConnectConnectionState.Disconnected,
       topic: '',
       pairingString: '',
-      privateKey: '',
-      pairedWalletData: null,
-      accountsIds: [],
+      pairingData: null,
     })
 
     expect.assertions(1)
     await result.current.connectToHashPack();
   })
-
 });
