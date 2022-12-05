@@ -87,9 +87,10 @@ const useHashPack = () => {
 
       setHashConnectState(prev => ({
         ...prev,
-        pairingData: hashConnect.hcData.pairingData[0]
+        pairingData: undefined
       }))
-
+      hashConnect.hcData.pairingData = []
+      
       if (isIframeParent) {
         await hashConnect.clearConnectionsAndData();
       }
