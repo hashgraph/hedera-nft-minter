@@ -37,7 +37,7 @@ export default function ConnectionModal() {
     !isMobile && (isIframeParent ? (
         isHashPackConnectionButtonEnabledInDAppExplorer
       ) : (
-        false
+        true
       )
     )
   ), [isHashPackConnectionButtonEnabledInDAppExplorer])
