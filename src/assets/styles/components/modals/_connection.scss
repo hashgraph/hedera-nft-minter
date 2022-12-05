@@ -93,6 +93,10 @@
       &:hover, &:active, &:focus {
         background-color: $smoke;
         cursor: not-allowed;
+
+        p {
+          color: $vapor;
+        }
       }
     }
   }
