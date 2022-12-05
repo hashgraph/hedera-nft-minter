@@ -34,7 +34,7 @@ export default function ConnectionModal() {
   ), [isIframeParent, userWalletId])
 
   const isHashPackConnectionComponentEnabled = useMemo(() => {
-    if (!isMobile) {
+    if (!isIframeParent && !isMobile) {
       return true
     }
     
