@@ -70,7 +70,7 @@ export default function ConnectToWalletButton({
   }, [walletType])
 
   const connectToWalletButtonContent = useMemo(() => {
-    if (connectedWalletType === walletType) {
+    if (isEnabled && connectedWalletType === walletType) {
       return `Disconnect from account ${ userWalletId }`
     }
 
