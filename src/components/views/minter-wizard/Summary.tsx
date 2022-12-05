@@ -52,14 +52,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
   ), [mintedNFTData.tokenId])
 
   return (
-    <Scrollbar
-      renderOn={{
-        laptop: false,
-        desktop: false,
-        desktopWide: false,
-        desktopExtraWide: false,
-      }}
-    >
+    <Scrollbar>
       <div className='minter-wizard__summary__content minter-wizard__animation-container minter-wizard__summary--final'>
         <div className='minter-wizard__summary__image'>
           <img

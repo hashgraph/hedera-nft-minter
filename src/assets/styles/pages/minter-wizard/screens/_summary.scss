@@ -30,11 +30,7 @@
 
     &--final {
       @include respond-to('laptop') {
-        padding: #{$headerHeight} 1rem 5rem;
-      }
-
-      @include respond-to('desktop') {
-        padding: #{$headerHeight} $horizontalPaddingDesktop 5rem;
+        padding: 0 0 5rem;
       }
     }
 
@@ -53,7 +49,7 @@
           "avatar offchain"
           "avatar onchain";
         grid-row-gap: .5rem;
-
+        padding-top: 0;
       }
 
       @include respond-to('desktop-wide') {
