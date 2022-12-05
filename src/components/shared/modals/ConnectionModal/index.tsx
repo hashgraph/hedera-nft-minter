@@ -33,14 +33,17 @@ export default function ConnectionModal() {
     isIframeParent && !!userWalletId
   ), [isIframeParent, userWalletId])
 
-  const isHashPackConnectionComponentEnabled = useMemo(() => (
-    !isMobile && (isIframeParent ? (
-        isHashPackConnectionButtonEnabledInDAppExplorer
-      ) : (
-        true
-      )
-    )
-  ), [isHashPackConnectionButtonEnabledInDAppExplorer])
+  const isHashPackConnectionComponentEnabled = useMemo(() => {
+    if (!isMobile) {
+      return true
+    }
+    
+    if (isIframeParent) {
+      return isHashPackConnectionButtonEnabledInDAppExplorer
+    }
+
+    return false
+  }, [isIframeParent, isHashPackConnectionButtonEnabledInDAppExplorer])
 
   const buttonsWrapperClassName = useMemo(() => (
     classNames('connection-modal__buttons-wrapper', {
