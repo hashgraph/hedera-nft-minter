@@ -78,10 +78,6 @@ export default function ConnectToWalletButton({
       return 'You need to reset dApp to connect again'
     }
 
-    if (!isEnabled) {
-      return 'Coming soon'
-    }
-
     if (isMobile) {
       if (walletType === ConnectionStateType.HASHPACK) {
         return `Log in using the ${ walletName } mobile dApp explorer`
@@ -90,6 +86,10 @@ export default function ConnectToWalletButton({
       if (walletType === ConnectionStateType.BLADEWALLET) {
         return `${ walletName } not supported on mobile`
       }
+    }
+    
+    if (!isEnabled) {
+      return 'Coming soon'
     }
 
     return (userWalletId && walletType !== connectedWalletType) ? (
