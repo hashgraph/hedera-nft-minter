@@ -44,6 +44,11 @@ export default function SelectCollection() {
     setCollections,
     creatorStepToBackFromSummary
    } = useContext(MinterWizardContext)
+   
+  useEffect(() => {
+    //CLEAN PREVIOUSLY FETCHED DATA IF EXISTED TO PREVENT ANIMATION ISSUE AND GET NEWEST COLLECTION DATA
+    setCollections(null)
+  }, [setCollections])
 
   const wasNotBackFromSummary = useMemo(() => (
     creatorStepToBackFromSummary <= 0

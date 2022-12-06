@@ -107,7 +107,6 @@ export default function MinterWizardForm({
   useEffect(() => {
     if (creatorStep === FormWizardSteps.WelcomeScreen) {
       resetForm({values: {...initialValues, mint_type: values.mint_type}} as Partial<FormikState<WizardValues>>)
-      setCollections(null)
     }
   }, [creatorStepToBackFromSummary, creatorStep, resetForm, values.mint_type])
 
