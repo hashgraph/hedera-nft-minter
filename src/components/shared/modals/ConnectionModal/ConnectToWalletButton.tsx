@@ -75,7 +75,7 @@ export default function ConnectToWalletButton({
     }
 
     if (isIframeParent && walletType === ConnectionStateType.HASHPACK) {
-      return 'You need to reset dApp to connect again'
+      return 'Please login using the Hashpack DAPP explorer in the wallet'
     }
 
     if (isMobile) {
