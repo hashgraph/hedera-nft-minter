@@ -156,16 +156,13 @@ export default class MirrorNode {
 
     return filter(groupedNFTsByCollectionIdWithInfo, (groupedNFTsByCollectionIdWithInfo) => {
       if (options.onlyAllowedToMint) {
+        if (groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key === key.key) {
+          return false
+        }
+
         return (
-          groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key !== key.key ||
-          (
-            groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_type === TokenSupplyType.FINITE &&
-            parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.total_supply ?? '0') >= parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.max_supply ?? '0')
-          )
-        ) ? (
-          false
-        ) : (
-          true
+          groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_type === TokenSupplyType.FINITE &&
+          parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.total_supply ?? '0') <= parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.max_supply ?? '0')
         )
       }
 
@@ -173,3 +170,4 @@ export default class MirrorNode {
     })
   }
 }
+
