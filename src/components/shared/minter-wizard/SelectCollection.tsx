@@ -32,10 +32,14 @@ import loadingHammer from '@assets/images/loading_hammer.svg'
 import FieldSelect from '@components/shared/form/FieldSelect';
 import FieldWrapper from '@components/shared/form/FieldWrapper';
 
+const CONNECT_WALLET_FIRST_MESSAGE = 'Connect wallet first!'
+const FETCHING_COLLECTION_IN_PROGRESS_MESSAGE = 'Fetching collections is in progress...'
+
+export const NO_COLLECTIONS_FOUND_MESSAGE = 'No collections found!'
 
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
-  const { values, setFieldValue } = useFormikContext<WizardValues>()
+  const { values, setFieldValue, resetForm, validateField } = useFormikContext<WizardValues>()
   const { setNextButtonHidden } = useContext(MinterWizardStepWrapperContext)
   const { creatorStepToBackFromSummary } = useContext(MinterWizardContext)
   const {
@@ -62,28 +66,71 @@ export default function SelectCollection() {
   }, [selectedCollection])
 
   useEffect(() => {
-    setNextButtonHidden(true)
-  }, [setNextButtonHidden])
+    const loggedWithoutCollections = !!userWalletId && values.name == NO_COLLECTIONS_FOUND_MESSAGE && values.symbol === NO_COLLECTIONS_FOUND_MESSAGE
+
+    setNextButtonHidden((!collections || loading || !userWalletId) || loggedWithoutCollections)
+  }, [collections, loading, setNextButtonHidden, userWalletId, values.name, values.symbol])
+
+  const prepareCollections = useCallback(async () => {
+    if (wasNotBackFromSummary && userWalletId) {
+      setFieldValue('name', FETCHING_COLLECTION_IN_PROGRESS_MESSAGE);
+      setFieldValue('symbol', FETCHING_COLLECTION_IN_PROGRESS_MESSAGE);
+
+      const fetchedCollections = await fetchHederaAccountNFTs({
+        onlyAllowedToMint: true
+      })
+
+      if (fetchedCollections && fetchedCollections?.length > 0) {
+        const maxSupply = parseInt(fetchedCollections[0]?.collection_info?.max_supply ?? '0') > 10 ? (
+          10
+        ) : (
+          fetchedCollections[0]?.collection_info.max_supply
+        )
+
+        setFieldValue('name', fetchedCollections[0]?.collection_info.name);
+        setFieldValue('symbol', fetchedCollections[0]?.collection_info.symbol);
+        setFieldValue('token_id', fetchedCollections[0]?.collection_id);
+        setFieldValue('maxSupply', maxSupply);
+        setFieldValue('supplyType', fetchedCollections[0]?.collection_info.supply_type)
+        setFieldValue('qty', 1);
+      } else {
+        setFieldValue('name', NO_COLLECTIONS_FOUND_MESSAGE);
+        setFieldValue('symbol', NO_COLLECTIONS_FOUND_MESSAGE);
+      }
+    }
+  }, [fetchHederaAccountNFTs, setFieldValue, userWalletId, wasNotBackFromSummary])
 
   useEffect(() => {
-    if (wasNotBackFromSummary && userWalletId) {
+    prepareCollections()
+  }, [prepareCollections]);
+
+  useEffect(() => {
+    if (wasNotBackFromSummary) {
       setFieldValue('name', selectedCollection?.collection_info.name)
       setFieldValue('symbol', selectedCollection?.collection_info.symbol)
       setFieldValue('maxSupply', selectedCollection?.collection_info.max_supply);
       setFieldValue('supplyType', maxQtyNumber)
-      setFieldValue('token_id', selectedCollection?.collection_info.token_id);
+      setFieldValue('token_id', selectedCollection?.collection_id);
       setFieldValue('qty', 1);
       setFieldValue('leftToMint', maxQtyNumber)
     }
-  }, [selectedCollection, setFieldValue, wasNotBackFromSummary, maxQtyNumber, userWalletId]);
+  }, [maxQtyNumber, selectedCollection, setFieldValue, wasNotBackFromSummary])
 
   useEffect(() => {
-    if (wasNotBackFromSummary && userWalletId) {
-      fetchHederaAccountNFTs({
-        onlyAllowedToMint: true
+    if (!userWalletId) {
+      resetForm({
+        values: {
+          ...values,
+          token_id: '',
+          name: CONNECT_WALLET_FIRST_MESSAGE,
+          symbol: CONNECT_WALLET_FIRST_MESSAGE,
+        }
       })
+
+      validateField('token_id')
     }
-  }, [fetchHederaAccountNFTs, wasNotBackFromSummary, userWalletId]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetForm, userWalletId, validateField])
 
   const renderCollections = useCallback(() => (
     collections && collections.length > 0 ? (
