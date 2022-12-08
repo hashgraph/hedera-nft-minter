@@ -156,7 +156,7 @@ export default class MirrorNode {
 
     return filter(groupedNFTsByCollectionIdWithInfo, (groupedNFTsByCollectionIdWithInfo) => {
       if (options.onlyAllowedToMint) {
-        if (groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key === key.key) {
+        if (groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key !== key.key) {
           return false
         }
 
