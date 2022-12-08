@@ -28,6 +28,8 @@ export default function useHederaAccountNFTs(userWalletId: string | undefined, s
   const [loading, setLoading] = useState(true);
 
   const fetchHederaAccountNFTs = useCallback(async (onlyAllowedToMint = false) => {
+    let groupedCollections;
+
     try {
       const accountId = userWalletId ?? null;
 
@@ -37,7 +39,8 @@ export default function useHederaAccountNFTs(userWalletId: string | undefined, s
 
       const fetchedNfts = await MirrorNode.fetchAllNFTs(accountId)
       const groupedFetchedNfts = groupBy(fetchedNfts, 'token_id');
-      let groupedCollections = await MirrorNode.fetchCollectionInfoForGroupedNFTs(groupedFetchedNfts);
+
+      groupedCollections = await MirrorNode.fetchCollectionInfoForGroupedNFTs(groupedFetchedNfts);
 
       if (onlyAllowedToMint) {
         groupedCollections = await MirrorNode.filterCollectionInfoForGroupedNFTs(groupedCollections, accountId, { onlyAllowedToMint })
@@ -45,11 +48,14 @@ export default function useHederaAccountNFTs(userWalletId: string | undefined, s
 
       setCollections(groupedCollections);
       setLoading(false);
+
     } catch (e) {
       if (showLoadError && e instanceof Error) {
         toast.error(e.message)
       }
     }
+
+    return groupedCollections
   }, [showLoadError, userWalletId]);
 
   useEffect(() => {
