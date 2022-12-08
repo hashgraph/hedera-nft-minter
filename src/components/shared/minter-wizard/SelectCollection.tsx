@@ -17,13 +17,13 @@
  *
  */
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useFormikContext } from 'formik';
 
 import { WizardValues } from '@utils/const/minter-wizard';
-import MirrorNode from '@services/MirrorNode';
 
 import useHederaWallets from '@hooks/useHederaWallets';
+import useHederaAccountNFTs from '@src/utils/hooks/useHederaAccountNFTs';
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 import { MinterWizardContext } from '@components/views/minter-wizard';
 import { TokenSupplyType } from '@utils/entity/TokenInfo';
@@ -36,63 +36,27 @@ import FieldWrapper from '@components/shared/form/FieldWrapper';
 export default function SelectCollection() {
   const { userWalletId } = useHederaWallets();
   const { values, setFieldValue } = useFormikContext<WizardValues>()
-  const [isLoading, setLoading] = useState(true);
   const { setNextButtonHidden } = useContext(MinterWizardStepWrapperContext)
-
+  const { creatorStepToBackFromSummary } = useContext(MinterWizardContext)
   const {
     collections,
-    setCollections,
-    creatorStepToBackFromSummary
-   } = useContext(MinterWizardContext)
+    loading,
+    fetchHederaAccountNFTs
+  } = useHederaAccountNFTs(userWalletId)
 
   const wasNotBackFromSummary = useMemo(() => (
     creatorStepToBackFromSummary <= 0
   ), [creatorStepToBackFromSummary])
-
-  const fetchCollections = useCallback(async () => {
-
-    if (!userWalletId) {
-      throw new Error('First connect your wallet!');
-    }
-    const loadedCollections = await MirrorNode.fetchUserCollectionsInfo(userWalletId, {
-      onlyAllowedToMint: true,
-    });
-
-    return loadedCollections
-  }, [userWalletId])
-
-  const loadCollections = useCallback(async () => {
-    setNextButtonHidden(true);
-
-    if (!collections) {
-      const loadedCollections = await fetchCollections()
-
-      setCollections(loadedCollections)
-    }
-
-    if (collections && collections?.length > 0) {
-      if (!values.token_id) {
-        setFieldValue('name', collections[0]?.info.name);
-        setFieldValue('symbol', collections[0]?.info.symbol);
-        setFieldValue('token_id', collections[0]?.info.token_id);
-        setFieldValue('maxSupply', parseInt(collections[0]?.info?.max_supply ?? '0') > 10 ? 10 : collections[0]?.info.max_supply);
-        setFieldValue('supplyType', collections[0]?.info.supply_type)
-        setFieldValue('qty', 1);
-      }
-
-      setNextButtonHidden(false);
-    }
-
-    setLoading(false);
-  }, [setNextButtonHidden, collections, values.token_id, fetchCollections, setCollections, setFieldValue])
-
+  
   const selectedCollection = useMemo(() => (
-    collections && collections.find(collection => collection.info.token_id === values.token_id)
-  ), [values.token_id, collections]);
+    collections && (
+      collections.find(collection => collection.collection_id === values.token_id) ?? collections[0]
+    )
+  ), [collections, values.token_id]);
 
   const maxQtyNumber = useMemo(() => {
-    const maxQty = parseInt(selectedCollection?.info.max_supply ?? '0')
-      - parseInt(selectedCollection?.info.total_supply ?? '0')
+    const maxQty = parseInt(selectedCollection?.collection_info.max_supply ?? '0')
+      - parseInt(selectedCollection?.collection_info.total_supply ?? '0')
 
     return (maxQty >= 10 || maxQty <= 0) ? 10 : maxQty
   }, [selectedCollection])
@@ -102,22 +66,24 @@ export default function SelectCollection() {
   }, [setNextButtonHidden])
 
   useEffect(() => {
-    if (wasNotBackFromSummary) {
-      setFieldValue('name', selectedCollection?.info.name)
-      setFieldValue('symbol', selectedCollection?.info.symbol)
-      setFieldValue('maxSupply', selectedCollection?.info.max_supply);
+    if (wasNotBackFromSummary && userWalletId) {
+      setFieldValue('name', selectedCollection?.collection_info.name)
+      setFieldValue('symbol', selectedCollection?.collection_info.symbol)
+      setFieldValue('maxSupply', selectedCollection?.collection_info.max_supply);
       setFieldValue('supplyType', maxQtyNumber)
-      setFieldValue('token_id', selectedCollection?.info.token_id);
+      setFieldValue('token_id', selectedCollection?.collection_info.token_id);
       setFieldValue('qty', 1);
       setFieldValue('leftToMint', maxQtyNumber)
     }
-  }, [selectedCollection, setFieldValue, wasNotBackFromSummary, maxQtyNumber]);
+  }, [selectedCollection, setFieldValue, wasNotBackFromSummary, maxQtyNumber, userWalletId]);
 
   useEffect(() => {
-    if (userWalletId && wasNotBackFromSummary) {
-      loadCollections()
+    if (wasNotBackFromSummary && userWalletId) {
+      fetchHederaAccountNFTs({
+        onlyAllowedToMint: true
+      })
     }
-  }, [loadCollections, userWalletId, wasNotBackFromSummary]);
+  }, [fetchHederaAccountNFTs, wasNotBackFromSummary, userWalletId]);
 
   const renderCollections = useCallback(() => (
     collections && collections.length > 0 ? (
@@ -127,10 +93,10 @@ export default function SelectCollection() {
           <FieldSelect name='token_id'>
             {collections.map((collection, index) => (
               <option
-                key={collection.info.token_id}
-                value={collection.info.token_id as string}
+                key={collection.collection_id}
+                value={collection.collection_id}
               >
-                {index + 1}. {collection.info.symbol} | {collection.info.name}
+                {index + 1}. {collection.collection_info.symbol} | {collection.collection_info.name}
               </option>
             ))}
           </FieldSelect>
@@ -140,21 +106,21 @@ export default function SelectCollection() {
                 <p>
                   Max supply:{' '}
                   <b>
-                    {selectedCollection?.info.supply_type === TokenSupplyType.INFINITE
+                    {selectedCollection?.collection_info.supply_type === TokenSupplyType.INFINITE
                        ? TokenSupplyType.INFINITE
-                       : selectedCollection?.info?.max_supply
+                       : selectedCollection?.collection_info?.max_supply
                     }
                   </b>
                 </p>
                 <p>
-                  Tokens minted: <b>{selectedCollection.info.total_supply}</b>
+                  Tokens minted: <b>{selectedCollection.collection_info.total_supply}</b>
                 </p>
                 <p>
-                  {selectedCollection?.info?.supply_type !== TokenSupplyType.INFINITE && (
+                  {selectedCollection?.collection_info?.supply_type !== TokenSupplyType.INFINITE && (
                     <>
                       Left to mint: <b>{
-                        parseInt(selectedCollection.info.max_supply ?? '0')
-                        - parseInt(selectedCollection.info.total_supply ?? '0')
+                        parseInt(selectedCollection.collection_info.max_supply ?? '0')
+                        - parseInt(selectedCollection.collection_info.total_supply ?? '0')
                       }</b>
                     </>
                   )}
@@ -191,7 +157,7 @@ export default function SelectCollection() {
   ), [collections, maxQtyNumber, selectedCollection])
 
   const renderUserCollections = useCallback(() => (
-    isLoading ? (
+    loading ? (
       <div className='minter-wizard__summary__loader'>
         <img src={loadingHammer} alt='loader_hammer' />
         <p className='title title--small title--strong'>
@@ -202,7 +168,7 @@ export default function SelectCollection() {
     ) : (
       renderCollections()
     )
-  ), [isLoading, renderCollections])
+  ), [loading, renderCollections])
 
   return (
     <div>
