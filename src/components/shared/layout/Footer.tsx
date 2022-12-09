@@ -52,13 +52,9 @@ export default function Footer() {
           classNames={footerLogoAnimationClassnames}
         >
           {showLogoOnRightSide ? (
-            <a className='footer__logo' href='https://hedera.com' target='_blank'>
-              <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
-            </a>
+            <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />
           ) : (
-            <a className='footer__logo--left' href='https://hedera.com' target='_blank'>
-              <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />{' '}
-            </a>
+            <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />
           )}
         </CSSTransition>
       </SwitchTransition>
