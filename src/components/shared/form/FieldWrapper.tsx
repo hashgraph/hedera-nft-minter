@@ -34,6 +34,7 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   hideError?: boolean,
   inverse?: boolean,
   isArray?: boolean,
+  showAsError?: boolean,
   onEnter?: () => void,
   tooltip?: string | JSX.Element,
   hideCharLimit?: boolean,
@@ -48,6 +49,7 @@ const FieldWrapper = ({
   inverse = false,
   type = 'text',
   isArray = false,
+  showAsError = false,
   maxLength,
   hideCharLimit,
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
@@ -59,8 +61,8 @@ const FieldWrapper = ({
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
 
   const shouldBeErrorDisplayed = useMemo(() => (
-    meta.touched && meta.error
-  ), [meta.error, meta.touched])
+    showAsError || meta.touched && meta.error
+  ), [showAsError, meta.error, meta.touched])
 
   const wrapperClassName = useMemo(() => (
     classNames(

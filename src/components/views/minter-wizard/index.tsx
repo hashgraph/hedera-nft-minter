@@ -25,8 +25,6 @@ import {
 } from 'react-transition-group';
 
 import useLayout from '@utils/hooks/useLayout';
-import { NFTInfo } from '@utils/entity/NFTInfo';
-import { TokenInfo } from '@utils/entity/TokenInfo';
 import { initialValues, WizardValues } from '@utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
 import Welcome from '@components/views/minter-wizard/Welcome';
@@ -45,9 +43,7 @@ type MinterWizardContextProps = {
   setCreatorStepToBackFromSummary: React.Dispatch<React.SetStateAction<number>>,
   setShowWarning: React.Dispatch<React.SetStateAction<boolean>>,
   setCreatorStepToBackFromSummaryToCurrent: () => void,
-  setCollections:  React.Dispatch<React.SetStateAction<{ nfts?: NFTInfo[], info: TokenInfo }[] | null>>,
   creatorStepToBackFromSummary: number,
-  collections: { nfts?: NFTInfo[], info: TokenInfo }[] | null,
   creatorStep: FormWizardSteps,
   showWarning: boolean,
 }
@@ -55,11 +51,9 @@ type MinterWizardContextProps = {
 export const MinterWizardContext = React.createContext<MinterWizardContextProps>({
   creatorStepToBackFromSummary: 0,
   showWarning: false,
-  collections: [],
   setCreatorStepToBackFromSummary: () => false,
   setCreatorStepToBackFromSummaryToCurrent: () => false,
   setShowWarning: () => false,
-  setCollections: () => null,
   creatorStep: FormWizardSteps.WelcomeScreen,
 })
 
@@ -69,7 +63,6 @@ export default function MinterWizardForm({
 }: FormikProps<FormikValues>) {
   const [creatorStep, setCreatorStep] = useState(FormWizardSteps.WelcomeScreen);
   const [creatorStepToBackFromSummary, setCreatorStepToBackFromSummary] = useState(0)
-  const [collections, setCollections] = useState<{ nfts?: NFTInfo[]; info: TokenInfo; }[] | null>(null)
   const [showWarning, setShowWarning] = useState(false)
 
   const {
@@ -153,8 +146,6 @@ export default function MinterWizardForm({
         creatorStepToBackFromSummary,
         setCreatorStepToBackFromSummary,
         setCreatorStepToBackFromSummaryToCurrent,
-        collections,
-        setCollections,
         creatorStep,
         showWarning,
         setShowWarning

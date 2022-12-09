@@ -17,56 +17,37 @@
  *
  */
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import map from 'lodash/map';
+import find from 'lodash/find';
+
 import filter from 'lodash/filter';
 import flatMap from 'lodash/flatMap';
-import map from 'lodash/map';
 import property from 'lodash/property';
 import values from 'lodash/values';
-import find from 'lodash/find';
-import groupBy from 'lodash/groupBy';
 
-import MirrorNode from '@services/MirrorNode';
 import { NFTInfo } from '@utils/entity/NFTInfo';
-import { TokenInfo } from '@utils/entity/TokenInfo';
+
 import useHederaWallets from '@hooks/useHederaWallets';
+import useHederaAccountNFTs from '@src/utils/hooks/useHederaAccountNFTs';
 
 import Scrollbar from '@components/shared/layout/Scrollbar';
 import Loader from '@components/shared/loader/Loader';
 import NFT from '@components/views/my-nft-collection/NFT';
 import CollectionList from '@components/views/my-nft-collection/CollectionList';
 
-export type CollectionRowProps = {
-  collection_id: string;
-  nfts: NFTInfo[];
-  collection_info: TokenInfo;
-}
-
 export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
-  const [collections, setCollections] = useState<CollectionRowProps[] | null>(null);
-
-  const [loading, setLoading] = useState(true);
   const [selectedCollectionsId, setSelectedCollectionsId] = useState<string[]>([]);
+  const {
+    collections,
+    loading,
+    fetchHederaAccountNFTs
+  } = useHederaAccountNFTs(userWalletId)
 
-  const load = useCallback(async () => {
-    try {
-      const accountId = userWalletId ?? null;
-
-      if (!accountId) {
-        throw new Error('No account ID');
-      }
-
-      const fetchedNfts = await MirrorNode.fetchAllNFTs(accountId)
-      const groupedFetchedNfts = groupBy(fetchedNfts, 'token_id');
-      const groupedCollections = await MirrorNode.fetchCollectionInfoForGroupedNFTs(groupedFetchedNfts);
-
-      setCollections(groupedCollections);
-      setLoading(false);
-    } catch (e) {
-      // toast.error(e.message)
-    }
-  }, [userWalletId]);
+  useEffect(() => {
+    fetchHederaAccountNFTs();
+  }, [fetchHederaAccountNFTs]);
 
   const selectedCollections = useMemo(() => (
     selectedCollectionsId.length > 0 ? (
@@ -124,10 +105,6 @@ export default function MyNFTCollection() {
     )
   ), [renderSelectedCollectionError, renderSelectedNFTs, selectedCollectionsNFTs])
 
-  useEffect(() => {
-    load();
-  }, [load]);
-
   const renderUserNfts = useCallback(() => (
     loading ? (
       <div className='my-nft-collection__loader-wrapper'>
@@ -156,7 +133,7 @@ export default function MyNFTCollection() {
         </div>
       </Scrollbar>
     )
-  ), [collections, loading, renderNFTs, selectedCollectionsId])
+  ), [collections, loading, renderNFTs, selectedCollectionsId, setSelectedCollectionsId])
 
   return (
     <div className='mc--h container--padding container--max-height bg--transparent'>
