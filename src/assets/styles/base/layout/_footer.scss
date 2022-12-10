@@ -79,17 +79,15 @@ footer,
     right: var(--horizontal-padding);
     margin-top: .75rem;
 
-    img {
-      width: 100px;
-      height: 43px;
-      object-position: right;
-      object-fit: contain;
-      margin-bottom: 0.35rem;
+    width: 100px;
+    height: 43px;
+    object-position: right;
+    object-fit: contain;
+    margin-bottom: 0.35rem;
 
-      @include respond-to('mobile') {
-        width: 140px;
-        height: 56px;
-      }
+    @include respond-to('mobile') {
+      width: 140px;
+      height: 56px;
     }
 
     &--left {
