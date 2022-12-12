@@ -38,10 +38,12 @@ header, .header {
   }
 
   &__logo {
+    padding-right: 2rem;
+
     @include respond-to('mobile') {
       img {
-        height: 128px;
-        width: 200px;
+        height: 100%;
+        width: 250px;
       }
     }
   }

@@ -22,15 +22,15 @@
 import { describe, it, expect } from '@jest/globals';
 import { render } from '@testing-library/react';
 import React from 'react';
-import FloatingCollections from '@components/shared/FloatingCollections/index';
+import FloatingLogos from '@components/shared/FloatingLogos/index';
 
-describe('Floating Collections', () => {
+describe('Floating Logos', () => {
   it('render', () => {
     const { container } = render(
-      <FloatingCollections isVisible={true} />
+      <FloatingLogos isVisible={true} />
     );
 
-    const element = container.querySelector('.floating-collections__card--is-visible');
+    const element = container.querySelector('.floating-logos__card--is-visible');
 
     if (element) {
       expect(element.tagName)

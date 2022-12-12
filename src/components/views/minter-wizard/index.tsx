@@ -31,7 +31,7 @@ import Welcome from '@components/views/minter-wizard/Welcome';
 import wizardSteps from '@components/views/minter-wizard/steps';
 import MinterWizardStepWrapper from '@components/shared/minter-wizard/StepWrapper';
 import MinterWizardSummary from '@components/shared/minter-wizard/summary';
-import FloatingCollections from '@components/shared/FloatingCollections'
+import FloatingLogos from '@components/shared/FloatingLogos'
 
 export enum FormWizardSteps {
   WelcomeScreen = 0,
@@ -75,7 +75,7 @@ export default function MinterWizardForm({
     wizardSteps[values.mint_type as MintTypes]
   ), [values.mint_type])
 
-  const isFloatingCollectionsVisible = useMemo(() => (
+  const isFloatingLogosVisible = useMemo(() => (
     creatorStep === FormWizardSteps.WelcomeScreen
   ), [creatorStep])
 
@@ -166,7 +166,7 @@ export default function MinterWizardForm({
         </SwitchTransition>
       </Form>
 
-      <FloatingCollections isVisible={isFloatingCollectionsVisible}/>
+      <FloatingLogos isVisible={isFloatingLogosVisible}/>
     </MinterWizardContext.Provider>
   );
 }
