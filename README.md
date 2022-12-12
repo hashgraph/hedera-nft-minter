@@ -1,13 +1,13 @@
 # Hedera NFT Minter App
 
-An example web app which demonstrates how you can mint NFTs on the Hedera network using [HashPack ](https://hips.hedera.com/hip/hip-412) or [Blade](https://hips.hedera.com/hip/hip-412) wallet and upload metadata with an image to IPFS provider supporting [HIP-412 standard](https://hips.hedera.com/hip/hip-412). App also included simply ``My NFT Gallery`` page, where connected user NFTs are listed.
+An example web app that demonstrates how you can mint NFTs on the Hedera network using [HashPack ](https://hips.hedera.com/hip/hip-412) or [Blade](https://hips.hedera.com/hip/hip-412) wallet and upload metadata with an image to IPFS provider supporting [HIP-412 standard](https://hips.hedera.com/hip/hip-412). App also included simply ``My NFT Gallery`` page, where connected user NFTs are listed.
 
 ![UI_welcome-screen](src/assets/images/readme/mintbar_welcome-screen.png)
 
 #### Built With
 
 - [Hedera Hashgraph](https://www.hedera.com/) - The enterprise-grade public network
-- [Hedera Mirror Node](https://docs.hedera.com/guides/core-concepts/mirror-nodes/) - provide a way to store and cost-effectively query historical data from the public ledger
+- [Hedera Mirror Node](https://docs.hedera.com/guides/core-concepts/mirror-nodes/) - provides a way to store and cost-effectively query historical data from the public ledger
 - [Hedera Hashgraph JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The easiest way to use Hedera in JavaScript
 - [NFT Storage](https://api.nft.storage) - The long-term storage service designed for off-chain NFT data
 - [Node.JS](https://nodejs.org) - Node.js is an open-source, cross-platform, back-end JavaScript runtime environment
@@ -41,7 +41,7 @@ git clone https://github.com/hashgraph/mintbar
 
 Copy the `.env.sample` file and rename the copy to `.env`
 
-Then update the newly renamed `.env` file with your IPFS URL, Hedera network type, Mirror Node version and HashPack wallet metadata:
+Then update the newly renamed `.env` file with your IPFS URL, Hedera network type, Mirror Node version, and HashPack wallet metadata:
 
 ```
 APP_NAME=Mintbar
@@ -82,7 +82,7 @@ npm run start
 
 1. **HomePage** Component : This component includes whole *MinterWizard* used to process minting. The ``handleFormSubmit`` method contains all procedures used for minting an NFT.
 
-2. **MyNFTCollection** Component: This Component displays the listed NFTs of the connected user of the selected customer. This Component gets its data from a JSON file in the assets folder as well. This Component is the Child Component of the *Customers* Component
+2. **MyNFTCollection** Component: This Component displays the listed NFTs of the connected user. This Component gets its data from a JSON file in the assets folder as well. This Component is the Child Component of the *Customers* Component
 
 #### Services (*src/services*)
 ##### HTS
@@ -120,7 +120,7 @@ const {
 } = useHashPack();
   ```
 ##### useBladeWallet
-Hook provides the ability to connection within the Hedera network with BladeWallet. It helps to handle connection. The hook has reconnect feature similar to the ``useHashPack`` hook. Hook returns connection method, connected user ID, bladeSigner instance and clear pairing method.
+Hook provides the ability to connect within the Hedera network with BladeWallet. It helps to handle connection. The hook has reconnect feature similar to the ``useHashPack`` hook. Hook returns connection method, connected user ID, bladeSigner instance and clear pairing method.
 ```js
 const {
     bladeSigner,
