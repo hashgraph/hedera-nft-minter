@@ -20,7 +20,6 @@
 import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@src/../Global.d';
 import axios from 'axios';
 import { Buffer } from 'buffer'
-import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
 import concat from 'lodash/concat';
 import entries from 'lodash/entries';
@@ -78,12 +77,6 @@ export default class MirrorNode {
 
   static async fetchTokenInfo(tokenId: string): Promise<TokenInfo> {
     const { data } = await this.instance.get(`/tokens/${ tokenId }`);
-
-    return data;
-  }
-
-  static async fetchNFTInfo(tokenId: string | TokenId): Promise<{ nfts: NFTInfo[] }> {
-    const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts`);
 
     return data;
   }
