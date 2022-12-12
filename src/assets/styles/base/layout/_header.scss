@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 
 header, .header {
   top: 0;
@@ -12,6 +31,10 @@ header, .header {
 
   @include respond-to('mobile') {
     height: $headerHeight;
+  }
+
+  @include respond-to('desktop-wide') {
+    height: $headerHeightWide;
   }
 
   &__logo {
@@ -105,18 +128,19 @@ header, .header {
     display: flex;
     flex-direction: column;
 
-    a {
-      padding: 15px 0;
+    a, button {
+      padding: 0.9375rem 0;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 0.8125rem;
       position: relative;
       text-decoration: none;
       color: $vapor;
       font-weight: bold;
       text-transform: uppercase;
       opacity: 0.8;
-      letter-spacing: 2px;
+      letter-spacing: 0.125rem;
       transition: generateTransitions((opacity), 100ms);
+      background: transparent;
 
       &:after {
         content: '';
@@ -130,6 +154,16 @@ header, .header {
 
       &:hover {
         opacity: 1;
+      }
+    }
+
+    button {
+      color: $green;
+      justify-content: flex-start;
+      font-size: 0.8rem;
+
+      &:hover, &:focus-within, &:focus, &:active {
+        border-color: transparent;
       }
     }
   }

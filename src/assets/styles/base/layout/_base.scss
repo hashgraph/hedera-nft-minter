@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 html,
 body {
   min-width: 320px;
@@ -39,22 +58,31 @@ main {
   }
 
   &--padding {
-    padding: calc(#{$headerHeightMobile}) $horizontalPadding 5rem;
+    padding: $headerHeightMobile $horizontalPadding $footerHeight;
 
     @include respond-to('mobile') {
-      padding: calc(#{$headerHeight}) $horizontalPadding 5rem;
+      padding: $headerHeight $horizontalPadding $footerHeight;
     }
 
     @include respond-to('tablet') {
-      padding: calc(#{$headerHeight}) $horizontalPaddingTablet 10.25%;
+      padding: $headerHeight $horizontalPaddingTablet $footerHeight;
     }
+
     @include respond-to('desktop') {
-      padding: calc(#{$headerHeight}) $horizontalPaddingDesktop 5rem;
+      padding: $headerHeight $horizontalPaddingDesktop $footerHeight;
+    }
+
+    @include respond-to('desktop-wide') {
+      padding: $headerHeightWide $horizontalPaddingDesktop $footerHeight;
     }
   }
 
   &--max-height {
     height: var(--vh);
+  }
+
+  &--min-height {
+    min-height: var(--vh);
   }
 }
 

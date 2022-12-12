@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, { useCallback, useMemo } from 'react';
 import { FieldArray, useField } from 'formik';
 import { toast } from 'react-toastify';
@@ -8,7 +27,7 @@ import {
 } from 'react-transition-group';
 
 import { Fees, FEE } from '@utils/entity/Fees';
-import FieldSelect from '@/components/shared/form/FieldSelect';
+import FieldSelect from '@components/shared/form/FieldSelect';
 import RoyaltyFee from '@components/shared/minter-wizard/Fees/Royalty';
 import FixedFee from '@components/shared/minter-wizard/Fees/Fixed';
 
@@ -39,14 +58,13 @@ const MinterWizardFees = () => {
         name='fees'
         render={({ push, remove }) => (
           <div className='form__row__fees'>
-            <div className='form__group__label-wrapper'>
+            <div className='form__group__label__wrapper'>
               <p className='title title--medium title--strong'>Royalty Fees:</p>
               <button
                 onClick={() =>
                   field.value.length < 10 ? push({
                     type: '',
                     feeCollectorAccountId: '',
-                    percent: '',
                   }) : toast.error('Enough!')
                 }
                 type='button'

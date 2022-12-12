@@ -1,12 +1,31 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, { useCallback, useContext } from 'react'
 import classNames from 'classnames';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
-import { useFormikContext } from 'formik';
 import { toast } from 'react-toastify';
 
-import { MinterWizardContext } from '@/components/views/minter-wizard'
-import { MinterWizardStepWrapperContext } from '@/components/shared/minter-wizard/StepWrapper';
+import MINTER_WIZARD_ERROR_MESSAGES from '@utils/const/minter-wizard-error-messages';
+import { MinterWizardContext } from '@components/views/minter-wizard'
+import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
 type NavigationProps = {
   backToMintTypeSelection: () => void;
@@ -16,7 +35,7 @@ type NavigationProps = {
   creatorStep: number;
   isFirstScreen: boolean,
   isLastScreen: boolean;
-
+  checkIfAllFieldsAreValidated: () => boolean;
 }
 
 export default function Navigation({
@@ -27,6 +46,7 @@ export default function Navigation({
   isLastScreen,
   handleCreatorNextButton,
   handleCreatorPrevButton,
+  checkIfAllFieldsAreValidated
 } : NavigationProps) {
 
   const {
@@ -37,18 +57,18 @@ export default function Navigation({
     isNextButtonHidden,
   } = useContext(MinterWizardStepWrapperContext)
 
-  const { errors } = useFormikContext()
-
   const handleGoToSummary = useCallback(() => {
-    if (Object.keys(errors).length > 0) {
-      toast.error('Fix creator errors!')
+    const areFieldsValidated = checkIfAllFieldsAreValidated()
+
+    if (!areFieldsValidated) {
+      toast.error(MINTER_WIZARD_ERROR_MESSAGES.FIX_ERRORS)
     } else {
       if (creatorStep > 0) {
         setCreatorStepToBackFromSummary(creatorStep)
         goToSummary()
       }
     }
-  }, [errors, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+  }, [checkIfAllFieldsAreValidated, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
 
 
   const nextButtonClassName = classNames('btn--arrow', {

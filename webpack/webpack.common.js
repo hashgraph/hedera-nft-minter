@@ -5,7 +5,6 @@ module.exports = {
   resolve: {
     alias: {
       // Base
-      '@': SRC_PATH,
       '@src': SRC_PATH,
       // Assets
       '@assets': `${SRC_PATH}/assets`,

@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import {
   Hbar,
   TokenCreateTransaction,
@@ -13,9 +32,9 @@ import {
   Timestamp,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
-import { HEDERA_NETWORK } from '@/../Global.d';
+import { HEDERA_NETWORK } from '@src/../Global.d';
 import transformToKeys from '@helpers/transformToKeys';
-import prepareFees from '@/utils/helpers/prepareFees';
+import prepareFees from '@utils/helpers/prepareFees';
 import { Fees } from '@utils/entity/Fees';
 
 export type AccountInfo = Response & {
@@ -63,7 +82,7 @@ export default class HTS {
     ).then(res => res.json());
 
     if (!accountInfo.key?.key) {
-      throw new Error('Error while try to fetch user Public key.');
+      throw new Error('Error while trying to fetch user Public key.');
     }
 
     const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
@@ -74,8 +93,13 @@ export default class HTS {
       decimals: 0,
       expirationTime,
       ...tokenProps,
-      customFees: tokenProps.customFees && tokenProps.customFees.length ? prepareFees(tokenProps.customFees, tokenProps.accountId) : undefined,
-      ...(tokenProps.keys ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key) : {})
+      customFees: tokenProps.customFees && tokenProps.customFees.length
+        ? prepareFees(tokenProps.customFees, tokenProps.accountId)
+        : undefined,
+      ...(tokenProps.keys
+        ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key)
+        : {}
+      )
     });
 
     token.setMaxTransactionFee(50);

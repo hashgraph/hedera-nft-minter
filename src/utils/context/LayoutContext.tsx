@@ -1,8 +1,27 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { map } from 'lodash';
 
-export const LayoutContext = React.createContext<{
+interface LayoutContextProps {
   isMobileSmall: boolean;
   isMobile: boolean;
   isDesktop: boolean;
@@ -12,7 +31,11 @@ export const LayoutContext = React.createContext<{
   isTablet: boolean;
   isMinterWizardWelcomeScreen: boolean;
   setIsMinterWizardWelcomeScreen: React.Dispatch<React.SetStateAction<boolean>>;
-}>({
+  goBackToMintTypeSelection: null | (() => void);
+  setGoBackToMintTypeSelection: React.Dispatch<React.SetStateAction<(() => void) | null>>
+}
+
+export const LayoutContext = React.createContext<LayoutContextProps>({
   isMobileSmall: true,
   isMobile: true,
   isLaptop: true,
@@ -22,6 +45,8 @@ export const LayoutContext = React.createContext<{
   isTablet: true,
   isMinterWizardWelcomeScreen: false,
   setIsMinterWizardWelcomeScreen: () => false,
+  goBackToMintTypeSelection: null,
+  setGoBackToMintTypeSelection: () => null,
 });
 
 export default function LayoutProvider({
@@ -30,6 +55,7 @@ export default function LayoutProvider({
   children: React.ReactElement;
 }) {
   const [isMinterWizardWelcomeScreen, setIsMinterWizardWelcomeScreen] = useState(false);
+  const [goBackToMintTypeSelection, setGoBackToMintTypeSelection] = useState<(() => void) | null>(null)
 
   const [isMobileSmall, setIsMobileSmall] = useState(true);
   const [isMobile, setIsMobile] = useState(true);
@@ -85,7 +111,7 @@ export default function LayoutProvider({
       setter: setIsLaptop
     },
     {
-      breakpoint: '(min-width: 1200px)',
+      breakpoint: '(min-width: 1366px)',
       setter: setIsDesktop
     },
     {
@@ -136,6 +162,8 @@ export default function LayoutProvider({
         isTablet,
         isMinterWizardWelcomeScreen,
         setIsMinterWizardWelcomeScreen,
+        goBackToMintTypeSelection,
+        setGoBackToMintTypeSelection
       }}
     >
       {children}

@@ -1,53 +1,53 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import map from 'lodash/map';
+import find from 'lodash/find';
+
 import filter from 'lodash/filter';
 import flatMap from 'lodash/flatMap';
-import map from 'lodash/map';
 import property from 'lodash/property';
 import values from 'lodash/values';
-import find from 'lodash/find';
-import groupBy from 'lodash/groupBy';
 
-import MirrorNode from '@/services/MirrorNode';
-import { NFTInfo } from '@/utils/entity/NFTInfo';
-import { TokenInfo } from '@utils/entity/TokenInfo';
+import { NFTInfo } from '@utils/entity/NFTInfo';
+
 import useHederaWallets from '@hooks/useHederaWallets';
+import useHederaAccountNFTs from '@src/utils/hooks/useHederaAccountNFTs';
 
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 import Loader from '@components/shared/loader/Loader';
-import NFT from '@/components/views/my-nft-collection/NFT';
-import CollectionList from '@/components/views/my-nft-collection/CollectionList';
-
-export type CollectionRowProps = {
-  collection_id: string;
-  nfts: NFTInfo[];
-  collection_info: TokenInfo;
-}
+import NFT from '@components/views/my-nft-collection/NFT';
+import CollectionList from '@components/views/my-nft-collection/CollectionList';
 
 export default function MyNFTCollection() {
   const { userWalletId } = useHederaWallets();
-  const [collections, setCollections] = useState<CollectionRowProps[] | null>(null);
-
-  const [loading, setLoading] = useState(true);
   const [selectedCollectionsId, setSelectedCollectionsId] = useState<string[]>([]);
+  const {
+    collections,
+    loading,
+    fetchHederaAccountNFTs
+  } = useHederaAccountNFTs(userWalletId)
 
-  const load = useCallback(async () => {
-    try {
-      const accountId = userWalletId ?? null;
-
-      if (!accountId) {
-        throw new Error('No account ID');
-      }
-
-      const fetchedNfts = await MirrorNode.fetchAllNFTs(accountId)
-      const groupedFetchedNfts = groupBy(fetchedNfts, 'token_id');
-      const groupedCollections = await MirrorNode.fetchCollectionInfoForGroupedNFTs(groupedFetchedNfts);
-
-      setCollections(groupedCollections);
-      setLoading(false);
-    } catch (e) {
-      // toast.error(e.message)
-    }
-  }, [userWalletId]);
+  useEffect(() => {
+    fetchHederaAccountNFTs();
+  }, [fetchHederaAccountNFTs]);
 
   const selectedCollections = useMemo(() => (
     selectedCollectionsId.length > 0 ? (
@@ -105,10 +105,6 @@ export default function MyNFTCollection() {
     )
   ), [renderSelectedCollectionError, renderSelectedNFTs, selectedCollectionsNFTs])
 
-  useEffect(() => {
-    load();
-  }, [load]);
-
   const renderUserNfts = useCallback(() => (
     loading ? (
       <div className='my-nft-collection__loader-wrapper'>
@@ -137,17 +133,15 @@ export default function MyNFTCollection() {
         </div>
       </Scrollbar>
     )
-  ), [collections, loading, renderNFTs, selectedCollectionsId])
+  ), [collections, loading, renderNFTs, selectedCollectionsId, setSelectedCollectionsId])
 
   return (
-    <div className='dark-schema'>
-      <div className='mc--h container--padding container--max-height bg--transparent'>
-        {!userWalletId ? (
-          <div>Firstly, you need connect your wallet!</div>
-        ) : (
-          renderUserNfts()
-        )}
-      </div>
+    <div className='mc--h container--padding container--max-height bg--transparent'>
+      {!userWalletId ? (
+        <div>Firstly, you need connect your wallet!</div>
+      ) : (
+        renderUserNfts()
+      )}
     </div>
   );
 }

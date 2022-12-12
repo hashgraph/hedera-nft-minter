@@ -1,10 +1,29 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, { InputHTMLAttributes, useCallback, useMemo } from 'react';
 import { FastField, FieldAttributes, Field, useField } from 'formik';
 import classNames from 'classnames';
 import { v4 as uuidv4 } from 'uuid';
 import { JSX } from '@babel/types';
 
-import Error from '@/components/shared/form/Error';
+import Error from '@components/shared/form/Error';
 import Tooltip from './Tooltip';
 
 type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> & {
@@ -15,6 +34,7 @@ type FieldWrapperProps = FieldAttributes<InputHTMLAttributes<HTMLInputElement>> 
   hideError?: boolean,
   inverse?: boolean,
   isArray?: boolean,
+  showAsError?: boolean,
   onEnter?: () => void,
   tooltip?: string | JSX.Element,
   hideCharLimit?: boolean,
@@ -29,6 +49,7 @@ const FieldWrapper = ({
   inverse = false,
   type = 'text',
   isArray = false,
+  showAsError = false,
   maxLength,
   hideCharLimit,
   // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
@@ -36,8 +57,12 @@ const FieldWrapper = ({
   ...props
 }: FieldWrapperProps) => {
   const id = useMemo(() => uuidv4(), []);
-  const [field,, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
   const Component = useMemo(() => (fastField ? FastField : Field), [fastField]);
+
+  const shouldBeErrorDisplayed = useMemo(() => (
+    showAsError || meta.touched && meta.error
+  ), [showAsError, meta.error, meta.touched])
 
   const wrapperClassName = useMemo(() => (
     classNames(
@@ -50,9 +75,10 @@ const FieldWrapper = ({
   const formFieldContainerClassName = useMemo(() => (
     classNames('form__field__container', {
       'input': props?.as === 'textarea',
-      'form__field__container--textarea': props?.as === 'textarea'
+      'form__field__container--textarea': props?.as === 'textarea',
+      'form__field__container--error': shouldBeErrorDisplayed
     })
-  ), [props?.as])
+  ), [props?.as, shouldBeErrorDisplayed])
 
   const handleChange = useCallback((e) => {
     if (isArray) {
@@ -111,7 +137,6 @@ const FieldWrapper = ({
           id={id}
           name={name}
           {...props}
-          validateOnChange
           maxLength={maxLength}
           type={type}
           checked={isArray ? (field.value || []).includes(props.value) : props.value === field.value}

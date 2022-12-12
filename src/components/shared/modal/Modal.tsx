@@ -1,33 +1,37 @@
-import React, { useContext, useEffect, useMemo, useRef, useState, useCallback } from 'react';
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import { useOnClickAway } from 'use-on-click-away';
 import classNames from 'classnames';
 
-import { ModalContext } from '@/utils/context/ModalContext';
+import { ModalContext } from '@utils/context/ModalContext';
 
-type Props = {
-  closeModal: () => void;
-  isModalShowed: boolean;
-  children: React.ReactNode;
-}
-
-const Modal = ({ children, ...props } : Props) => {
+const Modal = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const modalContext = useContext(ModalContext);
-  const [modalContent, setModalContent] = useState(children)
-
-  const closeModal = useCallback(() => (
-    props.closeModal ? props.closeModal() : modalContext.closeModal()
-  ), [modalContext, props])
-
-  const isModalShowed = useMemo(() => (
-    props.isModalShowed ?? modalContext.isModalShowed
-  ), [modalContext.isModalShowed, props.isModalShowed])
-
-  useEffect(() => {
-    setModalContent(children ?? modalContext.modalContent)
-  }, [children, modalContext.modalContent])
+  const {
+    closeModal,
+    isModalShowed,
+    modalContent
+  } = useContext(ModalContext);
 
   useEffect(() => {
     const handleExit = (e: KeyboardEvent) => {

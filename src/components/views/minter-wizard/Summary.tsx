@@ -1,10 +1,29 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React, { useCallback, useMemo } from 'react';
 import map from 'lodash/map';
 import pick from 'lodash/pick';
 import { FormikValues } from 'formik';
 import { Link } from 'react-router-dom';
-import { HEDERA_NETWORK } from '@/../Global.d';
-import Scrollbar from '@/components/shared/layout/Scrollbar';
+import { HEDERA_NETWORK } from '@src/../Global.d';
+import Scrollbar from '@components/shared/layout/Scrollbar';
 import placeholder from '@assets/images/placeholder.png';
 import externalIcon from '@assets/images/icons/external.svg';
 import nftIcon from '@assets/images/icons/nft_icon.svg';
@@ -29,18 +48,11 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
   ), [summaryValues])
 
   const hashScanLink = useMemo(() => (
-    `https://hashscan.io/#/${ HEDERA_NETWORK }/token/${ mintedNFTData.tokenId }`
+    `https://hashscan.io/${ HEDERA_NETWORK }/token/${ mintedNFTData.tokenId }`
   ), [mintedNFTData.tokenId])
 
   return (
-    <Scrollbar
-      renderOn={{
-        laptop: false,
-        desktop: false,
-        desktopWide: false,
-        desktopExtraWide: false,
-      }}
-    >
+    <Scrollbar>
       <div className='minter-wizard__summary__content minter-wizard__animation-container minter-wizard__summary--final'>
         <div className='minter-wizard__summary__image'>
           <img

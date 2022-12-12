@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import {  enableBodyScroll } from 'body-scroll-lock';
 import classNames from 'classnames';
 import { Divide as Hamburger } from 'hamburger-react';
@@ -11,7 +30,7 @@ import React, {
 import { Link, useLocation } from 'react-router-dom';
 import { useOnClickAway } from 'use-on-click-away';
 
-import useHederaWallets from '@hooks/useHederaWallets';
+import useHederaWallets, { ConnectionStateType } from '@hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 import useLayout from '@utils/hooks/useLayout';
 
@@ -25,9 +44,9 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group';
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { isNavbarHidden, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
+  const { goBackToMintTypeSelection, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
   const location = useLocation();
-  const headerRef = useRef<HTMLDivElement>();
+  const headerRef = useRef<HTMLDivElement>(null);
   const expandedMenuRef = useRef(null);
   const [isMobileNavbarMenuExpanded, setIsMobileNavbarMenuExpanded] =
     useState(false);
@@ -44,7 +63,6 @@ const Header = () => {
 
   const headerClassnames = classNames('header', {
     'header--shade': location.pathname === '/' && isMinterWizardWelcomeScreen,
-    'is-hide': isNavbarHidden,
     'is-mobile': isMobileSmall,
   });
 
@@ -56,25 +74,31 @@ const Header = () => {
   );
 
   const connectIconClassName = classNames('icon__connect', {
-    'icon--active': connectedWalletType !== 'noconnection'
+    'icon--active': connectedWalletType !== ConnectionStateType.NOCONNECTION
   })
 
   const closeNavbar = useCallback(() => {
     if (headerRef?.current) {
-      enableBodyScroll(headerRef);
+      enableBodyScroll(headerRef.current);
       setIsMobileNavbarMenuExpanded(false);
     }
   }, [setIsMobileNavbarMenuExpanded]);
 
 
-  useOnClickAway(expandedMenuRef, () => {
+  useOnClickAway(headerRef, () => {
     closeNavbar();
   });
+
+  const handleLogoClick = useCallback(() => (
+    location.pathname === '/' && !isMinterWizardWelcomeScreen && (
+      goBackToMintTypeSelection && goBackToMintTypeSelection()
+    )
+  ), [isMinterWizardWelcomeScreen, location.pathname, goBackToMintTypeSelection])
 
   return (
     <header className={headerClassnames} ref={headerRef}>
       <div className={classNames('header-container', 'container--padding')}>
-        <Link className='header__logo' to='/'>
+        <Link onClick={handleLogoClick} className='header__logo' to='/'>
           <img src={Logo} alt='hedera_logo' height={66} width={110} />{' '}
         </Link>
         {!isMobileSmall ? (
@@ -89,30 +113,29 @@ const Header = () => {
 
               <button onClick={handleShowModal} className={connectIconClassName}>
                 <img src={ConnectIcon} alt='wallet_connect_icon' />
-                <p>
-                <SwitchTransition>
-                  <CSSTransition
-                    key={connectedWalletType}
-                    addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
-                    classNames='fade'
-                  >
-                    <div>
-                      {connectedWalletType === 'noconnection' ? (
-                        <>
-                          Connect <br />
-                          Wallet
-                        </>
-                      ) : (
-                        <>
-                          Connected <br />
-                          {userWalletId}
-                        </>
-                      )}
-                    </div>
-                  </CSSTransition>
-                </SwitchTransition>
-
-                </p>
+                <div>
+                  <SwitchTransition>
+                    <CSSTransition
+                      key={connectedWalletType}
+                      addEndListener={(node, done) => node.addEventListener('transitionend', done, false)}
+                      classNames='fade'
+                    >
+                      <div>
+                        {connectedWalletType === ConnectionStateType.NOCONNECTION ? (
+                          <>
+                            Connect <br />
+                            Wallet
+                          </>
+                        ) : (
+                          <>
+                            Connected <br />
+                            {userWalletId}
+                          </>
+                        )}
+                      </div>
+                    </CSSTransition>
+                  </SwitchTransition>
+                </div>
               </button>
             </div>
           ) : (
@@ -139,19 +162,11 @@ const Header = () => {
             My NFT Collection
           </Link>
           <button onClick={handleShowModal}>
-            <p>
-              {connectedWalletType === 'noconnection' ? (
-                <>
-                  Connect <br />
-                  Wallet
-                </>
+              {connectedWalletType === ConnectionStateType.NOCONNECTION ? (
+                'Connect Wallet'
               ) : (
-                <>
-                  Wallet <br />
-                  Connected
-                </>
+                `Connected ${ userWalletId }`
               )}
-            </p>
           </button>
         </div>
       )}

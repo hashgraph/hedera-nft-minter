@@ -1,8 +1,29 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import * as yup from 'yup';
 import { FEE } from '@utils/entity/Fees';
-import { MintTypes } from '@/utils/entity/MinterWizard';
+import { MintTypes } from '@utils/entity/MinterWizard';
 import validateQtyFormField from '@utils/helpers/validateQtyFormField';
-import objectUnique from '@/utils/yup/objectUnique';
+import objectUnique from '@utils/yup/objectUnique';
+
+const MAX_FILE_LIMIT_IN_BYTES = 6081740
 
 objectUnique();
 
@@ -10,16 +31,22 @@ const feeValidator = yup.object().shape({
   type: yup.string()
     .oneOf(Object.values(FEE), 'Select a type')
     .ensure(),
-
   feeCollectorAccountId: yup.string().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALTY].includes(type),
+    is: (type : FEE) => type === FEE.ROYALTY,
     then: yup.string().required('Required'),
   }),
-
   percent: yup.number().when(['type'], {
-    is: (type : FEE) => [FEE.ROYALTY].includes(type),
-    then: yup.number().max(100, 'Max 100%').required('Required'),
+    is: (type : FEE) => type === FEE.ROYALTY,
+    then: yup.number().min(1, 'Min 1%').max(100, 'Max 100%').required('Required'),
   }),
+  fallbackFee: yup.number().when(['type'], {
+    is: (type : FEE) => type === FEE.ROYALTY,
+    then: yup.number().min(1, 'Min 1').required('Required')
+  }),
+  amount: yup.number().when(['type'], {
+    is: (type : FEE) => type === FEE.FIXED,
+    then: yup.number().min(1, 'Min 1').required('Required')
+  })
 });
 
 const keyValidator = yup.object().shape({
@@ -42,7 +69,13 @@ export const ValidationSchema = yup.object().shape({
       case 'string':
         return true
     }
-  }),
+  }).test('size', 'Max file size = 5.8MB', (value) => (
+    value ? (
+      value?.size < MAX_FILE_LIMIT_IN_BYTES
+    ) : (
+      true
+    )
+  )),
   name: yup
     .string()
     .max(100, 'Too Long')

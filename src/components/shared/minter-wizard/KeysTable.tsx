@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import React from 'react';
 import { Field, useField } from 'formik';
 import classNames from 'classnames';
@@ -6,7 +25,6 @@ import map from 'lodash/map';
 import { TOKEN_KEY } from '@utils/entity/TokenKeys';
 
 import Tooltip from '@components/shared/form/Tooltip';
-
 
 export const TokenKeys = [
   { title: 'Treasury Account ID', value: TOKEN_KEY.TREASURY, required: true },
@@ -40,15 +58,15 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
       <p className='title--medium title--strong'>Keys:</p>
       <div role='group' aria-labelledby='checkbox-group-keys' className='minter-wizard__keys'>
         {map(data, (el) => (
-          <div className='minter-wizard__keys__checkbox'>
-            <p className='title'>
+          <div key={el.value} className='minter-wizard__keys__checkbox'>
+            <div className='title'>
               {el.title}
               {el?.tooltip && (
                 <Tooltip >
                   {el.tooltip}
                 </Tooltip>
               )}
-            </p>
+            </div>
 
             <label className=''>
               <span
@@ -58,7 +76,7 @@ const MinterWizardKeys = ({ data, name }: MinterWizardKeysProps) => {
                 })}
               />
               {el.required ? (
-                  <input type='checkbox' checked={true}/>
+                  <input type='checkbox' checked={true} onChange={() => null}/>
                 ) : (
                   <Field type='checkbox' name='keys' value={el.value} />
                 )

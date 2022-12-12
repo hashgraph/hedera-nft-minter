@@ -1,3 +1,22 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 import { useCallback, useContext, useMemo, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import {
@@ -7,7 +26,7 @@ import {
 } from '@hashgraph/sdk';
 import { MessageTypes } from 'hashconnect';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
-import { SigningService } from '@/services/SigningService';
+import { SigningService } from '@services/SigningService';
 
 export enum ConnectionStateType {
   BLADEWALLET= 'bladewallet',
@@ -21,34 +40,33 @@ const useHederaWallets = () => {
     bladeAccountId,
     hashConnect,
     connectBladeWallet,
-    clearPairedAccountsAndHashPackWalletData,
+    disconnectFromHashPack,
     clearConnectedBladeWalletData,
     connectToHashPack,
-    hashConnectSaveData,
+    hashConnectState,
+    isIframeParent
   } = useContext(HederaWalletsContext);
-
-  const { accountsIds } = hashConnectSaveData;
 
   const [connectedWalletType, setConnectedWalletType] =
     useState<ConnectionStateType>(ConnectionStateType.NOCONNECTION);
 
   useEffect(() => {
-    if (!bladeAccountId && accountsIds?.length === 0) {
+    if (!bladeAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
-    if (bladeAccountId && accountsIds?.length === 0) {
+    if (bladeAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.BLADEWALLET);
     }
-    if (accountsIds?.length > 0 && !bladeAccountId) {
+    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0 && !bladeAccountId) {
       setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
-  }, [bladeAccountId, accountsIds, setConnectedWalletType]);
+  }, [bladeAccountId, setConnectedWalletType, hashConnectState.pairingData]);
 
   const connect = useCallback(
     (walletType) => {
       switch (walletType) {
         case ConnectionStateType.BLADEWALLET:
-          clearPairedAccountsAndHashPackWalletData();
+          disconnectFromHashPack();
           connectBladeWallet();
           break;
         case ConnectionStateType.HASHPACK:
@@ -60,7 +78,7 @@ const useHederaWallets = () => {
     [
       connectBladeWallet,
       connectToHashPack,
-      clearPairedAccountsAndHashPackWalletData,
+      disconnectFromHashPack,
       clearConnectedBladeWalletData,
     ]
   );
@@ -72,19 +90,19 @@ const useHederaWallets = () => {
         toast.error('❌ Removed Blade Wallet pairing.');
         break;
       case ConnectionStateType.HASHPACK:
-        clearPairedAccountsAndHashPackWalletData();
+        disconnectFromHashPack();
         toast.error('❌ Removed HashPack pairings.');
         break;
       default:
         clearConnectedBladeWalletData();
-        clearPairedAccountsAndHashPackWalletData();
+        disconnectFromHashPack();
         toast.error('❌ Removed pairings.');
         break;
     }
   }, [
     connectedWalletType,
     clearConnectedBladeWalletData,
-    clearPairedAccountsAndHashPackWalletData,
+    disconnectFromHashPack,
   ]);
 
   const userWalletId = useMemo(() => {
@@ -92,11 +110,11 @@ const useHederaWallets = () => {
       case ConnectionStateType.BLADEWALLET:
         return bladeAccountId;
       case ConnectionStateType.HASHPACK:
-        return hashConnectSaveData?.accountsIds[0];
+        return hashConnectState.pairingData?.accountIds && hashConnectState.pairingData?.accountIds[0]
       case ConnectionStateType.NOCONNECTION:
         return undefined;
     }
-  }, [connectedWalletType, bladeAccountId, hashConnectSaveData.accountsIds]);
+  }, [connectedWalletType, bladeAccountId, hashConnectState]);
 
   const sendTransaction = useCallback(
     async (tx, sign = false) => {
@@ -113,7 +131,7 @@ const useHederaWallets = () => {
 
       switch (connectedWalletType) {
         case ConnectionStateType.BLADEWALLET:
-          response = (await bladeSigner?.sendRequest(
+          response = (await bladeSigner?.call(
             tx
           )) as TransactionResponse;
 
@@ -121,13 +139,13 @@ const useHederaWallets = () => {
             throw new Error('Get transaction response error');
           }
 
-          return bladeSigner?.sendRequest(
+          return bladeSigner?.call(
             new TransactionReceiptQuery({
               transactionId: response.transactionId,
             })
           );
         case ConnectionStateType.HASHPACK:
-          if (!hashConnectSaveData.topic) {
+          if (!hashConnectState.topic) {
             throw new Error('Loading topic Error.');
           }
 
@@ -137,12 +155,11 @@ const useHederaWallets = () => {
             tx.toBytes()
           );
 
-
           // eslint-disable-next-line no-case-declarations
           response = await hashConnect?.sendTransaction(
-            hashConnectSaveData.topic,
+            hashConnectState.topic,
             {
-              topic: hashConnectSaveData.topic,
+              topic: hashConnectState.topic,
               byteArray: hashConnectTxBytes,
               metadata: {
                 accountToSign: userWalletId,
@@ -167,7 +184,7 @@ const useHederaWallets = () => {
       hashConnect,
       connectedWalletType,
       userWalletId,
-      hashConnectSaveData.topic,
+      hashConnectState.topic,
       bladeSigner,
     ]
   );
@@ -179,6 +196,7 @@ const useHederaWallets = () => {
     connect,
     disconnect,
     sendTransaction,
+    isIframeParent
   };
 };
 

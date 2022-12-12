@@ -1,10 +1,30 @@
-import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@/../Global.d';
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@src/../Global.d';
 import axios from 'axios';
 import { Buffer } from 'buffer'
 import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
 import concat from 'lodash/concat';
 import entries from 'lodash/entries';
+import filter from 'lodash/filter';
 import { TokenInfo, TokenSupplyType } from '@utils/entity/TokenInfo';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 
@@ -36,6 +56,12 @@ interface AccountResponse {
 interface FetchAllNFTsResponse {
   nfts: NFTInfo[];
   links: ResponseLinks;
+}
+
+export interface GroupedNFTsByCollectionIdWithInfo {
+  collection_id: string;
+  nfts: NFTInfo[];
+  collection_info: TokenInfo;
 }
 
 export default class MirrorNode {
@@ -86,66 +112,6 @@ export default class MirrorNode {
     }
   }
 
-  static async fetchUserCollectionsInfo(
-    accountId: string,
-    options: {
-      fetchNftsData?: boolean,
-      onlyAllowedToMint?: boolean,
-      onlyHasNFTs?: boolean
-    } = { onlyAllowedToMint: false, onlyHasNFTs: false }) {
-    const {
-      onlyAllowedToMint = false,
-      onlyHasNFTs = false,
-      fetchNftsData = false
-    } = options;
-    const { balance, key } = await this.fetchAccountInfo(accountId);
-
-    if (!balance.tokens) {
-      throw new Error('No NFTs');
-    }
-
-    const collections = await Promise.all(
-      balance.tokens
-        .map(async token => {
-          const tokenInfo = await this.fetchTokenInfo(token.token_id);
-
-          if (
-            tokenInfo.type !== 'NON_FUNGIBLE_UNIQUE' ||
-            (
-              onlyAllowedToMint &&
-              tokenInfo?.supply_key?.key !== key.key ||
-              (
-                tokenInfo?.supply_type === TokenSupplyType.FINITE &&
-                parseInt(tokenInfo.total_supply ?? '0') >= parseInt(tokenInfo.max_supply ?? '0')
-              )
-            )
-          ) {
-            return null;
-          }
-
-          if (fetchNftsData) {
-            return this.fetchNFTInfo(token.token_id)
-              .then(res => ({
-                ...res,
-                info: tokenInfo,
-              })
-            );
-          }
-
-          return {
-            info: tokenInfo
-          }
-
-        })
-    ).then(res => res.filter(Boolean)) as ({ nfts: NFTInfo[], info: TokenInfo } )[];
-
-    if (onlyHasNFTs) {
-      return collections.filter(collection => collection?.nfts?.length > 0)
-    }
-
-    return collections;
-  }
-
   static async fetchAllNFTs(idOrAliasOrEvmAddress: string, nextLink?: string) {
       const { data } = await this.instance.get<FetchAllNFTsResponse>(
         nextLink
@@ -171,7 +137,7 @@ export default class MirrorNode {
   }
 
   static async fetchCollectionInfoForGroupedNFTs(groupedNfts: GroupedNFTs) {
-    const groupedNFTsByCollectionIdWithInfo = await Promise.all(
+    const groupedNFTsByCollectionIdWithInfo: GroupedNFTsByCollectionIdWithInfo[] = await Promise.all(
       map(entries(groupedNfts), async ([collectionId, nfts]) => ({
         collection_id: collectionId,
         nfts,
@@ -181,4 +147,27 @@ export default class MirrorNode {
 
     return groupedNFTsByCollectionIdWithInfo
   }
+
+
+  static async filterCollectionInfoForGroupedNFTs(groupedNFTsByCollectionIdWithInfo: GroupedNFTsByCollectionIdWithInfo[], accountId: string, options: {
+    onlyAllowedToMint?: boolean,
+  }) {
+    const { key } = await this.fetchAccountInfo(accountId);
+
+    return filter(groupedNFTsByCollectionIdWithInfo, (groupedNFTsByCollectionIdWithInfo) => {
+      if (options.onlyAllowedToMint) {
+        if (groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key !== key.key) {
+          return false
+        }
+
+        return (
+          groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_type === TokenSupplyType.FINITE &&
+          parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.total_supply ?? '0') <= parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.max_supply ?? '0')
+        )
+      }
+
+      return true
+    })
+  }
 }
+
