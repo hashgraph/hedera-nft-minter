@@ -1,0 +1,243 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+@import "variables";
+
+@mixin box-sizing($val) {
+  -webkit-box-sizing: $val;
+  -moz-box-sizing: $val;
+  box-sizing: $val;
+}
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin border-opacity($border) {
+  border: $border;
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+}
+
+@mixin bg($color) {
+  background: $color;
+  background-color: $color;
+}
+
+@mixin box-shadow($val) {
+  box-shadow: $val;
+  -webkit-box-shadow: $val;
+  -moz-box-shadow: $val;
+}
+
+@mixin grayscale($val) {
+  -webkit-filter: grayscale($val);
+  filter: grayscale($val);
+}
+
+@mixin gradient($c1, $c2) {
+  background: $c1;
+  background: -moz-linear-gradient(top, $c1 0%, $c2 100%);
+  background: -webkit-linear-gradient(top, $c1 0%, $c2 100%);
+  background: linear-gradient(to bottom, $c1 0%, $c2 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$c1', endColorstr='$c2', GradientType=0);
+}
+
+@mixin opacity($opacity) {
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' $opacity * 100
+    ')';
+  filter: alpha(opacity=$opacity * 100);
+  -moz-opacity: $opacity;
+  -khtml-opacity: $opacity;
+  opacity: $opacity;
+}
+
+@mixin opacity-after-bg($color, $opacity, $boxShadow) {
+  position: relative;
+
+  @if $boxShadow {
+    box-shadow: inset 0px 0px 34px 0px rgba(66, 68, 90, 0.2);
+  }
+
+  * {
+    z-index: 1;
+    position: relative;
+  }
+
+  &:after {
+    content: "";
+    background: $color;
+    opacity: $opacity;
+    z-index: 0;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@mixin transition($time) {
+  -webkit-transition: all $time ease-in-out;
+  -moz-transition: all $time ease-in-out;
+  -o-transition: all $time ease-in-out;
+  transition: all $time ease-in-out;
+}
+@mixin transform($val) {
+  -webkit-transform: $val;
+  -moz-transform: $val;
+  -ms-transform: $val;
+  -o-transform: $val;
+  transform: $val;
+}
+
+@mixin blur($blur) {
+  -webkit-filter: blur($blur);
+  -moz-filter: blur($blur);
+  -ms-filter: blur($blur);
+  -o-filter: blur($blur);
+  filter: blur($blur);
+}
+
+@mixin respond-to($breakpoint) {
+  // If the key exists in the map
+  @if map-has-key($breakpoints, $breakpoint) {
+    // Prints a media query based on the value
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+    // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
+
+@mixin animation($val) {
+  -webkit-animation: $val;
+  -moz-animation: $val;
+  -o-animation: $val;
+  animation: $val;
+}
+@mixin animation-delay($time) {
+  -webkit-animation-delay: $time;
+  -moz-animation-delay: $time;
+  -o-animation-delay: $time;
+  animation-delay: $time;
+}
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-o-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+@mixin user-select($type) {
+  -webkit-user-select: $type;
+  -khtml-user-select: $type;
+  -moz-user-select: $type;
+  -ms-user-select: $type;
+  -o-user-select: $type;
+  user-select: $type;
+}
+
+@mixin gradient-border($direction, $size) {
+  position: relative;
+
+  &:after {
+    content: "";
+    display: flex;
+    position: absolute;
+    background-image: $gradient;
+  }
+
+  @if $direction == "top" {
+    padding-top: 1rem;
+
+    &:after {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: $size;
+    }
+  }
+
+  @if $direction == "bottom" {
+    padding-bottom: 1rem;
+
+    &:after {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: $size;
+    }
+  }
+
+  @if $direction == "left" {
+    padding-left: 1rem;
+
+    &:after {
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      height: 100%;
+      width: $size;
+    }
+  }
+
+  @if $direction == "right" {
+    padding-right: 1rem;
+
+    &:after {
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      height: 100%;
+      width: $size;
+    }
+  }
+}
+
+@mixin blur-container {
+  transition: generateTransitions((opacity, width, height), 500ms);
+  padding: 0 1rem;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  border-radius: 1.25rem;
+  background-color: rgba(0, 0, 0, .35);
+  backdrop-filter: blur(5px);
+  @include box-shadow(0px 4px 10px 3px rgba(66, 68, 90, 0.3));
+}

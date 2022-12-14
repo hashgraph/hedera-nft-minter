@@ -1,0 +1,122 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+@import "src/assets/styles/base/functions";
+
+.drag-and-drop {
+  &__upload-arrow {
+    width: 53px;
+    height: 53px;
+    filter: grayscale(1);
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__container {
+    cursor: pointer;
+    $boxShadow: 0px 2px 56px -22px rgba(66, 68, 90, 0.5);
+    $transitionTime: 0.4s;
+    $transitionAttributes: (border-color, box-shadow);
+    height: 266px;
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: pre;
+    border-radius: 30px;
+    @include border-opacity($border);
+    background-color: $inputColor;
+    color: $lightGrey;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem 1rem;
+    transition: generateTransitions($transitionAttributes, $transitionTime);
+    box-shadow: 0 2px 56px -22px rgba(66, 68, 90, 0);
+
+    @include respond-to('mobile') {
+     width: 266px;
+    }
+
+    img {
+      &.selected-image {
+        width: 100%;
+        border-radius: 30px;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &.is-focused {
+      border-color: $ultraviolet;
+      box-shadow: $boxShadow;
+
+      .drag-and-drop__upload-arrow {
+        filter: unset;
+      }
+    }
+
+    &.is-drag-accepted {
+      border-color: $green;
+      box-shadow: $boxShadow;
+    }
+
+    &.is-drag-rejected {
+      border-color: $orange;
+      box-shadow: $boxShadow;
+    }
+  }
+
+  &__summary {
+    display: flex;
+    padding: 0.625rem 1.25rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    @include border-opacity($border);
+
+    img {
+      object-fit: cover;
+      margin-right: 1.625rem;
+      width: 60px;
+      height: 60px;
+    }
+
+    &__description {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      * {
+        margin: 0;
+      }
+    }
+  }
+
+  .file-name {
+    overflow: hidden;
+    max-width: 20ch;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

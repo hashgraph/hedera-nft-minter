@@ -1,0 +1,201 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+.my-nft-collection {
+  grid-column-gap: 3.25rem;
+  grid-template-columns: auto;
+  display: grid;
+  grid-template-rows: 160px auto;
+  grid-row-gap: 2rem;
+
+  @include respond-to('mobile') {
+    grid-template-rows: 180px auto;
+  }
+
+  @include respond-to('tablet') {
+    padding-top: 2.25rem;
+    grid-template-columns: 285px auto;
+    grid-template-rows: auto;
+    height: 100%;
+  }
+
+  @include respond-to('desktop-wide') {
+    grid-column-gap: 7.5rem;
+  }
+
+  &__collections-list {
+    ul {
+      margin: 0;
+      width: 100%;
+      padding: 0.5rem 0;
+    }
+
+    li {
+      width: 100%;
+      list-style: none;
+      margin-top: 0.4rem;
+
+      &:first-of-type {
+        margin-top: 0;
+      }
+
+      &.active {
+        label {
+          &:before {
+            background-color: $green;
+          }
+        }
+      }
+
+      label {
+        background: transparent;
+        display: grid;
+        text-align: left;
+        border: unset;
+        cursor: pointer;
+        color: $vapor;
+        margin: 0;
+        padding: 0;
+        justify-content: flex-start;
+        align-items: center;
+        width: 100%;
+        white-space: normal;
+        grid-column-gap: .5rem;
+        grid-template-columns: 25px auto;
+
+        &:focus-within {
+          color: $green;
+        }
+
+        span {
+          display: block;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 100%;
+          justify-content: flex-start;
+          text-overflow: ellipsis;
+        }
+
+        input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        &:before {
+          content: '';
+          width: 25px;
+          height: 25px;
+          border: 1px solid;
+          border-color: $green;
+          background-color: transparent;
+          position: relative;
+          display: flex;
+          align-self: center;
+          border-radius: 100%;
+          transition: 0.3s ease-in-out;
+          transition-property: background-color, opacity;
+        }
+      }
+    }
+
+    .title {
+      margin-top: 0;
+    }
+
+    .scrollbar {
+      &__scroller {
+        padding-right: 0.3rem !important ;
+      }
+    }
+
+    &__box {
+      height: 100%;
+      padding: 1rem;
+      background: $inputColor;
+      border: 1px solid $vapor;
+      border-radius: 1rem;
+      max-height: 125px;
+
+      @include respond-to('tablet') {
+        max-height: 325px;
+      }
+    }
+  }
+
+  &__loader-wrapper {
+    display: grid;
+    width: 100%;
+    min-height: calc(40vh - 62px);
+    place-items: center;
+
+    img {
+      object-fit: contain;
+    }
+
+    @include respond-to('mobile') {
+      min-height: calc(50vh - 62px);
+    }
+  }
+
+  &__nfts {
+    max-width: 1020px;
+
+    @include respond-to('2K') {
+      max-width: 1335px;
+    }
+
+    @include respond-to('QHD') {
+      max-width: 1620px;
+    }
+
+    .scrollbar {
+        &__scroller {
+        padding-right: 1.5rem !important;
+      }
+    }
+
+    &__grid {
+      display: grid;
+      grid-gap: 1.3rem;
+
+      @include respond-to('mobile') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include respond-to('laptop') {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      @include respond-to('desktop') {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      @include respond-to('2K') {
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      @include respond-to('QHD') {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+  }
+}

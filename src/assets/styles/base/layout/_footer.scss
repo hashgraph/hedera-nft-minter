@@ -1,0 +1,104 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+footer,
+.footer {
+  min-height: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 1rem;
+
+  &__links {
+    position: absolute;
+    right: var(--horizontal-padding);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    column-gap: 0.5rem;
+
+    @include respond-to('mobile') {
+      column-gap: 1.5rem;
+    }
+
+    a {
+      text-decoration: unset;
+      color: $vapor;
+      font-weight: 600;
+      position: relative;
+      font-size: 0.75rem;
+      padding-top: 0.75rem;
+      transition: generateTransitions((color), 500ms);
+
+      &:hover {
+        color: $green;
+      }
+
+      @include respond-to('mobile') {
+        padding-top: 0;
+        font-size: 1rem;
+      }
+    }
+
+    &:before {
+      @include blur-container;
+      content: '';
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1rem;
+      margin: 0;
+
+      @include respond-to('mobile') {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    right: var(--horizontal-padding);
+    margin-top: .75rem;
+
+    width: 100px;
+    height: 43px;
+    object-position: right;
+    object-fit: contain;
+    margin-bottom: 0.35rem;
+
+    @include respond-to('mobile') {
+      width: 140px;
+      height: 56px;
+    }
+
+    &--left {
+      @extend .footer__logo;
+
+      left: var(--horizontal-padding);
+      right: unset;
+
+      img {
+        object-position: left;
+      }
+    }
+  }
+}

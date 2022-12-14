@@ -1,0 +1,83 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
+$dividerHeight: 62px;
+$headerHeightMobile: 125px;
+$headerHeight: 160px;
+$headerHeightWide: 200px;
+$footerHeight: 80px;
+
+$contentContainerHeightMobile: calc(var(--vh) - #{$headerHeightMobile * 2});
+$contentContainerHeightDesktop: calc(var(--vh) - #{$headerHeight * 2});
+$contentContainerHeightDesktopWide: calc(var(--vh) - #{$headerHeightWide * 2});
+
+$horizontalPadding: 1rem;
+$horizontalPaddingTablet: 1rem;
+$horizontalPaddingDesktop: 4.25rem;
+
+$columnGap: 0.5rem;
+$errorHeight: 1.425rem;
+
+$grey: #3a3a3a;
+$lightGrey: #909090;
+$red: #ff4a4a;
+$white: #fff;
+
+//HEDERA PRIMARY COLORS
+$black: #222222;
+$charcoal: #464646;
+$smoke: #8C8C8C;
+$vapor: #F9F9F9;
+
+//HEDERA SECONDARY COLORS
+$ultraviolet: #8259EF;
+$green: #33FF00;
+$blue: #2D84EB;
+$orange: #FF4200;
+
+//HEDERA ACCENTS COLORS
+$yellow: #EADA0B;
+$lime: #B7F133;
+
+//HEDERA GRADIENT
+$gradient: linear-gradient(160deg, #5281e7, #5a73e7 34%, #765aea);
+
+$backgroundColorGradient: $black;
+
+$border: 1px solid rgba(255, 255, 255, .69);
+
+$inputColorSolid: #010203;
+$inputColor: #{$inputColorSolid}95;
+
+$warningAddonColor: #821011;
+$warningBackgroundColorSolid: $inputColorSolid;
+$warningBackgroundColor: #{$inputColorSolid}90;
+
+// breakpoints
+$breakpoints: (
+  'mobile': 600px,
+  'tablet': 768px,
+  'laptop': 992px,
+  'desktop': 1366px,
+  'desktop-wide': 1600px,
+  'FHD': 1920px,
+  '2K': 2048px,
+  'QHD': 2560px
+);

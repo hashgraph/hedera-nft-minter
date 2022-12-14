@@ -1,0 +1,400 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+.minter-wizard {
+  &__summary {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    img {
+      object-fit: cover;
+    }
+
+    &--final {
+      @include respond-to('laptop') {
+        padding: 0 0 5rem;
+      }
+    }
+
+    &__content {
+      display: grid;
+      grid-template-areas:
+        "avatar"
+        "offchain"
+        "onchain";
+      grid-row-gap: 2.5rem;
+      height: 100%;
+
+      @include respond-to('laptop') {
+        grid-template-columns: 300px 1fr;
+        grid-template-areas:
+          "avatar offchain"
+          "avatar onchain";
+        grid-row-gap: .5rem;
+        padding-top: 0;
+      }
+
+      @include respond-to('desktop-wide') {
+        grid-template-columns: 300px 1fr 1fr;
+        grid-template-areas:
+          "avatar offchain onchain";
+      }
+
+      &--processing {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+
+        @include respond-to('laptop') {
+          grid-template-columns: 300px 1fr;
+        }
+      }
+
+      &--offchain {
+        grid-area: offchain;
+      }
+
+      &--onchain {
+        grid-area: onchain;
+
+        @include respond-to('desktop-wide') {
+          margin-top: 3.5rem;
+
+          &.minter-wizard__summary__column--gutter-left {
+            margin-left: 0;
+          }
+        }
+      }
+
+      &--avatar {
+        grid-area: avatar;
+      }
+    }
+
+    &__image {
+      width: 300px;
+      height: 300px;
+      border-radius: 30px;
+      background-color: $inputColor;
+      border: 1px solid $black;
+      margin-top: 1rem;
+
+      img {
+        object-fit: cover;
+        width: 300px;
+        height: 300px;
+        border-radius: 30px;
+      }
+    }
+
+    &__column {
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.75rem;
+
+      .title {
+        margin: 0.5rem 0 0;
+      }
+
+      &--gutter {
+        @extend .minter-wizard__summary__column--gutter-left;
+        @extend .minter-wizard__summary__column--gutter-top;
+
+        &-left {
+          @extend .minter-wizard__summary__column;
+
+          position: relative;
+
+          @include respond-to('laptop') {
+            margin-left: 7.5rem;
+          }
+        }
+
+        &-top {
+          @extend .minter-wizard__summary__column;
+
+          @include respond-to('laptop') {
+            margin-top: 3.5rem;
+          }
+        }
+      }
+
+      &--mobile {
+        &-visible {
+          @include respond-to('desktop-wide') {
+            display: none;
+          }
+        }
+
+        &-invisible {
+          display: none;
+
+          @include respond-to('desktop-wide') {
+            display: block;
+          }
+        }
+      }
+    }
+
+    &__row {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      color: #{$vapor}85;
+      max-width: 600px;
+      width: 100%;
+      align-items: center;
+
+      @include respond-to('mobile') {
+        grid-template-columns: 0.8fr 1.2fr;
+        grid-template-rows: 1fr;
+      }
+
+      @include respond-to('laptop') {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      @include respond-to('FHD') {
+        grid-template-columns: 0.8fr 1.2fr;
+        grid-template-rows: 1fr;
+      }
+
+      p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+        margin-bottom: 0;
+
+        @include respond-to('FHD') {
+          margin-bottom: 0.35rem;
+        }
+      }
+
+      span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: $vapor;
+        font-size: 1.405rem;
+      }
+
+      &--description {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+
+        p {
+          margin-bottom: 0.35rem;
+        }
+
+        span {
+          white-space: normal;
+        }
+      }
+
+      &__group {
+        display: grid;
+        grid-row-gap: 0.75rem;
+      }
+    }
+
+    &__header {
+      margin-top: 1.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    &__warning {
+      padding: 2rem;
+      border: 1px solid $warningAddonColor;
+      background-color: $warningBackgroundColorSolid;
+      height: min-content;
+      position: fixed;
+      border-radius: 1rem;
+      top: 50%;
+      left: 50%;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      max-width: 600px;
+      z-index: 2;
+
+      @include respond-to('desktop-wide') {
+        background-color: $warningBackgroundColor;
+        position: relative;
+        padding: 2rem 2rem 4rem;
+        border: 1px solid $warningAddonColor;
+        border-radius: 0;
+        border-bottom-right-radius: 100%;
+        max-width: 600px;
+        transform: unset;
+        left: unset;
+        top: unset;
+      }
+
+      p {
+        margin: 0;
+      }
+
+      &:after {
+        position: absolute;
+        right: 3.5rem;
+        content: '!';
+        font-size: 7.5rem;
+        font-weight: 900;
+        color: $warningAddonColor;
+        top: 50%;
+        transform: translateY(-50%);
+
+        @include respond-to('mobile') {
+          right: 7rem;
+          font-size: 10rem;
+        }
+
+        @include respond-to('desktop-wide') {
+          right: 8rem;
+          font-size: 7.5rem;
+          top: 4rem;
+          transform: unset;
+        }
+      }
+    }
+
+    &__item-list {
+      list-style-image: url(../images/icons/checkmark_white.svg);
+
+      li {
+        line-height: 1.5rem;
+
+        p {
+          margin: 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        &::marker {
+          font-size: 1.938rem;
+        }
+
+        &.green {
+          font-size: 1.35rem;
+          font-weight: 700;
+          color: $green;
+        }
+      }
+
+      &--green {
+        @extend .minter-wizard__summary__item-list;
+        list-style-image: url(../images/icons/checkmark.svg);
+
+        li {
+          &::marker {
+            font-size: 2.5rem;
+          }
+        }
+      }
+    }
+
+    &__loader {
+      margin-left: 50px;
+      margin-top: 125px;
+
+      @include respond-to('laptop') {
+        margin-left: 123px;
+        margin-top: 75px;
+      }
+
+      img {
+        width: 110px;
+        height: 110px;
+        margin-bottom: 0.75rem;
+      }
+    }
+
+    &__hashscan, &__token-id {
+      display: grid;
+      grid-template-columns: 37px 1fr;
+      align-items: center;
+      column-gap: .5rem;
+      font-weight: 500;
+      text-decoration: unset;
+      color: $vapor;
+
+      span {
+        color: $green;
+      }
+    }
+    &__hashscan {
+      img {
+        margin-left: 4px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &__token-id {
+      img {
+        width: 37px;
+        height: 32px;
+      }
+    }
+
+    &__collection {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 700;
+      text-decoration: unset;
+      color: $vapor;
+      width: max-content;
+      padding: 0;
+    }
+
+    &--done {
+      @extend .minter-wizard__summary;
+
+      .minter-wizard {
+        &__summary {
+          &__image {
+            position: relative;
+
+            &:before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background-image: url(../images/done_border.svg);
+              background-repeat: no-repeat;
+              background-size: cover;
+              width: 327px;
+              height: 327px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

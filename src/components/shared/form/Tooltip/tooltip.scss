@@ -1,0 +1,163 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+@import "src/assets/styles/base/variables";
+@import "src/assets/styles/base/mixins";
+
+$transition: opacity 400ms, transform 400ms;
+
+@mixin wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-width: 235px;
+  width: 100%;
+  padding: 1rem 1rem 1.188rem;
+  line-height: 1.2;
+  z-index: 2;
+  background: $vapor;
+
+  @include respond-to('mobile') {
+    min-width: 300px;
+  }
+
+  @include respond-to('tablet') {
+    width: 435px;
+  }
+
+  &__title {
+    background: transparent;
+    color: #464646;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0;
+    padding-bottom: 5px;
+    margin: 0;
+  }
+
+  p, span{
+    background: transparent;
+    color: #464646;
+    font-weight: 300;
+    font-size: 0.75rem;
+    padding: 0;
+    white-space: break-spaces;
+  }
+
+  button {
+    &:hover {
+      border: 1px solid $black;
+      color: $black;
+    }
+  }
+
+  &:after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: -webkit-linear-gradient(290deg,#2d84eb,#8259ef);
+    background: linear-gradient(160deg,#2d84eb,#8259ef);
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.dark-schema .tooltip {
+  &__button {
+    &:before {
+      filter: invert(0);
+    }
+  }
+}
+
+.tooltip {
+  &__container{
+    @include respond-to('mobile') {
+      position: relative;
+    }
+  }
+
+  &__button {
+    color: var(--main-color);
+    font-weight: 300;
+    font-size: 1rem;
+    margin-top: -1rem;
+    margin-left: 0.1rem;
+    z-index: 1  ;
+    position: relative;
+
+    &:before {
+      content: "";
+      display: inline-block;
+      position: relative;
+      margin: 0px;
+      width: 17px;
+      height: 17px;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAgCAYAAAEAiJpfAAAAAXNSR0IArs4c6QAAA+ZJREFUWAmlmE2ITmEUx8cMpnwtyAJhykopITs0TZFSVizko2QlamwkoWZlZUF2tsrGmkhJWPnY2cr4LImFEgnX7//cc+57nvve+94ZTv3f55z/+Z/zvHPf5+MyNGRWFMUV9wePKAspGCaTEmdVYwmJja5IJQogC31czkogXjiRFDGAGFfMOBKTc438MQczvzB/DsJFcEvEl5Mmr88/bnQ5UPVcU2A3y6H8YzORApKHwZmmxGlVegL3FvjtsSqnq8AcuOXgkpJ/YpL4qMf4xTBB+lOdZFwb/CEJ7kai0VeregLqDZhX8RJh78Dj5BXFWJWMDsmV4JeJmoZrUZ/5qHdZxf0sUQvQLDPdrywFeU6JjLTACg7Wc/CPshoTXq8LFZM7C3oPJois7lCiLHge8pVruamKCI7ltiWKYLER5fbqF7bxH4O0dGn005qd70tCkFsIvptmoklTcYhGwXUT+/AFZ18lCk59nVYpCnQu7AYrwTO2bOODrwqiQ/E1n7ph1CJU03ZD8NsKtTFHopJ43HIaTsdc5ZPwpb6sIhscdPfVBduVpSEuJZpdnyVaArTT0mdpa/AoIwngD/aJTWQ151JIoF0r00GZGdxRJTLSAugfoDymcA6BNuE8UmdbmqR1pJyOrEEPUl/3ooQN9tk5NWnceC4YMG733DAr8bECvnZ+L7iifdxMqnfw0uAj6HsuUJODeHKLqzkI9ABlbyqyxUGzKinDRVpJSUxYUlt9QZUIDvx50/wMdO4iGDORD7oadFXqmnCb2Q+Beh/Q+RFN62I0n3aWEQ3Wg8vgFeiyVwikXT/TaVoPNjWg0R6GG6B89xBZ2heGe2AafAAynVVjYCdYCqJ9JTjAkrwdyU6fL5CWGKPbS5zxzsKaQDVAtdH6Lp9aWXoCS6n4HKoe4s/vE86SUA+gXm6ao/7Uyq4k1gCdVG57u+ZDqNdGHZ/CwJ9ZvdDsBW6aa03fHJBPXcHYeFPWi9BNhZqper4pRr8/1DzNNCT8AJDmQZYcEKAdAScN2V05oExP5gFwS+8VOqFlW8ohfT4Jfpd7DMFVg/yZWpwjze1f5HXosDb4XW58vYh+V12cI83tX+QOlX7m6jdc0dXpX/PWe7/Va07NnW7gIQ4aHTinRGBa/Trb/3vbpm7hw3rqnvUdNmlzBxUuQi08t284m3JFHpHXm7PeDoXePZrLUkR+E1BPtxMNsh6Fah2Ih9p74q09xew81QL1cFPvdTPugngH+OTVNn5gvAA2tDVSzjTSRlOvHW11nTzFw+AIeA1ma6pRrW+K1vl80bQKmhI01v8WrAbasr5tdQsLb1mA+b8qIbvsL1Cx0w33cg+sAAAAAElFTkSuQmCC);
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: bottom;
+      -webkit-transform: translateY(3px);
+      transform: translateY(3px);
+      filter: invert(0.7);
+      transition: 0.2s filter ease-in-out;
+    }
+
+    &:hover{
+      color: $blue;
+      cursor: pointer;
+    }
+  }
+
+  &__wrapper{
+    @include wrapper;
+
+    &-enter {
+      @include wrapper;
+      opacity: 0;
+      transform:  translateY(10vh);
+    }
+
+    &-enter-active {
+      @include wrapper;
+      opacity: 0;
+      transition: $transition;
+    }
+
+    &-enter-done {
+      transition: $transition;
+      opacity: 1;
+      @include wrapper;
+    }
+
+    &-exit {
+      @include wrapper;
+      opacity: 1;
+    }
+
+    &-exit-active {
+      @include wrapper;
+      opacity: 0;
+      transition: $transition;
+      transform: translateY(10vh);
+    }
+  }
+}

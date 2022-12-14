@@ -1,0 +1,81 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+.minter-wizard {
+  &__select-collection {
+    max-width: 400px;
+
+    .title {
+      margin-bottom: 0.9rem;
+
+      @include respond-to('desktop-wide') {
+        font-size: default;
+      }
+
+      &--strong {
+        padding-bottom: 0;
+      }
+    }
+
+    .form__number {
+      max-width: unset;
+    }
+
+    &__wrapper {
+      width: 100%;
+
+      @include respond-to('mobile') {
+        max-width: 400px;
+      }
+    }
+
+    &__summary {
+      color: var(--main-color);
+      display: flex;
+      flex-direction: column;
+
+      @include respond-to('mobile') {
+        max-width: 50%;
+        min-width: 400px;
+      }
+
+      &__title {
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+      }
+
+      .values {
+        display: flex;
+        flex-direction: column;
+
+        p {
+          position: relative;
+          margin: 0;
+          font-size: 1rem;
+
+          &:last-of-type {
+            &:after {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

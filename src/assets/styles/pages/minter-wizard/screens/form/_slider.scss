@@ -1,0 +1,164 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+$transitionTime: 0.5s;
+$bigColumnWidthPercentage: 60;
+$smallColumnWidthPercentage: 40;
+$bigColumnWidth: calc(#{$bigColumnWidthPercentage}vw - #{$horizontalPaddingDesktop});
+$smallColumnWidth: calc(#{$smallColumnWidthPercentage}vw - #{$horizontalPaddingDesktop});
+
+.minter-wizard {
+  &__slider {
+    &__container {
+      transition: transform $transitionTime ease-in-out;
+      position: relative;
+      transform: translateX(var(--translateDimension));
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      max-height: 90vh;
+
+      @include respond-to('desktop') {
+        max-height: 100%;
+      }
+    }
+
+    &__tabs {
+      @include respond-to('desktop') {
+        width: 100%;
+      }
+    }
+
+    &__tab {
+      height: 100%;
+      min-width: 100%;
+      margin: 0;
+      position: relative;
+      transition: generateTransitions((padding, width, opacity), $transitionTime);
+      user-select: none;
+      visibility: hidden;
+      opacity: 0;
+
+      @include respond-to('desktop') {
+        min-width: auto;
+      }
+
+      &-content {
+        transition: generateTransitions((padding, width), $transitionTime);
+        width: 100%;
+        height: $contentContainerHeightMobile;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        @include respond-to('mobile') {
+          height: $contentContainerHeightDesktop;
+        }
+
+        @include respond-to('desktop') {
+          width: $bigColumnWidth;
+        }
+
+        @include respond-to('desktop-wide') {
+          height: $contentContainerHeightDesktopWide;
+        }
+      }
+
+      &--w40 {
+        .minter-wizard__slider__tab-content {
+          @include respond-to('desktop') {
+            width: $smallColumnWidth;
+          }
+        }
+      }
+
+      &--w60 {
+        @include respond-to('desktop') {
+          width: $bigColumnWidth;
+        }
+      }
+
+      &--visible {
+        user-select: auto;
+        visibility: visible;
+        opacity: 1;
+
+        .minter-wizard__slider__tab-content {
+          &:not(.ScrollbarsCustom-Track) {
+            @include respond-to('desktop') {
+              width: $bigColumnWidth;
+              padding-left: $horizontalPaddingDesktop;
+            }
+          }
+        }
+      }
+
+      &--very-first-column {
+        .minter-wizard__slider__tab-content {
+          &:not(.ScrollbarsCustom-Track) {
+            @include respond-to('desktop') {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+
+      &--small-column {
+        .minter-wizard__slider__tab-content {
+          &:not(.ScrollbarsCustom-Track) {
+            padding-left: 0;
+
+            @include respond-to('desktop') {
+              width: $smallColumnWidth;
+              padding-right: $horizontalPaddingDesktop;
+            }
+          }
+        }
+
+        .minter-wizard__off-chain__form {
+          display: grid;
+
+          @include respond-to('desktop') {
+            grid-template-columns: 1fr;
+          }
+
+          @include respond-to('FHD') {
+            grid-template-columns: min-content auto;
+          }
+
+          .drag-and-drop__container {
+            width: unset;
+
+            @include respond-to('FHD') {
+              width: 266px;
+            }
+          }
+        }
+      }
+
+      &--big-column {
+        .minter-wizard__slider__tab-content {
+          @include respond-to('desktop') {
+            border-left: 1px solid #ffffff50;
+            padding-left: $horizontalPaddingDesktop;
+          }
+        }
+      }
+    }
+  }
+}

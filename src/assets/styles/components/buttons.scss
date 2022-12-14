@@ -1,0 +1,191 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+button,
+.btn {
+  font-family: 'Styrene A Web', sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  padding: 0.65rem 0.9rem;
+  cursor: pointer;
+  height: fit-content;
+  border-radius: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border: 1px solid;
+  border-color: var(--border-color, #{$black});
+  color: var(--font-color, #{$black});
+  font-size: 0.6rem;
+  letter-spacing: 0.05rem;
+  $transitionAttributes: (border-color, background-color, filter, color, transform);
+  transition: generateTransitions($transitionAttributes, 400ms);
+
+  @include respond-to('mobile') {
+    padding: 0.8rem 1.25rem;
+  }
+
+  &:hover, &:active {
+    color: $green;
+    border: 1px solid $green;
+  }
+
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-offset: 1px;
+    border-radius: 2px;
+  }
+
+  &:disabled {
+    &:hover {
+      background: $smoke;
+      color: $black;
+      border: 1px solid $black;
+      filter: unset;
+      cursor: not-allowed;
+    }
+  }
+
+  &__group {
+    text-align: center;
+    position: relative;
+    margin-left: -.5rem;
+    margin-right: -1px;
+    font-size: clamp(1.15rem, 6vw, 1.375rem);
+    font-weight: 300;
+    color: var(--main-color);
+    background: var(--background-color);
+    row-gap: 20px;
+    padding: 0.6rem 1.4rem;
+    width: 100%;
+    border-radius: 3rem;
+
+    @include respond-to('mobile') {
+      font-size: clamp(.9rem, 2.9vw, 1.375rem);
+    }
+    @include respond-to('desktop') {
+      margin-left: -1.3rem;
+    }
+
+    &:focus, &:focus-visible {
+      border-radius: 3rem;
+      outline-color: $green;
+    }
+
+    span {
+      letter-spacing: -0.1rem;
+    }
+
+    &--icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-image: url(../images/icons/button_group--icon.svg);
+      background-repeat: no-repeat;
+      width: 40px;
+      height: 40px;
+      background-size: contain;
+      transition: filter 0.2s ease-in-out;
+    }
+
+    &--active {
+      background: var(--main-color);
+      border: 1px solid var(--main-color);
+
+      &:after {
+        filter: invert(1);
+      }
+
+      span {
+        color: var(--background-color);
+      }
+
+      img {
+        filter: brightness(0) contrast(100);
+      }
+    }
+  }
+
+  &--arrow {
+    background: transparent;
+    border: unset;
+    color: $vapor;
+    padding: 0;
+    font-size: 1.538rem;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+
+    @include respond-to('mobile') {
+      font-size: 1.938rem;
+    }
+
+    &--disabled {
+      transform:  scale(0.8);
+      filter: contrast(0);
+      opacity: 0.8;
+    }
+
+    &:hover, &:active, &:focus {
+      border: unset;
+    }
+
+    &:before {
+      margin-right: 0.5rem;
+      content: '';
+      background-image: url(../images/icons/arrow_right.svg);
+      position: relative;
+      display: inline-flex;
+      width: 33px;
+      height: 33px;
+      background-repeat: no-repeat;
+      background-size: 10px 19px;
+      background-position: center;
+      border: 1px solid $vapor;
+      border-radius: 100%;
+
+      @include respond-to('mobile') {
+        width: 53px;
+        height: 53px;
+        background-size: 19px 32px;
+      }
+    }
+
+    &-green {
+      @extend .btn--arrow;
+
+      &:before {
+        background-image: url(../images/icons/arrow_right--green.svg);
+        border-color: $green;
+      }
+    }
+
+    &-left {
+      @extend .btn--arrow;
+
+      &:before {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
