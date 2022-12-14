@@ -1,0 +1,91 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+input:not([type="radio"]):not([type="checkbox"]),
+select {
+  appearance: none;
+
+  option {
+    color: $black;
+
+    &:disabled {
+      background: $smoke;
+    }
+  }
+
+  &:active, &:focus {
+    border-color: $green;
+  }
+}
+
+input,
+textarea,
+select,
+.input {
+  font-weight: 300;
+  display: block;
+  color: var(--main-color);
+  background-color: $inputColor;
+  margin: 0;
+
+  border: 1px solid rgba(255, 255, 255, .69);
+  -webkit-background-clip: padding-box; /* for Safari */
+  background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+
+  @include border-opacity($border);
+
+  position: relative;
+  font-size: 1rem;
+  padding: 0.675rem 0.988rem;
+  border-radius: 30px;
+  font-family: museo-sans-rounded, sans-serif;
+  width: 100%;
+
+  @include respond-to('mobile') {
+    padding: 0.875rem 1.188rem;
+  }
+
+  &::placeholder {
+    font-weight: 100;
+    font-family: museo-sans-rounded, sans-serif;
+    filter: brightness(1.4);
+  }
+
+  &:active, &:focus {
+    border-color: $green;
+  }
+}
+
+select {
+  padding-right: 2.5rem;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -moz-appearance:textfield;
+}

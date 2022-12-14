@@ -1,0 +1,137 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+@mixin default-transition {
+  &-exit {
+    &-active {
+      transition: 0.5s ease-in-out;
+    }
+  }
+
+  &-enter {
+    &-active {
+      transition: 0.5s ease-in-out;
+    }
+  }
+}
+
+@mixin transition-property($properties) {
+  &-enter {
+    &-active, &-enter, &-done {
+      transition-property: $properties;
+    }
+
+  }
+
+  &-exit {
+    &-active {
+      transition-property: $properties;
+    }
+  }
+}
+
+@mixin fade {
+  $this: &;
+
+  @include default-transition;
+  @include transition-property(opacity);
+
+  &-enter {
+    opacity: 0;
+
+    &-active {
+      opacity: 1;
+    }
+
+    &-done {
+      @extend #{$this}-enter-active;
+    }
+  }
+
+  &-exit {
+    opacity: 1;
+
+    &-active {
+      opacity: 0;
+    }
+
+    &-done {
+      @extend #{$this}-exit-active;
+    }
+  }
+}
+
+@mixin slide($transformPosition) {
+  $this: &;
+
+  @include default-transition;
+  @include transition-property(transform);
+
+  &-enter {
+    transform: translate($transformPosition);
+
+    &-active {
+      transform: translate(0, 0);
+    }
+
+    &-done {
+      @extend #{$this}-enter-active;
+    }
+  }
+
+  &-exit {
+    transform: translate(0, 0);
+
+    &-active {
+      transform: translate($transformPosition);
+    }
+
+    &-done {
+      @extend #{$this}-exit-active;
+    }
+  }
+}
+
+.fade {
+  @include fade;
+}
+
+.slide {
+  &-left {
+    @include slide((-100%, 0));
+  }
+
+  &-right {
+    @include slide((100%, 0));
+  }
+}
+
+.fadeslide {
+  &-left {
+    @include fade;
+    @include slide((-100%, 0));
+    @include transition-property((opacity, transform));
+  }
+
+  &-right {
+    @include fade;
+    @include slide((100%, 0));
+    @include transition-property((opacity, transform));
+  }
+}

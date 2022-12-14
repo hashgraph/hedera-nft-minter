@@ -1,0 +1,171 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+* {
+  @include box-sizing(border-box);
+}
+
+html,
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+  min-height: 100%;
+
+  --main-color: #{$black};
+  --background-color: #{$vapor};
+  --border-color: #{$black};
+
+  --horizontal-padding: #{$horizontalPadding};
+
+  @include respond-to('tablet') {
+    --horizontal-padding: #{$horizontalPaddingTablet};
+  }
+
+  @include respond-to('desktop') {
+    --horizontal-padding: #{$horizontalPaddingDesktop};
+
+  }
+  color: var(--main-color);
+}
+
+.dark-schema {
+  background: $black;
+  --main-color: #{$vapor};
+  --background-color: #{$black};
+  --border-color: #{$border};
+  color: var(--main-color);
+  background: $backgroundColorGradient;
+}
+
+a {
+  display: inline-block;
+
+  &.btn {
+    &:focus,
+    &:hover {
+      outline: none;
+    }
+  }
+}
+
+button,
+input,
+select,
+textarea {
+  &:focus,
+  &:hover {
+    outline: none;
+  }
+
+  cursor: pointer;
+}
+
+img[src='.svg'] {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+img {
+  max-width: 100%;
+  image-rendering: auto;
+  @include user-select(none);
+}
+
+@supports (-moz-appearance: none) {
+  img[src='.svg'] {
+    image-rendering: auto;
+  }
+  img {
+    image-rendering: auto;
+  }
+}
+
+svg {
+  max-width: 100%;
+}
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: ' ';
+  clear: both;
+  height: 0;
+}
+
+[data-selected] {
+  &:before {
+    content: attr(data-selected);
+  }
+
+  --x: attr(data-selected);
+
+  li[id='--x'] a {
+    color: red !important;
+  }
+}
+
+pre {
+  min-width: -webkit-fill-available;
+  max-width: 100%;
+  max-height: 200px;
+
+  padding: 1rem;
+
+  font-family: monospace;
+  font-size: 0.75rem;
+
+  overflow-y: auto;
+  @include bg(#eaeaea);
+  border: 1px solid $blue;
+  border-radius: 15px;
+
+  &::before {
+    content: 'Code:';
+    display: block;
+    padding-bottom: 1rem;
+    font-weight: bold;
+  }
+}
+
+.m {
+  &c{
+    margin: auto;
+
+    &--h {
+      margin: 0 auto;
+    }
+  }
+  @each $dimension in 'b', 't', 'l', 'r' {
+    &#{$dimension} {
+      @for $i from 1 through 10 {
+        &-#{$i} {
+          margin-bottom: #{$i * 0.5}rem;
+        }
+      }
+    }
+  }
+}
+

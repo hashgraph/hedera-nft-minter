@@ -1,0 +1,263 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+.minter-wizard {
+  h2 {
+    font-size: 2.3rem;
+    padding-bottom: 1.3rem;
+
+    @include gradient-border("bottom", 2px);
+  }
+
+  h3 {
+    font-size: 1.8rem;
+
+    @include gradient-border("bottom", 1px);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+
+
+  &__basis-header {
+    @include gradient-border('bottom', 1px);
+  }
+
+  &__on-chain {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @include respond-to('desktop') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__creator {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(40vh - 62px);
+
+    @include respond-to('desktop') {
+      display: grid;
+      grid-template-columns: 3fr 1.5fr;
+      grid-gap: 2.5rem;
+      grid-template-areas:
+        "form summary"
+        "nav summary"
+      ;
+    }
+
+    &__form {
+      grid-area: form;
+      min-height: 540px;
+    }
+
+    &__nav {
+      grid-area: nav;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 2rem;
+    }
+
+    &__summary {
+      display: none;
+      grid-area: summary;
+
+
+      @include respond-to('desktop') {
+        display: initial;
+      }
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+  }
+
+  &__select-edition {
+    &__semi-nft {
+      position: relative;
+      border: $border;
+      margin-bottom: 6.20rem;
+
+      &:after {
+        position: absolute;
+        content: "";
+        display: flex;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        border: 1px solid;
+        border-image-slice: 1;
+        border-width: 1px;
+        border-image-source: $gradient;
+        border-radius: 2px;
+        z-index: 0;
+        filter: grayscale(100%);
+        transition: filter 0.4s ease-in-out;
+      }
+
+      padding: 1rem;
+
+      @include respond-to('tablet') {
+        flex-direction: unset;
+        margin: 1rem 0 2rem;
+        padding: 1rem 1.5rem;
+        display: grid;
+        grid-template-columns: minmax(113px, 1fr) repeat(5, 1fr);
+        grid-column-gap: 1.5rem;
+        grid-template-areas:
+          "image name name name name name"
+          "- data data data data data"
+        ;
+      }
+
+      * {
+        position: relative;
+        z-index: 1;
+      }
+
+      label {
+        padding-bottom: 0;
+        padding-top: 0.5rem;
+      }
+
+      div {
+        grid-area: data;
+      }
+
+      h4 {
+        grid-area: name;
+        font-weight: 400;
+        transition: 0.2s ease-in-out;
+        transition-property: font-weight letter-spacing;
+
+        @include gradient-border("bottom", 1px);
+
+        &:after {
+          transition: filter 0.4s ease-in-out;
+          filter: grayscale(100%);
+        }
+      }
+
+      p {
+        padding-left: 0.188rem;
+        font-size: 0.813rem;
+        margin: 0;
+        color: $vapor;
+
+        span {
+          opacity: 0.6;
+          font-size: 0.688rem;
+        }
+      }
+
+      button {
+        margin-top: 0.5rem;
+        margin-left: auto;
+      }
+
+      .nft__table__row__image {
+        z-index: 1;
+        height: 113px;
+        width: inherit;
+        flex: unset;
+        max-height: 50px;
+        grid-area: image;
+        transition: 0.4s ease-in-out;
+        transition-property: transform margin-top;
+
+        img {
+          @include respond-to('tablet') {
+            margin-top: 25px;
+          }
+        }
+      }
+
+      &.active {
+        &:after {
+          filter: grayscale(0%);
+        }
+
+        h4 {
+          font-weight: 700;
+          letter-spacing: 0.01rem;
+
+          &:after {
+            filter: grayscale(0%);
+          }
+        }
+
+        .nft__table__row__image {
+          transform: scale(1.2) translateY(-10px);
+        }
+      }
+    }
+  }
+
+  &__final-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: calc(40vh - 62px);
+
+    @include respond-to('desktop') {
+      grid-template-columns: 3fr 1.5fr;
+      column-gap: 2.5rem;
+    }
+  }
+
+  .wizard-form {
+    border-radius: 4px;
+    align-items: center;
+    position: relative;
+    padding-bottom: 3.125rem;
+
+    @include respond-to('mobile') {
+      padding-bottom: 0;
+    }
+  }
+
+  .step-buttons-wrapper {
+    display: flex;
+    margin-top: 2.5rem;
+    justify-content: space-between;
+
+    button {
+      padding: 1.25rem 1.875rem;
+      border-radius: 20px;
+      font-size: 0.938rem;
+      font-weight: 400;
+    }
+
+    &.first-step {
+      button {
+        margin-left: auto;
+        margin-top: 2.5rem;
+      }
+    }
+  }
+}

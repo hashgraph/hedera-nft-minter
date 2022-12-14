@@ -1,0 +1,14 @@
+# dependencies
+/node_modules
+
+# production
+/build
+
+# misc
+.vscode
+.DS_Store
+.idea
+.env
+debug.log
+coverage
+test-report.xml

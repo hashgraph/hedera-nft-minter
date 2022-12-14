@@ -1,0 +1,104 @@
+/*
+ * Hedera NFT Minter App
+ *
+ * Copyright (C) 2021 - 2022 Hedera Hashgraph, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+.minter-wizard {
+  &__keys {
+    display: grid;
+    grid-row-gap: 0.25rem;
+
+    &__checkbox {
+      display: flex;
+      position: relative;
+      align-items: center;
+      transition: color 0.2s ease-in-out;
+      width: 280px;
+      justify-content: space-between;
+
+      @include respond-to('mobile') {
+        width: 325px;
+        position: unset;
+      }
+
+      input {
+        opacity: 0;
+        transform: translateX(-100vw);
+        position: absolute;
+      }
+
+      label {
+        margin: 0.1rem 0;
+      }
+
+      .title {
+        display: flex;
+        margin: 0;
+      }
+
+      &:hover, &:active, &:focus {
+        .minter-wizard {
+          &__keys {
+            &__pseudo-checkbox {
+              &:not(.required) {
+                cursor: pointer;
+                border-color: $green;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &__pseudo-checkbox {
+      margin-left: 2.5rem;
+      position: relative;
+      width: 27px;
+      height: 27px;
+      display: inline-flex;
+      @include border-opacity($border);
+      border-radius: 100%;
+      transition: border-color 0.2s ease-in-out;
+
+      &.required {
+        border-color: $lightGrey;
+        transform: scale(1.1);
+      }
+
+      &:after {
+        content: '';
+        width: 21px;
+        height: 19px;
+        position: absolute;
+        bottom: 0.35rem;
+        left: 0.30rem;
+        background-image: url(../images/icons/checkmark.svg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: opacity 0.2s ease-in-out,  filter 0.25s ease-in-out;
+        opacity: 0;
+        filter: brightness(0) invert(1);
+      }
+
+      &--active {
+        &:after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
