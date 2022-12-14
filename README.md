@@ -21,12 +21,6 @@ An example web app that demonstrates how you can mint NFTs on the Hedera network
  - Norbert Kulus
  - Patryk Matyjasiak
 
-## Contributors & maintainers
-
-I'd love your help supporting, growing, and improving this application. Seriously!
-
-If you have any ideas please [pull a request](https://github.com/hashgraph/mintbar/pulls).
-
 ## Prerequisites
 
 This demo assumes that you are familiar with [Node.JS](https://nodejs.org) based applications and using [React.JS](https://reactjs.org/) UI framework.
@@ -40,7 +34,7 @@ To use an app, you will also need a Hedera Account connected within [HashPack ](
 You can clone this repository by running the following command:
 
 ```
-git clone https://github.com/hashgraph/mintbar
+git clone https://github.com/hashgraph/hedera-nft-minter
 ```
 
 Copy the `.env.sample` file and rename the copy to `.env`
@@ -181,6 +175,19 @@ The application has:
 This is just a simple demo application. Please use responsibly.
 
 [File an issue](/issues) if you see problems.
+
+## Contributing
+
+Contributions are welcome. Please see the
+[contributing guide](https://github.com/hashgraph/.github/blob/main/CONTRIBUTING.md)
+to see how you can get involved.
+
+## Code of Conduct
+
+This project is governed by the
+[Contributor Covenant Code of Conduct](https://github.com/hashgraph/.github/blob/main/CODE_OF_CONDUCT.md). By
+participating, you are expected to uphold this code of conduct. Please report unacceptable behavior
+to [oss@hedera.com](mailto:oss@hedera.com).
 
 ## LICENSE
 
