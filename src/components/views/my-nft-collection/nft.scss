@@ -32,7 +32,8 @@
     padding: 0.125rem;
     color: $vapor;
     transition: border-color 0.3s ease-in;
-
+    position: relative;
+    
     p {
       white-space: nowrap;
       overflow: hidden;
@@ -48,6 +49,26 @@
       }
     }
 
+    &__warning {
+      background: $yellow;
+      font-weight: 700;
+      z-index: 2;
+      width: 100%;
+      font-size: 0.7rem;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      align-items: center;
+      text-align: center;
+      display: flex;
+      margin: 0;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      padding: 0.5rem;
+      color: $black;
+    }
+    
     &__loader {
       height: 100%;
       width: 100%;

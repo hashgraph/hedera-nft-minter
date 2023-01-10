@@ -26,12 +26,13 @@ import { TokenInfo } from '@utils/entity/TokenInfo';
 import renderValue from '@utils/helpers/renderValue';
 import { NFTInfo } from '@utils/entity/NFTInfo';
 import { HEDERA_NETWORK } from '@src/../Global.d';
+import formatToIPFSImageLink from '@utils/helpers/formatToIPFSImageLink';
+import HIP412MetadataSchema from '@src/utils/const/HIP412MetadataSchema';
 
 import Loader from '@components/shared/loader/Loader';
 
 import placeholder from '@assets/images/placeholder.png';
 import './nft.scss';
-import formatToIPFSImageLink from '@utils/helpers/formatToIPFSImageLink';
 
 type NFTProps = NFTInfo & {
   collectionInfo?: TokenInfo
@@ -39,17 +40,21 @@ type NFTProps = NFTInfo & {
 
 export default function NFT({ metadata, serial_number, collectionInfo }: NFTProps) {
   const [loadedMetadata, setLoadedMetadata] = useState<NFTMetadata | null>(null);
+  const [hasHip412ComplianMetadata, setHip412ComplianMetadata] = useState(true)
   const [isLoading, setIsLoading] = useState(true);
 
   const loadMetadata = useCallback(async () => {
     const fetchedMetadata = await MirrorNode.fetchNFTMetadata(atob(metadata));
+    const metadataValidationResult = HIP412MetadataSchema.isValidSync(fetchedMetadata)
 
     setLoadedMetadata(fetchedMetadata);
+
+    setHip412ComplianMetadata(metadataValidationResult)
     setIsLoading(false);
   }, [metadata, setLoadedMetadata]);
 
   const previewImageSrc = useMemo(() => (
-    loadedMetadata?.image ? (
+    typeof loadedMetadata?.image === 'string' && loadedMetadata.image.length > 0 ? (
       formatToIPFSImageLink(loadedMetadata.image)
     ) : (
       placeholder
@@ -81,6 +86,9 @@ export default function NFT({ metadata, serial_number, collectionInfo }: NFTProp
       ) : (
         <>
           <div className='nft-card__image'>
+            {!hasHip412ComplianMetadata && (
+              <p className='nft-card__warning'>Not HIP-412 compliant</p>
+            )}
             <img
               className={nftCardImageClassnames}
               src={previewImageSrc}
