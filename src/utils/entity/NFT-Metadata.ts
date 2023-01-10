@@ -17,7 +17,7 @@
  *
  */
 
-export interface FileMetadata {
+interface FileMetadata {
   uri: string,
   type: string,
   metadata: NFTMetadata,
@@ -32,7 +32,7 @@ export interface Attribute {
   value: string,
 }
 
-export interface Localization {
+interface Localization {
   uri: string,
   locale: string,
 }
