@@ -33,7 +33,7 @@ describe('Filter form values to metadata', () => {
       image: 'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
       creator: 'Tester',
       attributes: [{ trait_type: 'height', value: 10 }],
-      properties: [{ label: 'foo', value: 'bar'}]
+      properties: { foo: 'bar' }
     };
 
     expect(filterFormValuesToNFTMetadata({...values, files: ''}))
@@ -79,7 +79,7 @@ describe('Filter form values to metadata', () => {
       image: 'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
       creator: 'Tester',
       attributes: [ { trait_type: 'foo', value: 'bar'} ],
-      properties: [ { value: 'foo', label: 'bar'} ]
+      properties: { foo: 'bar' }
     };
 
     expect(filterFormValuesToNFTMetadata({...values, files: ''}))
@@ -91,7 +91,7 @@ describe('Filter form values to metadata', () => {
         creator: 'Tester',
         format: 'HIP412@1.0.0',
         attributes: [ { trait_type: 'foo', value: 'bar'} ],
-        properties: [ { value: 'foo', label: 'bar'} ]
+        properties: { foo: 'bar' }
       });
   })
 });
