@@ -106,7 +106,7 @@ export default function Navigation({
       <div className='next'>
         <SwitchTransition>
           <CSSTransition
-            key={isLastScreen ? 'Mint it!' : 'Next'}
+            key={isLastScreen ? 'Review' : 'Next'}
             addEndListener={(node, done) =>
               node.addEventListener('transitionend', done, false)
             }
@@ -120,7 +120,7 @@ export default function Navigation({
                   onClick={isLastScreen && handleGoToSummary}
                   disabled={isNextButtonHidden}
                 >
-                  Mint it!
+                  Review
                 </button>
               ) : (
                 <button
