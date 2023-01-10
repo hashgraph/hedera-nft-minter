@@ -75,13 +75,14 @@ export const ValidationSchema = yup.object().shape({
     ) : (
       true
     )
-  )),
+  )).required('Required'),
   name: yup
     .string()
     .max(100, 'Too Long')
     .required('Required'),
   edition_name: yup
     .string()
+    .required('Required')
     .max(100, 'Too Long'),
   symbol: yup
     .string()
