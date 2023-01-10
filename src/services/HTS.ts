@@ -85,8 +85,9 @@ export default class HTS {
       throw new Error('Error while trying to fetch user Public key.');
     }
 
-    const expirationTime = new Date(Date.now() + 3600 * 24 * 12);
-
+    // 90 days
+    const expirationTime = new Date(Date.now() + 7776000 * 1000);
+    
     const token = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
