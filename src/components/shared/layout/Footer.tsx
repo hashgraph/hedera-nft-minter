@@ -23,7 +23,6 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 import classNames from 'classnames';
 import BuildOnHederaLogo from '@assets/images/build_on_hedera.svg';
-import GitHubLogoWhite from '@assets/images/github-mark-white.svg';
 import useLayout from '@utils/hooks/useLayout';
 
 export default function Footer() {
@@ -55,14 +54,7 @@ export default function Footer() {
           {showLogoOnRightSide ? (
             <img className='footer__logo' src={BuildOnHederaLogo} alt='build_on_hedera_logo' />
           ) : (
-            <>
-              <div className='footer__logo--left'>
-                <img src={BuildOnHederaLogo} alt='build_on_hedera_logo' />
-                <a href='https://github.com/hashgraph/hedera-nft-minter' target='_blank'>
-                  <img className='footer__github' src={GitHubLogoWhite} alt='github-logo' />
-                </a>
-              </div>
-            </>
+            <img className='footer__logo--left' src={BuildOnHederaLogo} alt='build_on_hedera_logo' />
           )}
         </CSSTransition>
       </SwitchTransition>
