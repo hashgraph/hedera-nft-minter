@@ -31,8 +31,8 @@ export default function Welcome({ goToCreator }: Props) {
       <Scrollbar>
         <div className='minter-wizard__step__wrapper minter-wizard__welcome__container'>
           <h1 className='title title--welcome'>
-            Start minting <br />
-            your NFT here:
+            Mint your <br />
+            Hedera NFT here:
           </h1>
           <ButtonGroup
             direction='column'
