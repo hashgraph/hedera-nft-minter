@@ -103,7 +103,7 @@ export default class HTS {
       )
     });
 
-    token.setMaxTransactionFee(50);
+    token.setMaxTransactionFee(50).setAutoRenewAccountId(tokenProps.accountId).setAutoRenewPeriod(7776000);
 
     return token;
   }
