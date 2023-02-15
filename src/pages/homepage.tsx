@@ -17,23 +17,24 @@
  *
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { Formik, FormikValues } from 'formik';
 import { toast } from 'react-toastify';
 import { TokenId } from '@hashgraph/sdk';
+import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 import HTS, { NewTokenType } from '@services/HTS';
 import IPFS, { UploadResponse } from '@services/IPFS';
 import useHederaWallets from '@utils/hooks/useHederaWallets';
+import { HomepageContext } from '@utils/context/HomepageContext';
 import filterFormValuesToNFTMetadata from '@utils/helpers/filterFormValuesToNFTMetadata';
 import { initialValues } from '@utils/const/minter-wizard';
 import { MintTypes } from '@utils/entity/MinterWizard'
+import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
 import { ValidationSchema } from '@components/views/minter-wizard/validation-schema';
 import MinterWizardForm from '@components/views/minter-wizard';
 import Summary from '@components/views/minter-wizard/Summary';
-import { SwitchTransition, CSSTransition } from 'react-transition-group';
-import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 
 const META_KEYS = [
   'name',
@@ -51,8 +52,7 @@ const META_KEYS = [
 
 export default function MinterWizard() {
   const { userWalletId, sendTransaction } = useHederaWallets();
-  const [tokenCreated, setTokenCreated] = useState(false);
-  const [mintedNFTData, setNewNFTdata] = useState<FormikValues>({});
+  const { mintedNFTData, setNewNFTdata, tokenCreated, resetHomepageData } = useContext(HomepageContext);
 
   const uploadNFTFile = useCallback(async (file) => {
     const { data } = await IPFS.uploadFile(file);
@@ -189,11 +189,22 @@ export default function MinterWizard() {
       );
 
       setNewNFTdata({...formValues, tokenId: tokenIdToMint})
-      setTokenCreated(true);
     } catch (e) {
       renderMintingError(e)
     }
-  }, [createToken, mint, renderMintingError, uploadMetadata, uploadNFTFile, userWalletId]);
+  }, [
+    createToken,
+    mint,
+    renderMintingError,
+    setNewNFTdata,
+    uploadMetadata,
+    uploadNFTFile,
+    userWalletId
+  ]);
+
+  useEffect(() => {
+    resetHomepageData()
+  }, [resetHomepageData])
 
   return (
     <div className='mc--h container--padding container--max-height bg--transparent'>
