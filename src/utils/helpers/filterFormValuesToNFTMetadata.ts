@@ -37,15 +37,15 @@ const reduceAttributes = (attributes: Attribute[]) => (
 
 const reduceProperties = (properties: Propertie[]) => (
   reduce(properties, (
-    res: {[key: string] : string}[],
+    res: {[key: string] : string},
     { label, value } : Propertie
   ) => {
     if (label && value) {
-      res.push({label, value})
+      res[label] = value
     }
 
     return res
-  }, [])
+  }, {})
 )
 
 const filterFormValuesToNFTMetadata = (values : FormikValues) => {

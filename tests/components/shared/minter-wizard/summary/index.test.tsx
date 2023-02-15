@@ -29,11 +29,10 @@ import MinterWizardSummary from '@components/shared/minter-wizard/summary';
 describe('Minter Wizard - index summary', () => {
   it('render', () => {
     const fn = jest.fn(v => v);
-    const goToCreator = jest.fn();
 
     render(<Router>
       <Formik initialValues={{fees: [], keys: []}} onSubmit={fn}>
-        <MinterWizardSummary goToCreator={goToCreator} />
+        <MinterWizardSummary />
       </Formik>
     </Router>);
   })
