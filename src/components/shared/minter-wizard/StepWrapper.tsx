@@ -24,13 +24,10 @@ import { CreatorSteps } from '@utils/entity/MinterWizard';
 
 import { MinterWizardContext } from '@components/views/minter-wizard'
 import Slider, { SliderTabData } from '@components/shared/minter-wizard/Slider';
-import Navigation from './Navigation';
-
+import Navigation from '@components/shared/minter-wizard/Navigation';
 
 type Props = {
   steps: CreatorSteps,
-  backToMintTypeSelection: () => void;
-  goToSummary: () => void;
 }
 
 export const MinterWizardStepWrapperContext = React.createContext<{
@@ -41,11 +38,7 @@ export const MinterWizardStepWrapperContext = React.createContext<{
   isNextButtonHidden: false,
 })
 
-export default function MinterWizardStepWrapper({
-  steps,
-  backToMintTypeSelection,
-  goToSummary
-} : Props) {
+export default function MinterWizardStepWrapper({ steps } : Props) {
   const {
     setCreatorStep,
     ...minterWizardProps
@@ -63,12 +56,12 @@ export default function MinterWizardStepWrapper({
   [creatorStepToBackFromSummary])
 
   const handleBackFromWizardSummary = useCallback(() => {
-    if (wasUserBackFromSummary && minterWizardProps.creatorStep === 0) {
+    if (wasUserBackFromSummary && minterWizardProps?.creatorStep === 0) {
       setCreatorStep(creatorStepToBackFromSummary)
 
       setCreatorStepToBackFromSummary(0)
     }
-  }, [wasUserBackFromSummary, creatorStepToBackFromSummary, setCreatorStep, minterWizardProps.creatorStep, setCreatorStepToBackFromSummary])
+  }, [wasUserBackFromSummary, creatorStepToBackFromSummary, minterWizardProps?.creatorStep, setCreatorStep, setCreatorStepToBackFromSummary])
 
   useEffect(() => {
     handleBackFromWizardSummary()
@@ -87,18 +80,14 @@ export default function MinterWizardStepWrapper({
         <div className='minter-wizard__creator__form'>
           <Slider
             activeIndex={minterWizardProps.creatorStep}
-            data={steps.map(step => ({
+            data={steps?.map(step => ({
               key: `minter-wizard.step-${ step.creatorStep }`,
               content: step.Component,
             })) as SliderTabData[]}
           />
         </div>
 
-        <Navigation
-          goToSummary={goToSummary}
-          backToMintTypeSelection={backToMintTypeSelection}
-          {...minterWizardProps}
-        />
+        <Navigation {...minterWizardProps} />
       </div>
     </MinterWizardStepWrapperContext.Provider>
   )

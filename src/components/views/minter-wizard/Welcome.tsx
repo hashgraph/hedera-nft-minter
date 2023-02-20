@@ -17,15 +17,17 @@
  *
  */
 
+import { useContext } from 'react';
+import { FormWizardSteps, HomepageContext } from '@utils/context/HomepageContext';
 import { MintTypes } from '@utils/entity/MinterWizard'
 import ButtonGroup from '@components/shared/form/button-group'
 import Scrollbar from '@components/shared/layout/Scrollbar'
 
-type Props = {
-  goToCreator: () => void,
-}
-
-export default function Welcome({ goToCreator }: Props) {
+export default function Welcome() {
+  const {
+    setCreatorStep
+  } = useContext(HomepageContext);
+  
   return (
     <div className='minter-wizard__step minter-wizard__welcome minter-wizard__animation-container'>
       <Scrollbar>
@@ -41,14 +43,13 @@ export default function Welcome({ goToCreator }: Props) {
               {
                 label: <>New Collection</>,
                 value: MintTypes.NewCollectionNewNFT,
-                onClick: goToCreator,
+                onClick: () => setCreatorStep(FormWizardSteps.MinterScreen),
                 renderArrow: true
               },
               {
                 label: <>Existing Collection</>,
                 value: MintTypes.ExistingCollectionNewNFT,
-                tooltip: <>Some tooltip information</>,
-                onClick: goToCreator,
+                onClick: () => setCreatorStep(FormWizardSteps.MinterScreen),
                 renderArrow: true
               },
             ]}

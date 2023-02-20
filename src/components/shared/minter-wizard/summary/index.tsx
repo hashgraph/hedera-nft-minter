@@ -26,11 +26,7 @@ import SummaryContent from '@components/shared/minter-wizard/summary/Content'
 import SummaryNavigation from '@components/shared/minter-wizard/summary/Navigation'
 import SummaryProcessing from '@components/shared/minter-wizard/summary/Processing';
 
-type MinterWizardSummaryProps = {
-  goToCreator: () => void;
-}
-
-export default function MinterWizardSummary(props: MinterWizardSummaryProps) {
+export default function MinterWizardSummary() {
   const { isSubmitting } = useFormikContext<FormikValues>()
 
   return (
@@ -48,7 +44,7 @@ export default function MinterWizardSummary(props: MinterWizardSummaryProps) {
               ) : (
                 <>
                   <SummaryContent />
-                  <SummaryNavigation {...props}/>
+                  <SummaryNavigation />
                 </>
               )}
             </CSSTransition>
