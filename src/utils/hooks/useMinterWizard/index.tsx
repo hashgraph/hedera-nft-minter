@@ -69,7 +69,7 @@ export default function useMinterWizard(
     const areFieldsValidated = checkIfAllFieldsAreValidated()
 
     if (!aboveLastScreen && areFieldsValidated) {
-      const nextStep = creatorStep >= steps.length - 1
+      const nextStep = creatorStep >= steps?.length - 1
         ? creatorStep
         : creatorStep + 1
 
@@ -81,7 +81,7 @@ export default function useMinterWizard(
         toast.error(MINTER_WIZARD_ERROR_MESSAGES.FIX_ERRORS)
       }
     }
-  }, [mintType, creatorStep, checkIfAllFieldsAreValidated, aboveLastScreen, steps.length, userWalletId])
+  }, [mintType, creatorStep, checkIfAllFieldsAreValidated, aboveLastScreen, steps?.length, userWalletId])
 
   const handleCreatorPrevButton = useCallback(() => (
     !isFirstScreen && setCreatorStep(prev => prev - 1)

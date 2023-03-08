@@ -38,7 +38,6 @@ interface Props {
   inputsSchema: Input[];
   name: string;
   label: string;
-  tooltip?: string
 }
 
 const FormGroup = ({ inputsSchema, name, label, tooltip }: Props) => {
