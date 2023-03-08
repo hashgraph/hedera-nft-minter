@@ -23,13 +23,12 @@ import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 import { toast } from 'react-toastify';
 
+import { FormWizardSteps, HomepageContext } from '@utils/context/HomepageContext';
 import MINTER_WIZARD_ERROR_MESSAGES from '@utils/const/minter-wizard-error-messages';
 import { MinterWizardContext } from '@components/views/minter-wizard'
 import { MinterWizardStepWrapperContext } from '@components/shared/minter-wizard/StepWrapper';
 
 type NavigationProps = {
-  backToMintTypeSelection: () => void;
-  goToSummary: () => void;
   handleCreatorNextButton: React.MouseEventHandler<HTMLButtonElement>
   handleCreatorPrevButton: () => void;
   creatorStep: number;
@@ -40,22 +39,15 @@ type NavigationProps = {
 
 export default function Navigation({
   creatorStep,
-  backToMintTypeSelection,
-  goToSummary,
   isFirstScreen,
   isLastScreen,
   handleCreatorNextButton,
   handleCreatorPrevButton,
   checkIfAllFieldsAreValidated
 } : NavigationProps) {
-
-  const {
-    setCreatorStepToBackFromSummary,
-  } = useContext(MinterWizardContext)
-
-  const {
-    isNextButtonHidden,
-  } = useContext(MinterWizardStepWrapperContext)
+  const { setCreatorStepToBackFromSummary } = useContext(MinterWizardContext)
+  const { isNextButtonHidden } = useContext(MinterWizardStepWrapperContext)
+  const { setCreatorStep } = useContext(HomepageContext)
 
   const handleGoToSummary = useCallback(() => {
     const areFieldsValidated = checkIfAllFieldsAreValidated()
@@ -65,10 +57,10 @@ export default function Navigation({
     } else {
       if (creatorStep > 0) {
         setCreatorStepToBackFromSummary(creatorStep)
-        goToSummary()
+        setCreatorStep(FormWizardSteps.SummaryScreen)
       }
     }
-  }, [checkIfAllFieldsAreValidated, goToSummary, setCreatorStepToBackFromSummary, creatorStep])
+  }, [checkIfAllFieldsAreValidated, creatorStep, setCreatorStepToBackFromSummary, setCreatorStep])
 
 
   const nextButtonClassName = classNames('btn--arrow', {
@@ -86,7 +78,7 @@ export default function Navigation({
         {isFirstScreen ? (
           <button
             type='button'
-            onClick={backToMintTypeSelection}
+            onClick={() => setCreatorStep(FormWizardSteps.WelcomeScreen)}
             className='btn--arrow-left'
           >
             Back
@@ -106,7 +98,7 @@ export default function Navigation({
       <div className='next'>
         <SwitchTransition>
           <CSSTransition
-            key={isLastScreen ? 'Mint it!' : 'Next'}
+            key={isLastScreen ? 'Review' : 'Next'}
             addEndListener={(node, done) =>
               node.addEventListener('transitionend', done, false)
             }
@@ -120,7 +112,7 @@ export default function Navigation({
                   onClick={isLastScreen && handleGoToSummary}
                   disabled={isNextButtonHidden}
                 >
-                  Mint it!
+                  Review
                 </button>
               ) : (
                 <button
