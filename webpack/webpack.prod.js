@@ -68,6 +68,7 @@ module.exports = {
       HASHPACK_APP_CONFIG_NAME: JSON.stringify(process.env.HASHPACK_APP_CONFIG_NAME),
       HASHPACK_APP_CONFIG_DESCRIPTION: JSON.stringify(process.env.HASHPACK_APP_CONFIG_DESCRIPTION),
       HASHPACK_APP_CONFIG_ICON_URL: JSON.stringify(process.env.HASHPACK_APP_CONFIG_ICON_URL),
+      IPFS_GATEWAYS: process.env?.IPFS_GATEWAYS,
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

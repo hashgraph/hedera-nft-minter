@@ -29,9 +29,12 @@ import React, {
 } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useOnClickAway } from 'use-on-click-away';
+import SwitchTransition from 'react-transition-group/SwitchTransition';
+import CSSTransition from 'react-transition-group/CSSTransition';
 
-import useHederaWallets, { ConnectionStateType } from '@hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
+import { HomepageContext } from '@utils/context/HomepageContext';
+import useHederaWallets, { ConnectionStateType } from '@hooks/useHederaWallets';
 import useLayout from '@utils/hooks/useLayout';
 
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
@@ -39,12 +42,12 @@ import ConnectionModal from '@components/shared/modals/ConnectionModal';
 import Logo from '@assets/images/logo.svg';
 import ConnectIcon from '@assets/images/icons/connect.svg'
 import ProfileIcon from '@assets/images/icons/profile.svg'
-import { SwitchTransition, CSSTransition } from 'react-transition-group';
 
 const Header = () => {
   const { connectedWalletType, userWalletId } = useHederaWallets();
   const { showModal, setModalContent } = useContext(ModalContext);
-  const { goBackToMintTypeSelection, isMobileSmall, isMinterWizardWelcomeScreen } = useLayout();
+  const { isMobileSmall } = useLayout();
+  const { resetHomepageData, isMinterWizardWelcomeScreen } = useContext(HomepageContext);
   const location = useLocation();
   const headerRef = useRef<HTMLDivElement>(null);
   const expandedMenuRef = useRef(null);
@@ -55,7 +58,6 @@ const Header = () => {
     setModalContent(<ConnectionModal />);
     showModal();
   }, [setModalContent, showModal]);
-
 
   const isMobileNavbarMenuToogled = useMemo(() => (
     isMobileSmall && isMobileNavbarMenuExpanded
@@ -84,16 +86,15 @@ const Header = () => {
     }
   }, [setIsMobileNavbarMenuExpanded]);
 
-
   useOnClickAway(headerRef, () => {
     closeNavbar();
   });
 
   const handleLogoClick = useCallback(() => (
-    location.pathname === '/' && !isMinterWizardWelcomeScreen && (
-      goBackToMintTypeSelection && goBackToMintTypeSelection()
-    )
-  ), [isMinterWizardWelcomeScreen, location.pathname, goBackToMintTypeSelection])
+    location.pathname === '/'
+      ? resetHomepageData()
+      : null
+  ), [location.pathname, resetHomepageData])
 
   return (
     <header className={headerClassnames} ref={headerRef}>

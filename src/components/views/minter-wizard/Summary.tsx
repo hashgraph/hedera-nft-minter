@@ -85,7 +85,7 @@ export default function Summary({ mintedNFTData }: { mintedNFTData: FormikValues
           >
             <img src={externalIcon} alt='external_icon' />
             <p>
-              View token in <span>Hashscan.io</span>
+              View token on <span>Hashscan.io</span>
             </p>
           </a>
 
