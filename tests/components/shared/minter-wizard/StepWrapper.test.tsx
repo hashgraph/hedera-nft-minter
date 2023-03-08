@@ -23,7 +23,7 @@ import React from 'react';
 import { describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import StepWrapper from '@components/shared/minter-wizard/StepWrapper';
-import { FormWizardSteps, MinterWizardContext } from '@components/views/minter-wizard';
+import { MinterWizardContext } from '@components/views/minter-wizard';
 import wizardSteps from '@components/views/minter-wizard/steps';
 import { MintTypes } from '@utils/entity/MinterWizard';
 import { Formik } from 'formik';
@@ -36,7 +36,6 @@ describe('Fees', () => {
     render(
       <MinterWizardContext.Provider
         value={{
-          creatorStep: FormWizardSteps.WelcomeScreen,
           showWarning: false,
           creatorStepToBackFromSummary: 0,
           setCreatorStepToBackFromSummary: fn,
@@ -47,11 +46,7 @@ describe('Fees', () => {
         }}
       >
         <Formik initialValues={{ attributes: [], properties: [], fees: [], keys: [] }} onSubmit={submit}>
-          <StepWrapper
-            steps={wizardSteps[MintTypes.NewCollectionNewNFT]}
-            backToMintTypeSelection={fn}
-            goToSummary={fn}
-          />
+          <StepWrapper steps={wizardSteps[MintTypes.NewCollectionNewNFT]} />
         </Formik>
       </MinterWizardContext.Provider>
     );

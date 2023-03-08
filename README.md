@@ -21,12 +21,6 @@ An example web app that demonstrates how you can mint NFTs on the Hedera network
  - Norbert Kulus
  - Patryk Matyjasiak
 
-## Contributors & maintainers
-
-I'd love your help supporting, growing, and improving this application. Seriously!
-
-If you have any ideas please [pull a request](https://github.com/hashgraph/mintbar/pulls).
-
 ## Prerequisites
 
 This demo assumes that you are familiar with [Node.JS](https://nodejs.org) based applications and using [React.JS](https://reactjs.org/) UI framework.
@@ -40,7 +34,7 @@ To use an app, you will also need a Hedera Account connected within [HashPack ](
 You can clone this repository by running the following command:
 
 ```
-git clone https://github.com/hashgraph/mintbar
+git clone https://github.com/hashgraph/hedera-nft-minter
 ```
 
 Copy the `.env.sample` file and rename the copy to `.env`
@@ -55,6 +49,7 @@ HEDERA_MIRROR_NODE_API_VERSION=v1
 
 IPFS_URL=https://api.nft.storage
 IPFS_KEYS=['key1','key2','key3','key4','key5']
+# IPFS_GATEWAYS=['https://gateway.1/{CID}','https://{CID}.gateway.2']
 
 HASHPACK_APP_CONFIG_NAME=Mintbar.xyz
 HASHPACK_APP_CONFIG_DESCRIPTION=Mint your own NFT.
@@ -66,6 +61,7 @@ HASHPACK_APP_CONFIG_DESCRIPTION=Mint your own NFT.
 - The `HEDERA_MIRROR_NODE_API_VERSION` is a variable for storing the mirror node API version
 - The `IPFS_URL` is your IPFS storage API URL (currently only the [https://api.nft.storage](https://api.nft.storage) is implemented)
 - The `IPFS_KEYS` is an array with API keys generated from [NFT Storage](https://api.nft.storage)
+- The `IPFS_GATEWAYS` is an array with gateways for fetch IPFS data. ``{cid}`` in url is replaced by true metadata CID of NFT.
 - The `HASHPACK_APP_CONFIG_NAME` stores name shown in the HashPack connection modal
 - The `HASHPACK_APP_CONFIG_DESCRIPTION` stores description shown in the HashPack connection modal
 - The `HASHPACK_APP_CONFIG_ICON_URL` is optional. Stores URL to image shown in HashPack connection modal. If not provided, the app is looking for `${ window.location.protocol }//${ window.location.host }/logo.svg` to serve in the HashPack connection modal 
@@ -181,6 +177,19 @@ The application has:
 This is just a simple demo application. Please use responsibly.
 
 [File an issue](/issues) if you see problems.
+
+## Contributing
+
+Contributions are welcome. Please see the
+[contributing guide](https://github.com/hashgraph/.github/blob/main/CONTRIBUTING.md)
+to see how you can get involved.
+
+## Code of Conduct
+
+This project is governed by the
+[Contributor Covenant Code of Conduct](https://github.com/hashgraph/.github/blob/main/CODE_OF_CONDUCT.md). By
+participating, you are expected to uphold this code of conduct. Please report unacceptable behavior
+to [oss@hedera.com](mailto:oss@hedera.com).
 
 ## LICENSE
 
