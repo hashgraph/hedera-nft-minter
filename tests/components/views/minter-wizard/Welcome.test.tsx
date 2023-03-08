@@ -33,7 +33,7 @@ describe('Minter Wizard - Welcome page', () => {
     render(
       <Router>
         <Formik initialValues={{}} onSubmit={fn}>
-          <Welcome goToCreator={() => null} />
+          <Welcome />
         </Formik>
       </Router>)
     ;

@@ -24,7 +24,7 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import { Formik } from 'formik';
 import Navigation from '@components/shared/minter-wizard/Navigation';
-import { FormWizardSteps, MinterWizardContext } from '@components/views/minter-wizard';
+import { MinterWizardContext } from '@components/views/minter-wizard';
 import useHederaWallets from '@utils/hooks/useHederaWallets';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 
@@ -37,8 +37,6 @@ describe('Minter Wizard - navigation', () => {
     const fnTrue = jest.fn( () => true );
     const submit = jest.fn(v => v)
     const props = {
-      backToMintTypeSelection: fn,
-      goToSummary: fn,
       handleCreatorNextButton: fn,
       handleCreatorPrevButton: fn,
       creatorStep: 1,
@@ -51,7 +49,6 @@ describe('Minter Wizard - navigation', () => {
       <HederaWalletsProvider>
         <MinterWizardContext.Provider
           value={{
-            creatorStep: FormWizardSteps.WelcomeScreen,
             showWarning: false,
             creatorStepToBackFromSummary: 0,
             setCreatorStepToBackFromSummary: fn,

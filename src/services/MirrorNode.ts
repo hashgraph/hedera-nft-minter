@@ -19,7 +19,7 @@
 
 import { HEDERA_NETWORK, HEDERA_MIRROR_NODE_API_VERSION } from '@src/../Global.d';
 import axios from 'axios';
-import { Buffer } from 'buffer'
+import { TokenId } from '@hashgraph/sdk';
 import map from 'lodash/map';
 import concat from 'lodash/concat';
 import entries from 'lodash/entries';
@@ -81,28 +81,10 @@ export default class MirrorNode {
     return data;
   }
 
-  static async fetchNFTMetadata(cid: string) {
-    if (/^0*$/.test(Buffer.from(cid).toString('hex'))) {
-      return null
-    }
+  static async fetchNFTInfo(tokenId: string | TokenId): Promise<{ nfts: NFTInfo[] }> {
+    const { data } = await this.instance.get(`/tokens/${ tokenId }/nfts`);
 
-    const url = cid.includes('https://')
-      ? cid
-      : `https://ipfs.io/ipfs/${ cid.replace('ipfs://', '') }`;
-
-    try {
-      const res = await this.instance.get(url, {
-        timeout: 4000
-      }).catch(() => null);
-
-      if (!res?.data) {
-        return
-      }
-
-      return res.data;
-    } catch (e) {
-      return null
-    }
+    return data;
   }
 
   static async fetchAllNFTs(idOrAliasOrEvmAddress: string, nextLink?: string) {
@@ -163,4 +145,3 @@ export default class MirrorNode {
     })
   }
 }
-
