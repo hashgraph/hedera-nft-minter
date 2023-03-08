@@ -17,17 +17,17 @@
  *
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 import classNames from 'classnames';
+import { HomepageContext } from '@utils/context/HomepageContext';
 import BuildOnHederaLogo from '@assets/images/build_on_hedera.svg';
-import useLayout from '@utils/hooks/useLayout';
 
 export default function Footer() {
   const location = useLocation();
-  const { isMinterWizardWelcomeScreen } = useLayout();
+  const { isMinterWizardWelcomeScreen } = useContext(HomepageContext);
 
   const showLogoOnRightSide = useMemo(() => {
     if (location.pathname === '/') {

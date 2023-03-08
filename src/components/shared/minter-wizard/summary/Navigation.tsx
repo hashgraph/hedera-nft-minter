@@ -17,23 +17,26 @@
  *
  */
 
-import React, { useContext } from 'react'
+import React, { useCallback, useContext } from 'react'
 import { FormikValues, useFormikContext } from 'formik';
 import CSSTransition from 'react-transition-group/CSSTransition';
 import SwitchTransition from 'react-transition-group/SwitchTransition';
 
+import { FormWizardSteps, HomepageContext } from '@utils/context/HomepageContext';
 import { MinterWizardContext } from '@components/views/minter-wizard'
 
-type SummaryNavigationProps = {
-  goToCreator: () => void;
-}
-
-export default function Navigation({ goToCreator } : SummaryNavigationProps) {
+export default function Navigation() {
   const { isSubmitting } = useFormikContext<FormikValues>()
+  const { setCreatorStep } = useContext(HomepageContext)
   const {
     setShowWarning,
     showWarning,
   } = useContext(MinterWizardContext)
+
+  const handleLeftArrowClick = useCallback(() => showWarning
+    ? setShowWarning(false)
+    : setCreatorStep(FormWizardSteps.MinterScreen)
+  , [setCreatorStep, setShowWarning, showWarning])
 
   return (
     <div className='minter-wizard__creator__nav--summary'>
@@ -41,7 +44,7 @@ export default function Navigation({ goToCreator } : SummaryNavigationProps) {
         <button
           className='btn--arrow-left'
           type='button'
-          onClick={showWarning ? () => setShowWarning(false) : goToCreator }
+          onClick={handleLeftArrowClick}
         >
           Back
         </button>
