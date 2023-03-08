@@ -17,7 +17,7 @@
  *
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FormikValues, useFormikContext } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
@@ -26,29 +26,19 @@ import placeholder from '@assets/images/placeholder.png';
 import uploadArrow from '@assets/images/icons/upload-arrow.svg';
 import './drag-and-drop-file-input.scss'
 
-type SelectedImage = File | undefined
-
 const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
   const { values, errors, touched, setValues } = useFormikContext<FormikValues>();
-  const [selectedImage, setSelectedImage] = useState<SelectedImage>(values?.image);
-
-  const imageChange = useCallback((files) => {
-    if (files && files.length > 0) {
-      setSelectedImage(files[0]);
-    }
-  }, [setSelectedImage])
 
   const shouldBeErrorDisplayed = useMemo(() => (
     touched.image && !!errors.image
   ), [errors.image, touched.image])
 
   const onDrop = useCallback((files) => {
-    imageChange(files)
     const temp = values;
 
     temp.image = files[0];
     setValues(temp);
-  }, [setValues, values, imageChange]);
+  }, [setValues, values]);
 
   const onDropRejected = useCallback((files) => {
     if (files.length > 1) {
@@ -71,7 +61,6 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     isFocused,
     isDragAccept,
     isDragReject,
-    acceptedFiles,
   } = useDropzone({
     onDropRejected,
     onDrop,
@@ -86,28 +75,22 @@ const DragAndDropFileInput = (props: React.HTMLProps<HTMLInputElement>) => {
     'is-drag-rejected': shouldBeErrorDisplayed ?? isDragReject,
   });
 
-  const isFileUploaded = useMemo(() => (
-    acceptedFiles.length > 0
-  ), [acceptedFiles]);
-
   const renderUploadedImage = useCallback(() => (
-    isFileUploaded ? (
-      values?.image && (
-        <img
-          className='selected-image'
-          src={selectedImage ? URL.createObjectURL(selectedImage) : placeholder}
-          alt='Thumb'
-        />
-      )
+    values?.image ? (
+      <img
+        className='selected-image'
+        src={values?.image ? URL.createObjectURL(values?.image) : placeholder}
+        alt='Thumb'
+      />
     ) : (
       <>
         <img src={uploadArrow} className='drag-and-drop__upload-arrow' alt='upload-arrow' />
         <p>Upload your NFT image</p>
       </>
     )
-  ), [isFileUploaded, selectedImage, values?.image])
+  ), [values?.image])
 
- return (
+  return (
     <div className='drag-and-drop'>
       <div className={dragAndDropClassNames} {...getRootProps()}>
         <input {...props} {...getInputProps()} />
