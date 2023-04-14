@@ -81,3 +81,11 @@ $breakpoints: (
   '2K': 2048px,
   'QHD': 2560px
 );
+
+// vertical breakpoints
+$verticalBreakpoints: (
+  'mobile': 200px,
+  'tablet': 350px,
+  'laptop': 500px,
+  'desktop': 800px,
+);
