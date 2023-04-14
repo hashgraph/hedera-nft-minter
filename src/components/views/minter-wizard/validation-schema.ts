@@ -23,7 +23,8 @@ import { MintTypes } from '@utils/entity/MinterWizard';
 import validateQtyFormField from '@utils/helpers/validateQtyFormField';
 import objectUnique from '@utils/yup/objectUnique';
 
-const MAX_FILE_LIMIT_IN_BYTES = 6081740
+// 4 Megabytes = 4.194.304 Bytes
+const MAX_FILE_LIMIT_IN_BYTES = 4_194_304
 
 objectUnique();
 
@@ -69,19 +70,20 @@ export const ValidationSchema = yup.object().shape({
       case 'string':
         return true
     }
-  }).test('size', 'Max file size = 5.8MB', (value) => (
+  }).test('size', 'Max file size = 4MB', (value) => (
     value ? (
       value?.size < MAX_FILE_LIMIT_IN_BYTES
     ) : (
       true
     )
-  )),
+  )).required('Required'),
   name: yup
     .string()
     .max(100, 'Too Long')
     .required('Required'),
   edition_name: yup
     .string()
+    .required('Required')
     .max(100, 'Too Long'),
   symbol: yup
     .string()
