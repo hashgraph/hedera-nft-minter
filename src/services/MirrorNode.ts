@@ -123,7 +123,6 @@ export default class MirrorNode {
     return groupedNFTsByCollectionIdWithInfo
   }
 
-
   static async filterCollectionInfoForGroupedNFTs(groupedNFTsByCollectionIdWithInfo: GroupedNFTsByCollectionIdWithInfo[], accountId: string, options: {
     onlyAllowedToMint?: boolean,
   }) {
@@ -131,14 +130,18 @@ export default class MirrorNode {
 
     return filter(groupedNFTsByCollectionIdWithInfo, (groupedNFTsByCollectionIdWithInfo) => {
       if (options.onlyAllowedToMint) {
-        if (groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_key?.key !== key.key) {
-          return false
+        const { max_supply, total_supply, supply_key, supply_type } = groupedNFTsByCollectionIdWithInfo.collection_info;
+
+        const isConnectedAccountOwnerOfTheCollection = supply_key?.key === key.key;
+
+        if (!isConnectedAccountOwnerOfTheCollection) {
+          return false;
         }
 
-        return (
-          groupedNFTsByCollectionIdWithInfo?.collection_info?.supply_type === TokenSupplyType.FINITE &&
-          parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.total_supply ?? '0') <= parseInt(groupedNFTsByCollectionIdWithInfo?.collection_info.max_supply ?? '0')
-        )
+        const freeSupplyToMintIntoTheCollection = parseInt(max_supply ?? '0') - parseInt(total_supply ?? '0');
+        const hasEnoughSupplyToMintIntoTheCollection = supply_type === TokenSupplyType.INFINITE ? true : freeSupplyToMintIntoTheCollection >= 1;
+
+        return hasEnoughSupplyToMintIntoTheCollection;
       }
 
       return true
