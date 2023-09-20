@@ -41,8 +41,6 @@ describe('Fees', () => {
           setCreatorStepToBackFromSummary: fn,
           setCreatorStepToBackFromSummaryToCurrent: fn,
           setShowWarning: fn,
-          setCollections: fn,
-          collections: [],
         }}
       >
         <Formik initialValues={{ attributes: [], properties: [], fees: [], keys: [] }} onSubmit={submit}>

@@ -18,37 +18,42 @@
  */
 
 import { isArray } from 'lodash';
-import * as yup from 'yup'
+import * as yup from 'yup';
 
-const HIP412MetadataSchema = yup.object().shape({
-  name: yup.string().required(),
-  creator: yup.string(),
-  description: yup.string(),
-  image: yup.string().required(),
-  type: yup.string().required(),
-  format: yup.string(),
-  attributes: yup.array().of(
-    yup.object().shape({
-      trait_type: yup.string().required(),
-      value: yup.string().required()
-    })
-  ),
-  localization: yup.object().when('localization', {
-    is: (localization: Record<string, unknown>) => !!localization,
-    then: yup.object().shape({
-      locales: yup.mixed().test('type', 'Only image files are accepted', (value) => {
-        if (isArray(value)) {
-          return yup.array().of(
-            yup.string().required()
-          )
-        }
+const HIP412MetadataSchema = yup.object().shape(
+  {
+    name: yup.string().required(),
+    creator: yup.string(),
+    description: yup.string(),
+    image: yup.string().required(),
+    type: yup.string().required(),
+    format: yup.string(),
+    attributes: yup.array().of(
+      yup.object().shape({
+        trait_type: yup.string().required(),
+        value: yup.string().required(),
+      })
+    ),
+    localization: yup.object().when('localization', {
+      is: (localization: Record<string, unknown>) => !!localization,
+      then: yup.object().shape({
+        locales: yup
+          .mixed()
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          .test('type', 'Only image files are accepted', (value) => {
+            if (isArray(value)) {
+              return yup.array().of(yup.string().required());
+            }
 
-        return yup.string().required()
+            return yup.string().required();
+          }),
+        default: yup.string().required(),
+        uri: yup.string().required(),
       }),
-      default: yup.string().required(),
-      uri: yup.string().required()
-    })
-  })
-}, [['localization', 'localization']]);
+    }),
+  },
+  [['localization', 'localization']]
+);
 
-export default HIP412MetadataSchema
+export default HIP412MetadataSchema;

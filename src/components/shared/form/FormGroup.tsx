@@ -37,6 +37,7 @@ type Input = {
 interface Props {
   inputsSchema: Input[];
   name: string;
+  tooltip?: string;
   label: string;
 }
 
