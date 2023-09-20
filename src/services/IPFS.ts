@@ -54,26 +54,28 @@ export default class IPFS {
 
   static async uploadFile(file: File | Blob) {
     try {
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
+      const options = (typeof IPFS_KEYS !== 'undefined' && IPFS_KEYS.length > 0) ? {
         headers: {
-          'Content-Type': 'image/*',
           Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
         }
-      });
+      } : undefined;
+
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
     } catch (e) {
-      throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
+      throw new Error('We are experiencing very high demand. Please retry in 2 minutes. FILE')
     }
   }
 
   static async createMetadataFile(meta: NFTMetadata) {
     try {
       const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
-
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, {
+      const options = (typeof IPFS_KEYS !== 'undefined' && IPFS_KEYS.length > 0) ? {
         headers: {
           Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
         }
-      });
+      } : undefined;
+
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
     } catch (e) {
       throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
