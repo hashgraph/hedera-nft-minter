@@ -20,7 +20,17 @@
  */
 
 import { describe, test, expect, jest, beforeEach } from '@jest/globals';
-import { AccountId, Hbar, TokenCreateTransaction, TokenMintTransaction, TokenType, TokenSupplyType, TokenUpdateTransaction, TransactionId, TransferTransaction } from '@hashgraph/sdk'
+import {
+  AccountId,
+  Hbar,
+  TokenCreateTransaction,
+  TokenMintTransaction,
+  TokenType,
+  TokenSupplyType,
+  TokenUpdateTransaction,
+  TransactionId,
+  TransferTransaction,
+} from '@hashgraph/sdk';
 import HTS, { NewTokenType } from '@services/HTS';
 
 describe('Test HTS service', () => {
@@ -29,41 +39,45 @@ describe('Test HTS service', () => {
   Date.now = () => now;
 
   beforeEach(() => {
-    const mockFn = jest.fn().mockReturnValue(TransactionId.fromString('0.0.123456@1666180043.380955673'));
+    const mockFn = jest
+      .fn()
+      .mockReturnValue(
+        TransactionId.fromString('0.0.123456@1666180043.380955673')
+      );
 
     TransactionId.generate = mockFn as () => TransactionId;
-
   });
 
   // eslint-disable-next-line no-undef
-  const overrideFetch = (data: unknown) => global.fetch = jest.fn(() =>
-    Promise.resolve({
-      headers: new Headers(),
-      ok: true,
-      redirected: false,
-      status: 200,
-      statusText: 'OK',
-      trailer: new Promise<Headers>((r) => r(new Headers())),
-      // eslint-disable-next-line no-undef
-      type: 'basic' as ResponseType,
-      url: 'url',
-      body: null,
-      bodyUsed: true,
-      clone: () => new Response(),
-      arrayBuffer: () => Promise.resolve(new ArrayBuffer(1)),
-      formData: () => Promise.resolve(new FormData()),
-      blob: () => Promise.resolve(new Blob()),
-      text: () => Promise.resolve('test'),
-      json: () => Promise.resolve(data),
-    })
-  );
+  const overrideFetch = (data: unknown) =>
+    (global.fetch = jest.fn(() =>
+      Promise.resolve({
+        headers: new Headers(),
+        ok: true,
+        redirected: false,
+        status: 200,
+        statusText: 'OK',
+        trailer: new Promise<Headers>((r) => r(new Headers())),
+        // eslint-disable-next-line no-undef
+        type: 'basic' as ResponseType,
+        url: 'url',
+        body: null,
+        bodyUsed: true,
+        clone: () => new Response(),
+        arrayBuffer: () => Promise.resolve(new ArrayBuffer(1)),
+        formData: () => Promise.resolve(new FormData()),
+        blob: () => Promise.resolve(new Blob()),
+        text: () => Promise.resolve('test'),
+        json: () => Promise.resolve(data),
+      })
+    ));
 
   test('createToken - success', async () => {
     const accountInfo = {
       result: 'ok',
       key: {
-        key: '123456'
-      }
+        key: '123456',
+      },
     };
 
     overrideFetch(accountInfo);
@@ -73,20 +87,21 @@ describe('Test HTS service', () => {
       tokenName: 'Test',
       tokenSymbol: 'TT',
       amount: 10,
-    }
+    };
     const mintTx = await HTS.createToken(tokenProps);
 
-    expect(mintTx).toEqual(
-      new TokenCreateTransaction({
-        tokenType: TokenType.NonFungibleUnique,
-        supplyType: TokenSupplyType.Finite,
-        decimals: 0,
-        expirationTime: new Date(now + 3600 * 24 * 12),
-        ...tokenProps,
-        customFees: [],
-      })
-        .setMaxTransactionFee(50)
-    );
+    const tx = new TokenCreateTransaction({
+      tokenType: TokenType.NonFungibleUnique,
+      supplyType: TokenSupplyType.Finite,
+      decimals: 0,
+      expirationTime: new Date(now + 3600 * 24 * 12),
+      autoRenewAccountId: '0.0.123456',
+      ...tokenProps,
+      customFees: [],
+    }).setMaxTransactionFee(50);
+
+
+    expect(mintTx).toEqual(tx);
   });
 
   test('createToken - failed', async () => {
@@ -98,33 +113,38 @@ describe('Test HTS service', () => {
       tokenName: 'Test',
       tokenSymbol: 'TT',
       amount: 10,
-    }
+    };
 
     expect.assertions(1);
     try {
       await HTS.createToken(tokenProps);
     } catch (e) {
-      expect(e.message).toBe('Error while trying to fetch user Public key.')
+      expect(e.message).toBe('Error while trying to fetch user Public key.');
     }
-
   });
 
   test('mintToken', async () => {
-    const mintTx = HTS.mintToken('0.0.123456', '0.0.987654', ['bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm']);
+    const mintTx = HTS.mintToken('0.0.123456', '0.0.987654', [
+      'bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
+    ]);
 
     expect(mintTx).toEqual(
       new TokenMintTransaction()
         .setTransactionId(TransactionId.generate('test'))
         .setTokenId('0.0.123456')
         .setNodeAccountIds([new AccountId(3)])
-        .setMetadata([Buffer.from('ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm')])
+        .setMetadata([
+          Buffer.from(
+            'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm'
+          ),
+        ])
         .freeze()
     );
   });
 
   test('updateToken', async () => {
     const updateTx = HTS.updateToken('0.0.123456', '0.0.987654', {
-      tokenName: 'test'
+      tokenName: 'test',
     });
 
     expect(updateTx).toEqual(
@@ -137,7 +157,7 @@ describe('Test HTS service', () => {
   });
 
   test('sendNFT', async () => {
-    const updateTx = HTS.sendNFT('0.0.123456', 0,'0.0.987654', '0.0.654321');
+    const updateTx = HTS.sendNFT('0.0.123456', 0, '0.0.987654', '0.0.654321');
 
     expect(updateTx).toEqual(
       new TransferTransaction()
@@ -147,7 +167,6 @@ describe('Test HTS service', () => {
         .freeze()
     );
   });
-
 
   test('sendNFT', async () => {
     const updateTx = HTS.transfer('0.0.987654', '0.0.654321');
@@ -161,8 +180,4 @@ describe('Test HTS service', () => {
         .freeze()
     );
   });
-
-
-
-
 });

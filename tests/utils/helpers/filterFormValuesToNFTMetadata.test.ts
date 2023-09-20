@@ -45,7 +45,7 @@ describe('Filter form values to metadata', () => {
         creator: 'Tester',
         format: 'HIP412@1.0.0',
         attributes: [{ trait_type: 'height', value: 10 }],
-        properties: [{ label: 'foo', value: 'bar'}],
+        properties: { foo: 'bar' }
       });
   });
 

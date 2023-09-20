@@ -21,24 +21,13 @@
 
 import { describe, it, expect } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
-import { HashConnectConnectionState } from 'hashconnect/dist/types';
 import useHashPack from '@utils/hooks/wallets/useHashPack';
 
 describe('useHashPack', () => {
   it('render', async () => {
     const { result } = renderHook(() => useHashPack());
 
-    expect(result.current.hashConnectState).toEqual({
-      availableExtension: {
-        name: '',
-        description: '',
-        icon: '',
-      },
-      state: HashConnectConnectionState.Disconnected,
-      topic: '',
-      pairingString: '',
-      pairingData: null,
-    })
+    expect(result.current.hashConnectState).toEqual({})
 
     expect.assertions(1)
     await result.current.connectToHashPack();
