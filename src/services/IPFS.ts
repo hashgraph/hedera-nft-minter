@@ -19,8 +19,9 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { Buffer } from 'buffer';
-import { IPFS_GATEWAYS, IPFS_URL } from '@src/../Global.d';
+import { IPFS_GATEWAYS, IPFS_URL, IPFS_KEYS } from '@src/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
+import random from 'lodash/random';
 
 export interface UploadResponse {
   ok: boolean,
@@ -53,7 +54,13 @@ export default class IPFS {
 
   static async uploadFile(file: File | Blob) {
     try {
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file);
+      const options = (!!IPFS_KEYS && IPFS_KEYS.length > 0) ? {
+        headers: {
+          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
+        }
+      } : undefined;
+
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
     } catch (e) {
       throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
@@ -62,8 +69,13 @@ export default class IPFS {
   static async createMetadataFile(meta: NFTMetadata) {
     try {
       const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
+      const options = (!!IPFS_KEYS && IPFS_KEYS.length > 0) ? {
+        headers: {
+          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
+        }
+      } : undefined;
 
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file);
+      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
     } catch (e) {
       throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
     }
