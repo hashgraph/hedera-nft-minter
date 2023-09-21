@@ -32,10 +32,48 @@ import {
   TransferTransaction,
 } from '@hashgraph/sdk';
 import HTS, { NewTokenType } from '@services/HTS';
-import { bladeWeb3JsMock, hashConnectMock } from '../mocks/hederaWalletsMocks';
 
-bladeWeb3JsMock();
-hashConnectMock();
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    },
+    BladeSigner: jest.fn(() => ({
+      signTransaction: jest.fn(),
+      onAccountChanged: jest.fn(),
+    })),
+  };
+});
+
+jest.mock('hashconnect', () => {
+  return {
+    HashConnectTypes: {
+      WalletMetadata: {},
+      SavedPairingData: {}
+    },
+    HashConnect: jest.fn(() => ({
+      init: () => ({
+        topic: '',
+        pairingString: '',
+        encryptionKey: '',
+        savedPairings: [],
+      }),
+      foundExtensionEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      pairingEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      foundIframeEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      }
+    })),
+  };
+});
 
 describe('Test HTS service', () => {
   const now = Date.now();
