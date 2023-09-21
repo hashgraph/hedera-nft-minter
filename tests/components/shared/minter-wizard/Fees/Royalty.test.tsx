@@ -25,6 +25,10 @@ import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 import Royalty from '@components/shared/minter-wizard/Fees/Royalty';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
+import { bladeWeb3JsMock, hashConnectMock } from '../../../../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 describe('Royalty', () => {
   it('render', async () => {

@@ -1,5 +1,4 @@
 /** @jest-environment jsdom */
-
 /*
  * Hedera NFT Minter App
  *
@@ -21,7 +20,12 @@
 
 import { beforeEach, describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import HederaWalletsContext from '@utils/context/HederaWalletsContext';
+import HederaWalletsContextWrapper from '@utils/context/HederaWalletsContext';
+import React from 'react';
+import { bladeWeb3JsMock, hashConnectMock } from '../../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 describe('HederaWalletsContext', () => {
   beforeEach(() => {
@@ -42,9 +46,9 @@ describe('HederaWalletsContext', () => {
 
   it('render', () => {
     render(
-      <HederaWalletsContext>
+      <HederaWalletsContextWrapper>
         <div>Test</div>
-      </HederaWalletsContext>
+      </HederaWalletsContextWrapper>
     )
   })
 

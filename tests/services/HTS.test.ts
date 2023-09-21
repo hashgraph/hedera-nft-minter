@@ -32,6 +32,10 @@ import {
   TransferTransaction,
 } from '@hashgraph/sdk';
 import HTS, { NewTokenType } from '@services/HTS';
+import { bladeWeb3JsMock, hashConnectMock } from '../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 describe('Test HTS service', () => {
   const now = Date.now();
@@ -88,20 +92,20 @@ describe('Test HTS service', () => {
       tokenSymbol: 'TT',
       amount: 10,
     };
-    const mintTx = await HTS.createToken(tokenProps);
+    const createTokenTx = await HTS.createToken(tokenProps);
 
     const tx = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
       decimals: 0,
-      expirationTime: new Date(now + 3600 * 24 * 12),
+      expirationTime: new Date(Date.now() + 7776000 * 1000),
       autoRenewAccountId: '0.0.123456',
+      autoRenewPeriod: null,
       ...tokenProps,
       customFees: [],
-    }).setMaxTransactionFee(50);
+    }).setMaxTransactionFee(50).setAutoRenewPeriod(7776000);
 
-
-    expect(mintTx).toEqual(tx);
+    expect(createTokenTx).toEqual(tx);
   });
 
   test('createToken - failed', async () => {

@@ -23,12 +23,16 @@ import { beforeEach, describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import React from 'react';
 import App from '@src/App';
+import { bladeWeb3JsMock, hashConnectMock } from './mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 describe('App', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
-      value: jest.fn().mockImplementation(query => ({
+      value: jest.fn().mockImplementation((query) => ({
         matches: false,
         media: query,
         onchange: null,
@@ -39,10 +43,9 @@ describe('App', () => {
         dispatchEvent: jest.fn(),
       })),
     });
-  })
+  });
 
   it('render', () => {
     render(<App />);
-  })
-})
-
+  });
+});

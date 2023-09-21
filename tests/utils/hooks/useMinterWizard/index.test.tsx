@@ -26,6 +26,10 @@ import useMinterWizard from '@utils/hooks/useMinterWizard';
 import NewCollectionNewNftSteps from '@components/views/minter-wizard/steps/new-collection-new-nft';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 import { JSX } from '@babel/types';
+import { bladeWeb3JsMock, hashConnectMock } from '../../../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 describe('useMinterWizard', () => {
   it('render', async () => {

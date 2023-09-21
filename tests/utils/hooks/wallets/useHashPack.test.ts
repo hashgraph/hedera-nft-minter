@@ -22,6 +22,10 @@
 import { describe, it, expect } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
 import useHashPack from '@utils/hooks/wallets/useHashPack';
+import { hashConnectMock } from '../../../mocks/hederaWalletsMocks';
+
+hashConnectMock();
+
 
 describe('useHashPack', () => {
   it('render', async () => {

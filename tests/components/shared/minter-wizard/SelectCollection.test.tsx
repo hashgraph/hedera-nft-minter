@@ -27,8 +27,10 @@ import SelectCollection from '@components/shared/minter-wizard/SelectCollection'
 import { MinterWizardContext } from '@components/views/minter-wizard';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 import useHederaWallets from '@utils/hooks/useHederaWallets';
-import { TokenSupplyType } from '@utils/entity/TokenInfo';
+import { bladeWeb3JsMock, hashConnectMock } from '../../../mocks/hederaWalletsMocks';
 
+bladeWeb3JsMock();
+hashConnectMock();
 jest.mock('@utils/hooks/useHederaWallets');
 
 describe('SelectCollection', () => {

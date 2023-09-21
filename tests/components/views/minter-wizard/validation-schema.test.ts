@@ -1,3 +1,5 @@
+/** @jest-environment jsdom */
+
 /*
  * Hedera NFT Minter App
  *
@@ -28,7 +30,7 @@ describe('ValidationSchema', () => {
   });
 
   it('image - object', () => {
-    expect(ValidationSchema.validateAt('image', { image: { type: 'image/png' }})).toBeTruthy();
+    expect(ValidationSchema.validateAt('image', { image: { type: 'image/png', size: 1 }})).toBeTruthy();
   });
 
   it('name', () => {
@@ -131,7 +133,4 @@ describe('ValidationSchema', () => {
       ]})
     ).toBeTruthy();
   });
-
-
-
 });

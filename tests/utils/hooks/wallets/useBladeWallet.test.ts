@@ -22,6 +22,9 @@
 import { describe, it, expect } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
 import useBladeWallet from '@utils/hooks/wallets/useBladeWallet';
+import { bladeWeb3JsMock } from '../../../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
 
 describe('useBladeWallet', () => {
   it('render', async () => {

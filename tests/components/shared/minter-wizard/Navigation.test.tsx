@@ -27,6 +27,10 @@ import Navigation from '@components/shared/minter-wizard/Navigation';
 import { MinterWizardContext } from '@components/views/minter-wizard';
 import useHederaWallets from '@utils/hooks/useHederaWallets';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
+import { bladeWeb3JsMock, hashConnectMock } from '../../../mocks/hederaWalletsMocks';
+
+bladeWeb3JsMock();
+hashConnectMock();
 
 jest.mock('@utils/hooks/useHederaWallets');
 
