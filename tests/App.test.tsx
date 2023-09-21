@@ -24,6 +24,48 @@ import { render } from '@testing-library/react';
 import React from 'react';
 import App from '@src/App';
 
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    },
+    BladeSigner: jest.fn(() => ({
+      signTransaction: jest.fn(),
+      onAccountChanged: jest.fn(),
+    })),
+  };
+});
+
+jest.mock('hashconnect', () => {
+  return {
+    HashConnectTypes: {
+      WalletMetadata: {},
+      SavedPairingData: {}
+    },
+    HashConnect: jest.fn(() => ({
+      init: () => ({
+        topic: '',
+        pairingString: '',
+        encryptionKey: '',
+        savedPairings: [],
+      }),
+      foundExtensionEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      pairingEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      foundIframeEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      }
+    })),
+  };
+});
+
 describe('App', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {

@@ -117,7 +117,7 @@ const FieldWrapper = ({
       return helpers.setValue(props.max)
     }
 
-    helpers.setValue(slicedValue)
+    return helpers.setValue(slicedValue)
   }, [helpers, maxLength, props.max, props.min])
 
   return (

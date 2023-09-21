@@ -1,5 +1,4 @@
 /** @jest-environment jsdom */
-
 /*
  * Hedera NFT Minter App
  *
@@ -21,7 +20,50 @@
 
 import { beforeEach, describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
-import HederaWalletsContext from '@utils/context/HederaWalletsContext';
+import HederaWalletsContextWrapper from '@utils/context/HederaWalletsContext';
+import React from 'react';
+
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    },
+    BladeSigner: jest.fn(() => ({
+      signTransaction: jest.fn(),
+      onAccountChanged: jest.fn(),
+    })),
+  };
+});
+
+jest.mock('hashconnect', () => {
+  return {
+    HashConnectTypes: {
+      WalletMetadata: {},
+      SavedPairingData: {}
+    },
+    HashConnect: jest.fn(() => ({
+      init: () => ({
+        topic: '',
+        pairingString: '',
+        encryptionKey: '',
+        savedPairings: [],
+      }),
+      foundExtensionEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      pairingEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      foundIframeEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      }
+    })),
+  };
+});
 
 describe('HederaWalletsContext', () => {
   beforeEach(() => {
@@ -42,9 +84,9 @@ describe('HederaWalletsContext', () => {
 
   it('render', () => {
     render(
-      <HederaWalletsContext>
+      <HederaWalletsContextWrapper>
         <div>Test</div>
-      </HederaWalletsContext>
+      </HederaWalletsContextWrapper>
     )
   })
 

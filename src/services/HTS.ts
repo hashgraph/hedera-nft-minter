@@ -66,7 +66,7 @@ type UpdateTokenProps = {
   supplyKey?: Key;
   autoRenewAccountId?: string | AccountId;
   expirationTime?: Date | Timestamp;
-  autoRenewPeriod?: number | import('long').Long;
+  autoRenewPeriod?: number;
   tokenMemo?: string;
   feeScheduleKey?: Key;
   pauseKey?: Key;
