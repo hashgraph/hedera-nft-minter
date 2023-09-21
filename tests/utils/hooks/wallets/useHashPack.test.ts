@@ -19,9 +19,38 @@
  *
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
 import useHashPack from '@utils/hooks/wallets/useHashPack';
+
+jest.mock('hashconnect', () => {
+  return {
+    HashConnectTypes: {
+      WalletMetadata: {},
+      SavedPairingData: {}
+    },
+    HashConnect: jest.fn(() => ({
+      init: () => ({
+        topic: '',
+        pairingString: '',
+        encryptionKey: '',
+        savedPairings: [],
+      }),
+      foundExtensionEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      pairingEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      },
+      foundIframeEvent: {
+        on: jest.fn(),
+        off: jest.fn(),
+      }
+    })),
+  };
+});
 
 describe('useHashPack', () => {
   it('render', async () => {

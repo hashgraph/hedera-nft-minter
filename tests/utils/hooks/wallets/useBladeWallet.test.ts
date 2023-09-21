@@ -19,9 +19,22 @@
  *
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
 import useBladeWallet from '@utils/hooks/wallets/useBladeWallet';
+
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    },
+    BladeSigner: jest.fn(() => ({
+      signTransaction: jest.fn(),
+      onAccountChanged: jest.fn(),
+    })),
+  };
+});
 
 describe('useBladeWallet', () => {
   it('render', async () => {

@@ -71,7 +71,7 @@ export const ValidationSchema = yup.object().shape({
         return true
     }
   }).test('size', 'Max file size = 4MB', (value) => (
-    value ? (
+    (value && typeof value?.size !== 'undefined') ? (
       value?.size < MAX_FILE_LIMIT_IN_BYTES
     ) : (
       true
