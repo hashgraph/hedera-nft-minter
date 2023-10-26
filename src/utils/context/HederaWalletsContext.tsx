@@ -18,37 +18,28 @@
  */
 
 import React from 'react';
-import { BladeSigner } from '@bladelabs/blade-web3.js';
-import { HashConnect } from 'hashconnect';
-import useHashPack, {
-  HashConnectState,
-} from '@src/utils/hooks/wallets/useHashPack';
-import useBladeWallet, {
-  BladeAccountId,
-} from '@utils/hooks/wallets/useBladeWallet';
+import useHashPack from '@utils/hooks/wallets/useHashPack';
+import useBladeWallet from '@utils/hooks/wallets/useBladeWallet';
 
 interface HederaWalletsContextType {
-  bladeSigner?: BladeSigner;
-  hashConnect?: HashConnect;
-  hashConnectState: Partial<HashConnectState>;
-  bladeAccountId: BladeAccountId;
-  connectBladeWallet: () => void;
-  connectToHashPack: () => void;
-  clearConnectedBladeWalletData: () => void;
-  disconnectFromHashPack: () => void;
-  isIframeParent: boolean;
+  hashPack: ReturnType<typeof useHashPack>;
+  bladeWallet: ReturnType<typeof useBladeWallet>;
 }
 
 const INITIAL_CONTEXT: HederaWalletsContextType = {
-  hashConnect: undefined,
-  bladeSigner: undefined,
-  hashConnectState: {},
-  bladeAccountId: '',
-  disconnectFromHashPack: () => undefined,
-  connectBladeWallet: () => undefined,
-  connectToHashPack: () => undefined,
-  clearConnectedBladeWalletData: () => undefined,
-  isIframeParent: false
+  hashPack: {
+    hashConnectState: {},
+    isIframeParent: false,
+    connectToHashPack: () => undefined,
+    disconnectFromHashPack: () => Promise.resolve(),
+    sendTransactionWithHashPack: () => Promise.reject(),
+  },
+  bladeWallet: {
+    activeBladeWalletAccountId: undefined,
+    disconnectFromBladeWallet: () => Promise.resolve(),
+    createBladeWalletSession: () => Promise.resolve(),
+    sendTransactionWithBladeWallet: () => Promise.resolve(null),
+  },
 };
 
 export const HederaWalletsContext = React.createContext(INITIAL_CONTEXT);
@@ -58,34 +49,12 @@ export default function HederaWalletsProvider({
 }: {
   children: React.ReactElement;
 }) {
-  const {
-    bladeSigner,
-    bladeAccountId,
-    connectBladeWallet,
-    clearConnectedBladeWalletData,
-  } = useBladeWallet();
-
-  const {
-    hashConnect,
-    hashConnectState,
-    connectToHashPack,
-    disconnectFromHashPack,
-    isIframeParent
-  } = useHashPack();
+  const bladeWallet = useBladeWallet();
+  const hashPack = useHashPack();
 
   return (
     <HederaWalletsContext.Provider
-      value={{
-        bladeSigner,
-        hashConnect,
-        hashConnectState,
-        bladeAccountId,
-        connectBladeWallet,
-        disconnectFromHashPack,
-        clearConnectedBladeWalletData,
-        connectToHashPack,
-        isIframeParent
-      }}
+      value={{ hashPack, bladeWallet }}
     >
       {children}
     </HederaWalletsContext.Provider>

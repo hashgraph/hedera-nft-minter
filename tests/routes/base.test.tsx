@@ -19,9 +19,18 @@
  *
  */
 
-import { describe, it, expect } from '@jest/globals';
+import { jest, describe, it, expect } from '@jest/globals';
 import base from '@routes/base';
 import { Homepage } from '@src/pages';
+
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
 
 describe('Base routes', () => {
   it('render', () => {

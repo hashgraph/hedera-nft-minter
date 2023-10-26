@@ -166,21 +166,18 @@ describe('Test HTS service', () => {
   });
 
   test('mintToken', async () => {
-    const mintTx = HTS.mintToken('0.0.123456', '0.0.987654', [
+    const mintTx = HTS.mintToken('0.0.123456', [
       'bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
     ]);
 
     expect(mintTx).toEqual(
       new TokenMintTransaction()
-        .setTransactionId(TransactionId.generate('test'))
         .setTokenId('0.0.123456')
-        .setNodeAccountIds([new AccountId(3)])
         .setMetadata([
           Buffer.from(
             'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm'
           ),
         ])
-        .freeze()
     );
   });
 

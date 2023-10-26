@@ -25,6 +25,15 @@ import { render } from '@testing-library/react';
 import { Formik } from 'formik';
 import Fees from '@components/shared/minter-wizard/Fees';
 
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
+
 describe('Fees', () => {
   it('render', () => {
     const fn = jest.fn(v => v);
