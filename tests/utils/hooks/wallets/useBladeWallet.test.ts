@@ -22,16 +22,35 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { renderHook } from '@testing-library/react-hooks';
 import useBladeWallet from '@utils/hooks/wallets/useBladeWallet';
+import { BladeConnector } from '@bladelabs/blade-web3.js';
 
 jest.mock('@bladelabs/blade-web3.js', () => {
   return {
     HederaNetwork: {
       Testnet: 'testnet',
-      Mainnet: 'mainnet'
+      Mainnet: 'mainnet',
     },
     BladeSigner: jest.fn(() => ({
       signTransaction: jest.fn(),
       onAccountChanged: jest.fn(),
+    })),
+    BladeConnector: jest.fn(() => ({
+      init: async () =>
+        ({
+          createSession: jest.fn(async () => ['mock-account-id']),
+        } as unknown as BladeConnector),
+      prototype: {
+        createSession: jest.fn(() => ['mock-account-id']),
+        selectAccount: jest.fn(),
+        getSigner: jest.fn(),
+        getSigners: jest.fn(),
+        killSession: jest.fn(),
+        onSessionDisconnec: jest.fn(),
+        onSessionExpire: jest.fn(),
+        onWalletLocked: jest.fn(),
+        onWalletUnlocked: jest.fn(),
+        initialized: false,
+      },
     })),
   };
 });
@@ -40,7 +59,7 @@ describe('useBladeWallet', () => {
   it('render', async () => {
     const { result } = renderHook(() => useBladeWallet());
 
-    expect(result.current.bladeAccountId).toEqual('')
+    expect(result.current.activeBladeWalletAccountId).toEqual(undefined);
   })
 
 });

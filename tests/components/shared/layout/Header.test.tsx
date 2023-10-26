@@ -19,11 +19,20 @@
  *
  */
 
-import { describe, it } from '@jest/globals';
+import { jest, describe, it } from '@jest/globals';
 import { render } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Header from '@components/shared/layout/Header';
+
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
 
 describe('Footer', () => {
   it('render', () => {

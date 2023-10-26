@@ -24,6 +24,15 @@ import { describe, it, beforeEach, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import Homepage from '@pages/homepage';
 
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
+
 describe('Homepage', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {

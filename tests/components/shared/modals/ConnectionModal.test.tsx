@@ -19,11 +19,20 @@
  *
  */
 
-import { describe, it } from '@jest/globals';
+import { describe, it, jest } from '@jest/globals';
 import { render } from '@testing-library/react';
 import React from 'react';
 import ConnectionModal from '@components/shared/modals/ConnectionModal';
 import ModalProvider from '@utils/context/ModalContext';
+
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
 
 describe('Connection modal', () => {
   it('render', () => {
