@@ -229,7 +229,7 @@ const useBladeWallet = () => {
   /**
    * When initializing the Blade Connector, if the user has already installed the BladeWallet extension,
    * the extension window will always be force-opened and will take user focus.
-   * To prevent this behavior and because disable the connection button to BladeWallet,
+   * To prevent this behavior and because for now the connection button to BladeWallet is disabled,
    * the initialization of the Blade Connector has been commented out.
    */
 
