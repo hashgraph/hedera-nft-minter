@@ -37,7 +37,7 @@ export default function ConnectionModal() {
     if (!isIframeParent && !isMobile) {
       return true
     }
-    
+
     if (isIframeParent) {
       return isHashPackConnectionButtonEnabledInDAppExplorer
     }
@@ -64,7 +64,9 @@ export default function ConnectionModal() {
           <ConnectToWalletButton
             walletType={ConnectionStateType.BLADEWALLET}
             logoImageSrc={BladeWalletLogo}
-            isEnabled={!isMobile}
+            blurLogoImage
+            staticLabel='Blade wallet currently unavailable'
+            isEnabled={false}
           />
         )}
       </div>
