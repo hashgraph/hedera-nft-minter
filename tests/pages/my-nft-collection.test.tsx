@@ -27,9 +27,18 @@ import useHederaWallets from '@utils/hooks/useHederaWallets';
 
 jest.mock('@utils/hooks/useHederaWallets');
 
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet',
+    },
+  };
+});
+
 describe('MyNFTCollection', () => {
   it('render', () => {
-    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: null })
+    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: undefined })
 
     render(
       <MyNFTCollection />

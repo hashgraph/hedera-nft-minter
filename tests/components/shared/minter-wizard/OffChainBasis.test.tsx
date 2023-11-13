@@ -26,14 +26,26 @@ import { Formik } from 'formik';
 import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis';
 import { MintTypes } from '@utils/entity/MinterWizard';
 
-describe('Fees', () => {
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet'
+    }
+  };
+});
+
+describe('OffChainBasis.test', () => {
   it('render', () => {
-    const fn = jest.fn(v => v);
+    const fn = jest.fn((v) => v);
 
     render(
-      <Formik initialValues={{mint_type: MintTypes.ExistingCollectionNewNFT}} onSubmit={fn}>
+      <Formik
+        initialValues={{ mint_type: MintTypes.ExistingCollectionNewNFT }}
+        onSubmit={fn}
+      >
         <OffChainBasis />
-      </Formik>);
-  })
-
+      </Formik>
+    );
+  });
 });

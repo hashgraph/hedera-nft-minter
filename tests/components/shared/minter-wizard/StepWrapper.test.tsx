@@ -28,6 +28,15 @@ import wizardSteps from '@components/views/minter-wizard/steps';
 import { MintTypes } from '@utils/entity/MinterWizard';
 import { Formik } from 'formik';
 
+jest.mock('@bladelabs/blade-web3.js', () => {
+  return {
+    HederaNetwork: {
+      Testnet: 'testnet',
+      Mainnet: 'mainnet',
+    },
+  };
+});
+
 describe('Fees', () => {
    it('render', () => {
     const fn = jest.fn()

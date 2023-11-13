@@ -19,15 +19,15 @@
 
 import {
   HEDERA_NETWORK,
-  HASHPACK_APP_CONFIG_NAME,
-  HASHPACK_APP_CONFIG_DESCRIPTION,
-  HASHPACK_APP_CONFIG_ICON_URL
+  WALLET_CONFIG_NAME,
+  WALLET_CONFIG_DESCRIPTION,
+  WALLET_CONFIG_ICON_URL,
 } from '@src/../Global.d';
 import { useState, useCallback, useEffect, useMemo } from 'react';
-import { toast } from 'react-toastify';
 import { HashConnect, HashConnectTypes } from 'hashconnect';
 import { HashConnectConnectionState } from 'hashconnect/dist/types';
 import useHashConnectEvents from '@utils/hooks/wallets/useHashConnectEvents';
+import { AccountId, Transaction, TransactionId, TransactionReceipt } from '@hashgraph/sdk';
 
 export interface HashConnectState {
   availableExtension: HashConnectTypes.WalletMetadata;
@@ -51,14 +51,14 @@ const useHashPack = () => {
   ), [])
 
   const appConfig = useMemo<HashConnectTypes.AppMetadata>(() => ({
-    name: `${ hederaNetworkPrefix }${ HASHPACK_APP_CONFIG_NAME }`,
-    description: HASHPACK_APP_CONFIG_DESCRIPTION,
-    icon: HASHPACK_APP_CONFIG_ICON_URL ?? `${ window.location.protocol }//${ window.location.host }/logo.svg`
+    name: `${ hederaNetworkPrefix }${ WALLET_CONFIG_NAME }`,
+    description: WALLET_CONFIG_DESCRIPTION,
+    icon: WALLET_CONFIG_ICON_URL ?? `${ window.location.protocol }//${ window.location.host }/logo.svg`
   }), [hederaNetworkPrefix])
 
   //INITIALIZATION
   const initializeHashConnect = useCallback(async () => {
-    const hashConnectInitData = await hashConnect.init(appConfig, HEDERA_NETWORK, false);
+    const hashConnectInitData = await hashConnect.init(appConfig, HEDERA_NETWORK, true);
 
     if (hashConnectInitData.savedPairings.length > 0) {
       setHashConnectState(prev => ({
@@ -90,7 +90,7 @@ const useHashPack = () => {
         pairingData: undefined
       }))
       hashConnect.hcData.pairingData = []
-      
+
       if (isIframeParent) {
         await hashConnect.clearConnectionsAndData();
       }
@@ -99,32 +99,68 @@ const useHashPack = () => {
 
   //CONNECT
   const connectToHashPack = useCallback(() => {
-    try {
-      if (typeof hashConnect.hcData.pairingString === 'undefined' || hashConnect.hcData.pairingString === '' ) {
-        throw new Error(
-          'No pairing key generated! Initialize HashConnect first!'
-        );
-      }
-
-      if (!hashConnectState.availableExtension || !hashConnect) {
-        throw new Error('Hashpack wallet is not installed!');
-      }
-
-      hashConnect.connectToLocalWallet();
-    } catch (e) {
-      if (typeof e === 'string') {
-        toast.error(e);
-      } else if (e instanceof Error) {
-        toast.error(e.message);
-      }
+    if (typeof hashConnect?.hcData?.pairingString === 'undefined' || hashConnect.hcData.pairingString === '' ) {
+      throw new Error(
+        'No pairing key generated! Initialize HashConnect first!'
+      );
     }
+
+    if (!hashConnectState?.availableExtension || !hashConnect) {
+      throw new Error('Hashpack wallet is not detected!');
+    }
+
+    hashConnect.connectToLocalWallet();
   }, [hashConnectState.availableExtension]);
 
+  //POPULATE TRANSACTION
+  const populateTransaction = useCallback((tx: Transaction, accountToSign: string) => {
+    const transId = TransactionId.generate(accountToSign);
+
+    tx.setTransactionId(transId);
+    tx.setNodeAccountIds([new AccountId(3)]);
+
+    tx.freeze();
+
+    return tx;
+  }, [])
+
+  //SEND TRANSACTION
+  const sendTransactionWithHashPack = useCallback(async (tx: Transaction) => {
+    if (!hashConnectState.topic) {
+      throw new Error('Loading topic Error.');
+    }
+
+    if (!hashConnectState?.pairingData?.accountIds[0]) {
+      throw new Error('No account paired with HashPack!');
+    }
+
+    tx = populateTransaction(
+      tx,
+      hashConnectState.pairingData.accountIds[0]
+    );
+
+    // eslint-disable-next-line no-case-declarations
+    const response = await hashConnect?.sendTransaction(hashConnectState.topic, {
+      topic: hashConnectState.topic,
+      byteArray: tx.toBytes(),
+      metadata: {
+        accountToSign: hashConnectState.pairingData.accountIds[0],
+        returnTransaction: false,
+      },
+    });
+
+    if (response?.receipt) {
+      return TransactionReceipt.fromBytes(response.receipt as Uint8Array);
+    } else {
+      throw new Error('No transaction receipt found!');
+    }
+  }, [hashConnectState?.pairingData?.accountIds, hashConnectState.topic, populateTransaction]);
+
   return {
-    hashConnect,
     hashConnectState,
     connectToHashPack,
     disconnectFromHashPack,
+    sendTransactionWithHashPack,
     isIframeParent
   };
 };

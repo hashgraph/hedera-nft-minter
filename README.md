@@ -42,29 +42,28 @@ Copy the `.env.sample` file and rename the copy to `.env`
 Then update the newly renamed `.env` file with your IPFS URL, Hedera network type, Mirror Node version, and HashPack wallet metadata:
 
 ```
-APP_NAME=Mintbar
+## Minimal setup
 
 HEDERA_NETWORK=testnet
 HEDERA_MIRROR_NODE_API_VERSION=v1
 
 IPFS_URL=https://api.nft.storage
 IPFS_KEYS=['key1','key2','key3','key4','key5']
-# IPFS_GATEWAYS=['https://gateway.1/{CID}','https://{CID}.gateway.2']
 
-HASHPACK_APP_CONFIG_NAME=Mintbar.xyz
-HASHPACK_APP_CONFIG_DESCRIPTION=Mint your own NFT.
-# HASHPACK_APP_CONFIG_ICON_URL=
-
+WALLET_CONFIG_NAME=Mintbar.xyz
+WALLET_CONFIG_DESCRIPTION=Mint your own NFT.
 ```
-- The `APP_NAME` is used for generating localStorage variable names for holding both wallets' connection data.
 - The `HEDERA_NETWORK` holds Hedera Network type (testnet, mainnet)
 - The `HEDERA_MIRROR_NODE_API_VERSION` is a variable for storing the mirror node API version
 - The `IPFS_URL` is your IPFS storage API URL (currently only the [https://api.nft.storage](https://api.nft.storage) is implemented)
 - The `IPFS_KEYS` is an array with API keys generated from [NFT Storage](https://api.nft.storage)
 - The `IPFS_GATEWAYS` is an array with gateways for fetch IPFS data. ``{cid}`` in url is replaced by true metadata CID of NFT.
-- The `HASHPACK_APP_CONFIG_NAME` stores name shown in the HashPack connection modal
-- The `HASHPACK_APP_CONFIG_DESCRIPTION` stores description shown in the HashPack connection modal
-- The `HASHPACK_APP_CONFIG_ICON_URL` is optional. Stores URL to image shown in HashPack connection modal. If not provided, the app is looking for `${ window.location.protocol }//${ window.location.host }/logo.svg` to serve in the HashPack connection modal 
+- The `WALLET_CONFIG_NAME` stores name shown in the each Wallet connection modal
+- The `WALLET_CONFIG_DESCRIPTION` stores description shown in the each Wallet connection modal
+- The `WALLET_CONFIG_URL` is optional. URL shown in wallet connection modal (only BladeWallet supported).
+- The `WALLET_CONFIG_ICON_URL` is optional. Stores URL to image shown in each Wallet connection modal. If not provided, the app is looking for `${ window.location.protocol }//${ window.location.host }/logo.svg` to serve in the each wallet connection modal
+- The `BLADE_WALLET_DAPP_CODE` is optional. Blade Wallet dApp code (only BladeWallet supported).
+
 
 After downloading and setting up our environment, we'll install our packages via [npm](https://docs.npmjs.com/about-npm/).
 

@@ -19,14 +19,7 @@
 
 import { useCallback, useContext, useMemo, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-  TransactionReceipt,
-  TransactionReceiptQuery,
-  TransactionResponse,
-} from '@hashgraph/sdk';
-import { MessageTypes } from 'hashconnect';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
-import { SigningService } from '@services/SigningService';
 
 export enum ConnectionStateType {
   BLADEWALLET= 'bladewallet',
@@ -36,57 +29,74 @@ export enum ConnectionStateType {
 
 const useHederaWallets = () => {
   const {
-    bladeSigner,
-    bladeAccountId,
-    hashConnect,
-    connectBladeWallet,
-    disconnectFromHashPack,
-    clearConnectedBladeWalletData,
-    connectToHashPack,
-    hashConnectState,
-    isIframeParent
+    bladeWallet: {
+      activeBladeWalletAccountId,
+      disconnectFromBladeWallet,
+      createBladeWalletSession,
+      sendTransactionWithBladeWallet,
+    },
+    hashPack: {
+      disconnectFromHashPack,
+      connectToHashPack,
+      hashConnectState,
+      sendTransactionWithHashPack,
+      isIframeParent,
+    },
   } = useContext(HederaWalletsContext);
 
   const [connectedWalletType, setConnectedWalletType] =
     useState<ConnectionStateType>(ConnectionStateType.NOCONNECTION);
 
   useEffect(() => {
-    if (!bladeAccountId && !hashConnectState.pairingData) {
+    if (!activeBladeWalletAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
-    if (bladeAccountId && !hashConnectState.pairingData) {
+    if (activeBladeWalletAccountId && !hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.BLADEWALLET);
     }
-    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0 && !bladeAccountId) {
+    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0 && !activeBladeWalletAccountId) {
       setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
-  }, [bladeAccountId, setConnectedWalletType, hashConnectState.pairingData]);
+  }, [activeBladeWalletAccountId, setConnectedWalletType, hashConnectState.pairingData]);
 
-  const connect = useCallback(
-    (walletType) => {
+  const connect = useCallback(async (walletType) => {
+    try {
       switch (walletType) {
-        case ConnectionStateType.BLADEWALLET:
-          disconnectFromHashPack();
-          connectBladeWallet();
+        case ConnectionStateType.BLADEWALLET: {
+          await disconnectFromHashPack();
+          await createBladeWalletSession();
           break;
-        case ConnectionStateType.HASHPACK:
-          clearConnectedBladeWalletData();
+        }
+
+        case ConnectionStateType.HASHPACK: {
+          if (activeBladeWalletAccountId) {
+            await disconnectFromBladeWallet();
+          }
+
           connectToHashPack();
+
           break;
+        }
       }
-    },
-    [
-      connectBladeWallet,
-      connectToHashPack,
-      disconnectFromHashPack,
-      clearConnectedBladeWalletData,
-    ]
-  );
+    } catch (e) {
+      if (typeof e === 'string') {
+        toast.error(e);
+      } else if (e instanceof Error) {
+        toast.error(e.message);
+      }
+    }
+  }, [
+    disconnectFromHashPack,
+    createBladeWalletSession,
+    activeBladeWalletAccountId,
+    connectToHashPack,
+    disconnectFromBladeWallet
+  ]);
 
   const disconnect = useCallback(() => {
     switch (connectedWalletType) {
       case ConnectionStateType.BLADEWALLET:
-        clearConnectedBladeWalletData();
+        disconnectFromBladeWallet();
         toast.error('❌ Removed Blade Wallet pairing.');
         break;
       case ConnectionStateType.HASHPACK:
@@ -94,103 +104,51 @@ const useHederaWallets = () => {
         toast.error('❌ Removed HashPack pairings.');
         break;
       default:
-        clearConnectedBladeWalletData();
+        disconnectFromBladeWallet();
         disconnectFromHashPack();
         toast.error('❌ Removed pairings.');
         break;
     }
   }, [
     connectedWalletType,
-    clearConnectedBladeWalletData,
+    disconnectFromBladeWallet,
     disconnectFromHashPack,
   ]);
 
   const userWalletId = useMemo(() => {
     switch (connectedWalletType) {
       case ConnectionStateType.BLADEWALLET:
-        return bladeAccountId;
+        return activeBladeWalletAccountId;
       case ConnectionStateType.HASHPACK:
         return hashConnectState.pairingData?.accountIds && hashConnectState.pairingData?.accountIds[0]
       case ConnectionStateType.NOCONNECTION:
         return undefined;
     }
-  }, [connectedWalletType, bladeAccountId, hashConnectState]);
+  }, [connectedWalletType, activeBladeWalletAccountId, hashConnectState]);
 
-  const sendTransaction = useCallback(
-    async (tx, sign = false) => {
-      if (!userWalletId) {
-        throw new Error('Loading logged Hedera account id Error.');
-      }
+  const sendTransaction = useCallback(async (tx) => {
+    if (!userWalletId) {
+      throw new Error('No connected Hedera account detected!.');
+    }
 
-      let response:
-        | MessageTypes.TransactionResponse
-        | TransactionResponse
-        | undefined;
+    switch (connectedWalletType) {
+      case ConnectionStateType.BLADEWALLET:
+        return await sendTransactionWithBladeWallet(tx);
 
-      let hashConnectTxBytes;
+      case ConnectionStateType.HASHPACK:
+        return await sendTransactionWithHashPack(tx);
 
-      switch (connectedWalletType) {
-        case ConnectionStateType.BLADEWALLET:
-          response = (await bladeSigner?.call(
-            tx
-          )) as TransactionResponse;
-
-          if (!response) {
-            throw new Error('Get transaction response error');
-          }
-
-          return bladeSigner?.call(
-            new TransactionReceiptQuery({
-              transactionId: response.transactionId,
-            })
-          );
-        case ConnectionStateType.HASHPACK:
-          if (!hashConnectState.topic) {
-            throw new Error('Loading topic Error.');
-          }
-
-          hashConnectTxBytes = sign ? (
-            SigningService.makeBytes(tx, userWalletId)
-          ) : (
-            tx.toBytes()
-          );
-
-          // eslint-disable-next-line no-case-declarations
-          response = await hashConnect?.sendTransaction(
-            hashConnectState.topic,
-            {
-              topic: hashConnectState.topic,
-              byteArray: hashConnectTxBytes,
-              metadata: {
-                accountToSign: userWalletId,
-                returnTransaction: false,
-              },
-            }
-          );
-
-          if (response?.receipt) {
-            return TransactionReceipt.fromBytes(
-              response.receipt as Uint8Array
-            );
-          } else {
-            throw new Error('No transaction receipt found!');
-          }
-
-        case ConnectionStateType.NOCONNECTION:
-          throw new Error('No wallet connected!');
-      }
-    },
-    [
-      hashConnect,
-      connectedWalletType,
-      userWalletId,
-      hashConnectState.topic,
-      bladeSigner,
-    ]
-  );
+      case ConnectionStateType.NOCONNECTION:
+        throw new Error('No wallet connected!');
+    }
+  }, [
+    userWalletId,
+    connectedWalletType,
+    sendTransactionWithBladeWallet,
+    sendTransactionWithHashPack
+  ]);
 
   return {
-    bladeSigner,
     userWalletId,
     connectedWalletType,
     connect,
