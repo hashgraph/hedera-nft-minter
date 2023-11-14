@@ -33,24 +33,11 @@ import {
 } from '@hashgraph/sdk';
 import HTS, { NewTokenType } from '@services/HTS';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    },
-    BladeSigner: jest.fn(() => ({
-      signTransaction: jest.fn(),
-      onAccountChanged: jest.fn(),
-    })),
-  };
-});
-
 jest.mock('hashconnect', () => {
   return {
     HashConnectTypes: {
       WalletMetadata: {},
-      SavedPairingData: {}
+      SavedPairingData: {},
     },
     HashConnect: jest.fn(() => ({
       init: () => ({
@@ -70,7 +57,7 @@ jest.mock('hashconnect', () => {
       foundIframeEvent: {
         on: jest.fn(),
         off: jest.fn(),
-      }
+      },
     })),
   };
 });
@@ -141,7 +128,9 @@ describe('Test HTS service', () => {
       autoRenewPeriod: null,
       ...tokenProps,
       customFees: [],
-    }).setMaxTransactionFee(50).setAutoRenewPeriod(7776000);
+    })
+      .setMaxTransactionFee(50)
+      .setAutoRenewPeriod(7776000);
 
     expect(createTokenTx).toEqual(tx);
   });
@@ -166,21 +155,18 @@ describe('Test HTS service', () => {
   });
 
   test('mintToken', async () => {
-    const mintTx = HTS.mintToken('0.0.123456', '0.0.987654', [
+    const mintTx = HTS.mintToken('0.0.123456', [
       'bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
     ]);
 
     expect(mintTx).toEqual(
       new TokenMintTransaction()
-        .setTransactionId(TransactionId.generate('test'))
         .setTokenId('0.0.123456')
-        .setNodeAccountIds([new AccountId(3)])
         .setMetadata([
           Buffer.from(
             'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm'
           ),
         ])
-        .freeze()
     );
   });
 

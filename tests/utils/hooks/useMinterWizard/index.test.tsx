@@ -27,19 +27,6 @@ import NewCollectionNewNftSteps from '@components/views/minter-wizard/steps/new-
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 import { JSX } from '@babel/types';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    },
-    BladeSigner: jest.fn(() => ({
-      signTransaction: jest.fn(),
-      onAccountChanged: jest.fn(),
-    })),
-  };
-});
-
 jest.mock('hashconnect', () => {
   return {
     HashConnectTypes: {

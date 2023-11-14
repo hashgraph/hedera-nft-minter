@@ -87,9 +87,10 @@ module.exports = {
       IPFS_URL: JSON.stringify(process.env.IPFS_URL),
       IPFS_KEYS: process.env.IPFS_KEYS,
       API_HOST: JSON.stringify(process.env.API_HOST),
-      HASHPACK_APP_CONFIG_NAME: JSON.stringify(process.env.HASHPACK_APP_CONFIG_NAME),
-      HASHPACK_APP_CONFIG_DESCRIPTION: JSON.stringify(process.env.HASHPACK_APP_CONFIG_DESCRIPTION),
-      HASHPACK_APP_CONFIG_ICON_URL: JSON.stringify(process.env.HASHPACK_APP_CONFIG_ICON_URL),
+      WALLET_CONFIG_NAME: JSON.stringify(process.env.WALLET_CONFIG_NAME),
+      WALLET_CONFIG_DESCRIPTION: JSON.stringify(process.env.WALLET_CONFIG_DESCRIPTION),
+      WALLET_CONFIG_URL: JSON.stringify(process.env.WALLET_CONFIG_URL),
+      WALLET_CONFIG_ICON_URL: JSON.stringify(process.env.WALLET_CONFIG_ICON_URL),
       IPFS_GATEWAYS: process.env?.IPFS_GATEWAYS,
     }),
     new CopyPlugin({
