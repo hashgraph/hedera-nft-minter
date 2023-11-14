@@ -23,18 +23,6 @@ import { render } from '@testing-library/react';
 import HederaWalletsContextWrapper from '@utils/context/HederaWalletsContext';
 import React from 'react';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    },
-    BladeSigner: jest.fn(() => ({
-      signTransaction: jest.fn(),
-      onAccountChanged: jest.fn(),
-    })),
-  };
-});
 
 jest.mock('hashconnect', () => {
   return {

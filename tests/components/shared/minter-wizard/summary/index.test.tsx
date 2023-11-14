@@ -26,14 +26,6 @@ import { MemoryRouter as Router } from 'react-router-dom';
 import { Formik } from 'formik';
 import MinterWizardSummary from '@components/shared/minter-wizard/summary';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    }
-  };
-});
 
 describe('Minter Wizard - index summary', () => {
   it('render', () => {

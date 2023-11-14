@@ -25,14 +25,6 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Header from '@components/shared/layout/Header';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    }
-  };
-});
 
 describe('Footer', () => {
   it('render', () => {

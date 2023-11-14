@@ -19,11 +19,9 @@
 
 import React from 'react';
 import useHashPack from '@utils/hooks/wallets/useHashPack';
-import useBladeWallet from '@utils/hooks/wallets/useBladeWallet';
 
 interface HederaWalletsContextType {
   hashPack: ReturnType<typeof useHashPack>;
-  bladeWallet: ReturnType<typeof useBladeWallet>;
 }
 
 const INITIAL_CONTEXT: HederaWalletsContextType = {
@@ -33,13 +31,7 @@ const INITIAL_CONTEXT: HederaWalletsContextType = {
     connectToHashPack: () => undefined,
     disconnectFromHashPack: () => Promise.resolve(),
     sendTransactionWithHashPack: () => Promise.reject(),
-  },
-  bladeWallet: {
-    activeBladeWalletAccountId: undefined,
-    disconnectFromBladeWallet: () => Promise.resolve(),
-    createBladeWalletSession: () => Promise.resolve(),
-    sendTransactionWithBladeWallet: () => Promise.resolve(null),
-  },
+  }
 };
 
 export const HederaWalletsContext = React.createContext(INITIAL_CONTEXT);
@@ -49,12 +41,11 @@ export default function HederaWalletsProvider({
 }: {
   children: React.ReactElement;
 }) {
-  const bladeWallet = useBladeWallet();
   const hashPack = useHashPack();
 
   return (
     <HederaWalletsContext.Provider
-      value={{ hashPack, bladeWallet }}
+      value={{ hashPack }}
     >
       {children}
     </HederaWalletsContext.Provider>

@@ -88,15 +88,27 @@
     }
 
     &--disabled {
-      background-color: $smoke;
+      background-color: $lightGrey;
+      color: $vapor;
+      border: unset !important;
+      border-top: 1px solid transparent !important;
 
       &:hover, &:active, &:focus {
-        background-color: $smoke;
+        background-color: $lightGrey;
         cursor: not-allowed;
+        color: $vapor !important;
+        border: unset !important;
+        border-top: 1px solid #8C8C8C !important;
 
         p {
           color: $vapor;
         }
+      }
+    }
+
+    &--blur-logo-image {
+      img {
+        filter: blur(2px);
       }
     }
   }

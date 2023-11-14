@@ -27,14 +27,6 @@ import {
 } from '@utils/hooks/useMinterWizard/helpers';
 import { MintTypes } from '@utils/entity/MinterWizard';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    }
-  };
-});
 
 describe('useMinterWizard helpers', () => {
   it('getCurrentStepFieldsNames', () => {

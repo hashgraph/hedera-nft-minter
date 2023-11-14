@@ -25,14 +25,6 @@ import React from 'react';
 import { MemoryRouter as Router } from 'react-router-dom';
 import { BaseLayout } from '@components/shared/layout/Base.layout';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    }
-  };
-});
 
 describe('Base layout', () => {
   it('render', () => {

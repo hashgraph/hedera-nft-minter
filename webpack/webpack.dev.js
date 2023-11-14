@@ -90,7 +90,6 @@ module.exports = {
       WALLET_CONFIG_DESCRIPTION: JSON.stringify(process.env.WALLET_CONFIG_DESCRIPTION),
       WALLET_CONFIG_URL: JSON.stringify(process.env.WALLET_CONFIG_URL),
       WALLET_CONFIG_ICON_URL: JSON.stringify(process.env.WALLET_CONFIG_ICON_URL),
-      BLADE_WALLET_DAPP_CODE: JSON.stringify(process.env.BLADE_WALLET_DAPP_CODE),
       IPFS_GATEWAYS: process.env?.IPFS_GATEWAYS,
     }),
     new CopyPlugin({

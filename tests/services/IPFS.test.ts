@@ -20,8 +20,9 @@
  */
 
 import { describe, expect, test, jest, beforeEach } from '@jest/globals';
-import IPFS from '@services/IPFS';
+import IPFS, { UploadResponse } from '@services/IPFS';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
+import { AxiosResponse } from 'axios';
 
 jest.mock('@services/IPFS');
 
@@ -51,13 +52,13 @@ describe('Test IPFS service', () => {
     IPFS.uploadFile = (file: File) => new Promise((resolve) => {
       if (file.name === 'foo2.txt') { throw new Error('INCORRECT_FILE')}
 
-      resolve(correctResponse)
+      resolve(correctResponse as unknown as AxiosResponse<UploadResponse>);
     });
 
     IPFS.createMetadataFile = (meta: NFTMetadata) => new Promise((resolve) => {
       if (meta.name === 'fail') { throw new Error('INCORRECT_METADATA')}
 
-      resolve(correctResponse)
+      resolve(correctResponse as unknown as AxiosResponse<UploadResponse>)
     });
   })
 

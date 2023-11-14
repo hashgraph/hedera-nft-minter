@@ -29,7 +29,6 @@ declare const WALLET_CONFIG_NAME: string;
 declare const WALLET_CONFIG_DESCRIPTION: string;
 declare const WALLET_CONFIG_URL: string;
 declare const WALLET_CONFIG_ICON_URL: string;
-declare const BLADE_WALLET_DAPP_CODE: string;
 declare const IPFS_GATEWAYS: string[] | undefined;
 
 // eslint-disable-next-line no-underscore-dangle
@@ -51,8 +50,6 @@ const _WALLET_CONFIG_ICON_URL = WALLET_CONFIG_ICON_URL;
 // eslint-disable-next-line no-underscore-dangle
 const _WALLET_CONFIG_URL = WALLET_CONFIG_URL;
 // eslint-disable-next-line no-underscore-dangle
-const _BLADE_WALLET_DAPP_CODE = BLADE_WALLET_DAPP_CODE;
-// eslint-disable-next-line no-underscore-dangle
 const _IPFS_GATEWAYS = IPFS_GATEWAYS;
 
 export {
@@ -65,7 +62,6 @@ export {
   _WALLET_CONFIG_DESCRIPTION as WALLET_CONFIG_DESCRIPTION,
   _WALLET_CONFIG_URL as WALLET_CONFIG_URL,
   _WALLET_CONFIG_ICON_URL as WALLET_CONFIG_ICON_URL,
-  _BLADE_WALLET_DAPP_CODE as BLADE_WALLET_DAPP_CODE,
   _IPFS_GATEWAYS as IPFS_GATEWAYS,
 };
 

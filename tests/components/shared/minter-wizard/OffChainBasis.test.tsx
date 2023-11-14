@@ -26,14 +26,6 @@ import { Formik } from 'formik';
 import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis';
 import { MintTypes } from '@utils/entity/MinterWizard';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    }
-  };
-});
 
 describe('OffChainBasis.test', () => {
   it('render', () => {

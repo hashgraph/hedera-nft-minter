@@ -22,19 +22,13 @@ import { toast } from 'react-toastify';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
 
 export enum ConnectionStateType {
-  BLADEWALLET= 'bladewallet',
-  HASHPACK= 'hashpack',
-  NOCONNECTION= 'noconnection',
+  HASHPACK = 'hashpack',
+  BLADEWALLET = 'bladewallet',
+  NOCONNECTION = 'noconnection',
 }
 
 const useHederaWallets = () => {
   const {
-    bladeWallet: {
-      activeBladeWalletAccountId,
-      disconnectFromBladeWallet,
-      createBladeWalletSession,
-      sendTransactionWithBladeWallet,
-    },
     hashPack: {
       disconnectFromHashPack,
       connectToHashPack,
@@ -48,35 +42,18 @@ const useHederaWallets = () => {
     useState<ConnectionStateType>(ConnectionStateType.NOCONNECTION);
 
   useEffect(() => {
-    if (!activeBladeWalletAccountId && !hashConnectState.pairingData) {
+    if (!hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
-    if (activeBladeWalletAccountId && !hashConnectState.pairingData) {
-      setConnectedWalletType(ConnectionStateType.BLADEWALLET);
-    }
-    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0 && !activeBladeWalletAccountId) {
+    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0) {
       setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
-  }, [activeBladeWalletAccountId, setConnectedWalletType, hashConnectState.pairingData]);
+  }, [setConnectedWalletType, hashConnectState.pairingData]);
 
   const connect = useCallback(async (walletType) => {
     try {
-      switch (walletType) {
-        case ConnectionStateType.BLADEWALLET: {
-          await disconnectFromHashPack();
-          await createBladeWalletSession();
-          break;
-        }
-
-        case ConnectionStateType.HASHPACK: {
-          if (activeBladeWalletAccountId) {
-            await disconnectFromBladeWallet();
-          }
-
-          connectToHashPack();
-
-          break;
-        }
+      if (walletType === ConnectionStateType.HASHPACK) {
+        connectToHashPack();
       }
     } catch (e) {
       if (typeof e === 'string') {
@@ -85,46 +62,32 @@ const useHederaWallets = () => {
         toast.error(e.message);
       }
     }
-  }, [
-    disconnectFromHashPack,
-    createBladeWalletSession,
-    activeBladeWalletAccountId,
-    connectToHashPack,
-    disconnectFromBladeWallet
-  ]);
+  }, [connectToHashPack]);
 
   const disconnect = useCallback(() => {
     switch (connectedWalletType) {
-      case ConnectionStateType.BLADEWALLET:
-        disconnectFromBladeWallet();
-        toast.error('❌ Removed Blade Wallet pairing.');
-        break;
       case ConnectionStateType.HASHPACK:
         disconnectFromHashPack();
         toast.error('❌ Removed HashPack pairings.');
         break;
       default:
-        disconnectFromBladeWallet();
         disconnectFromHashPack();
         toast.error('❌ Removed pairings.');
         break;
     }
   }, [
     connectedWalletType,
-    disconnectFromBladeWallet,
     disconnectFromHashPack,
   ]);
 
   const userWalletId = useMemo(() => {
     switch (connectedWalletType) {
-      case ConnectionStateType.BLADEWALLET:
-        return activeBladeWalletAccountId;
       case ConnectionStateType.HASHPACK:
         return hashConnectState.pairingData?.accountIds && hashConnectState.pairingData?.accountIds[0]
-      case ConnectionStateType.NOCONNECTION:
+      default:
         return undefined;
     }
-  }, [connectedWalletType, activeBladeWalletAccountId, hashConnectState]);
+  }, [connectedWalletType, hashConnectState]);
 
   const sendTransaction = useCallback(async (tx) => {
     if (!userWalletId) {
@@ -132,19 +95,15 @@ const useHederaWallets = () => {
     }
 
     switch (connectedWalletType) {
-      case ConnectionStateType.BLADEWALLET:
-        return await sendTransactionWithBladeWallet(tx);
-
       case ConnectionStateType.HASHPACK:
         return await sendTransactionWithHashPack(tx);
 
-      case ConnectionStateType.NOCONNECTION:
+      default:
         throw new Error('No wallet connected!');
     }
   }, [
     userWalletId,
     connectedWalletType,
-    sendTransactionWithBladeWallet,
     sendTransactionWithHashPack
   ]);
 

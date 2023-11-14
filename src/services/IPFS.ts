@@ -87,7 +87,7 @@ export default class IPFS {
     do {
       const url = this.gateways[counter].replace('{CID}', cid)
       let res: AxiosResponse<NFTMetadata> | null = null
-      
+
       try {
         res = await IPFS.instance.get(url)
       } catch {
@@ -114,17 +114,17 @@ export default class IPFS {
 
       return data
     }
-    
+
     return await this.fetchDataFromCid(atob(metadata).replace('ipfs://', ''))
   }
-  
+
   static async fetchImage(cidImage: string) {
     let counter = 0
 
     do {
       const url = this.gateways[counter].replace('{CID}', cidImage)
       let res: AxiosResponse | null = null
-      
+
       try {
         res = await IPFS.instance.get(url, {
           responseType: 'arraybuffer',

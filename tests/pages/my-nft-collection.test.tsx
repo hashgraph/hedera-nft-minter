@@ -27,14 +27,6 @@ import useHederaWallets from '@utils/hooks/useHederaWallets';
 
 jest.mock('@utils/hooks/useHederaWallets');
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet',
-    },
-  };
-});
 
 describe('MyNFTCollection', () => {
   it('render', () => {

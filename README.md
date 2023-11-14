@@ -26,7 +26,7 @@ An example web app that demonstrates how you can mint NFTs on the Hedera network
 This demo assumes that you are familiar with [Node.JS](https://nodejs.org) based applications and using [React.JS](https://reactjs.org/) UI framework.
 Also, you need to be familiar with using [Hedera Mirror Node](https://docs.hedera.com/guides/core-concepts/mirror-nodes/), [Hedera Hashgraph JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js).
 You will need to generate API key(s) from [NFT Storage](https://api.nft.storage) to store NFTs images and metadata or configure your own IPFS provider (or implement your own IPFS service usage).
-To use an app, you will also need a Hedera Account connected within [HashPack ](https://hips.hedera.com/hip/hip-412) or [Blade](https://hips.hedera.com/hip/hip-412) wallet. If you don't have one yet, sign up at [portal.hedera.com](https://portal.hedera.com/).
+To use an app, you will also need a Hedera Account connected within [HashPack ](https://hips.hedera.com/hip/hip-412) wallet. If you don't have one yet, sign up at [portal.hedera.com](https://portal.hedera.com/).
 
 
 ## Getting Started
@@ -62,7 +62,6 @@ WALLET_CONFIG_DESCRIPTION=Mint your own NFT.
 - The `WALLET_CONFIG_DESCRIPTION` stores description shown in the each Wallet connection modal
 - The `WALLET_CONFIG_URL` is optional. URL shown in wallet connection modal (only BladeWallet supported).
 - The `WALLET_CONFIG_ICON_URL` is optional. Stores URL to image shown in each Wallet connection modal. If not provided, the app is looking for `${ window.location.protocol }//${ window.location.host }/logo.svg` to serve in the each wallet connection modal
-- The `BLADE_WALLET_DAPP_CODE` is optional. Blade Wallet dApp code (only BladeWallet supported).
 
 
 After downloading and setting up our environment, we'll install our packages via [npm](https://docs.npmjs.com/about-npm/).
@@ -122,16 +121,6 @@ const {
     disconnectFromHashPack,
 } = useHashPack();
   ```
-##### useBladeWallet
-Hook provides the ability to connect within the Hedera network with BladeWallet. It helps to handle connection. The hook has reconnect feature similar to the ``useHashPack`` hook. Hook returns connection method, connected user ID, bladeSigner instance and clear pairing method.
-```js
-const {
-    bladeSigner,
-    bladeAccountId,
-    connectBladeWallet,
-    clearConnectedBladeWalletData,
-} = useBladeWallet();
-  ```
 
 ##### useHederaWallets
 The connection and sending transaction magic happened here. Hooks under the hood create a context, where the two above hooks are used to provide a connection with each wallet extension. Within ``useHederaWallets`` you can send transactions generated from [Hedera JS SDK](https://hedera.com) signed by an account connected with any supported Hedera wallet extension.
@@ -155,7 +144,6 @@ The application has:
 
 #### Hedera calls
 - **@hashgraph/sdk**: to generate Hedera transactions. https://github.com/hashgraph/hedera-sdk-js
-- **@bladelabs/blade-web3.js**: for submitting transactions with Blade wallet. https://github.com/Blade-Labs/blade-web3.js
 - **hashconnect**: for submitting transactions with HashPack wallet. https://www.hashpack.app/hashconnect
 
 ## UI Resources

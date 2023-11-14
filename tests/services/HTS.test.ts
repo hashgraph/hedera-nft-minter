@@ -33,18 +33,6 @@ import {
 } from '@hashgraph/sdk';
 import HTS, { NewTokenType } from '@services/HTS';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    },
-    BladeSigner: jest.fn(() => ({
-      signTransaction: jest.fn(),
-      onAccountChanged: jest.fn(),
-    })),
-  };
-});
 
 jest.mock('hashconnect', () => {
   return {
