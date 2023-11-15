@@ -15,13 +15,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- */
+*/
 
-export const loadLocalData = (variable: string) => {
-  const foundData = localStorage.getItem(variable);
-
-  if (foundData) {
-      return JSON.parse(foundData);
-  }
-  return null;
-};
+export const MONTH_IN_SECONDS = 2592000

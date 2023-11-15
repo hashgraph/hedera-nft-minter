@@ -22,9 +22,9 @@ import { toast } from 'react-toastify';
 import { HederaWalletsContext } from '@utils/context/HederaWalletsContext';
 
 export enum ConnectionStateType {
-  BLADEWALLET= 'bladewallet',
-  HASHPACK= 'hashpack',
-  NOCONNECTION= 'noconnection',
+  HASHPACK = 'hashpack',
+  BLADEWALLET = 'bladewallet',
+  NOCONNECTION = 'noconnection',
 }
 
 const useHederaWallets = () => {
@@ -45,24 +45,30 @@ const useHederaWallets = () => {
     if (!hashConnectState.pairingData) {
       setConnectedWalletType(ConnectionStateType.NOCONNECTION);
     }
-    if (hashConnectState.pairingData && hashConnectState.pairingData.accountIds?.length > 0) {
+    if (
+      hashConnectState.pairingData &&
+      hashConnectState.pairingData.accountIds?.length > 0
+    ) {
       setConnectedWalletType(ConnectionStateType.HASHPACK);
     }
   }, [setConnectedWalletType, hashConnectState.pairingData]);
 
-  const connect = useCallback(async (walletType) => {
-    try {
-      if (walletType === ConnectionStateType.HASHPACK) {
-        connectToHashPack();
+  const connect = useCallback(
+    async (walletType) => {
+      try {
+        if (walletType === ConnectionStateType.HASHPACK) {
+          connectToHashPack();
+        }
+      } catch (e) {
+        if (typeof e === 'string') {
+          toast.error(e);
+        } else if (e instanceof Error) {
+          toast.error(e.message);
+        }
       }
-    } catch (e) {
-      if (typeof e === 'string') {
-        toast.error(e);
-      } else if (e instanceof Error) {
-        toast.error(e.message);
-      }
-    }
-  }, [connectToHashPack]);
+    },
+    [connectToHashPack]
+  );
 
   const disconnect = useCallback(() => {
     switch (connectedWalletType) {
@@ -80,29 +86,31 @@ const useHederaWallets = () => {
   const userWalletId = useMemo(() => {
     switch (connectedWalletType) {
       case ConnectionStateType.HASHPACK:
-        return hashConnectState.pairingData?.accountIds && hashConnectState.pairingData?.accountIds[0]
+        return (
+          hashConnectState.pairingData?.accountIds &&
+          hashConnectState.pairingData?.accountIds[0]
+        );
       default:
         return undefined;
     }
   }, [connectedWalletType, hashConnectState]);
 
-  const sendTransaction = useCallback(async (tx) => {
-    if (!userWalletId) {
-      throw new Error('No connected Hedera account detected!.');
-    }
+  const sendTransaction = useCallback(
+    async (tx) => {
+      if (!userWalletId) {
+        throw new Error('No connected Hedera account detected!.');
+      }
 
-    switch (connectedWalletType) {
-      case ConnectionStateType.HASHPACK:
-        return await sendTransactionWithHashPack(tx);
+      switch (connectedWalletType) {
+        case ConnectionStateType.HASHPACK:
+          return await sendTransactionWithHashPack(tx);
 
-      default:
-        throw new Error('No wallet connected!');
-    }
-  }, [
-    userWalletId,
-    connectedWalletType,
-    sendTransactionWithHashPack
-  ]);
+        default:
+          throw new Error('No wallet connected!');
+      }
+    },
+    [userWalletId, connectedWalletType, sendTransactionWithHashPack]
+  );
 
   return {
     userWalletId,
@@ -110,7 +118,7 @@ const useHederaWallets = () => {
     connect,
     disconnect,
     sendTransaction,
-    isIframeParent
+    isIframeParent,
   };
 };
 

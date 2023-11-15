@@ -66,9 +66,6 @@ export default function ConnectToWalletButton({
       case ConnectionStateType.HASHPACK:
         return 'HashPack'
 
-      case ConnectionStateType.BLADEWALLET:
-        return 'BladeWallet'
-
       default:
         return ''
     }
@@ -90,10 +87,6 @@ export default function ConnectToWalletButton({
     if (isMobile) {
       if (walletType === ConnectionStateType.HASHPACK) {
         return `Log in using the ${ walletName } mobile dApp explorer`
-      }
-
-      if (walletType === ConnectionStateType.BLADEWALLET) {
-        return `${ walletName } not supported on mobile`
       }
     }
 
