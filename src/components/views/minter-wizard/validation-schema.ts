@@ -22,6 +22,7 @@ import { FEE } from '@utils/entity/Fees';
 import { MintTypes } from '@utils/entity/MinterWizard';
 import validateQtyFormField from '@utils/helpers/validateQtyFormField';
 import objectUnique from '@utils/yup/objectUnique';
+import isObjectLike from 'lodash/isObjectLike';
 
 // 4 Megabytes = 4.194.304 Bytes
 const MAX_FILE_LIMIT_IN_BYTES = 4_194_304
@@ -71,7 +72,7 @@ export const ValidationSchema = yup.object().shape({
         return true
     }
   }).test('size', 'Max file size = 4MB', (value) => (
-    (value && typeof value?.size !== 'undefined') ? (
+    (value && isObjectLike(value)) ? (
       value?.size < MAX_FILE_LIMIT_IN_BYTES
     ) : (
       true

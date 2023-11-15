@@ -113,7 +113,7 @@ const FieldWrapper = ({
       return helpers.setValue(props.min)
     }
 
-    if (Number.parseInt(slicedValue) >= (props.max ?? 0) && props?.max) {
+    if (Number.parseInt(slicedValue) >= Number(props.max ?? 0) && props?.max) {
       return helpers.setValue(props.max)
     }
 
