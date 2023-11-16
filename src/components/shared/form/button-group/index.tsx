@@ -25,7 +25,6 @@ import FieldRadioButton from '../FieldRadioButton';
 
 interface Option {
   label: string | JSX.Element,
-  tooltip?: string | JSX.Element,
   renderArrow?: boolean;
   value: string | number,
   image?: string,
