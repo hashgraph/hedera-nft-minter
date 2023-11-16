@@ -29,17 +29,18 @@ jest.mock('@utils/hooks/useHederaWallets');
 
 describe('MyNFTCollection', () => {
   it('render', () => {
-    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: null })
-
-    render(
-      <MyNFTCollection />
-    )
-  })
-
-  it('render - moc user account', () => {
-    (useHederaWallets as jest.Mock).mockReturnValue({ userWalletId: '0.0.2661933'})
+    (useHederaWallets as jest.Mock).mockReturnValue({
+      userWalletId: undefined,
+    });
 
     render(<MyNFTCollection />);
-  })
+  });
 
+  it('render - moc user account', () => {
+    (useHederaWallets as jest.Mock).mockReturnValue({
+      userWalletId: '0.0.2661933',
+    });
+
+    render(<MyNFTCollection />);
+  });
 });

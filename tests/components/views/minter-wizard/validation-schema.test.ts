@@ -1,5 +1,3 @@
-/** @jest-environment jsdom */
-
 /*
  * Hedera NFT Minter App
  *
