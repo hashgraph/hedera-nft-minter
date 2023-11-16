@@ -1,5 +1,4 @@
 /** @jest-environment jsdom */
-
 /*
  * Hedera NFT Minter App
  *
@@ -27,15 +26,27 @@ jest.mock('hashconnect', () => {
   return {
     HashConnectTypes: {
       WalletMetadata: {},
-      SavedPairingData: {}
+      SavedPairingData: {},
     },
     HashConnect: jest.fn(() => ({
-      init: () => ({
+      hcData: {
+        pairingString: 'test',
+        availableExtension: ['test'],
+      },
+      availableExtension: ['test'],
+      connectToLocalWallet: jest.fn(),
+      init: jest.fn(() => ({
         topic: '',
-        pairingString: '',
+        pairingString: 'test-pairing-string',
         encryptionKey: '',
         savedPairings: [],
-      }),
+        availableExtension: ['test'],
+        hcData: {
+          availableExtension: ['test'],
+          pairingString: 'test',
+        },
+        connectToLocalWallet: jest.fn(),
+      })),
       foundExtensionEvent: {
         on: jest.fn(),
         off: jest.fn(),
@@ -47,7 +58,7 @@ jest.mock('hashconnect', () => {
       foundIframeEvent: {
         on: jest.fn(),
         off: jest.fn(),
-      }
+      },
     })),
   };
 });
@@ -56,9 +67,29 @@ describe('useHashPack', () => {
   it('render', async () => {
     const { result } = renderHook(() => useHashPack());
 
-    expect(result.current.hashConnectState).toEqual({})
+    result.current.hashConnectState.availableExtension = {
+      name: 'test',
+      description: 'test',
+      icon: 'test',
+    };
 
-    expect.assertions(1)
+    expect(result.current.hashConnectState).toEqual({
+      availableExtension: {
+        name: 'test',
+        description: 'test',
+        icon: 'test',
+      },
+    });
+
+    expect.assertions(1);
     await result.current.connectToHashPack();
-  })
+  });
+
+  it('throws an error if hashpack wallet is not detected', () => {
+    const { result } = renderHook(() => useHashPack());
+
+    expect(() => {
+      result.current.connectToHashPack();
+    }).toThrow('Hashpack wallet is not detected!');
+  });
 });

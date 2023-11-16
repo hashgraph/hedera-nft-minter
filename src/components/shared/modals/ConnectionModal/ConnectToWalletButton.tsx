@@ -20,6 +20,7 @@
 import { useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
+import isString from 'lodash/isString';
 import useHederaWallets, { ConnectionStateType } from '@utils/hooks/useHederaWallets';
 import { ModalContext } from '@utils/context/ModalContext';
 
@@ -27,10 +28,14 @@ export default function ConnectToWalletButton({
     isEnabled = true,
     walletType,
     logoImageSrc,
+    blurLogoImage,
+    staticLabel
   }: {
     isEnabled?: boolean,
     walletType: ConnectionStateType.HASHPACK | ConnectionStateType.BLADEWALLET
-    logoImageSrc?: string
+    logoImageSrc?: string,
+    blurLogoImage?: boolean,
+    staticLabel?: string
 }) {
   const { userWalletId, connectedWalletType, connect, disconnect, isIframeParent } = useHederaWallets();
   const { closeModal } = useContext(ModalContext)
@@ -39,7 +44,7 @@ export default function ConnectToWalletButton({
     if (!isEnabled) {
       return
     }
-    
+
     if (connectedWalletType === walletType) {
       disconnect()
     } else {
@@ -61,15 +66,16 @@ export default function ConnectToWalletButton({
       case ConnectionStateType.HASHPACK:
         return 'HashPack'
 
-      case ConnectionStateType.BLADEWALLET:
-        return 'BladeWallet'
-
       default:
         return ''
     }
   }, [walletType])
 
   const connectToWalletButtonContent = useMemo(() => {
+    if (isString(staticLabel)) {
+      return staticLabel;
+    }
+
     if (isEnabled && connectedWalletType === walletType) {
       return `Disconnect from account ${ userWalletId }`
     }
@@ -82,12 +88,8 @@ export default function ConnectToWalletButton({
       if (walletType === ConnectionStateType.HASHPACK) {
         return `Log in using the ${ walletName } mobile dApp explorer`
       }
-
-      if (walletType === ConnectionStateType.BLADEWALLET) {
-        return `${ walletName } not supported on mobile`
-      }
     }
-    
+
     if (!isEnabled) {
       return 'Coming soon'
     }
@@ -97,13 +99,14 @@ export default function ConnectToWalletButton({
     ) : (
       'Click to connect'
     )
-  }, [isEnabled, connectedWalletType, walletType, isIframeParent, userWalletId, walletName])
+  }, [isEnabled, staticLabel, connectedWalletType, walletType, isIframeParent, userWalletId, walletName])
 
   const connectToWalletButtonClassNames = useMemo(() => (
     classNames('connection-modal__button', {
-      'connection-modal__button--disabled': !isEnabled
+      'connection-modal__button--disabled': !isEnabled,
+      'connection-modal__button--blur-logo-image': blurLogoImage
     })
-  ), [isEnabled])
+  ), [isEnabled, blurLogoImage])
 
   return (
     <button

@@ -76,7 +76,7 @@ export default function MinterWizard() {
 
   const createToken = useCallback(async (values: NewTokenType): Promise<TokenId | null> => {
     const createTokenTx = await HTS.createToken(values);
-    const createTokenResponse = await sendTransaction(createTokenTx, true);
+    const createTokenResponse = await sendTransaction(createTokenTx);
 
     if (!createTokenResponse) {
       throw new Error('Create Token Error.');
@@ -86,10 +86,7 @@ export default function MinterWizard() {
   }, [sendTransaction]);
 
   const mint = useCallback(async (tokenId: string, cids: string[]) => {
-    if (!userWalletId) {
-      throw new Error('Error with loading logged account data!');
-    }
-    const tokenMintTx = HTS.mintToken(tokenId, userWalletId, cids);
+    const tokenMintTx = HTS.mintToken(tokenId, cids);
 
     const tokenMintResponse = await sendTransaction(tokenMintTx);
 
@@ -98,7 +95,7 @@ export default function MinterWizard() {
     }
 
     return tokenMintResponse;
-  }, [userWalletId, sendTransaction]);
+  }, [sendTransaction]);
 
   const renderMintingError = useCallback((e) => {
     if (typeof e === 'string') {

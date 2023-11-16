@@ -26,19 +26,6 @@ import { Formik } from 'formik';
 import Royalty from '@components/shared/minter-wizard/Fees/Royalty';
 import HederaWalletsProvider from '@utils/context/HederaWalletsContext';
 
-jest.mock('@bladelabs/blade-web3.js', () => {
-  return {
-    HederaNetwork: {
-      Testnet: 'testnet',
-      Mainnet: 'mainnet'
-    },
-    BladeSigner: jest.fn(() => ({
-      signTransaction: jest.fn(),
-      onAccountChanged: jest.fn(),
-    })),
-  };
-});
-
 jest.mock('hashconnect', () => {
   return {
     HashConnectTypes: {

@@ -1,5 +1,4 @@
 /** @jest-environment jsdom */
-
 /*
  * Hedera NFT Minter App
  *
@@ -20,14 +19,14 @@
  */
 
 import { describe, expect, test, jest, beforeEach } from '@jest/globals';
-import IPFS from '@services/IPFS';
+import IPFS, { UploadResponse } from '@services/IPFS';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
+import { AxiosResponse } from 'axios';
 
 jest.mock('@services/IPFS');
 
-const exampleFile = new File(['foo'], 'foo.txt', { type: 'text/plain'});
-const exampleFile2 = new File(['foo'], 'foo2.txt', { type: 'text/plain'});
-
+const exampleFile = new File(['foo'], 'foo.txt', { type: 'text/plain' });
+const exampleFile2 = new File(['foo'], 'foo2.txt', { type: 'text/plain' });
 const correctResponse = {
   data: {
     ok: true,
@@ -37,49 +36,55 @@ const correctResponse = {
       name: 'test',
       scope: 'test',
       size: 10,
-      type: 'file'
-    }
+      type: 'file',
+    },
   },
   headers: null,
   status: 200,
   statusText: 'done',
-  config: {}
-}
+  config: {},
+};
 
 describe('Test IPFS service', () => {
   beforeEach(() => {
-    IPFS.uploadFile = (file: File) => new Promise((resolve) => {
-      if (file.name === 'foo2.txt') { throw new Error('INCORRECT_FILE')}
+    IPFS.uploadFile = (file: File) =>
+      new Promise((resolve) => {
+        if (file.name === 'foo2.txt') {
+          throw new Error('INCORRECT_FILE');
+        }
 
-      resolve(correctResponse)
-    });
+        resolve(correctResponse as unknown as AxiosResponse<UploadResponse>);
+      });
 
-    IPFS.createMetadataFile = (meta: NFTMetadata) => new Promise((resolve) => {
-      if (meta.name === 'fail') { throw new Error('INCORRECT_METADATA')}
+    IPFS.createMetadataFile = (meta: NFTMetadata) =>
+      new Promise((resolve) => {
+        if (meta.name === 'fail') {
+          throw new Error('INCORRECT_METADATA');
+        }
 
-      resolve(correctResponse)
-    });
-  })
+        resolve(correctResponse as unknown as AxiosResponse<UploadResponse>);
+      });
+  });
 
   test('upload file', async () => {
     expect.assertions(1);
+
     try {
       const res = await IPFS.uploadFile(exampleFile);
 
-      expect(res.data.ok).toBe(true)
+      expect(res.data.ok).toBe(true);
     } catch (e) {
-      expect(e.message).toBe('INCORRECT_FILE')
+      expect(e.message).toBe('INCORRECT_FILE');
     }
   });
-
   test('upload file - thrown', async () => {
     expect.assertions(1);
     try {
       const res = await IPFS.uploadFile(exampleFile2);
 
-      expect(res.data.ok).toBe(true)
+      expect(res.data.ok).toBe(true);
     } catch (e) {
-      expect(e.message).toBe('INCORRECT_FILE')
+      expect(e.message).toBe('INCORRECT_FILE');
     }
   });
 
@@ -93,9 +98,9 @@ describe('Test IPFS service', () => {
     try {
       const res = await IPFS.createMetadataFile(metadata);
 
-      expect(res.data.ok).toBe(true)
+      expect(res.data.ok).toBe(true);
     } catch (e) {
-      expect(e.message).toBe('INCORRECT_METADATA')
+      expect(e.message).toBe('INCORRECT_METADATA');
     }
   });
 
@@ -106,13 +111,13 @@ describe('Test IPFS service', () => {
     };
 
     expect.assertions(1);
+
     try {
       const res = await IPFS.createMetadataFile(metadata);
 
-      expect(res.data.ok).toBe(true)
+      expect(res.data.ok).toBe(true);
     } catch (e) {
-      expect(e.message).toBe('INCORRECT_METADATA')
+      expect(e.message).toBe('INCORRECT_METADATA');
     }
-
   });
 });

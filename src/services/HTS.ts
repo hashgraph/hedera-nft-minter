@@ -32,7 +32,9 @@ import {
   Timestamp,
 } from '@hashgraph/sdk';
 import { Buffer } from 'buffer';
+import secondsToMilliseconds from 'date-fns/secondsToMilliseconds'
 import { HEDERA_NETWORK } from '@src/../Global.d';
+import { MONTH_IN_SECONDS } from '@utils/const/month-in-seconds';
 import transformToKeys from '@helpers/transformToKeys';
 import prepareFees from '@utils/helpers/prepareFees';
 import { Fees } from '@utils/entity/Fees';
@@ -86,8 +88,8 @@ export default class HTS {
     }
 
     // 90 days
-    const expirationTime = new Date(Date.now() + 7776000 * 1000);
-    
+    const expirationTime = new Date(Date.now() + secondsToMilliseconds(MONTH_IN_SECONDS) * 3);
+
     const token = new TokenCreateTransaction({
       tokenType: TokenType.NonFungibleUnique,
       supplyType: TokenSupplyType.Finite,
@@ -101,23 +103,20 @@ export default class HTS {
         ? transformToKeys(tokenProps.keys, tokenProps.accountId, accountInfo.key.key)
         : {}
       )
-    });
-
-    token.setMaxTransactionFee(50).setAutoRenewAccountId(tokenProps.accountId).setAutoRenewPeriod(7776000);
+    })
+      .setMaxTransactionFee(50)
+      .setAutoRenewAccountId(tokenProps.accountId)
+      .setAutoRenewPeriod(MONTH_IN_SECONDS * 3)
 
     return token;
   }
 
-  static mintToken(tokenId: string | TokenId, acc1: string, cids: string[]) {
-    const txID = TransactionId.generate(acc1);
+  static mintToken(tokenId: string | TokenId, cids: string[]) {
     const meta = cids.map((cid) => Buffer.from(`ipfs://${ cid }`));
 
     const mintTx = new TokenMintTransaction()
-      .setTransactionId(txID)
       .setTokenId(tokenId)
-      .setNodeAccountIds([new AccountId(3)])
-      .setMetadata(meta)
-      .freeze();
+      .setMetadata(meta);
 
     return mintTx;
   }
