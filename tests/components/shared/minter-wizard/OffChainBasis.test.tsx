@@ -26,7 +26,7 @@ import { Formik } from 'formik';
 import OffChainBasis from '@components/shared/minter-wizard/OffChainBasis';
 import { MintTypes } from '@utils/entity/MinterWizard';
 
-describe('Fees', () => {
+describe('OffChainBasis.test', () => {
   it('render', () => {
     const fn = jest.fn(v => v);
 

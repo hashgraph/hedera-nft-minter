@@ -57,7 +57,7 @@ describe('Filter form values to metadata', () => {
       image: 'ipfs://bafkreiahrxk5xvmuqn2jmpaj2oemm777fazloc43ltxnsivzwigxy4cyjm',
       creator: 'Tester',
       attributes: [],
-      properties: []
+      properties: {}
     };
 
     expect(filterFormValuesToNFTMetadata({...values, files: ''}))

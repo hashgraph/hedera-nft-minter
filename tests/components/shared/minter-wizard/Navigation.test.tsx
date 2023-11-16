@@ -41,7 +41,7 @@ jest.mock('hashconnect', () => {
         encryptionKey: '',
         savedPairings: [],
       }),
-            foundExtensionEvent: {
+      foundExtensionEvent: {
         on: jest.fn(),
         off: jest.fn(),
       },

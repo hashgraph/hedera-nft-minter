@@ -23,25 +23,40 @@ import { describe, expect, it, jest } from '@jest/globals';
 import {
   getCurrentStepFieldsNames,
   checkIfFieldsAreValidated,
-  checkIfFieldsRequireConnectedWallet
+  checkIfFieldsRequireConnectedWallet,
 } from '@utils/hooks/useMinterWizard/helpers';
 import { MintTypes } from '@utils/entity/MinterWizard';
 
 describe('useMinterWizard helpers', () => {
   it('getCurrentStepFieldsNames', () => {
-    const fieldsForValidation = getCurrentStepFieldsNames(MintTypes.NewCollectionNewNFT, 0);
+    const fieldsForValidation = getCurrentStepFieldsNames(
+      MintTypes.NewCollectionNewNFT,
+      0
+    );
 
-    expect(fieldsForValidation).toEqual(['maxSupply', 'qty'])
-  })
+    expect(fieldsForValidation).toEqual(['maxSupply', 'qty']);
+  });
 
   it('getCurrentStepFieldsNames', () => {
-    const fieldsForValidation = getCurrentStepFieldsNames(MintTypes.NewCollectionNewNFT, 1);
+    const fieldsForValidation = getCurrentStepFieldsNames(
+      MintTypes.NewCollectionNewNFT,
+      1
+    );
 
-    expect(fieldsForValidation).toEqual(['maxSupply', 'qty', 'name', 'symbol', 'edition_name', 'description', 'creator', 'image'])
-  })
+    expect(fieldsForValidation).toEqual([
+      'maxSupply',
+      'qty',
+      'name',
+      'symbol',
+      'edition_name',
+      'description',
+      'creator',
+      'image',
+    ]);
+  });
 
   it('checkIfFieldsAreValidated', () => {
-    const fn = jest.fn()
+    const fn = jest.fn();
     const tmp = checkIfFieldsAreValidated(
       ['maxSupply', 'qty'],
       fn,
@@ -50,11 +65,11 @@ describe('useMinterWizard helpers', () => {
       {}
     );
 
-    expect(tmp).toBe(true)
+    expect(tmp).toBe(true);
   });
 
   it('checkIfFieldsAreValidated - with error', () => {
-    const fn = jest.fn()
+    const fn = jest.fn();
     const tmp = checkIfFieldsAreValidated(
       ['maxSupply', 'qty'],
       fn,
@@ -63,19 +78,23 @@ describe('useMinterWizard helpers', () => {
       { maxSupply: 'error' }
     );
 
-    expect(tmp).toBe(false)
+    expect(tmp).toBe(false);
   });
 
   it('checkIfFieldsRequireConnectedWallet', () => {
-    const tmp = checkIfFieldsRequireConnectedWallet(MintTypes.NewCollectionNewNFT, 0);
+    const tmp = checkIfFieldsRequireConnectedWallet(
+      MintTypes.NewCollectionNewNFT,
+      0
+    );
 
-    expect(tmp).toBe(false)
+    expect(tmp).toBe(false);
   });
   it('checkIfFieldsRequireConnectedWallet - true', () => {
-    const tmp = checkIfFieldsRequireConnectedWallet(MintTypes.NewCollectionNewNFT, 3);
+    const tmp = checkIfFieldsRequireConnectedWallet(
+      MintTypes.NewCollectionNewNFT,
+      3
+    );
 
-    expect(tmp).toBe(true)
+    expect(tmp).toBe(true);
   });
-
-})
-
+});
