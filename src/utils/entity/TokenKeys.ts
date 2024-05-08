@@ -25,7 +25,8 @@ export enum TOKEN_KEY {
   WIPE = 'wipeKey',
   PAUSE = 'pauseKey',
   SUPPLY = 'supplyKey',
-  FEE_SCHEDULE = 'feeScheduleKey'
+  FEE_SCHEDULE = 'feeScheduleKey',
+  METADATA = 'metadataKey'
 }
 
 export type TokenKeys = TOKEN_KEY[]

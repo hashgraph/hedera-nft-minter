@@ -17,7 +17,6 @@
  *
  */
 
-import React from 'react';
 import { Field, useField } from 'formik';
 import classNames from 'classnames';
 import map from 'lodash/map';
@@ -33,8 +32,8 @@ export const TokenKeys = [
   { title: 'Freeze', value: TOKEN_KEY.FREEZE },
   { title: 'Wipe', value: TOKEN_KEY.WIPE },
   { title: 'Pause', value: TOKEN_KEY.PAUSE },
-  { title: 'Pause', value: TOKEN_KEY.PAUSE },
   { title: 'Fee Schedule', value: TOKEN_KEY.FEE_SCHEDULE },
+  { title: 'Metadata', value: TOKEN_KEY.METADATA },
 ]
 
 export type MinterWizardKey = {
