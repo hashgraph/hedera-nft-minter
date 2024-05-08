@@ -72,6 +72,7 @@ type UpdateTokenProps = {
   tokenMemo?: string;
   feeScheduleKey?: Key;
   pauseKey?: Key;
+  metadataKey?: Key;
 } | undefined
 
 export default class HTS {
