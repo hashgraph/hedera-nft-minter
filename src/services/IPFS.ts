@@ -46,7 +46,7 @@ export interface UploadResponse {
 const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/ipfs/{CID}'
 
 export default class IPFS {
-  static readonly UPLOAD_URL = '/upload';
+    static readonly UPLOAD_URL = '/pinning/pinFileToIPFS';
   static readonly instance = axios.create({
     baseURL: IPFS_URL,
   });
@@ -54,40 +54,64 @@ export default class IPFS {
 
   static async uploadFile(file: File | Blob) {
     try {
-      const options = (!!IPFS_KEYS && IPFS_KEYS.length > 0) ? {
-        headers: {
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
-        }
-      } : undefined;
+      const options =
+        !!IPFS_KEYS && IPFS_KEYS.length > 0
+          ? {
+              headers: {
+                Authorization: `Bearer ${
+                  IPFS_KEYS[random(0, IPFS_KEYS.length - 1)]
+                }`,
+              },
+            }
+          : undefined;
 
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
+      const data = new FormData();
+
+      data.append('file', file);
+
+      return await this.instance.post<UploadResponse>(
+        this.UPLOAD_URL,
+        data,
+        options
+      );
     } catch (e) {
-      throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
+      throw new Error(
+        'We are experiencing very high demand. Please retry in 2 minutes.'
+      );
     }
   }
 
   static async createMetadataFile(meta: NFTMetadata) {
     try {
-      const file = new File([JSON.stringify(meta)], 'meta.json', { type: 'application/json' });
-      const options = (!!IPFS_KEYS && IPFS_KEYS.length > 0) ? {
-        headers: {
-          Authorization: `Bearer ${ IPFS_KEYS[random(0, IPFS_KEYS.length - 1)] }`,
-        }
-      } : undefined;
+      const options =
+        !!IPFS_KEYS && IPFS_KEYS.length > 0
+          ? {
+              headers: {
+                Authorization: `Bearer ${
+                  IPFS_KEYS[random(0, IPFS_KEYS.length - 1)]
+                }`,
+              },
+            }
+          : undefined;
 
-      return await this.instance.post<UploadResponse>(this.UPLOAD_URL, file, options);
+      return await this.instance.post<UploadResponse>(
+        'pinning/pinJSONToIPFS',
+        JSON.stringify(meta),
+        options
+      );
     } catch (e) {
-      throw new Error('We are experiencing very high demand. Please retry in 2 minutes.')
+      throw new Error(
+        'We are experiencing very high demand. Please retry in 2 minutes.'
+      );
     }
   }
-
   static async fetchDataFromCid(cid: string): Promise<NFTMetadata> {
     let counter = 0
 
     do {
       const url = this.gateways[counter].replace('{CID}', cid)
       let res: AxiosResponse<NFTMetadata> | null = null
-      
+
       try {
         res = await IPFS.instance.get(url)
       } catch {
@@ -114,17 +138,17 @@ export default class IPFS {
 
       return data
     }
-    
+
     return await this.fetchDataFromCid(atob(metadata).replace('ipfs://', ''))
   }
-  
+
   static async fetchImage(cidImage: string) {
     let counter = 0
 
     do {
       const url = this.gateways[counter].replace('{CID}', cidImage)
       let res: AxiosResponse | null = null
-      
+
       try {
         res = await IPFS.instance.get(url, {
           responseType: 'arraybuffer',
