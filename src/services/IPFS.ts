@@ -19,7 +19,7 @@
 
 import axios, { AxiosResponse } from 'axios';
 import { Buffer } from 'buffer';
-import { IPFS_GATEWAYS, IPFS_URL, IPFS_KEYS } from '@src/../Global.d';
+import { IPFS_GATEWAYS, PINATA_API_URL, PINATA_JWT_KEYS } from '@src/../Global.d';
 import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import random from 'lodash/random';
 
@@ -33,20 +33,20 @@ export interface UploadResponse {
 const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/ipfs/{CID}'
 
 export default class IPFS {
-    static readonly UPLOAD_URL = '/pinning/pinFileToIPFS';
+  static readonly UPLOAD_URL = '/pinning/pinFileToIPFS';
   static readonly instance = axios.create({
-    baseURL: IPFS_URL,
+    baseURL: PINATA_API_URL,
   });
-  static gateways = IPFS_GATEWAYS ?? [DEFAULT_IPFS_PROVIDER]
+  static gateways = IPFS_GATEWAYS ?? [DEFAULT_IPFS_PROVIDER];
 
   static async uploadFile(file: File | Blob) {
     try {
       const options =
-        !!IPFS_KEYS && IPFS_KEYS.length > 0
+        !!PINATA_JWT_KEYS && PINATA_JWT_KEYS.length > 0
           ? {
               headers: {
                 Authorization: `Bearer ${
-                  IPFS_KEYS[random(0, IPFS_KEYS.length - 1)]
+                  PINATA_JWT_KEYS[random(0, PINATA_JWT_KEYS.length - 1)]
                 }`,
               },
             }
@@ -71,11 +71,11 @@ export default class IPFS {
   static async createMetadataFile(meta: NFTMetadata) {
     try {
       const options =
-        !!IPFS_KEYS && IPFS_KEYS.length > 0
+        !!PINATA_JWT_KEYS && PINATA_JWT_KEYS.length > 0
           ? {
               headers: {
                 Authorization: `Bearer ${
-                  IPFS_KEYS[random(0, IPFS_KEYS.length - 1)]
+                  PINATA_JWT_KEYS[random(0, PINATA_JWT_KEYS.length - 1)]
                 }`,
               },
             }
@@ -93,69 +93,66 @@ export default class IPFS {
     }
   }
   static async fetchDataFromCid(cid: string): Promise<NFTMetadata> {
-    let counter = 0
+    let counter = 0;
 
     do {
-      const url = this.gateways[counter].replace('{CID}', cid)
-      let res: AxiosResponse<NFTMetadata> | null = null
+      const url = this.gateways[counter].replace('{CID}', cid);
+      let res: AxiosResponse<NFTMetadata> | null = null;
 
       try {
-        res = await IPFS.instance.get(url)
+        res = await IPFS.instance.get(url);
       } catch {
-        counter = counter + 1
-        continue
+        counter = counter + 1;
+        continue;
       }
 
       if (res && res.status === 200) {
-        return res.data
+        return res.data;
       }
+    } while (counter < this.gateways.length);
 
-    } while (counter < this.gateways.length)
-
-    throw new Error('Fetch metadata failed')
+    throw new Error('Fetch metadata failed');
   }
 
   static async fetchData(metadata: string) {
     if (/^0*$/.test(Buffer.from(metadata).toString('hex'))) {
-      return null
+      return null;
     }
 
     if (metadata.includes('https://')) {
-      const { data } = await this.instance.get(metadata)
+      const { data } = await this.instance.get(metadata);
 
-      return data
+      return data;
     }
 
-    return await this.fetchDataFromCid(atob(metadata).replace('ipfs://', ''))
+    return await this.fetchDataFromCid(atob(metadata).replace('ipfs://', ''));
   }
 
   static async fetchImage(cidImage: string) {
-    let counter = 0
+    let counter = 0;
 
     do {
-      const url = this.gateways[counter].replace('{CID}', cidImage)
-      let res: AxiosResponse | null = null
+      const url = this.gateways[counter].replace('{CID}', cidImage);
+      let res: AxiosResponse | null = null;
 
       try {
         res = await IPFS.instance.get(url, {
           responseType: 'arraybuffer',
-        })
+        });
       } catch {
-        counter = counter + 1
-        continue
+        counter = counter + 1;
+        continue;
       }
-
 
       if (res && res.status === 200) {
-        const { data, headers } = res
-        const base64 = Buffer.from(data, 'binary').toString('base64')
-        const src = `data:${ headers['content-type'] };base64,${ base64 }`
+        const { data, headers } = res;
+        const base64 = Buffer.from(data, 'binary').toString('base64');
+        const src = `data:${ headers['content-type'] };base64,${ base64 }`;
 
-        return src
+        return src;
       }
+    } while (counter < this.gateways.length);
 
-    } while (counter < this.gateways.length)
-
-    throw new Error('Fetch image failed')
+    throw new Error('Fetch image failed');
   }
 }

@@ -48,8 +48,8 @@ APP_NAME=Mintbar
 HEDERA_NETWORK=testnet
 HEDERA_MIRROR_NODE_API_VERSION=v1
 
-IPFS_URL=https://api.nft.storage
-IPFS_KEYS=['key1','key2','key3','key4','key5']
+PINATA_API_URL=https://api.nft.storage
+PINATA_JWT_KEYS=['key1','key2','key3','key4','key5']
 # IPFS_GATEWAYS=['https://gateway.1/{CID}','https://{CID}.gateway.2']
 
 WALLET_CONFIG_NAME=Mintbar.xyz
@@ -59,8 +59,8 @@ WALLET_CONFIG_DESCRIPTION=Mint your own NFT.
 - The `APP_NAME` is used for generating localStorage variable names for holding both wallets' connection data.
 - The `HEDERA_NETWORK` holds Hedera Network type (testnet, mainnet)
 - The `HEDERA_MIRROR_NODE_API_VERSION` is a variable for storing the mirror node API version
-- The `IPFS_URL` is your IPFS storage API URL (currently only the [https://api.nft.storage](https://api.nft.storage) is implemented)
-- The `IPFS_KEYS` is an array with API keys generated from [NFT Storage](https://api.nft.storage)
+- The `PINATA_API_URL` is your IPFS storage API URL (currently only the [https://www.pinata.cloud/](https://www.pinata.cloud/) is implemented)
+- The `PINATA_JWT_KEYS` is an array with API keys generated from [NFT Storage](https://api.nft.storage)
 - The `IPFS_GATEWAYS` is an array with gateways for fetch IPFS data. ``{cid}`` in url is replaced by true metadata CID of NFT.
 - The `WALLET_CONFIG_NAME` stores name shown in the each Wallet connection modal
 - The `WALLET_CONFIG_DESCRIPTION` stores description shown in the each Wallet connection modal
