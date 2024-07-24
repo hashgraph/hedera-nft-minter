@@ -29,15 +29,10 @@ const exampleFile = new File(['foo'], 'foo.txt', { type: 'text/plain' });
 const exampleFile2 = new File(['foo'], 'foo2.txt', { type: 'text/plain' });
 const correctResponse = {
   data: {
-    ok: true,
-    value: {
-      cid: 'test',
-      created: new Date().toDateString(),
-      name: 'test',
-      scope: 'test',
-      size: 10,
-      type: 'file',
-    },
+      IpfsHash: 'testhash',
+      PinSize: 12420,
+      Timestamp: '2022-01-01T00:00:00.000Z',
+      isDuplicate: false
   },
   headers: null,
   status: 200,
@@ -72,7 +67,7 @@ describe('Test IPFS service', () => {
     try {
       const res = await IPFS.uploadFile(exampleFile);
 
-      expect(res.data.ok).toBe(true);
+      expect(res.data.IpfsHash).toBe(correctResponse.data.IpfsHash);
     } catch (e) {
       expect(e.message).toBe('INCORRECT_FILE');
     }
@@ -82,7 +77,7 @@ describe('Test IPFS service', () => {
     try {
       const res = await IPFS.uploadFile(exampleFile2);
 
-      expect(res.data.ok).toBe(true);
+      expect(res.data.IpfsHash).toBe(correctResponse.data.IpfsHash);
     } catch (e) {
       expect(e.message).toBe('INCORRECT_FILE');
     }
@@ -98,7 +93,7 @@ describe('Test IPFS service', () => {
     try {
       const res = await IPFS.createMetadataFile(metadata);
 
-      expect(res.data.ok).toBe(true);
+      expect(res.data.IpfsHash).toBe(correctResponse.data.IpfsHash);
     } catch (e) {
       expect(e.message).toBe('INCORRECT_METADATA');
     }
@@ -115,7 +110,7 @@ describe('Test IPFS service', () => {
     try {
       const res = await IPFS.createMetadataFile(metadata);
 
-      expect(res.data.ok).toBe(true);
+      expect(res.data.IpfsHash).toBe(correctResponse.data.IpfsHash);
     } catch (e) {
       expect(e.message).toBe('INCORRECT_METADATA');
     }

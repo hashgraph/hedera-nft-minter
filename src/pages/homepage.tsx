@@ -136,11 +136,11 @@ export default function MinterWizard() {
         if (formValues.image) {
           const imageData = await uploadNFTFile(formValues.image);
 
-          if (!imageData.ok) {
+          if (!imageData.IpfsHash) {
             throw new Error('Error when uploading NFT File!');
           }
           filteredValues.type = formValues.image.type;
-          filteredValues.image = `ipfs://${ imageData.value.cid }`;
+          filteredValues.image = `ipfs://${ imageData.IpfsHash }`;
         }
 
         // upload metadata
@@ -182,7 +182,7 @@ export default function MinterWizard() {
       // mint
       await mint(
         tokenIdToMint,
-        metaCIDs.map(({ value }) => value.cid)
+        metaCIDs.map(({ IpfsHash }) => IpfsHash)
       );
 
       setNewNFTdata({...formValues, tokenId: tokenIdToMint})
