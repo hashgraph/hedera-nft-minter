@@ -24,23 +24,10 @@ import { NFTMetadata } from '@utils/entity/NFT-Metadata';
 import random from 'lodash/random';
 
 export interface UploadResponse {
-  ok: boolean,
-  value: {
-    cid: string;
-    created: string;
-    deals?: [];
-    files?: File[];
-    name: string;
-    pin?: {
-      cid: string;
-      created: string;
-      size: number;
-      status: string;
-    };
-    scope: string;
-    size: number;
-    type: string;
-  };
+  IpfsHash: string;
+  PinSize: number;
+  Timestamp: string;
+  isDuplicate?: boolean;
 }
 
 const DEFAULT_IPFS_PROVIDER = 'https://ipfs.io/ipfs/{CID}'
