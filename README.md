@@ -9,7 +9,7 @@ An example web app that demonstrates how you can mint NFTs on the Hedera network
 - [Hedera Hashgraph](https://www.hedera.com/) - The enterprise-grade public network
 - [Hedera Mirror Node](https://docs.hedera.com/guides/core-concepts/mirror-nodes/) - provides a way to store and cost-effectively query historical data from the public ledger
 - [Hedera Hashgraph JavaScript SDK](https://github.com/hashgraph/hedera-sdk-js) - The easiest way to use Hedera in JavaScript
-- [NFT Storage](https://api.nft.storage) - The long-term storage service designed for off-chain NFT data
+- [Pinata](https://pinata.cloud/) - The long-term storage service designed for off-chain NFT data
 - [Node.JS](https://nodejs.org) - Node.js is an open-source, cross-platform, back-end JavaScript runtime environment
 - [React.JS](https://reactjs.org/) - A fast, unopinionated web framework for node.js
 - [TypeScript](https://www.typescriptlang.org/) - Strongly typed programming language that builds on JavaScript
@@ -18,8 +18,10 @@ An example web app that demonstrates how you can mint NFTs on the Hedera network
 - [WebPack](https://webpack.js.org/) - Static module bundler for modern JavaScript applications
 
 ## Created by
- - Norbert Kulus
- - Patryk Matyjasiak
+ - Norbert Kulus (FE dev)
+ - Patryk Matyjasiak (FE dev)
+ - Bartosz Solka (Eng Manager)
+ - Ashe Oro (Product Manager)
 
 ## Prerequisites
 
