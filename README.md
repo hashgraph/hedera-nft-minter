@@ -67,7 +67,7 @@ WALLET_CONFIG_DESCRIPTION=Mint your own NFT.
 - The `WALLET_CONFIG_URL` is optional. URL shown in wallet connection modal (only BladeWallet supported).
 - The `WALLET_CONFIG_ICON_URL` is optional. Stores URL to image shown in each Wallet connection modal. If not provided, the app is looking for `${ window.location.protocol }//${ window.location.host }/logo.svg` to serve in the each wallet connection modal
 
-After downloading and setting up our environment, we'll install our packages via [npm](https://docs.npmjs.com/about-npm/).
+After downloading and setting up our environment, the next step is to install our packages via [npm](https://docs.npmjs.com/about-npm/).
 
 ```
 npm install
