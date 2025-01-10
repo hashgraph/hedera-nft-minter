@@ -1,5 +1,5 @@
 {
-  "name": "hedera-nft-minter",
+  "name": "@hashgraph/hedera-nft-minter",
   "version": "1.0.0",
   "description": "## Installing and running",
   "main": "index.js",
